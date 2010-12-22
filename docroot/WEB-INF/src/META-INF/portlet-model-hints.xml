@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.liferay.newsletter.model.Campaign">
+		<field name="uuid" type="String" />
+		<field name="campaignId" type="long" />
+		<field name="title" type="String" />
+		<field name="content" type="String" />
+	</model>
+	<model name="com.liferay.newsletter.model.Contact">
+		<field name="uuid" type="String" />
+		<field name="contactId" type="long" />
+		<field name="email" type="String" />
+		<field name="name" type="String" />
+	</model>
+	<model name="com.liferay.newsletter.model.SendCampaign">
+		<field name="uuid" type="String" />
+		<field name="sendCampaignId" type="long" />
+		<field name="sendDate" type="Date" />
+		<field name="emailSubject" type="String" />
+		<field name="senderName" type="String" />
+		<field name="senderEmail" type="String" />
+		<field name="campaignId" type="long" />
+	</model>
+	<model name="com.liferay.newsletter.model.NewsletterLog">
+		<field name="uuid" type="String" />
+		<field name="newsletterLogId" type="long" />
+		<field name="sendCampaignId" type="long" />
+		<field name="contactId" type="long" />
+	</model>
+</model-hints>

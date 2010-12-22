@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_0_0.dtd">
+<service-builder package-path="com.liferay.newsletter">
+	<author>Bruno Pinheiro</author>
+	<namespace>Newsletter</namespace>
+
+	<entity uuid="true" name="Campaign" local-service="true" remote-service="false">
+		
+		<column name="campaignId" type="long" primary="true" />
+
+		<column name="title" type="String" />
+		<column name="content" type="String" />
+		
+		<column name="sendCampaigns" type="Collection" entity="SendCampaign" mapping-key="campaignId" />
+	</entity>
+	
+	<entity uuid="true" name="Contact" local-service="true" remote-service="false">
+
+		<column name="contactId" type="long" primary="true" />
+
+		<column name="email" type="String" />
+		<column name="name" type="String" />
+		
+		<column name="newsletterLogs" type="Collection" entity="NewsletterLog" mapping-key="contactId" />
+
+	</entity>
+
+	<entity uuid="true" name="SendCampaign" local-service="true" remote-service="false">
+
+		<column name="sendCampaignId" type="long" primary="true" />
+
+		<column name="sendDate" type="Date" />
+		<column name="emailSubject" type="String" />
+		<column name="senderName" type="String" />
+		<column name="senderEmail" type="String" />
+		
+		<column name="campaignId" type="long" />
+		
+		<column name="newsletterLogs" type="Collection" entity="NewsletterLog" mapping-key="sendCampaignId" />
+		
+	</entity>
+	
+	<entity uuid="true" name="NewsletterLog" local-service="true" remote-service="false">
+
+		<column name="newsletterLogId" type="long" primary="true" />
+		
+		<column name="sendCampaignId" type="long" />
+		<column name="contactId" type="long" />
+
+	</entity>
+
+</service-builder>
