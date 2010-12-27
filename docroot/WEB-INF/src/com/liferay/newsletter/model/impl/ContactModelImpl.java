@@ -48,6 +48,8 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
         };
     public static final String TABLE_SQL_CREATE = "create table Newsletter_Contact (uuid_ VARCHAR(75) null,contactId LONG not null primary key,email VARCHAR(75) null,name VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table Newsletter_Contact";
+    public static final String ORDER_BY_JPQL = " ORDER BY contact.email ASC";
+    public static final String ORDER_BY_SQL = " ORDER BY Newsletter_Contact.email ASC";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
     public static final String TX_MANAGER = "liferayTransactionManager";
@@ -62,6 +64,7 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
     private String _uuid;
     private long _contactId;
     private String _email;
+    private String _originalEmail;
     private String _name;
     private transient ExpandoBridge _expandoBridge;
 
@@ -110,6 +113,14 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 
     public void setEmail(String email) {
         _email = email;
+
+        if (_originalEmail == null) {
+            _originalEmail = email;
+        }
+    }
+
+    public String getOriginalEmail() {
+        return GetterUtil.getString(_originalEmail);
     }
 
     public String getName() {
@@ -158,15 +169,15 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
     }
 
     public int compareTo(Contact contact) {
-        long pk = contact.getPrimaryKey();
+        int value = 0;
 
-        if (getPrimaryKey() < pk) {
-            return -1;
-        } else if (getPrimaryKey() > pk) {
-            return 1;
-        } else {
-            return 0;
+        value = getEmail().compareTo(contact.getEmail());
+
+        if (value != 0) {
+            return value;
         }
+
+        return 0;
     }
 
     public boolean equals(Object obj) {

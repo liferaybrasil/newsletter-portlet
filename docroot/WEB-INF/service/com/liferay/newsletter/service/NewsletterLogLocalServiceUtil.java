@@ -218,6 +218,12 @@ public class NewsletterLogLocalServiceUtil {
         return getService().updateNewsletterLog(newsletterLog, merge);
     }
 
+    public static java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogBySendCampaign(
+        long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().getNewsletterLogBySendCampaign(sendCampaignId);
+    }
+
     public static void clearService() {
         _service = null;
     }

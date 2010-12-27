@@ -301,6 +301,47 @@ public class ContactUtil {
     }
 
     /**
+    * Finds the contact where email = &#63; or throws a {@link com.liferay.newsletter.NoSuchContactException} if it could not be found.
+    *
+    * @param email the email to search with
+    * @return the matching contact
+    * @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.liferay.newsletter.model.Contact findByEmail(
+        java.lang.String email)
+        throws com.liferay.newsletter.NoSuchContactException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByEmail(email);
+    }
+
+    /**
+    * Finds the contact where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+    *
+    * @param email the email to search with
+    * @return the matching contact, or <code>null</code> if a matching contact could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.liferay.newsletter.model.Contact fetchByEmail(
+        java.lang.String email)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByEmail(email);
+    }
+
+    /**
+    * Finds the contact where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+    *
+    * @param email the email to search with
+    * @return the matching contact, or <code>null</code> if a matching contact could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.liferay.newsletter.model.Contact fetchByEmail(
+        java.lang.String email, boolean retrieveFromCache)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByEmail(email, retrieveFromCache);
+    }
+
+    /**
     * Finds all the contacts.
     *
     * @return the contacts
@@ -361,6 +402,18 @@ public class ContactUtil {
     }
 
     /**
+    * Removes the contact where email = &#63; from the database.
+    *
+    * @param email the email to search with
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByEmail(java.lang.String email)
+        throws com.liferay.newsletter.NoSuchContactException,
+            com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByEmail(email);
+    }
+
+    /**
     * Removes all the contacts from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -380,6 +433,18 @@ public class ContactUtil {
     public static int countByUuid(java.lang.String uuid)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().countByUuid(uuid);
+    }
+
+    /**
+    * Counts all the contacts where email = &#63;.
+    *
+    * @param email the email to search with
+    * @return the number of matching contacts
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByEmail(java.lang.String email)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByEmail(email);
     }
 
     /**

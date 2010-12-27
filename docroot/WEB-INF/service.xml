@@ -22,6 +22,14 @@
 		<column name="name" type="String" />
 		
 		<column name="newsletterLogs" type="Collection" entity="NewsletterLog" mapping-key="contactId" />
+		
+		<order by="asc">
+			<order-column name="email" />
+		</order>
+		
+		<finder name="Email" return-type="Contact">
+			<finder-column name="email" />
+		</finder>
 
 	</entity>
 
@@ -38,6 +46,14 @@
 		
 		<column name="newsletterLogs" type="Collection" entity="NewsletterLog" mapping-key="sendCampaignId" />
 		
+		<order by="desc">
+			<order-column name="sendDate" />
+		</order>
+		
+		<finder name="SendDate" return-type="Collection">
+			<finder-column name="sendDate" />
+		</finder>
+		
 	</entity>
 	
 	<entity uuid="true" name="NewsletterLog" local-service="true" remote-service="false">
@@ -46,6 +62,10 @@
 		
 		<column name="sendCampaignId" type="long" />
 		<column name="contactId" type="long" />
+		
+		<finder name="SendCampaign" return-type="Collection">
+			<finder-column name="sendCampaignId" />
+		</finder>
 
 	</entity>
 

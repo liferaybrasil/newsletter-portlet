@@ -1029,7 +1029,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
                     sql = _SQL_GETSENDCAMPAIGNS.concat(ORDER_BY_CLAUSE)
                                                .concat(orderByComparator.getOrderBy());
                 } else {
-                    sql = _SQL_GETSENDCAMPAIGNS;
+                    sql = _SQL_GETSENDCAMPAIGNS.concat(com.liferay.newsletter.model.impl.SendCampaignModelImpl.ORDER_BY_SQL);
                 }
 
                 SQLQuery q = session.createSQLQuery(sql);

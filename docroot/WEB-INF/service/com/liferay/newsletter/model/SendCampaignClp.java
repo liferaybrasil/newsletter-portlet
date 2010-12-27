@@ -1,6 +1,7 @@
 package com.liferay.newsletter.model;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
@@ -117,15 +118,17 @@ public class SendCampaignClp extends BaseModelImpl<SendCampaign>
     }
 
     public int compareTo(SendCampaign sendCampaign) {
-        long pk = sendCampaign.getPrimaryKey();
+        int value = 0;
 
-        if (getPrimaryKey() < pk) {
-            return -1;
-        } else if (getPrimaryKey() > pk) {
-            return 1;
-        } else {
-            return 0;
+        value = DateUtil.compareTo(getSendDate(), sendCampaign.getSendDate());
+
+        value = value * -1;
+
+        if (value != 0) {
+            return value;
         }
+
+        return 0;
     }
 
     public boolean equals(Object obj) {

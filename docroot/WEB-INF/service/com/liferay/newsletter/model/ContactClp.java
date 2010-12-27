@@ -83,15 +83,15 @@ public class ContactClp extends BaseModelImpl<Contact> implements Contact {
     }
 
     public int compareTo(Contact contact) {
-        long pk = contact.getPrimaryKey();
+        int value = 0;
 
-        if (getPrimaryKey() < pk) {
-            return -1;
-        } else if (getPrimaryKey() > pk) {
-            return 1;
-        } else {
-            return 0;
+        value = getEmail().compareTo(contact.getEmail());
+
+        if (value != 0) {
+            return value;
         }
+
+        return 0;
     }
 
     public boolean equals(Object obj) {

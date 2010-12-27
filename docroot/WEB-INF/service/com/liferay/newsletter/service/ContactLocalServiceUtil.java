@@ -224,6 +224,12 @@ public class ContactLocalServiceUtil {
         return getService().getNewsletterLogs(contact);
     }
 
+    public static com.liferay.newsletter.model.Contact getContactByEmail(
+        java.lang.String contactEmail)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().getContactByEmail(contactEmail);
+    }
+
     public static void clearService() {
         _service = null;
     }

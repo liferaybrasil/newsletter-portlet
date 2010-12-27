@@ -4,6 +4,7 @@ import com.liferay.newsletter.model.SendCampaign;
 import com.liferay.newsletter.model.SendCampaignModel;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -53,6 +54,8 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
         };
     public static final String TABLE_SQL_CREATE = "create table Newsletter_SendCampaign (uuid_ VARCHAR(75) null,sendCampaignId LONG not null primary key,sendDate DATE null,emailSubject VARCHAR(75) null,senderName VARCHAR(75) null,senderEmail VARCHAR(75) null,campaignId LONG)";
     public static final String TABLE_SQL_DROP = "drop table Newsletter_SendCampaign";
+    public static final String ORDER_BY_JPQL = " ORDER BY sendCampaign.sendDate DESC";
+    public static final String ORDER_BY_SQL = " ORDER BY Newsletter_SendCampaign.sendDate DESC";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
     public static final String TX_MANAGER = "liferayTransactionManager";
@@ -198,15 +201,17 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
     }
 
     public int compareTo(SendCampaign sendCampaign) {
-        long pk = sendCampaign.getPrimaryKey();
+        int value = 0;
 
-        if (getPrimaryKey() < pk) {
-            return -1;
-        } else if (getPrimaryKey() > pk) {
-            return 1;
-        } else {
-            return 0;
+        value = DateUtil.compareTo(getSendDate(), sendCampaign.getSendDate());
+
+        value = value * -1;
+
+        if (value != 0) {
+            return value;
         }
+
+        return 0;
     }
 
     public boolean equals(Object obj) {

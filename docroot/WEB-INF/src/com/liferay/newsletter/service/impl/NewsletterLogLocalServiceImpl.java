@@ -14,12 +14,22 @@
 
 package com.liferay.newsletter.service.impl;
 
+import java.util.List;
+
+import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.service.base.NewsletterLogLocalServiceBaseImpl;
+import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  * @author Bruno Pinheiro
  */
 public class NewsletterLogLocalServiceImpl
 	extends NewsletterLogLocalServiceBaseImpl {
+
+	public List<NewsletterLog> getNewsletterLogBySendCampaign(
+		long sendCampaignId) throws SystemException{
+
+		return newsletterLogPersistence.findBySendCampaign(sendCampaignId);
+	}
 
 }

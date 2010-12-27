@@ -210,6 +210,12 @@ public class NewsletterLogLocalServiceWrapper
             merge);
     }
 
+    public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogBySendCampaign(
+        long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _newsletterLogLocalService.getNewsletterLogBySendCampaign(sendCampaignId);
+    }
+
     public NewsletterLogLocalService getWrappedNewsletterLogLocalService() {
         return _newsletterLogLocalService;
     }

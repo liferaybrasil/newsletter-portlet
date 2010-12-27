@@ -14,12 +14,14 @@
 
 package com.liferay.newsletter.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.model.SendCampaign;
 import com.liferay.newsletter.service.base.SendCampaignLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.SystemException;
-
-import java.util.List;
 
 /**
  * @author Bruno Pinheiro
@@ -32,6 +34,23 @@ public class SendCampaignLocalServiceImpl
 
 		return sendCampaignPersistence.getNewsletterLogs(
 			sendCampaign.getSendCampaignId());
+	}
+
+	public SendCampaign addSendCampaign(SendCampaign sendCampaign) 
+		throws SystemException{
+
+		long sendCampaignId = CounterLocalServiceUtil.increment(
+			SendCampaign.class.getName());
+
+		sendCampaign.setSendCampaignId(sendCampaignId);
+
+		return super.addSendCampaign(sendCampaign);
+	}
+	
+	public List<SendCampaign> getSendCampaignsByDate(Date sendDate)
+		throws SystemException{
+
+		return sendCampaignPersistence.findBySendDate(sendDate);
 	}
 
 }

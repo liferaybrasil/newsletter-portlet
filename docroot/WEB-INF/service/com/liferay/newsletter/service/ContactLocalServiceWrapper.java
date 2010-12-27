@@ -210,6 +210,12 @@ public class ContactLocalServiceWrapper implements ContactLocalService {
         return _contactLocalService.getNewsletterLogs(contact);
     }
 
+    public com.liferay.newsletter.model.Contact getContactByEmail(
+        java.lang.String contactEmail)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _contactLocalService.getContactByEmail(contactEmail);
+    }
+
     public ContactLocalService getWrappedContactLocalService() {
         return _contactLocalService;
     }

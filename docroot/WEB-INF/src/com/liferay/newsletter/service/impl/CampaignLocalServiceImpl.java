@@ -14,13 +14,13 @@
 
 package com.liferay.newsletter.service.impl;
 
+import java.util.List;
+
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.SendCampaign;
 import com.liferay.newsletter.service.base.CampaignLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.SystemException;
-
-import java.util.List;
 
 /**
  * @author Bruno Pinheiro
@@ -41,5 +41,5 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 
 		return campaignPersistence.getSendCampaigns(campaign.getCampaignId());
 	}
-
+	
 }

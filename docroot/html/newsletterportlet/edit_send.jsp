@@ -11,43 +11,65 @@
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- */
+ */	
 --%>
 
 <%@ include file="/html/init.jsp" %>
 
 <%
-	Campaign campaign = null;
+	SendCampaign sendCampaign = null;
 
-	long campaignId = ParamUtil.getLong(request, "campaignId");
+	long sendCampaignId = ParamUtil.getLong(request, "sendCampaignId");
 
-	if (campaignId > 0) {
-		campaign = CampaignLocalServiceUtil.getCampaign(campaignId);
+	if (sendCampaignId > 0) {
+		sendCampaign = SendCampaignLocalServiceUtil.getSendCampaign(sendCampaignId);
 	}
-
+	
+	List<Campaign> campaigns = CampaignLocalServiceUtil.getCampaigns(0,CampaignLocalServiceUtil.getCampaignsCount());
+	
 	String redirect = ParamUtil.getString(request, "redirect");
 %>
 
 <liferay-ui:header
 	backURL="<%= redirect %>"
-	title='<%= (campaign != null) ? campaign.getTitle() : "New Campaign" %>'
+	title='<%= (sendCampaign != null) ? "" : "New Sending" %>'
 />
 
 
-<aui:model-context bean="<%= campaign %>" model="<%= Campaign.class %>" />
+<aui:model-context bean="<%= sendCampaign %>" model="<%= SendCampaign.class %>" />
 
-<portlet:actionURL name='<%= campaign == null ? "addCampaign" : "updateCampaign" %>' var="editCampaignURL" />
+<portlet:actionURL var="editSendCampaignURL" />
 
-<aui:form action="<%= editCampaignURL %>" method="POST" name="fm">
+<aui:form action="<%= editSendCampaignURL %>" method="POST" name="fm">
 	<aui:fieldset>
+		<aui:input type="hidden" name="cmd" value="sending" />
+		
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
-		<aui:input type="hidden" name="campaignId" value='<%= campaign == null ? "" : campaign.getCampaignId() %>'/>
+		<aui:input type="hidden" name="sendCampaignId" />
 
-		<aui:input name="title" label="Title" />
+		<aui:input name="emailSubject" label="Email Subject"/>
 
-		<aui:input name="content" label="Content" />
+		<aui:input name="senderName" label="Sender Name"/>
 
+		<aui:input name="senderEmail" label="Sender Email"/>
+		
+		<aui:input name="sendDate" label="Send Date"/>
+		
+		<aui:select name="campaignId" label="Campaign" showEmptyOption="<%= true %>">
+
+	 		<%
+				for(Campaign campaign: campaigns){
+			%>
+			<aui:option value="<%= campaign.getCampaignId() %>" selected="<%= sendCampaign != null && campaign.getCampaignId() == sendCampaign.getCampaignId() %>"><%=campaign.getTitle()%></aui:option>
+			<%
+				}
+			%>
+
+		</aui:select>
+		
+		
+		<aui:input type="text" name="contacts" label="Contacts" />
 	</aui:fieldset>
 
 	<aui:button-row>

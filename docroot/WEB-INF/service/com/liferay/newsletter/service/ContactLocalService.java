@@ -197,4 +197,9 @@ public interface ContactLocalService {
     public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
         com.liferay.newsletter.model.Contact contact)
         throws com.liferay.portal.kernel.exception.SystemException;
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public com.liferay.newsletter.model.Contact getContactByEmail(
+        java.lang.String contactEmail)
+        throws com.liferay.portal.kernel.exception.SystemException;
 }

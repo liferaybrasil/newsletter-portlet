@@ -19,40 +19,24 @@
 <%@ include file="/html/init.jsp" %>
 
 <%
-	String redirect = PortalUtil.getCurrentURL(renderRequest);
+String tabs1 = ParamUtil.getString(request, "tabs1", "Campaign");
+
+String tabNames = "Campaign,Sending";
+
 %>
+<portlet:renderURL var="renderURL" >
+		<portlet:param name="tabs1" value="<%= tabs1 %>" />
+</portlet:renderURL>
 
-<aui:button-row>
-	<portlet:renderURL var="addCampaignURL">
-		<portlet:param name="jspPage" value="/html/newsletterportlet/edit_campaign.jsp" />
-		<portlet:param name="redirect" value="<%= redirect %>" />
-	</portlet:renderURL>
+<liferay-ui:tabs
+   names="<%= tabNames %>"
+   url="<%= renderURL %>"
+   
+/>
 
-	<aui:button value="Add Campaign" onClick="<%= addCampaignURL.toString() %>" />
-</aui:button-row>
-
-
-<liferay-ui:search-container delta='<%= GetterUtil.getInteger(prefs.getValue("rowsPerPage", "2")) %>' emptyResultsMessage="newsletter-empty-results-message">
-	<liferay-ui:search-container-results
-		results="<%= CampaignLocalServiceUtil.getCampaigns(searchContainer.getStart(), searchContainer.getEnd()) %>"
-		total="<%= CampaignLocalServiceUtil.getCampaignsCount() %>"
-	/>
-
-	<liferay-ui:search-container-row
-		className="com.liferay.newsletter.model.Campaign"
-		keyProperty="campaignId"
-		modelVar="campaign"
-	>
-		<liferay-ui:search-container-column-text
-			name="Title"
-			value="<%= campaign.getTitle() %>"
-		/>
-
-		<liferay-ui:search-container-column-jsp
-			align="right"
-			path="/html/newsletterportlet/campaign_actions.jsp"
-		/>
-	</liferay-ui:search-container-row>
-
-	<liferay-ui:search-iterator />
-</liferay-ui:search-container>
+<c:if test='<%= tabs1.equals("Campaign") %>'>
+  <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_campaign.jsp" />
+</c:if>
+<c:if test='<%= tabs1.equals("Sending") %>'>
+  <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_send.jsp" />
+</c:if>

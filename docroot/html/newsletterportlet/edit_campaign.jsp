@@ -36,13 +36,15 @@
 
 <aui:model-context bean="<%= campaign %>" model="<%= Campaign.class %>" />
 
-<portlet:actionURL name='<%= campaign == null ? "addCampaign" : "updateCampaign" %>' var="editCampaignURL" />
+<portlet:actionURL var="editCampaignURL" />
 
 <aui:form action="<%= editCampaignURL %>" method="POST" name="fm">
 	<aui:fieldset>
+		<aui:input type="hidden" name="cmd" value="campaign" />
+		
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
-		<aui:input type="hidden" name="campaignId" value='<%= campaign == null ? "" : campaign.getCampaignId() %>'/>
+		<aui:input type="hidden" name="campaignId" />
 
 		<aui:input name="title" label="Title" />
 

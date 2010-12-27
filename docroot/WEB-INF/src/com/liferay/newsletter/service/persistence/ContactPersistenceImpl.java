@@ -76,6 +76,12 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
     public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
             ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
             "countByUuid", new String[] { String.class.getName() });
+    public static final FinderPath FINDER_PATH_FETCH_BY_EMAIL = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
+            ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_ENTITY,
+            "fetchByEmail", new String[] { String.class.getName() });
+    public static final FinderPath FINDER_PATH_COUNT_BY_EMAIL = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
+            ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
+            "countByEmail", new String[] { String.class.getName() });
     public static final FinderPath FINDER_PATH_FIND_ALL = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
             ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
             "findAll", new String[0]);
@@ -109,6 +115,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
     private static final String _FINDER_COLUMN_UUID_UUID_1 = "contact.uuid IS NULL";
     private static final String _FINDER_COLUMN_UUID_UUID_2 = "contact.uuid = ?";
     private static final String _FINDER_COLUMN_UUID_UUID_3 = "(contact.uuid IS NULL OR contact.uuid = ?)";
+    private static final String _FINDER_COLUMN_EMAIL_EMAIL_1 = "contact.email IS NULL";
+    private static final String _FINDER_COLUMN_EMAIL_EMAIL_2 = "contact.email = ?";
+    private static final String _FINDER_COLUMN_EMAIL_EMAIL_3 = "(contact.email IS NULL OR contact.email = ?)";
     private static final String _ORDER_BY_ENTITY_ALIAS = "contact.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Contact exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Contact exists with the key {";
@@ -135,6 +144,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
     public void cacheResult(Contact contact) {
         EntityCacheUtil.putResult(ContactModelImpl.ENTITY_CACHE_ENABLED,
             ContactImpl.class, contact.getPrimaryKey(), contact);
+
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+            new Object[] { contact.getEmail() }, contact);
     }
 
     /**
@@ -176,6 +188,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
     public void clearCache(Contact contact) {
         EntityCacheUtil.removeResult(ContactModelImpl.ENTITY_CACHE_ENABLED,
             ContactImpl.class, contact.getPrimaryKey());
+
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_EMAIL,
+            new Object[] { contact.getEmail() });
     }
 
     /**
@@ -264,6 +279,11 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
 
+        ContactModelImpl contactModelImpl = (ContactModelImpl) contact;
+
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_EMAIL,
+            new Object[] { contactModelImpl.getOriginalEmail() });
+
         EntityCacheUtil.removeResult(ContactModelImpl.ENTITY_CACHE_ENABLED,
             ContactImpl.class, contact.getPrimaryKey());
 
@@ -273,6 +293,10 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
     public Contact updateImpl(com.liferay.newsletter.model.Contact contact,
         boolean merge) throws SystemException {
         contact = toUnwrappedModel(contact);
+
+        boolean isNew = contact.isNew();
+
+        ContactModelImpl contactModelImpl = (ContactModelImpl) contact;
 
         if (Validator.isNull(contact.getUuid())) {
             String uuid = PortalUUIDUtil.generate();
@@ -298,6 +322,20 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
         EntityCacheUtil.putResult(ContactModelImpl.ENTITY_CACHE_ENABLED,
             ContactImpl.class, contact.getPrimaryKey(), contact);
+
+        if (!isNew &&
+                (!Validator.equals(contact.getEmail(),
+                    contactModelImpl.getOriginalEmail()))) {
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_EMAIL,
+                new Object[] { contactModelImpl.getOriginalEmail() });
+        }
+
+        if (isNew ||
+                (!Validator.equals(contact.getEmail(),
+                    contactModelImpl.getOriginalEmail()))) {
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+                new Object[] { contact.getEmail() }, contact);
+        }
 
         return contact;
     }
@@ -464,7 +502,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
                 query = new StringBundler(3 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(2);
+                query = new StringBundler(3);
             }
 
             query.append(_SQL_SELECT_CONTACT_WHERE);
@@ -482,6 +520,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            }
+            else {
+                query.append(ContactModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -704,6 +745,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
                 }
             }
         }
+        else {
+            query.append(ContactModelImpl.ORDER_BY_JPQL);
+        }
 
         String sql = query.toString();
 
@@ -732,6 +776,140 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
             return list.get(1);
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Finds the contact where email = &#63; or throws a {@link com.liferay.newsletter.NoSuchContactException} if it could not be found.
+     *
+     * @param email the email to search with
+     * @return the matching contact
+     * @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    public Contact findByEmail(String email)
+        throws NoSuchContactException, SystemException {
+        Contact contact = fetchByEmail(email);
+
+        if (contact == null) {
+            StringBundler msg = new StringBundler(4);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("email=");
+            msg.append(email);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            if (_log.isWarnEnabled()) {
+                _log.warn(msg.toString());
+            }
+
+            throw new NoSuchContactException(msg.toString());
+        }
+
+        return contact;
+    }
+
+    /**
+     * Finds the contact where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+     *
+     * @param email the email to search with
+     * @return the matching contact, or <code>null</code> if a matching contact could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    public Contact fetchByEmail(String email) throws SystemException {
+        return fetchByEmail(email, true);
+    }
+
+    /**
+     * Finds the contact where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+     *
+     * @param email the email to search with
+     * @return the matching contact, or <code>null</code> if a matching contact could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    public Contact fetchByEmail(String email, boolean retrieveFromCache)
+        throws SystemException {
+        Object[] finderArgs = new Object[] { email };
+
+        Object result = null;
+
+        if (retrieveFromCache) {
+            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_EMAIL,
+                    finderArgs, this);
+        }
+
+        if (result == null) {
+            StringBundler query = new StringBundler(3);
+
+            query.append(_SQL_SELECT_CONTACT_WHERE);
+
+            if (email == null) {
+                query.append(_FINDER_COLUMN_EMAIL_EMAIL_1);
+            } else {
+                if (email.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
+                } else {
+                    query.append(_FINDER_COLUMN_EMAIL_EMAIL_2);
+                }
+            }
+
+            query.append(ContactModelImpl.ORDER_BY_JPQL);
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (email != null) {
+                    qPos.add(email);
+                }
+
+                List<Contact> list = q.list();
+
+                result = list;
+
+                Contact contact = null;
+
+                if (list.isEmpty()) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+                        finderArgs, list);
+                } else {
+                    contact = list.get(0);
+
+                    cacheResult(contact);
+
+                    if ((contact.getEmail() == null) ||
+                            !contact.getEmail().equals(email)) {
+                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+                            finderArgs, contact);
+                    }
+                }
+
+                return contact;
+            } catch (Exception e) {
+                throw processException(e);
+            } finally {
+                if (result == null) {
+                    FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_EMAIL,
+                        finderArgs);
+                }
+
+                closeSession(session);
+            }
+        } else {
+            if (result instanceof List<?>) {
+                return null;
+            } else {
+                return (Contact) result;
+            }
         }
     }
 
@@ -799,7 +977,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
                 sql = query.toString();
             } else {
-                sql = _SQL_SELECT_CONTACT;
+                sql = _SQL_SELECT_CONTACT.concat(ContactModelImpl.ORDER_BY_JPQL);
             }
 
             Session session = null;
@@ -848,6 +1026,19 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
         for (Contact contact : findByUuid(uuid)) {
             remove(contact);
         }
+    }
+
+    /**
+     * Removes the contact where email = &#63; from the database.
+     *
+     * @param email the email to search with
+     * @throws SystemException if a system exception occurred
+     */
+    public void removeByEmail(String email)
+        throws NoSuchContactException, SystemException {
+        Contact contact = findByEmail(email);
+
+        remove(contact);
     }
 
     /**
@@ -913,6 +1104,67 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
                 }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_UUID,
+                    finderArgs, count);
+
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
+     * Counts all the contacts where email = &#63;.
+     *
+     * @param email the email to search with
+     * @return the number of matching contacts
+     * @throws SystemException if a system exception occurred
+     */
+    public int countByEmail(String email) throws SystemException {
+        Object[] finderArgs = new Object[] { email };
+
+        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_EMAIL,
+                finderArgs, this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_COUNT_CONTACT_WHERE);
+
+            if (email == null) {
+                query.append(_FINDER_COLUMN_EMAIL_EMAIL_1);
+            } else {
+                if (email.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
+                } else {
+                    query.append(_FINDER_COLUMN_EMAIL_EMAIL_2);
+                }
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (email != null) {
+                    qPos.add(email);
+                }
+
+                count = (Long) q.uniqueResult();
+            } catch (Exception e) {
+                throw processException(e);
+            } finally {
+                if (count == null) {
+                    count = Long.valueOf(0);
+                }
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_EMAIL,
                     finderArgs, count);
 
                 closeSession(session);

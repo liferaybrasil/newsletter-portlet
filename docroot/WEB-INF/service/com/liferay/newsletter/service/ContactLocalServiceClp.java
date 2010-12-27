@@ -21,6 +21,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
     private MethodKey _updateContactMethodKey11;
     private MethodKey _updateContactMethodKey12;
     private MethodKey _getNewsletterLogsMethodKey13;
+    private MethodKey _getContactByEmailMethodKey14;
 
     public ContactLocalServiceClp(ClassLoaderProxy classLoaderProxy) {
         _classLoaderProxy = classLoaderProxy;
@@ -74,6 +75,9 @@ public class ContactLocalServiceClp implements ContactLocalService {
 
         _getNewsletterLogsMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
                 "getNewsletterLogs", com.liferay.newsletter.model.Contact.class);
+
+        _getContactByEmailMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+                "getContactByEmail", java.lang.String.class);
     }
 
     public com.liferay.newsletter.model.Contact addContact(
@@ -435,6 +439,32 @@ public class ContactLocalServiceClp implements ContactLocalService {
         }
 
         return (java.util.List<com.liferay.newsletter.model.NewsletterLog>) ClpSerializer.translateOutput(returnObj);
+    }
+
+    public com.liferay.newsletter.model.Contact getContactByEmail(
+        java.lang.String contactEmail)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        MethodHandler methodHandler = new MethodHandler(_getContactByEmailMethodKey14,
+                ClpSerializer.translateInput(contactEmail));
+
+        try {
+            returnObj = _classLoaderProxy.invoke(methodHandler);
+        } catch (Throwable t) {
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.liferay.newsletter.model.Contact) ClpSerializer.translateOutput(returnObj);
     }
 
     public ClassLoaderProxy getClassLoaderProxy() {

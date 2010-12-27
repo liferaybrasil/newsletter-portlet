@@ -195,4 +195,9 @@ public interface NewsletterLogLocalService {
     public com.liferay.newsletter.model.NewsletterLog updateNewsletterLog(
         com.liferay.newsletter.model.NewsletterLog newsletterLog, boolean merge)
         throws com.liferay.portal.kernel.exception.SystemException;
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogBySendCampaign(
+        long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.SystemException;
 }

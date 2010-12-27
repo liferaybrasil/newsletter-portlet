@@ -20,6 +20,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
     private MethodKey _getNewsletterLogsCountMethodKey10;
     private MethodKey _updateNewsletterLogMethodKey11;
     private MethodKey _updateNewsletterLogMethodKey12;
+    private MethodKey _getNewsletterLogBySendCampaignMethodKey13;
 
     public NewsletterLogLocalServiceClp(ClassLoaderProxy classLoaderProxy) {
         _classLoaderProxy = classLoaderProxy;
@@ -73,6 +74,9 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
         _updateNewsletterLogMethodKey12 = new MethodKey(_classLoaderProxy.getClassName(),
                 "updateNewsletterLog",
                 com.liferay.newsletter.model.NewsletterLog.class, boolean.class);
+
+        _getNewsletterLogBySendCampaignMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+                "getNewsletterLogBySendCampaign", long.class);
     }
 
     public com.liferay.newsletter.model.NewsletterLog addNewsletterLog(
@@ -411,6 +415,32 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
         }
 
         return (com.liferay.newsletter.model.NewsletterLog) ClpSerializer.translateOutput(returnObj);
+    }
+
+    public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogBySendCampaign(
+        long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        MethodHandler methodHandler = new MethodHandler(_getNewsletterLogBySendCampaignMethodKey13,
+                sendCampaignId);
+
+        try {
+            returnObj = _classLoaderProxy.invoke(methodHandler);
+        } catch (Throwable t) {
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (java.util.List<com.liferay.newsletter.model.NewsletterLog>) ClpSerializer.translateOutput(returnObj);
     }
 
     public ClassLoaderProxy getClassLoaderProxy() {

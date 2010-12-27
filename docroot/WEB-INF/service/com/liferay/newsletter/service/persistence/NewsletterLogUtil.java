@@ -306,6 +306,129 @@ public class NewsletterLogUtil {
     }
 
     /**
+    * Finds all the newsletter logs where sendCampaignId = &#63;.
+    *
+    * @param sendCampaignId the send campaign id to search with
+    * @return the matching newsletter logs
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.liferay.newsletter.model.NewsletterLog> findBySendCampaign(
+        long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findBySendCampaign(sendCampaignId);
+    }
+
+    /**
+    * Finds a range of all the newsletter logs where sendCampaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param sendCampaignId the send campaign id to search with
+    * @param start the lower bound of the range of newsletter logs to return
+    * @param end the upper bound of the range of newsletter logs to return (not inclusive)
+    * @return the range of matching newsletter logs
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.liferay.newsletter.model.NewsletterLog> findBySendCampaign(
+        long sendCampaignId, int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findBySendCampaign(sendCampaignId, start, end);
+    }
+
+    /**
+    * Finds an ordered range of all the newsletter logs where sendCampaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param sendCampaignId the send campaign id to search with
+    * @param start the lower bound of the range of newsletter logs to return
+    * @param end the upper bound of the range of newsletter logs to return (not inclusive)
+    * @param orderByComparator the comparator to order the results by
+    * @return the ordered range of matching newsletter logs
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.liferay.newsletter.model.NewsletterLog> findBySendCampaign(
+        long sendCampaignId, int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findBySendCampaign(sendCampaignId, start, end,
+            orderByComparator);
+    }
+
+    /**
+    * Finds the first newsletter log in the ordered set where sendCampaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param sendCampaignId the send campaign id to search with
+    * @param orderByComparator the comparator to order the set by
+    * @return the first matching newsletter log
+    * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.liferay.newsletter.model.NewsletterLog findBySendCampaign_First(
+        long sendCampaignId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.newsletter.NoSuchLogException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findBySendCampaign_First(sendCampaignId, orderByComparator);
+    }
+
+    /**
+    * Finds the last newsletter log in the ordered set where sendCampaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param sendCampaignId the send campaign id to search with
+    * @param orderByComparator the comparator to order the set by
+    * @return the last matching newsletter log
+    * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.liferay.newsletter.model.NewsletterLog findBySendCampaign_Last(
+        long sendCampaignId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.newsletter.NoSuchLogException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findBySendCampaign_Last(sendCampaignId, orderByComparator);
+    }
+
+    /**
+    * Finds the newsletter logs before and after the current newsletter log in the ordered set where sendCampaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param newsletterLogId the primary key of the current newsletter log
+    * @param sendCampaignId the send campaign id to search with
+    * @param orderByComparator the comparator to order the set by
+    * @return the previous, current, and next newsletter log
+    * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.liferay.newsletter.model.NewsletterLog[] findBySendCampaign_PrevAndNext(
+        long newsletterLogId, long sendCampaignId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.newsletter.NoSuchLogException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findBySendCampaign_PrevAndNext(newsletterLogId,
+            sendCampaignId, orderByComparator);
+    }
+
+    /**
     * Finds all the newsletter logs.
     *
     * @return the newsletter logs
@@ -366,6 +489,17 @@ public class NewsletterLogUtil {
     }
 
     /**
+    * Removes all the newsletter logs where sendCampaignId = &#63; from the database.
+    *
+    * @param sendCampaignId the send campaign id to search with
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeBySendCampaign(long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeBySendCampaign(sendCampaignId);
+    }
+
+    /**
     * Removes all the newsletter logs from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -385,6 +519,18 @@ public class NewsletterLogUtil {
     public static int countByUuid(java.lang.String uuid)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().countByUuid(uuid);
+    }
+
+    /**
+    * Counts all the newsletter logs where sendCampaignId = &#63;.
+    *
+    * @param sendCampaignId the send campaign id to search with
+    * @return the number of matching newsletter logs
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countBySendCampaign(long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countBySendCampaign(sendCampaignId);
     }
 
     /**

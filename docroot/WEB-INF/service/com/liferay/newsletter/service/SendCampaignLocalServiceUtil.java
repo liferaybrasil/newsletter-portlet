@@ -224,6 +224,12 @@ public class SendCampaignLocalServiceUtil {
         return getService().getNewsletterLogs(sendCampaign);
     }
 
+    public static java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaignsByDate(
+        java.util.Date sendDate)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().getSendCampaignsByDate(sendDate);
+    }
+
     public static void clearService() {
         _service = null;
     }
