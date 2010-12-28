@@ -16,6 +16,8 @@ package com.liferay.newsletter.service.impl;
 
 import java.util.List;
 
+import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.service.base.NewsletterLogLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -31,5 +33,17 @@ public class NewsletterLogLocalServiceImpl
 
 		return newsletterLogPersistence.findBySendCampaign(sendCampaignId);
 	}
+	
+	public NewsletterLog addNewsletterLog(NewsletterLog newsletter) 
+		throws SystemException{
+		
+		long newsletterLogId = CounterLocalServiceUtil.increment(
+			NewsletterLog.class.getName());
+
+		newsletter.setNewsletterLogId(newsletterLogId);
+
+		return super.addNewsletterLog(newsletter);
+	}
+
 
 }

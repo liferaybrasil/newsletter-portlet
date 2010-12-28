@@ -16,6 +16,7 @@ package com.liferay.newsletter.portlet;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -103,8 +104,6 @@ public class NewsletterPortlet extends MVCPortlet {
 			//_sendEmail(request, sendCampaign, contact);
 		}
 	}
-	
-	
 
 	private Contact _addContact(String contactEmail) 
 		throws PortalException, SystemException {
@@ -176,20 +175,15 @@ public class NewsletterPortlet extends MVCPortlet {
 		String senderEmail = sendCampaign.getSenderEmail();
 		String emailSubject = sendCampaign.getEmailSubject();
 
-			MimeMessage msg = new MimeMessage(session);
+		MimeMessage msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress(senderEmail));
+		msg.setRecipient(Message.RecipientType.TO, new InternetAddress(
+				contact.getEmail()));
+		msg.setSentDate(new Date());
+		msg.setSubject(emailSubject);
+		msg.setText("Web content");
 
-			msg.setFrom(new InternetAddress(senderEmail));
-
-			msg.setRecipient(Message.RecipientType.TO, new InternetAddress(
-					contact.getEmail()));
-
-			msg.setSentDate(new Date());
-
-			msg.setSubject(emailSubject);
-
-			msg.setText("Web content");
-
-			Transport.send(msg);
+		Transport.send(msg);
 	}
 
 	private SendCampaign _sendCampaignFromRequest(ActionRequest request) {
