@@ -50,9 +50,10 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
             { "emailSubject", new Integer(Types.VARCHAR) },
             { "senderName", new Integer(Types.VARCHAR) },
             { "senderEmail", new Integer(Types.VARCHAR) },
+            { "sent", new Integer(Types.BOOLEAN) },
             { "campaignId", new Integer(Types.BIGINT) }
         };
-    public static final String TABLE_SQL_CREATE = "create table Newsletter_SendCampaign (uuid_ VARCHAR(75) null,sendCampaignId LONG not null primary key,sendDate DATE null,emailSubject VARCHAR(75) null,senderName VARCHAR(75) null,senderEmail VARCHAR(75) null,campaignId LONG)";
+    public static final String TABLE_SQL_CREATE = "create table Newsletter_SendCampaign (uuid_ VARCHAR(75) null,sendCampaignId LONG not null primary key,sendDate DATE null,emailSubject VARCHAR(75) null,senderName VARCHAR(75) null,senderEmail VARCHAR(75) null,sent BOOLEAN,campaignId LONG)";
     public static final String TABLE_SQL_DROP = "drop table Newsletter_SendCampaign";
     public static final String ORDER_BY_JPQL = " ORDER BY sendCampaign.sendDate DESC";
     public static final String ORDER_BY_SQL = " ORDER BY Newsletter_SendCampaign.sendDate DESC";
@@ -73,6 +74,7 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
     private String _emailSubject;
     private String _senderName;
     private String _senderEmail;
+    private boolean _sent;
     private long _campaignId;
     private transient ExpandoBridge _expandoBridge;
 
@@ -155,6 +157,18 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
         _senderEmail = senderEmail;
     }
 
+    public boolean getSent() {
+        return _sent;
+    }
+
+    public boolean isSent() {
+        return _sent;
+    }
+
+    public void setSent(boolean sent) {
+        _sent = sent;
+    }
+
     public long getCampaignId() {
         return _campaignId;
     }
@@ -195,6 +209,7 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
         clone.setEmailSubject(getEmailSubject());
         clone.setSenderName(getSenderName());
         clone.setSenderEmail(getSenderEmail());
+        clone.setSent(getSent());
         clone.setCampaignId(getCampaignId());
 
         return clone;
@@ -241,7 +256,7 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
     }
 
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{uuid=");
         sb.append(getUuid());
@@ -255,6 +270,8 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
         sb.append(getSenderName());
         sb.append(", senderEmail=");
         sb.append(getSenderEmail());
+        sb.append(", sent=");
+        sb.append(getSent());
         sb.append(", campaignId=");
         sb.append(getCampaignId());
         sb.append("}");
@@ -263,7 +280,7 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
     }
 
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(28);
 
         sb.append("<model><model-name>");
         sb.append("com.liferay.newsletter.model.SendCampaign");
@@ -292,6 +309,10 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
         sb.append(
             "<column><column-name>senderEmail</column-name><column-value><![CDATA[");
         sb.append(getSenderEmail());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>sent</column-name><column-value><![CDATA[");
+        sb.append(getSent());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>campaignId</column-name><column-value><![CDATA[");

@@ -41,6 +41,7 @@
 		<column name="emailSubject" type="String" />
 		<column name="senderName" type="String" />
 		<column name="senderEmail" type="String" />
+		<column name="sent" type="boolean" />
 		
 		<column name="campaignId" type="long" />
 		
@@ -52,6 +53,11 @@
 		
 		<finder name="SendDate" return-type="Collection">
 			<finder-column name="sendDate" />
+		</finder>
+				
+		<finder name="SD_LT" return-type="Collection">
+			<finder-column name="sendDate" comparator="&lt;=" />
+			<finder-column name="sent" />
 		</finder>
 		
 	</entity>

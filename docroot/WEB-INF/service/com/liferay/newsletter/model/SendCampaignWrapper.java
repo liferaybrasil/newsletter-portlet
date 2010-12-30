@@ -143,6 +143,33 @@ public class SendCampaignWrapper implements SendCampaign {
     }
 
     /**
+    * Gets the sent of this send campaign.
+    *
+    * @return the sent of this send campaign
+    */
+    public boolean getSent() {
+        return _sendCampaign.getSent();
+    }
+
+    /**
+    * Determines if this send campaign is sent.
+    *
+    * @return <code>true</code> if this send campaign is sent; <code>false</code> otherwise
+    */
+    public boolean isSent() {
+        return _sendCampaign.isSent();
+    }
+
+    /**
+    * Sets whether this send campaign is sent.
+    *
+    * @param sent the sent of this send campaign
+    */
+    public void setSent(boolean sent) {
+        _sendCampaign.setSent(sent);
+    }
+
+    /**
     * Gets the campaign id of this send campaign.
     *
     * @return the campaign id of this send campaign

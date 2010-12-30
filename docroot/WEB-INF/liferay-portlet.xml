@@ -3,16 +3,17 @@
 
 <liferay-portlet-app>
 	<portlet>
-		<portlet-name>@portlet.name@</portlet-name>
-		<icon>/icon.png</icon>
-		<instanceable>true</instanceable>
-		<header-portlet-css>/css/main.css</header-portlet-css>
-		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
-		<css-class-wrapper>@portlet.name@-portlet</css-class-wrapper>
-	</portlet>
-	<portlet>
 		<portlet-name>newsletter</portlet-name>
 		<icon>/icon.png</icon>
+		<scheduler-entry>
+			<scheduler-event-listener-class>com.liferay.newsletter.CheckScheduledNewsletters</scheduler-event-listener-class>
+			<trigger>
+				<simple>
+					<property-key>newsletter.job.interval</property-key>
+					<time-unit>minute</time-unit>
+				</simple>
+			</trigger>
+		</scheduler-entry>
 		<instanceable>true</instanceable>
 		<header-portlet-css>/css/portlet.css</header-portlet-css>
 		<footer-portlet-javascript>

@@ -205,6 +205,7 @@ public class NewsletterPortlet extends MVCPortlet {
 		sendCampaign.setSenderName(ParamUtil.getString(request, "senderName"));
 		sendCampaign.setEmailSubject(
 			ParamUtil.getString(request, "emailSubject"));
+		sendCampaign.setSent(false);
 
 		return sendCampaign;
 	}

@@ -90,6 +90,19 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
     public static final FinderPath FINDER_PATH_COUNT_BY_SENDDATE = new FinderPath(SendCampaignModelImpl.ENTITY_CACHE_ENABLED,
             SendCampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
             "countBySendDate", new String[] { Date.class.getName() });
+    public static final FinderPath FINDER_PATH_FIND_BY_SD_LT = new FinderPath(SendCampaignModelImpl.ENTITY_CACHE_ENABLED,
+            SendCampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
+            "findBySD_LT",
+            new String[] {
+                Date.class.getName(), Boolean.class.getName(),
+                
+            "java.lang.Integer", "java.lang.Integer",
+                "com.liferay.portal.kernel.util.OrderByComparator"
+            });
+    public static final FinderPath FINDER_PATH_COUNT_BY_SD_LT = new FinderPath(SendCampaignModelImpl.ENTITY_CACHE_ENABLED,
+            SendCampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
+            "countBySD_LT",
+            new String[] { Date.class.getName(), Boolean.class.getName() });
     public static final FinderPath FINDER_PATH_FIND_ALL = new FinderPath(SendCampaignModelImpl.ENTITY_CACHE_ENABLED,
             SendCampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
             "findAll", new String[0]);
@@ -125,6 +138,9 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
     private static final String _FINDER_COLUMN_UUID_UUID_3 = "(sendCampaign.uuid IS NULL OR sendCampaign.uuid = ?)";
     private static final String _FINDER_COLUMN_SENDDATE_SENDDATE_1 = "sendCampaign.sendDate IS NULL";
     private static final String _FINDER_COLUMN_SENDDATE_SENDDATE_2 = "sendCampaign.sendDate = ?";
+    private static final String _FINDER_COLUMN_SD_LT_SENDDATE_1 = "sendCampaign.sendDate <= NULL AND ";
+    private static final String _FINDER_COLUMN_SD_LT_SENDDATE_2 = "sendCampaign.sendDate <= ? AND ";
+    private static final String _FINDER_COLUMN_SD_LT_SENT_2 = "sendCampaign.sent = ?";
     private static final String _ORDER_BY_ENTITY_ALIAS = "sendCampaign.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No SendCampaign exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No SendCampaign exists with the key {";
@@ -338,6 +354,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
         sendCampaignImpl.setEmailSubject(sendCampaign.getEmailSubject());
         sendCampaignImpl.setSenderName(sendCampaign.getSenderName());
         sendCampaignImpl.setSenderEmail(sendCampaign.getSenderEmail());
+        sendCampaignImpl.setSent(sendCampaign.isSent());
         sendCampaignImpl.setCampaignId(sendCampaign.getCampaignId());
 
         return sendCampaignImpl;
@@ -1102,6 +1119,362 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
     }
 
     /**
+     * Finds all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @return the matching send campaigns
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> findBySD_LT(Date sendDate, boolean sent)
+        throws SystemException {
+        return findBySD_LT(sendDate, sent, QueryUtil.ALL_POS,
+            QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Finds a range of all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @param start the lower bound of the range of send campaigns to return
+     * @param end the upper bound of the range of send campaigns to return (not inclusive)
+     * @return the range of matching send campaigns
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> findBySD_LT(Date sendDate, boolean sent,
+        int start, int end) throws SystemException {
+        return findBySD_LT(sendDate, sent, start, end, null);
+    }
+
+    /**
+     * Finds an ordered range of all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @param start the lower bound of the range of send campaigns to return
+     * @param end the upper bound of the range of send campaigns to return (not inclusive)
+     * @param orderByComparator the comparator to order the results by
+     * @return the ordered range of matching send campaigns
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> findBySD_LT(Date sendDate, boolean sent,
+        int start, int end, OrderByComparator orderByComparator)
+        throws SystemException {
+        Object[] finderArgs = new Object[] {
+                sendDate, sent,
+                
+                String.valueOf(start), String.valueOf(end),
+                String.valueOf(orderByComparator)
+            };
+
+        List<SendCampaign> list = (List<SendCampaign>) FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_SD_LT,
+                finderArgs, this);
+
+        if (list == null) {
+            StringBundler query = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(4 +
+                        (orderByComparator.getOrderByFields().length * 3));
+            } else {
+                query = new StringBundler(4);
+            }
+
+            query.append(_SQL_SELECT_SENDCAMPAIGN_WHERE);
+
+            if (sendDate == null) {
+                query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+            } else {
+                query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+            }
+
+            query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+            if (orderByComparator != null) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            }
+            else {
+                query.append(SendCampaignModelImpl.ORDER_BY_JPQL);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (sendDate != null) {
+                    qPos.add(CalendarUtil.getTimestamp(sendDate));
+                }
+
+                qPos.add(sent);
+
+                list = (List<SendCampaign>) QueryUtil.list(q, getDialect(),
+                        start, end);
+            } catch (Exception e) {
+                throw processException(e);
+            } finally {
+                if (list == null) {
+                    FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_SD_LT,
+                        finderArgs);
+                } else {
+                    cacheResult(list);
+
+                    FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_SD_LT,
+                        finderArgs, list);
+                }
+
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Finds the first send campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @param orderByComparator the comparator to order the set by
+     * @return the first matching send campaign
+     * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    public SendCampaign findBySD_LT_First(Date sendDate, boolean sent,
+        OrderByComparator orderByComparator)
+        throws NoSuchSendCampaignException, SystemException {
+        List<SendCampaign> list = findBySD_LT(sendDate, sent, 0, 1,
+                orderByComparator);
+
+        if (list.isEmpty()) {
+            StringBundler msg = new StringBundler(6);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("sendDate=");
+            msg.append(sendDate);
+
+            msg.append(", sent=");
+            msg.append(sent);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            throw new NoSuchSendCampaignException(msg.toString());
+        } else {
+            return list.get(0);
+        }
+    }
+
+    /**
+     * Finds the last send campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @param orderByComparator the comparator to order the set by
+     * @return the last matching send campaign
+     * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    public SendCampaign findBySD_LT_Last(Date sendDate, boolean sent,
+        OrderByComparator orderByComparator)
+        throws NoSuchSendCampaignException, SystemException {
+        int count = countBySD_LT(sendDate, sent);
+
+        List<SendCampaign> list = findBySD_LT(sendDate, sent, count - 1, count,
+                orderByComparator);
+
+        if (list.isEmpty()) {
+            StringBundler msg = new StringBundler(6);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("sendDate=");
+            msg.append(sendDate);
+
+            msg.append(", sent=");
+            msg.append(sent);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            throw new NoSuchSendCampaignException(msg.toString());
+        } else {
+            return list.get(0);
+        }
+    }
+
+    /**
+     * Finds the send campaigns before and after the current send campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param sendCampaignId the primary key of the current send campaign
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @param orderByComparator the comparator to order the set by
+     * @return the previous, current, and next send campaign
+     * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    public SendCampaign[] findBySD_LT_PrevAndNext(long sendCampaignId,
+        Date sendDate, boolean sent, OrderByComparator orderByComparator)
+        throws NoSuchSendCampaignException, SystemException {
+        SendCampaign sendCampaign = findByPrimaryKey(sendCampaignId);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SendCampaign[] array = new SendCampaignImpl[3];
+
+            array[0] = getBySD_LT_PrevAndNext(session, sendCampaign, sendDate,
+                    sent, orderByComparator, true);
+
+            array[1] = sendCampaign;
+
+            array[2] = getBySD_LT_PrevAndNext(session, sendCampaign, sendDate,
+                    sent, orderByComparator, false);
+
+            return array;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    protected SendCampaign getBySD_LT_PrevAndNext(Session session,
+        SendCampaign sendCampaign, Date sendDate, boolean sent,
+        OrderByComparator orderByComparator, boolean previous) {
+        StringBundler query = null;
+
+        if (orderByComparator != null) {
+            query = new StringBundler(6 +
+                    (orderByComparator.getOrderByFields().length * 6));
+        } else {
+            query = new StringBundler(3);
+        }
+
+        query.append(_SQL_SELECT_SENDCAMPAIGN_WHERE);
+
+        if (sendDate == null) {
+            query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+        } else {
+            query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+        }
+
+        query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+        if (orderByComparator != null) {
+            String[] orderByFields = orderByComparator.getOrderByFields();
+
+            if (orderByFields.length > 0) {
+                query.append(WHERE_AND);
+            }
+
+            for (int i = 0; i < orderByFields.length; i++) {
+                query.append(_ORDER_BY_ENTITY_ALIAS);
+                query.append(orderByFields[i]);
+
+                if ((i + 1) < orderByFields.length) {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(WHERE_GREATER_THAN_HAS_NEXT);
+                    } else {
+                        query.append(WHERE_LESSER_THAN_HAS_NEXT);
+                    }
+                } else {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(WHERE_GREATER_THAN);
+                    } else {
+                        query.append(WHERE_LESSER_THAN);
+                    }
+                }
+            }
+
+            query.append(ORDER_BY_CLAUSE);
+
+            for (int i = 0; i < orderByFields.length; i++) {
+                query.append(_ORDER_BY_ENTITY_ALIAS);
+                query.append(orderByFields[i]);
+
+                if ((i + 1) < orderByFields.length) {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(ORDER_BY_ASC_HAS_NEXT);
+                    } else {
+                        query.append(ORDER_BY_DESC_HAS_NEXT);
+                    }
+                } else {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(ORDER_BY_ASC);
+                    } else {
+                        query.append(ORDER_BY_DESC);
+                    }
+                }
+            }
+        }
+        else {
+            query.append(SendCampaignModelImpl.ORDER_BY_JPQL);
+        }
+
+        String sql = query.toString();
+
+        Query q = session.createQuery(sql);
+
+        q.setFirstResult(0);
+        q.setMaxResults(2);
+
+        QueryPos qPos = QueryPos.getInstance(q);
+
+        if (sendDate != null) {
+            qPos.add(CalendarUtil.getTimestamp(sendDate));
+        }
+
+        qPos.add(sent);
+
+        if (orderByComparator != null) {
+            Object[] values = orderByComparator.getOrderByValues(sendCampaign);
+
+            for (Object value : values) {
+                qPos.add(value);
+            }
+        }
+
+        List<SendCampaign> list = q.list();
+
+        if (list.size() == 2) {
+            return list.get(1);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Finds all the send campaigns.
      *
      * @return the send campaigns
@@ -1230,6 +1603,20 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
     }
 
     /**
+     * Removes all the send campaigns where sendDate &le; &#63; and sent = &#63; from the database.
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @throws SystemException if a system exception occurred
+     */
+    public void removeBySD_LT(Date sendDate, boolean sent)
+        throws SystemException {
+        for (SendCampaign sendCampaign : findBySD_LT(sendDate, sent)) {
+            remove(sendCampaign);
+        }
+    }
+
+    /**
      * Removes all the send campaigns from the database.
      *
      * @throws SystemException if a system exception occurred
@@ -1349,6 +1736,69 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
                 }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SENDDATE,
+                    finderArgs, count);
+
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
+     * Counts all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @return the number of matching send campaigns
+     * @throws SystemException if a system exception occurred
+     */
+    public int countBySD_LT(Date sendDate, boolean sent)
+        throws SystemException {
+        Object[] finderArgs = new Object[] { sendDate, sent };
+
+        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SD_LT,
+                finderArgs, this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(3);
+
+            query.append(_SQL_COUNT_SENDCAMPAIGN_WHERE);
+
+            if (sendDate == null) {
+                query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+            } else {
+                query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+            }
+
+            query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (sendDate != null) {
+                    qPos.add(CalendarUtil.getTimestamp(sendDate));
+                }
+
+                qPos.add(sent);
+
+                count = (Long) q.uniqueResult();
+            } catch (Exception e) {
+                throw processException(e);
+            } finally {
+                if (count == null) {
+                    count = Long.valueOf(0);
+                }
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SD_LT,
                     finderArgs, count);
 
                 closeSession(session);

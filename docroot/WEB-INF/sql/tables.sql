@@ -32,5 +32,6 @@ create table Newsletter_SendCampaign (
 	emailSubject VARCHAR(75) null,
 	senderName VARCHAR(75) null,
 	senderEmail VARCHAR(75) null,
+	sent BOOLEAN,
 	campaignId LONG
 );

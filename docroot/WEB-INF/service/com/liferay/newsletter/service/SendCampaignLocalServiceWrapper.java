@@ -220,6 +220,17 @@ public class SendCampaignLocalServiceWrapper implements SendCampaignLocalService
         return _sendCampaignLocalService.getSendCampaignsByDate(sendDate);
     }
 
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaignsBySendDateLT(
+        java.util.Date sendDate, boolean sent)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _sendCampaignLocalService.getSendCampaignsBySendDateLT(sendDate,
+            sent);
+    }
+
+    public void job() {
+        _sendCampaignLocalService.job();
+    }
+
     public SendCampaignLocalService getWrappedSendCampaignLocalService() {
         return _sendCampaignLocalService;
     }

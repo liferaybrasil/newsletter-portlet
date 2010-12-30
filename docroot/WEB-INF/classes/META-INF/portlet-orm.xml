@@ -41,6 +41,7 @@
 			<basic name="emailSubject" />
 			<basic name="senderName" />
 			<basic name="senderEmail" />
+			<basic name="sent" />
 			<basic name="campaignId" />
 			<transient name="primaryKey" />
 		</attributes>

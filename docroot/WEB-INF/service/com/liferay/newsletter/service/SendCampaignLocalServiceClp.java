@@ -22,6 +22,8 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
     private MethodKey _updateSendCampaignMethodKey12;
     private MethodKey _getNewsletterLogsMethodKey13;
     private MethodKey _getSendCampaignsByDateMethodKey14;
+    private MethodKey _getSendCampaignsBySendDateLTMethodKey15;
+    private MethodKey _jobMethodKey16;
 
     public SendCampaignLocalServiceClp(ClassLoaderProxy classLoaderProxy) {
         _classLoaderProxy = classLoaderProxy;
@@ -82,6 +84,12 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
 
         _getSendCampaignsByDateMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
                 "getSendCampaignsByDate", java.util.Date.class);
+
+        _getSendCampaignsBySendDateLTMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+                "getSendCampaignsBySendDateLT", java.util.Date.class,
+                boolean.class);
+
+        _jobMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(), "job");
     }
 
     public com.liferay.newsletter.model.SendCampaign addSendCampaign(
@@ -472,6 +480,47 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
         }
 
         return (java.util.List<com.liferay.newsletter.model.SendCampaign>) ClpSerializer.translateOutput(returnObj);
+    }
+
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaignsBySendDateLT(
+        java.util.Date sendDate, boolean sent)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        MethodHandler methodHandler = new MethodHandler(_getSendCampaignsBySendDateLTMethodKey15,
+                ClpSerializer.translateInput(sendDate), sent);
+
+        try {
+            returnObj = _classLoaderProxy.invoke(methodHandler);
+        } catch (Throwable t) {
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (java.util.List<com.liferay.newsletter.model.SendCampaign>) ClpSerializer.translateOutput(returnObj);
+    }
+
+    public void job() {
+        MethodHandler methodHandler = new MethodHandler(_jobMethodKey16);
+
+        try {
+            _classLoaderProxy.invoke(methodHandler);
+        } catch (Throwable t) {
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
     }
 
     public ClassLoaderProxy getClassLoaderProxy() {

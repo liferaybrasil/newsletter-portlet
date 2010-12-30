@@ -34,6 +34,7 @@
 		<property name="emailSubject" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="senderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="senderEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="sent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="campaignId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.liferay.newsletter.model.impl.NewsletterLogImpl" table="Newsletter_NewsletterLog">

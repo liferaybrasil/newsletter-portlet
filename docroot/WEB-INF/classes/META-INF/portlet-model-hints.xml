@@ -20,6 +20,7 @@
 		<field name="emailSubject" type="String" />
 		<field name="senderName" type="String" />
 		<field name="senderEmail" type="String" />
+		<field name="sent" type="boolean" />
 		<field name="campaignId" type="long" />
 	</model>
 	<model name="com.liferay.newsletter.model.NewsletterLog">

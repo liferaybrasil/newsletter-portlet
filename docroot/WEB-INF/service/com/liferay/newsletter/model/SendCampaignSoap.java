@@ -23,6 +23,7 @@ public class SendCampaignSoap implements Serializable {
     private String _emailSubject;
     private String _senderName;
     private String _senderEmail;
+    private boolean _sent;
     private long _campaignId;
 
     public SendCampaignSoap() {
@@ -37,6 +38,7 @@ public class SendCampaignSoap implements Serializable {
         soapModel.setEmailSubject(model.getEmailSubject());
         soapModel.setSenderName(model.getSenderName());
         soapModel.setSenderEmail(model.getSenderEmail());
+        soapModel.setSent(model.getSent());
         soapModel.setCampaignId(model.getCampaignId());
 
         return soapModel;
@@ -132,6 +134,18 @@ public class SendCampaignSoap implements Serializable {
 
     public void setSenderEmail(String senderEmail) {
         _senderEmail = senderEmail;
+    }
+
+    public boolean getSent() {
+        return _sent;
+    }
+
+    public boolean isSent() {
+        return _sent;
+    }
+
+    public void setSent(boolean sent) {
+        _sent = sent;
     }
 
     public long getCampaignId() {

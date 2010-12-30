@@ -133,6 +133,27 @@ public interface SendCampaignModel extends BaseModel<SendCampaign> {
     public void setSenderEmail(String senderEmail);
 
     /**
+     * Gets the sent of this send campaign.
+     *
+     * @return the sent of this send campaign
+     */
+    public boolean getSent();
+
+    /**
+     * Determines if this send campaign is sent.
+     *
+     * @return <code>true</code> if this send campaign is sent; <code>false</code> otherwise
+     */
+    public boolean isSent();
+
+    /**
+     * Sets whether this send campaign is sent.
+     *
+     * @param sent the sent of this send campaign
+     */
+    public void setSent(boolean sent);
+
+    /**
      * Gets the campaign id of this send campaign.
      *
      * @return the campaign id of this send campaign

@@ -230,6 +230,16 @@ public class SendCampaignLocalServiceUtil {
         return getService().getSendCampaignsByDate(sendDate);
     }
 
+    public static java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaignsBySendDateLT(
+        java.util.Date sendDate, boolean sent)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().getSendCampaignsBySendDateLT(sendDate, sent);
+    }
+
+    public static void job() {
+        getService().job();
+    }
+
     public static void clearService() {
         _service = null;
     }

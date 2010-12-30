@@ -20,6 +20,7 @@ public class SendCampaignClp extends BaseModelImpl<SendCampaign>
     private String _emailSubject;
     private String _senderName;
     private String _senderEmail;
+    private boolean _sent;
     private long _campaignId;
 
     public SendCampaignClp() {
@@ -85,6 +86,18 @@ public class SendCampaignClp extends BaseModelImpl<SendCampaign>
         _senderEmail = senderEmail;
     }
 
+    public boolean getSent() {
+        return _sent;
+    }
+
+    public boolean isSent() {
+        return _sent;
+    }
+
+    public void setSent(boolean sent) {
+        _sent = sent;
+    }
+
     public long getCampaignId() {
         return _campaignId;
     }
@@ -112,6 +125,7 @@ public class SendCampaignClp extends BaseModelImpl<SendCampaign>
         clone.setEmailSubject(getEmailSubject());
         clone.setSenderName(getSenderName());
         clone.setSenderEmail(getSenderEmail());
+        clone.setSent(getSent());
         clone.setCampaignId(getCampaignId());
 
         return clone;
@@ -158,7 +172,7 @@ public class SendCampaignClp extends BaseModelImpl<SendCampaign>
     }
 
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{uuid=");
         sb.append(getUuid());
@@ -172,6 +186,8 @@ public class SendCampaignClp extends BaseModelImpl<SendCampaign>
         sb.append(getSenderName());
         sb.append(", senderEmail=");
         sb.append(getSenderEmail());
+        sb.append(", sent=");
+        sb.append(getSent());
         sb.append(", campaignId=");
         sb.append(getCampaignId());
         sb.append("}");
@@ -180,7 +196,7 @@ public class SendCampaignClp extends BaseModelImpl<SendCampaign>
     }
 
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(28);
 
         sb.append("<model><model-name>");
         sb.append("com.liferay.newsletter.model.SendCampaign");
@@ -209,6 +225,10 @@ public class SendCampaignClp extends BaseModelImpl<SendCampaign>
         sb.append(
             "<column><column-name>senderEmail</column-name><column-value><![CDATA[");
         sb.append(getSenderEmail());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>sent</column-name><column-value><![CDATA[");
+        sb.append(getSent());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>campaignId</column-name><column-value><![CDATA[");

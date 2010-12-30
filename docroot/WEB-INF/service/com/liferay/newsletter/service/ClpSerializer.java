@@ -191,12 +191,19 @@ public class ClpSerializer {
 
                     method5.invoke(newModel, value5);
 
-                    Method method6 = newModelClass.getMethod("setCampaignId",
-                            new Class[] { Long.TYPE });
+                    Method method6 = newModelClass.getMethod("setSent",
+                            new Class[] { Boolean.TYPE });
 
-                    Long value6 = new Long(oldCplModel.getCampaignId());
+                    Boolean value6 = new Boolean(oldCplModel.getSent());
 
                     method6.invoke(newModel, value6);
+
+                    Method method7 = newModelClass.getMethod("setCampaignId",
+                            new Class[] { Long.TYPE });
+
+                    Long value7 = new Long(oldCplModel.getCampaignId());
+
+                    method7.invoke(newModel, value7);
 
                     return newModel;
                 } catch (Exception e) {
@@ -439,12 +446,19 @@ public class ClpSerializer {
 
                     newModel.setSenderEmail(value5);
 
-                    Method method6 = oldModelClass.getMethod("getCampaignId");
+                    Method method6 = oldModelClass.getMethod("getSent");
 
-                    Long value6 = (Long) method6.invoke(oldModel,
+                    Boolean value6 = (Boolean) method6.invoke(oldModel,
                             (Object[]) null);
 
-                    newModel.setCampaignId(value6);
+                    newModel.setSent(value6);
+
+                    Method method7 = oldModelClass.getMethod("getCampaignId");
+
+                    Long value7 = (Long) method7.invoke(oldModel,
+                            (Object[]) null);
+
+                    newModel.setCampaignId(value7);
 
                     return newModel;
                 } catch (Exception e) {
