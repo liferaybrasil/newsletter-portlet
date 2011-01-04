@@ -47,23 +47,23 @@
 <liferay-ui:search-container delta='<%= GetterUtil.getInteger(prefs.getValue("rowsPerPage", "2")) %>' emptyResultsMessage="newsletter-empty-results-message">
 	<liferay-ui:search-container-results
 		results="<%= NewsletterLogLocalServiceUtil.getContactsBySendCampaign(sendCampaignId) %>"
-		total="<%= NewsletterLogLocalServiceUtil.getContactsBySendCampaignCount() %>"
+		total="<%= NewsletterLogLocalServiceUtil.getContactsBySendCampaignCount(sendCampaignId) %>"
 	/>
 
 	<liferay-ui:search-container-row
 		className="com.liferay.newsletter.model.Contact"
 		keyProperty="contactId"
-		modelVar="contact"
+		modelVar="contactNewsletter"
 	>
 		
 		<liferay-ui:search-container-column-text
 			name="Name"
-			value="<%= contact.getName() %>"
+			value="<%= contactNewsletter.getName() %>"
 		/>
 		
 		<liferay-ui:search-container-column-text
 			name="Email"
-			value="<%= contact.getEmail() %>"
+			value="<%= contactNewsletter.getEmail() %>"
 		/>
 	</liferay-ui:search-container-row>
 
