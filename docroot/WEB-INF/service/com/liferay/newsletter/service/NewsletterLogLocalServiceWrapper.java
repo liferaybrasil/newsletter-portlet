@@ -216,6 +216,18 @@ public class NewsletterLogLocalServiceWrapper
         return _newsletterLogLocalService.getNewsletterLogBySendCampaign(sendCampaignId);
     }
 
+    public java.util.List<com.liferay.newsletter.model.Contact> getContactsBySendCampaign(
+        long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.PortalException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return _newsletterLogLocalService.getContactsBySendCampaign(sendCampaignId);
+    }
+
+    public int getContactsBySendCampaignCount(long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _newsletterLogLocalService.getContactsBySendCampaignCount(sendCampaignId);
+    }
+
     public NewsletterLogLocalService getWrappedNewsletterLogLocalService() {
         return _newsletterLogLocalService;
     }

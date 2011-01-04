@@ -41,6 +41,7 @@
 <%@ page import="com.liferay.newsletter.service.CampaignLocalServiceUtil" %>
 <%@ page import="com.liferay.newsletter.service.ContactLocalServiceUtil" %>
 <%@ page import="com.liferay.newsletter.service.SendCampaignLocalServiceUtil" %>
+<%@ page import="com.liferay.newsletter.service.NewsletterLogLocalServiceUtil" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="com.liferay.portlet.journal.model.JournalArticleDisplay" %>
 <liferay-theme:defineObjects />

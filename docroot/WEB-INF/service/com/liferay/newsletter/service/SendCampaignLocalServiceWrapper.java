@@ -231,6 +231,14 @@ public class SendCampaignLocalServiceWrapper implements SendCampaignLocalService
         _sendCampaignLocalService.job();
     }
 
+    public void sendSendCampaign(
+        com.liferay.newsletter.model.SendCampaign sendCampaign)
+        throws com.liferay.portal.kernel.exception.PortalException,
+            com.liferay.portal.kernel.exception.SystemException,
+            javax.mail.MessagingException, javax.mail.internet.AddressException {
+        _sendCampaignLocalService.sendSendCampaign(sendCampaign);
+    }
+
     public SendCampaignLocalService getWrappedSendCampaignLocalService() {
         return _sendCampaignLocalService;
     }

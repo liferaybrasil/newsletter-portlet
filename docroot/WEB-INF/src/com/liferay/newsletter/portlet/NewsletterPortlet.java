@@ -16,7 +16,6 @@ package com.liferay.newsletter.portlet;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -101,7 +100,6 @@ public class NewsletterPortlet extends MVCPortlet {
 
 			NewsletterLogLocalServiceUtil.addNewsletterLog(newsletterLog);
 
-			//_sendEmail(request, sendCampaign, contact);
 		}
 	}
 
@@ -132,9 +130,52 @@ public class NewsletterPortlet extends MVCPortlet {
 				addSendCampaign(actionRequest, actionResponse);
 			}else if(cmd.equals("campaign")){
 				addCampaign(actionRequest, actionResponse);
+			}else if(cmd.equals("resendSendCampaign")){
+				resendSendCampaign(actionRequest, actionResponse);
 			}
 		} 
 		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void resendSendCampaign(ActionRequest actionRequest,
+			ActionResponse actionResponse) {
+		
+		long sendCampaignId = ParamUtil.getLong(
+			actionRequest, "sendCampaignId");
+		
+		SendCampaign sendCampaign;
+		try {
+			sendCampaign = SendCampaignLocalServiceUtil.
+				getSendCampaign(sendCampaignId);
+			sendCampaign.setSent(false);
+			
+			SendCampaignLocalServiceUtil.updateSendCampaign(sendCampaign);
+			
+			SendCampaignLocalServiceUtil.sendSendCampaign(sendCampaign);
+			
+			sendRedirect(actionRequest, actionResponse);
+
+		} 
+		catch (PortalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (MessagingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -24,6 +24,7 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
     private MethodKey _getSendCampaignsByDateMethodKey14;
     private MethodKey _getSendCampaignsBySendDateLTMethodKey15;
     private MethodKey _jobMethodKey16;
+    private MethodKey _sendSendCampaignMethodKey17;
 
     public SendCampaignLocalServiceClp(ClassLoaderProxy classLoaderProxy) {
         _classLoaderProxy = classLoaderProxy;
@@ -90,6 +91,10 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
                 boolean.class);
 
         _jobMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(), "job");
+
+        _sendSendCampaignMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
+                "sendSendCampaign",
+                com.liferay.newsletter.model.SendCampaign.class);
     }
 
     public com.liferay.newsletter.model.SendCampaign addSendCampaign(
@@ -514,6 +519,42 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
         try {
             _classLoaderProxy.invoke(methodHandler);
         } catch (Throwable t) {
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+    }
+
+    public void sendSendCampaign(
+        com.liferay.newsletter.model.SendCampaign sendCampaign)
+        throws com.liferay.portal.kernel.exception.PortalException,
+            com.liferay.portal.kernel.exception.SystemException,
+            javax.mail.MessagingException, javax.mail.internet.AddressException {
+        MethodHandler methodHandler = new MethodHandler(_sendSendCampaignMethodKey17,
+                ClpSerializer.translateInput(sendCampaign));
+
+        try {
+            _classLoaderProxy.invoke(methodHandler);
+        } catch (Throwable t) {
+            if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+                throw (com.liferay.portal.kernel.exception.PortalException) t;
+            }
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof javax.mail.MessagingException) {
+                throw (javax.mail.MessagingException) t;
+            }
+
+            if (t instanceof javax.mail.internet.AddressException) {
+                throw (javax.mail.internet.AddressException) t;
+            }
+
             if (t instanceof RuntimeException) {
                 throw (RuntimeException) t;
             } else {

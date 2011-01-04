@@ -200,4 +200,14 @@ public interface NewsletterLogLocalService {
     public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogBySendCampaign(
         long sendCampaignId)
         throws com.liferay.portal.kernel.exception.SystemException;
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public java.util.List<com.liferay.newsletter.model.Contact> getContactsBySendCampaign(
+        long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.PortalException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public int getContactsBySendCampaignCount(long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.SystemException;
 }

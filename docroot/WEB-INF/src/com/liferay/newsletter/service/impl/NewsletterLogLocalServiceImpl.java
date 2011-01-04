@@ -14,12 +14,15 @@
 
 package com.liferay.newsletter.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
+import com.liferay.newsletter.service.ContactLocalServiceUtil;
 import com.liferay.newsletter.service.base.NewsletterLogLocalServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
 /**
@@ -27,7 +30,7 @@ import com.liferay.portal.kernel.exception.SystemException;
  */
 public class NewsletterLogLocalServiceImpl
 	extends NewsletterLogLocalServiceBaseImpl {
-
+	
 	public List<NewsletterLog> getNewsletterLogBySendCampaign(
 		long sendCampaignId) throws SystemException{
 
@@ -45,5 +48,25 @@ public class NewsletterLogLocalServiceImpl
 		return super.addNewsletterLog(newsletter);
 	}
 
+	public List<Contact> getContactsBySendCampaign(long sendCampaignId) 
+		throws SystemException, PortalException{
+			
+		List<Contact> contacts = new ArrayList<Contact>();
+		
+		List<NewsletterLog> newsletterLogBySendCampaign =
+			getNewsletterLogBySendCampaign(sendCampaignId);
+		
+		for (NewsletterLog newsletterLog : newsletterLogBySendCampaign) {
+			long contactId = newsletterLog.getContactId();
+			Contact contact = ContactLocalServiceUtil.getContact(contactId);
+			contacts.add(contact);
+		}
+		
+		return contacts;
+		}
 
+	public int getContactsBySendCampaignCount(long sendCampaignId)
+			throws SystemException {
+		return getNewsletterLogBySendCampaign(sendCampaignId).size();
+	}
 }

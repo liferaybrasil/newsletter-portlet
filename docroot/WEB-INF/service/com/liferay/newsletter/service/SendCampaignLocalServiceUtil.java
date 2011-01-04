@@ -240,6 +240,14 @@ public class SendCampaignLocalServiceUtil {
         getService().job();
     }
 
+    public static void sendSendCampaign(
+        com.liferay.newsletter.model.SendCampaign sendCampaign)
+        throws com.liferay.portal.kernel.exception.PortalException,
+            com.liferay.portal.kernel.exception.SystemException,
+            javax.mail.MessagingException, javax.mail.internet.AddressException {
+        getService().sendSendCampaign(sendCampaign);
+    }
+
     public static void clearService() {
         _service = null;
     }

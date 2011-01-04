@@ -85,26 +85,7 @@ public class SendCampaignLocalServiceImpl
 				currentDate, false);
 			
 			for (SendCampaign sendCampaign : sendCampaigns) {
-				List<NewsletterLog> newsletterLogs = 
-					NewsletterLogLocalServiceUtil.
-						getNewsletterLogBySendCampaign(
-							sendCampaign.getSendCampaignId());
-
-				long campaignId = sendCampaign.getCampaignId();
-
-				Campaign campaign = CampaignLocalServiceUtil.getCampaign(
-					campaignId);
-				
-				for (NewsletterLog newsletterLog : newsletterLogs) {
-					long contactId = newsletterLog.getContactId();
-					
-					Contact contact = ContactLocalServiceUtil.getContact(
-						contactId);
-					
-					_sendEmail(campaign, sendCampaign, contact);
-				}
-				sendCampaign.setSent(true);
-				SendCampaignLocalServiceUtil.updateSendCampaign(sendCampaign);
+				sendSendCampaign(sendCampaign);
 			}
 		} 
 		catch (AddressException e) {
@@ -120,6 +101,29 @@ public class SendCampaignLocalServiceImpl
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void sendSendCampaign(SendCampaign sendCampaign)
+		throws SystemException, PortalException, AddressException,
+		MessagingException{
+		
+		List<NewsletterLog> newsletterLogs = NewsletterLogLocalServiceUtil.
+			getNewsletterLogBySendCampaign(sendCampaign.getSendCampaignId());
+
+		long campaignId = sendCampaign.getCampaignId();
+
+		Campaign campaign = CampaignLocalServiceUtil.getCampaign(campaignId);
+		
+		for (NewsletterLog newsletterLog : newsletterLogs) {
+			long contactId = newsletterLog.getContactId();
+			
+			Contact contact = ContactLocalServiceUtil.getContact(contactId);
+			
+			_sendEmail(campaign, sendCampaign, contact);
+			//Thread.sleep(5000);
+		}
+		sendCampaign.setSent(true);
+		SendCampaignLocalServiceUtil.updateSendCampaign(sendCampaign);
 	}
 
 	private void _sendEmail(

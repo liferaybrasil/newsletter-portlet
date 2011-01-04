@@ -224,6 +224,18 @@ public class NewsletterLogLocalServiceUtil {
         return getService().getNewsletterLogBySendCampaign(sendCampaignId);
     }
 
+    public static java.util.List<com.liferay.newsletter.model.Contact> getContactsBySendCampaign(
+        long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.PortalException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getService().getContactsBySendCampaign(sendCampaignId);
+    }
+
+    public static int getContactsBySendCampaignCount(long sendCampaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().getContactsBySendCampaignCount(sendCampaignId);
+    }
+
     public static void clearService() {
         _service = null;
     }
