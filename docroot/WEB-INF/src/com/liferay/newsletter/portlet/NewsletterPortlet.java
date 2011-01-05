@@ -15,6 +15,7 @@
 package com.liferay.newsletter.portlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 
@@ -47,6 +48,8 @@ import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
 import com.liferay.newsletter.service.SendCampaignLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.util.PortalUtil;
@@ -62,24 +65,57 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		Campaign campaign = _campaignFromRequest(request);
 
+		ArrayList<String> errors = new ArrayList<String>();
+		
+		if (NewsletterValidator.validateCampaign(campaign, errors)) {
 		campaign = CampaignLocalServiceUtil.addCampaign(campaign);
 
+		SessionMessages.add(request, "campaign-added");
+
 		sendRedirect(request, response);
+		}
+		else {
+			for (String error : errors) {
+				SessionErrors.add(request, error);
+			}
+
+			PortalUtil.copyRequestParameters(request, response);
+
+			response.setRenderParameter(
+				"jspPage", "/html/newsletterportlet/edit_campaign.jsp");
+		}
 	}
+		
+	
 
 	public void addSendCampaign(ActionRequest request, ActionResponse response)
 		throws Exception {
 
 		SendCampaign sendCampaign = _sendCampaignFromRequest(request);
 
-		sendCampaign = SendCampaignLocalServiceUtil.addSendCampaign(
-			sendCampaign);
+		ArrayList<String> errors = new ArrayList<String>();
 
 		String contacts = ParamUtil.getString(request, "contacts");
+		
+		if (NewsletterValidator.validateSendCampaign(sendCampaign, contacts, errors)) {
+		sendCampaign = SendCampaignLocalServiceUtil.addSendCampaign(
+			sendCampaign);
 
 		_registerLog(sendCampaign, contacts, request);
 
 		sendRedirect(request, response);
+		SessionMessages.add(request, "sendcampaign-added");
+		}
+		else {
+			for (String error : errors) {
+				SessionErrors.add(request, error);
+			}
+
+			PortalUtil.copyRequestParameters(request, response);
+
+			response.setRenderParameter(
+				"jspPage", "/html/newsletterportlet/edit_send.jsp");
+		}
 	}
 
 	private void _registerLog(

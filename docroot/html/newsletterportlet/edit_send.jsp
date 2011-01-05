@@ -49,14 +49,18 @@
 		<aui:input type="hidden" name="sendCampaignId" />
 
 		<aui:input name="emailSubject" label="Email Subject"/>
+		<liferay-ui:error key="sendcampaignemailsubject-required" message="sendcampaignemailsubject-required" />
 
 		<aui:input name="senderName" label="Sender Name"/>
+		<liferay-ui:error key="sendcampaignsendername-required" message="sendcampaignsendername-required" />
 
 		<aui:input name="senderEmail" label="Sender Email"/>
+		<liferay-ui:error key="sendcampaignsenderemail-format-error" message="sendcampaignsenderemail-format-error" />
+		<liferay-ui:error key="sendcampaignsenderemail-required" message="sendcampaignsenderemail-required" />
 		
 		<aui:input name="sendDate" label="Send Date"/>
 		
-		<aui:select name="campaignId" label="Campaign" showEmptyOption="<%= true %>">
+		<aui:select name="campaignId" label="Campaign" showEmptyOption="<%= false %>">
 
 	 		<%
 				for(Campaign campaign: campaigns){
@@ -68,8 +72,9 @@
 
 		</aui:select>
 		
-		
 		<aui:input type="text" name="contacts" label="Contacts" />
+		<liferay-ui:error key="sendcampaigncontacts-required" message="sendcampaigncontacts-required" />
+		
 	</aui:fieldset>
 
 	<aui:button-row>
