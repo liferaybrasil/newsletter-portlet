@@ -31,7 +31,7 @@
 			<portlet-mode>EDIT</portlet-mode>
 			<portlet-mode>HELP</portlet-mode>
 		</supports>
-		<resource-bundle>content/Language.properties</resource-bundle>
+		<resource-bundle>content.Language</resource-bundle>
 		<portlet-info>
 			<title>Newsletter</title>
 			<short-title>Newsletter</short-title>
