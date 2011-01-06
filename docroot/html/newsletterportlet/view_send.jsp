@@ -30,7 +30,9 @@
 
 	<aui:button value="Add Sending" onClick="<%= addSendCampaignURL.toString() %>" />
 </aui:button-row>
-
+<liferay-ui:error key="sendcampaign-added" message="sendcampaign-added" />
+<liferay-ui:error key="campaign-resent" message="campaign-resent" />
+<liferay-ui:error key="sendcampaign-deleted" message="sendcampaign-deleted" />
 <liferay-ui:search-container delta='<%= GetterUtil.getInteger(prefs.getValue("rowsPerPage", "2")) %>' emptyResultsMessage="newsletter-empty-results-message">
 	<liferay-ui:search-container-results
 		results="<%= SendCampaignLocalServiceUtil.getSendCampaigns(searchContainer.getStart(), searchContainer.getEnd()) %>"

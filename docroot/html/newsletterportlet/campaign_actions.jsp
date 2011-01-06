@@ -37,6 +37,7 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 	<liferay-ui:icon image="edit" url="<%=editURL.toString() %>" />
 
 	<portlet:actionURL name="deleteCampaign" var="deleteURL">
+		<portlet:param name="cmd" value="deleteCampaign" />
 		<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
 		<portlet:param name="redirect" value="<%= redirect %>" />
 	</portlet:actionURL>

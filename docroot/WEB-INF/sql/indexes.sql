@@ -14,6 +14,7 @@ create index IX_8DBB6DD4 on Newsletter_Contact (uuid_);
 create index IX_AE191BF2 on Newsletter_NewsletterLog (sendCampaignId);
 create index IX_25E51609 on Newsletter_NewsletterLog (uuid_);
 
+create index IX_99E79AC3 on Newsletter_SendCampaign (campaignId);
 create index IX_B419768E on Newsletter_SendCampaign (sendDate);
 create index IX_61B9699A on Newsletter_SendCampaign (sendDate, sent);
 create index IX_60077670 on Newsletter_SendCampaign (uuid_);

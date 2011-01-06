@@ -17,16 +17,9 @@ package com.liferay.newsletter.portlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Properties;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -52,6 +45,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
@@ -97,7 +91,8 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		String contacts = ParamUtil.getString(request, "contacts");
 		
-		if (NewsletterValidator.validateSendCampaign(sendCampaign, contacts, errors)) {
+		if (NewsletterValidator.validateSendCampaign(
+			sendCampaign, contacts, errors)) {
 		sendCampaign = SendCampaignLocalServiceUtil.addSendCampaign(
 			sendCampaign);
 
@@ -150,7 +145,6 @@ public class NewsletterPortlet extends MVCPortlet {
 			contact.setEmail(contactEmail);
 			
 			contact = ContactLocalServiceUtil.addContact(contact);
-			
 		}
 
 		return contact;
@@ -164,10 +158,21 @@ public class NewsletterPortlet extends MVCPortlet {
 		try {
 			if(cmd.equals("sending")){
 				addSendCampaign(actionRequest, actionResponse);
-			}else if(cmd.equals("campaign")){
+			}
+			else if(cmd.equals("campaign")){
 				addCampaign(actionRequest, actionResponse);
-			}else if(cmd.equals("resendSendCampaign")){
+			}
+			else if(cmd.equals("resendSendCampaign")){
 				resendSendCampaign(actionRequest, actionResponse);
+			}
+			else if(cmd.equals("editCampaign")){
+				deleteCampaign(actionRequest, actionResponse);
+			}
+			else if(cmd.equals("deleteSendCampaign")){
+				deleteSendCampaign(actionRequest, actionResponse);
+			}
+			else if(cmd.equals("deleteCampaign")){
+				deleteCampaign(actionRequest, actionResponse);
 			}
 		} 
 		catch (Exception e) {
@@ -186,11 +191,13 @@ public class NewsletterPortlet extends MVCPortlet {
 			sendCampaign = SendCampaignLocalServiceUtil.
 				getSendCampaign(sendCampaignId);
 			sendCampaign.setSent(false);
-			
+
 			SendCampaignLocalServiceUtil.updateSendCampaign(sendCampaign);
-			
+
 			SendCampaignLocalServiceUtil.sendSendCampaign(sendCampaign);
-			
+
+			SessionMessages.add(actionRequest, "campaign-resended");
+
 			sendRedirect(actionRequest, actionResponse);
 
 		} 
@@ -214,53 +221,6 @@ public class NewsletterPortlet extends MVCPortlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	private void _sendEmail(
-		ActionRequest request, SendCampaign sendCampaign, Contact contact) 
-		throws AddressException, MessagingException {
-
-		PortletPreferences prefs = request.getPreferences();
-
-		String defaultValue = "";
-
-		final String password = (String)prefs.getValue(
-			PropsKeys.MAIL_SESSION_MAIL_POP3_PASSWORD, defaultValue);
-		final String user = (String)prefs.getValue(
-			PropsKeys.MAIL_SESSION_MAIL_POP3_USER, defaultValue);
-		String host = (String)prefs.getValue(
-			PropsKeys.MAIL_SESSION_MAIL_POP3_HOST, defaultValue);
-		String port = (String)prefs.getValue(
-			PropsKeys.MAIL_SESSION_MAIL_POP3_PORT, defaultValue);
-
-		Properties props = new Properties();
-		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.socketFactory.port", port);
-		props.put("mail.smtp.port", port);
-		props.put("mail.smtp.socketFactory.fallback", "false");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.auth", "true");
-
-		Session session = Session.getDefaultInstance(
-			props, new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(user, password);
-					}
-				});
-
-		String senderEmail = sendCampaign.getSenderEmail();
-		String emailSubject = sendCampaign.getEmailSubject();
-
-		MimeMessage msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(senderEmail));
-		msg.setRecipient(Message.RecipientType.TO, new InternetAddress(
-				contact.getEmail()));
-		msg.setSentDate(new Date());
-		msg.setSubject(emailSubject);
-		msg.setText("Web content");
-
-		Transport.send(msg);
 	}
 
 	private SendCampaign _sendCampaignFromRequest(ActionRequest request) {
@@ -291,10 +251,39 @@ public class NewsletterPortlet extends MVCPortlet {
 		throws Exception {
 
 		long campaignId = ParamUtil.getLong(request, "campaignId");
+		
+		if(Validator.isNotNull(campaignId)){
+				CampaignLocalServiceUtil.deleteCampaign(campaignId);
+				SessionMessages.add(request, "campaign-deleted");
+				sendRedirect(request, response);
+			
+		}
+		else{
+			SessionErrors.add(request, "campaign-cannot-be-removed");
+			PortalUtil.copyRequestParameters(request, response);
 
-		CampaignLocalServiceUtil.deleteCampaign(campaignId);
+			response.setRenderParameter(
+				"jspPage", "/html/newsletterportlet/view_campaign.jsp");
+		}
+	}
+	
+	public void deleteSendCampaign(
+		ActionRequest request, ActionResponse response) throws Exception {
+	
+		long sendCampaignId = ParamUtil.getLong(request, "sendCampaignId");
+	
+		if(Validator.isNotNull(sendCampaignId)){
+				SendCampaignLocalServiceUtil.deleteSendCampaign(sendCampaignId);
+				SessionMessages.add(request, "sendcampaign-deleted");	
+				sendRedirect(request, response);
+		}
+		else{
+			SessionErrors.add(request, "sendcampaign-cannot-be-removed");
+			PortalUtil.copyRequestParameters(request, response);
 
-		sendRedirect(request, response);
+			response.setRenderParameter(
+				"jspPage", "/html/newsletterportlet/view_send.jsp");
+		}
 	}
 
 	public void setCampaignPref(
@@ -327,6 +316,7 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		campaign.setCampaignId(ParamUtil.getLong(request, "campaignId"));
 		campaign.setTitle(ParamUtil.getString(request, "title"));
+		campaign.setContent(ParamUtil.getString(request, "content"));
 
 		return campaign;
 	}

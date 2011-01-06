@@ -66,6 +66,12 @@ public class SendCampaignLocalServiceImpl
 		return super.addSendCampaign(sendCampaign);
 	}
 	
+	public List<SendCampaign> getSendCampaignsByCampaign(long campaignId)
+		throws SystemException{
+	
+		return sendCampaignPersistence.findByCampaign(campaignId);
+	}
+	
 	public List<SendCampaign> getSendCampaignsByDate(Date sendDate)
 		throws SystemException{
 
@@ -169,5 +175,23 @@ public class SendCampaignLocalServiceImpl
 		msg.setText(content);
 
 		Transport.send(msg);
+	}
+	
+	@Override
+	public void deleteSendCampaign(long sendCampaignId) throws PortalException,
+			SystemException {
+
+		List<NewsletterLog> newsletterLogBySendCampaign = 
+			NewsletterLogLocalServiceUtil.getNewsletterLogBySendCampaign(
+				sendCampaignId);
+
+		if(!newsletterLogBySendCampaign.isEmpty()){
+			for (NewsletterLog newsletterLog : newsletterLogBySendCampaign) {
+				NewsletterLogLocalServiceUtil.deleteNewsletterLog(
+					newsletterLog);
+			}
+		}
+
+		super.deleteSendCampaign(sendCampaignId);
 	}
 }

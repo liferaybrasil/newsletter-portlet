@@ -51,6 +51,10 @@
 			<order-column name="sendDate" />
 		</order>
 		
+		<finder name="Campaign" return-type="Collection">
+			<finder-column name="campaignId" />
+		</finder>
+		
 		<finder name="SendDate" return-type="Collection">
 			<finder-column name="sendDate" />
 		</finder>

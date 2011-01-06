@@ -35,7 +35,7 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 		<portlet:param name="tabs1" value="Sending" />
 	</portlet:actionURL>
 
-	<liferay-ui:icon label="resend" image="forward" url="<%=resendURL.toString() %>" />
+	<liferay-ui:icon message="resend" label="true" image="forward" url="<%=resendURL.toString() %>" />
 	
 	<portlet:renderURL var="detailURL">
 		<portlet:param name="jspPage" value="/html/newsletterportlet/detail_send.jsp" />
@@ -44,9 +44,10 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 		<portlet:param name="tabs1" value="Sending" />
 	</portlet:renderURL>
 
-	<liferay-ui:icon image="Detail" url="<%=detailURL.toString() %>" />
+	<liferay-ui:icon message="detail" label="true" image="view" url="<%=detailURL.toString() %>" />
 	
 	<portlet:actionURL name="deleteSendCampaign" var="deleteURL">
+		<portlet:param name="cmd" value="deleteSendCampaign" />
 		<portlet:param name="sendCampaignId" value="<%= String.valueOf(sendCampaignId) %>" />
 		<portlet:param name="redirect" value="<%= redirect %>" />
 		<portlet:param name="tabs1" value="Sending" />

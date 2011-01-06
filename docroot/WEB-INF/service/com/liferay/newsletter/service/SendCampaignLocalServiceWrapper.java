@@ -214,6 +214,12 @@ public class SendCampaignLocalServiceWrapper implements SendCampaignLocalService
         return _sendCampaignLocalService.getNewsletterLogs(sendCampaign);
     }
 
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaignsByCampaign(
+        long campaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _sendCampaignLocalService.getSendCampaignsByCampaign(campaignId);
+    }
+
     public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaignsByDate(
         java.util.Date sendDate)
         throws com.liferay.portal.kernel.exception.SystemException {

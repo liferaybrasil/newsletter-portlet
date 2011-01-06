@@ -306,6 +306,128 @@ public class SendCampaignUtil {
     }
 
     /**
+    * Finds all the send campaigns where campaignId = &#63;.
+    *
+    * @param campaignId the campaign id to search with
+    * @return the matching send campaigns
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.liferay.newsletter.model.SendCampaign> findByCampaign(
+        long campaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByCampaign(campaignId);
+    }
+
+    /**
+    * Finds a range of all the send campaigns where campaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param campaignId the campaign id to search with
+    * @param start the lower bound of the range of send campaigns to return
+    * @param end the upper bound of the range of send campaigns to return (not inclusive)
+    * @return the range of matching send campaigns
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.liferay.newsletter.model.SendCampaign> findByCampaign(
+        long campaignId, int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByCampaign(campaignId, start, end);
+    }
+
+    /**
+    * Finds an ordered range of all the send campaigns where campaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param campaignId the campaign id to search with
+    * @param start the lower bound of the range of send campaigns to return
+    * @param end the upper bound of the range of send campaigns to return (not inclusive)
+    * @param orderByComparator the comparator to order the results by
+    * @return the ordered range of matching send campaigns
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.liferay.newsletter.model.SendCampaign> findByCampaign(
+        long campaignId, int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByCampaign(campaignId, start, end, orderByComparator);
+    }
+
+    /**
+    * Finds the first send campaign in the ordered set where campaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param campaignId the campaign id to search with
+    * @param orderByComparator the comparator to order the set by
+    * @return the first matching send campaign
+    * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.liferay.newsletter.model.SendCampaign findByCampaign_First(
+        long campaignId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.newsletter.NoSuchSendCampaignException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByCampaign_First(campaignId, orderByComparator);
+    }
+
+    /**
+    * Finds the last send campaign in the ordered set where campaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param campaignId the campaign id to search with
+    * @param orderByComparator the comparator to order the set by
+    * @return the last matching send campaign
+    * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.liferay.newsletter.model.SendCampaign findByCampaign_Last(
+        long campaignId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.newsletter.NoSuchSendCampaignException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByCampaign_Last(campaignId, orderByComparator);
+    }
+
+    /**
+    * Finds the send campaigns before and after the current send campaign in the ordered set where campaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param sendCampaignId the primary key of the current send campaign
+    * @param campaignId the campaign id to search with
+    * @param orderByComparator the comparator to order the set by
+    * @return the previous, current, and next send campaign
+    * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.liferay.newsletter.model.SendCampaign[] findByCampaign_PrevAndNext(
+        long sendCampaignId, long campaignId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.newsletter.NoSuchSendCampaignException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByCampaign_PrevAndNext(sendCampaignId, campaignId,
+            orderByComparator);
+    }
+
+    /**
     * Finds all the send campaigns where sendDate = &#63;.
     *
     * @param sendDate the send date to search with
@@ -614,6 +736,17 @@ public class SendCampaignUtil {
     }
 
     /**
+    * Removes all the send campaigns where campaignId = &#63; from the database.
+    *
+    * @param campaignId the campaign id to search with
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByCampaign(long campaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByCampaign(campaignId);
+    }
+
+    /**
     * Removes all the send campaigns where sendDate = &#63; from the database.
     *
     * @param sendDate the send date to search with
@@ -656,6 +789,18 @@ public class SendCampaignUtil {
     public static int countByUuid(java.lang.String uuid)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().countByUuid(uuid);
+    }
+
+    /**
+    * Counts all the send campaigns where campaignId = &#63;.
+    *
+    * @param campaignId the campaign id to search with
+    * @return the number of matching send campaigns
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByCampaign(long campaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByCampaign(campaignId);
     }
 
     /**

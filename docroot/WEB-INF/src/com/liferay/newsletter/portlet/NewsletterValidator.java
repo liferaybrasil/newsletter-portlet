@@ -3,7 +3,11 @@ package com.liferay.newsletter.portlet;
 import java.util.List;
 
 import com.liferay.newsletter.model.Campaign;
+import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.model.SendCampaign;
+import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
+import com.liferay.newsletter.service.SendCampaignLocalServiceUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.Validator;
 
 public class NewsletterValidator {
@@ -57,6 +61,4 @@ public class NewsletterValidator {
 
 		return valid;
 	}
-
 }
-

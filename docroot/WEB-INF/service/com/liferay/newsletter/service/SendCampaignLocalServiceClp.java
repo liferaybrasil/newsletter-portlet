@@ -21,10 +21,11 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
     private MethodKey _updateSendCampaignMethodKey11;
     private MethodKey _updateSendCampaignMethodKey12;
     private MethodKey _getNewsletterLogsMethodKey13;
-    private MethodKey _getSendCampaignsByDateMethodKey14;
-    private MethodKey _getSendCampaignsBySendDateLTMethodKey15;
-    private MethodKey _jobMethodKey16;
-    private MethodKey _sendSendCampaignMethodKey17;
+    private MethodKey _getSendCampaignsByCampaignMethodKey14;
+    private MethodKey _getSendCampaignsByDateMethodKey15;
+    private MethodKey _getSendCampaignsBySendDateLTMethodKey16;
+    private MethodKey _jobMethodKey17;
+    private MethodKey _sendSendCampaignMethodKey18;
 
     public SendCampaignLocalServiceClp(ClassLoaderProxy classLoaderProxy) {
         _classLoaderProxy = classLoaderProxy;
@@ -83,16 +84,19 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
                 "getNewsletterLogs",
                 com.liferay.newsletter.model.SendCampaign.class);
 
-        _getSendCampaignsByDateMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+        _getSendCampaignsByCampaignMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+                "getSendCampaignsByCampaign", long.class);
+
+        _getSendCampaignsByDateMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
                 "getSendCampaignsByDate", java.util.Date.class);
 
-        _getSendCampaignsBySendDateLTMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+        _getSendCampaignsBySendDateLTMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
                 "getSendCampaignsBySendDateLT", java.util.Date.class,
                 boolean.class);
 
-        _jobMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(), "job");
+        _jobMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(), "job");
 
-        _sendSendCampaignMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
+        _sendSendCampaignMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
                 "sendSendCampaign",
                 com.liferay.newsletter.model.SendCampaign.class);
     }
@@ -461,12 +465,38 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
         return (java.util.List<com.liferay.newsletter.model.NewsletterLog>) ClpSerializer.translateOutput(returnObj);
     }
 
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaignsByCampaign(
+        long campaignId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        MethodHandler methodHandler = new MethodHandler(_getSendCampaignsByCampaignMethodKey14,
+                campaignId);
+
+        try {
+            returnObj = _classLoaderProxy.invoke(methodHandler);
+        } catch (Throwable t) {
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (java.util.List<com.liferay.newsletter.model.SendCampaign>) ClpSerializer.translateOutput(returnObj);
+    }
+
     public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaignsByDate(
         java.util.Date sendDate)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
-        MethodHandler methodHandler = new MethodHandler(_getSendCampaignsByDateMethodKey14,
+        MethodHandler methodHandler = new MethodHandler(_getSendCampaignsByDateMethodKey15,
                 ClpSerializer.translateInput(sendDate));
 
         try {
@@ -492,7 +522,7 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
-        MethodHandler methodHandler = new MethodHandler(_getSendCampaignsBySendDateLTMethodKey15,
+        MethodHandler methodHandler = new MethodHandler(_getSendCampaignsBySendDateLTMethodKey16,
                 ClpSerializer.translateInput(sendDate), sent);
 
         try {
@@ -514,7 +544,7 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
     }
 
     public void job() {
-        MethodHandler methodHandler = new MethodHandler(_jobMethodKey16);
+        MethodHandler methodHandler = new MethodHandler(_jobMethodKey17);
 
         try {
             _classLoaderProxy.invoke(methodHandler);
@@ -533,7 +563,7 @@ public class SendCampaignLocalServiceClp implements SendCampaignLocalService {
         throws com.liferay.portal.kernel.exception.PortalException,
             com.liferay.portal.kernel.exception.SystemException,
             javax.mail.MessagingException, javax.mail.internet.AddressException {
-        MethodHandler methodHandler = new MethodHandler(_sendSendCampaignMethodKey17,
+        MethodHandler methodHandler = new MethodHandler(_sendSendCampaignMethodKey18,
                 ClpSerializer.translateInput(sendCampaign));
 
         try {
