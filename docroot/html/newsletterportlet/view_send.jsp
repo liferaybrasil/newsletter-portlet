@@ -20,15 +20,21 @@
 
 <%
 	String redirect = PortalUtil.getCurrentURL(renderRequest);
+	
+	boolean hasAddPermission = permissionChecker.hasPermission(
+		scopeGroupId, "com.liferay.newsletter.model",
+		scopeGroupId, "ADD_SENDCAMPAIGN");
 %>
 
 <aui:button-row>
-	<portlet:renderURL var="addSendCampaignURL">
-		<portlet:param name="jspPage" value="/html/newsletterportlet/edit_send.jsp" />
-		<portlet:param name="redirect" value="<%= redirect %>" />
-	</portlet:renderURL>
+	<c:if test='<%= hasAddPermission %>'>
+		<portlet:renderURL var="addSendCampaignURL">
+			<portlet:param name="jspPage" value="/html/newsletterportlet/edit_send.jsp" />
+			<portlet:param name="redirect" value="<%= redirect %>" />
+		</portlet:renderURL>
 
-	<aui:button value="Add Sending" onClick="<%= addSendCampaignURL.toString() %>" />
+		<aui:button value="Add Sending" onClick="<%= addSendCampaignURL.toString() %>" />
+	</c:if>
 </aui:button-row>
 <liferay-ui:error key="sendcampaign-added" message="sendcampaign-added" />
 <liferay-ui:error key="campaign-resent" message="campaign-resent" />
