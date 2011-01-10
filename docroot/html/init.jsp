@@ -27,7 +27,7 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 
 <%@ page import="javax.portlet.PortletPreferences" %>
-<%@page import="com.liferay.newsletter.util.NewsletterConstants"%>
+<%@ page import="com.liferay.newsletter.util.NewsletterConstants" %>
 <%@ page import="com.liferay.portal.kernel.dao.search.ResultRow" %>
 <%@ page import="com.liferay.portal.kernel.util.GetterUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>

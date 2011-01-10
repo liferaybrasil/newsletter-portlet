@@ -187,7 +187,7 @@ public class NewsletterPortlet extends MVCPortlet {
 	}
 
 	private void setNewsletterPref(ActionRequest actionRequest,
-		ActionResponse actionResponse) 
+		ActionResponse actionResponse)
 		throws ReadOnlyException, ValidatorException, IOException {
 
 		PortletPreferences prefs = actionRequest.getPreferences();

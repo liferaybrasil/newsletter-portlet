@@ -13,7 +13,7 @@
  * details.
  */
 --%>
-<%@page import="com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil"%>
+<%@ page import="com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil" %>
 <%@ include file="/html/init.jsp" %>
 
 <liferay-ui:error key="content-notfound" message="content-notfound" />
@@ -32,12 +32,12 @@
 			name="Title"
 			value="<%= article.getTitle() %>"
 		/>
-		
+
 		<liferay-ui:search-container-column-text
 			name="Version"
 			value="<%= String.valueOf(article.getVersion()) %>"
 		/>
-		
+
 		<%
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		%>
@@ -46,12 +46,12 @@
 			name="Modified Date"
 			value="<%= dateFormat.format(article.getModifiedDate()) %>"
 		/>
-		
+
 		<liferay-ui:search-container-column-text
 			name="Display Date"
 			value="<%= dateFormat.format(article.getDisplayDate()) %>"
 		/>
-		
+
 	</liferay-ui:search-container-row>
 
 	<liferay-ui:search-iterator />

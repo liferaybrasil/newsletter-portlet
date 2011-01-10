@@ -24,4 +24,5 @@ public interface NewsletterConstants {
 	public static final String SENDER_EMAIL = "sender.email";
 
 	public static final String ROWS_PER_PAGE = "rowsPerPage";
+
 }
