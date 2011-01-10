@@ -20,7 +20,7 @@
 
 <%
 	String redirect = PortalUtil.getCurrentURL(renderRequest);
-	
+
 	boolean hasAddPermission = permissionChecker.hasPermission(
 		scopeGroupId, "com.liferay.newsletter.model",
 		scopeGroupId, "ADD_CAMPAIGN");
@@ -32,7 +32,7 @@
 			<portlet:param name="jspPage" value="/html/newsletterportlet/edit_campaign.jsp" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
 		</portlet:renderURL>
-	
+
 		<aui:button value="Add Campaign" onClick="<%= addCampaignURL.toString() %>" />
 	</c:if>
 </aui:button-row>

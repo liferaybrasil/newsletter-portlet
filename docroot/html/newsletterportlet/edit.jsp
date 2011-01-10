@@ -14,21 +14,19 @@
  */
 --%>
 
-<%@ page import="com.liferay.portal.kernel.util.PropsKeys" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 
 <portlet:defineObjects />
 
 <%@ include file="/html/init.jsp" %>
 
-<portlet:actionURL name="setCampaignPref" var="setCampaignPrefUrl" />
+<portlet:actionURL name="setNewsletterPref" var="setNewsletterPrefUrl" />
 
-<aui:form action="<%= setCampaignPrefUrl %>" method="POST" name="fm">
-	<aui:input name="rowsPerPage" value='<%= prefs.getValue("rowsPerPage","") %>' size="45" type="text" />
-	<aui:input name="user" value='<%= prefs.getValue(PropsKeys.MAIL_SESSION_MAIL_POP3_USER,"") %>' size="45" type="text" />
-	<aui:input name="password" value='<%= prefs.getValue(PropsKeys.MAIL_SESSION_MAIL_POP3_PASSWORD,"") %>' size="45" type="text" />
-	<aui:input name="host" value='<%= prefs.getValue(PropsKeys.MAIL_SESSION_MAIL_POP3_HOST,"") %>' size="45" type="text" />
-	<aui:input name="port" value='<%= prefs.getValue(PropsKeys.MAIL_SESSION_MAIL_POP3_PORT,"") %>' size="45" type="text" />
+<aui:form action="<%= setNewsletterPrefUrl %>" method="POST" name="fm">
+	<aui:input type="hidden" name="cmd" value="setNewsletterPref" />
+	<aui:input name="rowsPerPage" label="Rows Per Page" value='<%= prefs.getValue(NewsletterConstants.ROWS_PER_PAGE,"") %>' size="45" type="text" />
+	<aui:input name="senderName" label="Sender Name" value='<%= prefs.getValue(NewsletterConstants.SENDER_NAME,"") %>' size="45" type="text" />
+	<aui:input name="senderEmail" label="Sender Email" value='<%= prefs.getValue(NewsletterConstants.SENDER_EMAIL,"") %>' size="45" type="text" />
 
 	<aui:button-row>
 		<aui:button type="submit" />

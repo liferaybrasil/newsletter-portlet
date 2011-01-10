@@ -20,7 +20,7 @@
 
 <%
 	String redirect = PortalUtil.getCurrentURL(renderRequest);
-	
+
 	boolean hasAddPermission = permissionChecker.hasPermission(
 		scopeGroupId, "com.liferay.newsletter.model",
 		scopeGroupId, "ADD_SENDCAMPAIGN");
@@ -50,7 +50,7 @@
 		keyProperty="sendCampaignId"
 		modelVar="sendCampaign"
 	>
-	
+
 		<%
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		%>
@@ -59,12 +59,12 @@
 			name="Send Date"
 			value="<%= dateFormat.format(sendCampaign.getSendDate()) %>"
 		/>
-		
+
 		<liferay-ui:search-container-column-text
 			name="Campaign"
 			value="<%= CampaignLocalServiceUtil.getCampaign(sendCampaign.getCampaignId()).getTitle() %>"
 		/>
-	
+
 		<liferay-ui:search-container-column-jsp
 			align="right"
 			path="/html/newsletterportlet/sendcampaign_actions.jsp"

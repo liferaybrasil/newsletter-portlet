@@ -23,7 +23,7 @@
 		sendCampaignId);
 
 	String redirect = ParamUtil.getString(request, "redirect");
-	
+
 	String campaignTitle = CampaignLocalServiceUtil.getCampaign(sendCampaignId).getTitle();
 %>
 
@@ -35,15 +35,15 @@
 />
 
 
-<aui:input disabled="true" name="emailSubject" label="Email Subject"/>
+<aui:input disabled="true" name="emailSubject" label="Email Subject" />
 
-<aui:input disabled="true" name="senderName" label="Sender Name"/>
+<aui:input disabled="true" name="senderName" label="Sender Name" />
 
-<aui:input disabled="true" name="senderEmail" label="Sender Email"/>
+<aui:input disabled="true" name="senderEmail" label="Sender Email" />
 
-<aui:input disabled="true" name="sendDate" label="Send Date"/>
+<aui:input disabled="true" name="sendDate" label="Send Date" />
 
-<aui:input disabled="true" type="text" name="campaignTitle" label="Campaign"  value="<%= campaignTitle %>"/>
+<aui:input disabled="true" type="text" name="campaignTitle" label="Campaign"  value="<%= campaignTitle %>" />
 
 <br />
 <liferay-ui:search-container delta='<%= GetterUtil.getInteger(prefs.getValue("rowsPerPage", "2")) %>' emptyResultsMessage="newsletter-empty-results-message">
@@ -57,12 +57,12 @@
 		keyProperty="contactId"
 		modelVar="contactNewsletter"
 	>
-		
+
 		<liferay-ui:search-container-column-text
 			name="Name"
 			value="<%= contactNewsletter.getName() %>"
 		/>
-		
+
 		<liferay-ui:search-container-column-text
 			name="Email"
 			value="<%= contactNewsletter.getEmail() %>"

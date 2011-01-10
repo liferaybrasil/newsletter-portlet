@@ -21,17 +21,17 @@
 <%
 String tabs1 = ParamUtil.getString(request, "tabs1", "Campaign");
 
-String tabNames = "Campaign,Sending";
+String tabNames = "Campaign,Sending,Popup";
 
 %>
-<portlet:renderURL var="renderURL" >
+<portlet:renderURL var="renderURL">
 		<portlet:param name="tabs1" value="<%= tabs1 %>" />
 </portlet:renderURL>
 
 <liferay-ui:tabs
    names="<%= tabNames %>"
    url="<%= renderURL %>"
-   
+
 />
 
 <c:if test='<%= tabs1.equals("Campaign") %>'>
@@ -39,4 +39,7 @@ String tabNames = "Campaign,Sending";
 </c:if>
 <c:if test='<%= tabs1.equals("Sending") %>'>
   <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_send.jsp" />
+</c:if>
+<c:if test='<%= tabs1.equals("Popup") %>'>
+  <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/popup.jsp" />
 </c:if>

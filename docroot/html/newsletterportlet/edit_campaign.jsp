@@ -41,17 +41,17 @@
 <aui:form action="<%= editCampaignURL %>" method="POST" name="fm">
 	<aui:fieldset>
 		<aui:input type="hidden" name="cmd" value="campaign" />
-		
+
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
 		<aui:input type="hidden" name="campaignId" />
 
 		<aui:input name="title" label="Title" />
 		<liferay-ui:error key="campaigntitle-required" message="campaigntitle-required" />
-		
+
 		<aui:input name="content" label="Content" />
 		<liferay-ui:error key="campaigncontent-required" message="campaigncontent-required" />
-		
+
 	</aui:fieldset>
 
 	<aui:button-row>

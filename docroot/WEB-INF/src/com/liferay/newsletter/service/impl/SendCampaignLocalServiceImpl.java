@@ -14,19 +14,6 @@
 
 package com.liferay.newsletter.service.impl;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.Contact;
@@ -42,6 +29,19 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.util.portlet.PortletProps;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 /**
  * @author Bruno Pinheiro
  */
@@ -55,7 +55,7 @@ public class SendCampaignLocalServiceImpl
 			sendCampaign.getSendCampaignId());
 	}
 
-	public SendCampaign addSendCampaign(SendCampaign sendCampaign) 
+	public SendCampaign addSendCampaign(SendCampaign sendCampaign)
 		throws SystemException{
 
 		long sendCampaignId = CounterLocalServiceUtil.increment(
@@ -65,19 +65,19 @@ public class SendCampaignLocalServiceImpl
 
 		return super.addSendCampaign(sendCampaign);
 	}
-	
+
 	public List<SendCampaign> getSendCampaignsByCampaign(long campaignId)
 		throws SystemException{
-	
+
 		return sendCampaignPersistence.findByCampaign(campaignId);
 	}
-	
+
 	public List<SendCampaign> getSendCampaignsByDate(Date sendDate)
 		throws SystemException{
 
 		return sendCampaignPersistence.findBySendDate(sendDate);
 	}
-	
+
 	public List<SendCampaign> getSendCampaignsBySendDateLT(
 		Date sendDate, boolean sent) throws SystemException{
 
@@ -89,11 +89,11 @@ public class SendCampaignLocalServiceImpl
 			Date currentDate = new Date();
 			List<SendCampaign> sendCampaigns = getSendCampaignsBySendDateLT(
 				currentDate, false);
-			
+
 			for (SendCampaign sendCampaign : sendCampaigns) {
 				sendSendCampaign(sendCampaign);
 			}
-		} 
+		}
 		catch (AddressException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -108,23 +108,23 @@ public class SendCampaignLocalServiceImpl
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void sendSendCampaign(SendCampaign sendCampaign)
 		throws SystemException, PortalException, AddressException,
 		MessagingException{
-		
+
 		List<NewsletterLog> newsletterLogs = NewsletterLogLocalServiceUtil.
 			getNewsletterLogBySendCampaign(sendCampaign.getSendCampaignId());
 
 		long campaignId = sendCampaign.getCampaignId();
 
 		Campaign campaign = CampaignLocalServiceUtil.getCampaign(campaignId);
-		
+
 		for (NewsletterLog newsletterLog : newsletterLogs) {
 			long contactId = newsletterLog.getContactId();
-			
+
 			Contact contact = ContactLocalServiceUtil.getContact(contactId);
-			
+
 			_sendEmail(campaign, sendCampaign, contact);
 			//Thread.sleep(5000);
 		}
@@ -133,7 +133,7 @@ public class SendCampaignLocalServiceImpl
 	}
 
 	private void _sendEmail(
-		Campaign campaign, SendCampaign sendCampaign, Contact contact) 
+		Campaign campaign, SendCampaign sendCampaign, Contact contact)
 		throws AddressException, MessagingException {
 
 		final String password = PortletProps.get(
@@ -176,16 +176,15 @@ public class SendCampaignLocalServiceImpl
 
 		Transport.send(msg);
 	}
-	
-	@Override
+
 	public void deleteSendCampaign(long sendCampaignId) throws PortalException,
 			SystemException {
 
-		List<NewsletterLog> newsletterLogBySendCampaign = 
+		List<NewsletterLog> newsletterLogBySendCampaign =
 			NewsletterLogLocalServiceUtil.getNewsletterLogBySendCampaign(
 				sendCampaignId);
 
-		if(!newsletterLogBySendCampaign.isEmpty()){
+		if (!newsletterLogBySendCampaign.isEmpty()){
 			for (NewsletterLog newsletterLog : newsletterLogBySendCampaign) {
 				NewsletterLogLocalServiceUtil.deleteNewsletterLog(
 					newsletterLog);
@@ -194,4 +193,5 @@ public class SendCampaignLocalServiceImpl
 
 		super.deleteSendCampaign(sendCampaignId);
 	}
+
 }

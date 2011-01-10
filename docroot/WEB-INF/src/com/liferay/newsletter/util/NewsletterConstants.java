@@ -12,19 +12,16 @@
  * details.
  */
 
-package com.liferay.newsletter;
-
-import com.liferay.newsletter.service.SendCampaignLocalServiceUtil;
-import com.liferay.portal.kernel.messaging.BaseMessageListener;
-import com.liferay.portal.kernel.messaging.Message;
+package com.liferay.newsletter.util;
 
 /**
  * @author Bruno Pinheiro
  */
-public class CheckScheduledNewsletters extends BaseMessageListener {
+public interface NewsletterConstants {
 
-	protected void doReceive(Message message) throws Exception {
-			SendCampaignLocalServiceUtil.job();
-	}
+	public static final String SENDER_NAME = "sender.name";
 
+	public static final String SENDER_EMAIL = "sender.email";
+
+	public static final String ROWS_PER_PAGE = "rowsPerPage";
 }

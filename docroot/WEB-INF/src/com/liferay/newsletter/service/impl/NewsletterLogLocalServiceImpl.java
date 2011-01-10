@@ -14,9 +14,6 @@
 
 package com.liferay.newsletter.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
@@ -25,21 +22,24 @@ import com.liferay.newsletter.service.base.NewsletterLogLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Bruno Pinheiro
  */
 public class NewsletterLogLocalServiceImpl
 	extends NewsletterLogLocalServiceBaseImpl {
-	
+
 	public List<NewsletterLog> getNewsletterLogBySendCampaign(
 		long sendCampaignId) throws SystemException{
 
 		return newsletterLogPersistence.findBySendCampaign(sendCampaignId);
 	}
-	
-	public NewsletterLog addNewsletterLog(NewsletterLog newsletter) 
+
+	public NewsletterLog addNewsletterLog(NewsletterLog newsletter)
 		throws SystemException{
-		
+
 		long newsletterLogId = CounterLocalServiceUtil.increment(
 			NewsletterLog.class.getName());
 
@@ -48,20 +48,20 @@ public class NewsletterLogLocalServiceImpl
 		return super.addNewsletterLog(newsletter);
 	}
 
-	public List<Contact> getContactsBySendCampaign(long sendCampaignId) 
+	public List<Contact> getContactsBySendCampaign(long sendCampaignId)
 		throws SystemException, PortalException{
-			
+
 		List<Contact> contacts = new ArrayList<Contact>();
-		
+
 		List<NewsletterLog> newsletterLogBySendCampaign =
 			getNewsletterLogBySendCampaign(sendCampaignId);
-		
+
 		for (NewsletterLog newsletterLog : newsletterLogBySendCampaign) {
 			long contactId = newsletterLog.getContactId();
 			Contact contact = ContactLocalServiceUtil.getContact(contactId);
 			contacts.add(contact);
 		}
-		
+
 		return contacts;
 		}
 
@@ -69,4 +69,5 @@ public class NewsletterLogLocalServiceImpl
 			throws SystemException {
 		return getNewsletterLogBySendCampaign(sendCampaignId).size();
 	}
+
 }

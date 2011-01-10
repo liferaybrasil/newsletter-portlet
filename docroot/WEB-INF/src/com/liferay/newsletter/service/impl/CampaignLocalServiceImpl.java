@@ -14,8 +14,6 @@
 
 package com.liferay.newsletter.service.impl;
 
-import java.util.List;
-
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.NewsletterLog;
@@ -25,6 +23,8 @@ import com.liferay.newsletter.service.SendCampaignLocalServiceUtil;
 import com.liferay.newsletter.service.base.CampaignLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.List;
 
 /**
  * @author Bruno Pinheiro
@@ -45,30 +45,30 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 
 		return campaignPersistence.getSendCampaigns(campaign.getCampaignId());
 	}
-	
+
 	@Override
 	public void deleteCampaign(long campaignId) throws SystemException,
 		PortalException {
-		
-		List<SendCampaign> sendCampaignsByCampaign = 
+
+		List<SendCampaign> sendCampaignsByCampaign =
 			SendCampaignLocalServiceUtil.getSendCampaignsByCampaign(campaignId);
 
-		if(!sendCampaignsByCampaign.isEmpty()){
+		if (!sendCampaignsByCampaign.isEmpty()){
 			for (SendCampaign sendCampaign : sendCampaignsByCampaign) {
-				List<NewsletterLog> newsletterLogBySendCampaign = 
+				List<NewsletterLog> newsletterLogBySendCampaign =
 					NewsletterLogLocalServiceUtil.
 						getNewsletterLogBySendCampaign(
 								sendCampaign.getSendCampaignId());
-				
+
 				for (NewsletterLog newsletterLog : newsletterLogBySendCampaign){
 					NewsletterLogLocalServiceUtil.deleteNewsletterLog(
 						newsletterLog);
 				}
-				SendCampaignLocalServiceUtil.deleteSendCampaign(sendCampaign);				
+				SendCampaignLocalServiceUtil.deleteSendCampaign(sendCampaign);
 			}
 		}
-		
+
 		super.deleteCampaign(campaignId);
 	}
-	
+
 }
