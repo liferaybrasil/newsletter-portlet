@@ -13,14 +13,17 @@
  * details.
  */
 --%>
-<%@ page import="com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil" %>
+
 <%@ include file="/html/init.jsp" %>
 
-<liferay-ui:error key="content-notfound" message="content-notfound" />
-<liferay-ui:search-container delta='<%= GetterUtil.getInteger(prefs.getValue("rowsPerPage", "2")) %>' emptyResultsMessage="newsletter-empty-results-message">
+<liferay-ui:search-container
+	searchContainer="<%= new ArticleSearch(renderRequest, portletURL) %>"
+>
+	<%@ include file="article_search_results.jspf" %>
+
 	<liferay-ui:search-container-results
-		results="<%= JournalArticleLocalServiceUtil.getJournalArticles(searchContainer.getStart(), searchContainer.getEnd()) %>"
-		total="<%= JournalArticleLocalServiceUtil.getJournalArticlesCount() %>"
+		results="<%= resultList %>"
+		total="<%= totalCount %>"
 	/>
 
 	<liferay-ui:search-container-row
@@ -28,6 +31,7 @@
 		keyProperty="articleId"
 		modelVar="article"
 	>
+			
 		<liferay-ui:search-container-column-text
 			name="Title"
 			value="<%= article.getTitle() %>"
@@ -51,7 +55,7 @@
 			name="Display Date"
 			value="<%= dateFormat.format(article.getDisplayDate()) %>"
 		/>
-
+		
 	</liferay-ui:search-container-row>
 
 	<liferay-ui:search-iterator />

@@ -193,6 +193,53 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Filters by the user's permissions and finds all the send campaigns where uuid = &#63;.
+    *
+    * @param uuid the uuid to search with
+    * @return the matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindByUuid(
+        java.lang.String uuid)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds a range of all the send campaigns where uuid = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param uuid the uuid to search with
+    * @param start the lower bound of the range of send campaigns to return
+    * @param end the upper bound of the range of send campaigns to return (not inclusive)
+    * @return the range of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindByUuid(
+        java.lang.String uuid, int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds an ordered range of all the send campaigns where uuid = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param uuid the uuid to search with
+    * @param start the lower bound of the range of send campaigns to return
+    * @param end the upper bound of the range of send campaigns to return (not inclusive)
+    * @param orderByComparator the comparator to order the results by
+    * @return the ordered range of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindByUuid(
+        java.lang.String uuid, int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Finds all the send campaigns where campaignId = &#63;.
     *
     * @param campaignId the campaign id to search with
@@ -298,6 +345,53 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Filters by the user's permissions and finds all the send campaigns where campaignId = &#63;.
+    *
+    * @param campaignId the campaign id to search with
+    * @return the matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindByCampaign(
+        long campaignId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds a range of all the send campaigns where campaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param campaignId the campaign id to search with
+    * @param start the lower bound of the range of send campaigns to return
+    * @param end the upper bound of the range of send campaigns to return (not inclusive)
+    * @return the range of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindByCampaign(
+        long campaignId, int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds an ordered range of all the send campaigns where campaignId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param campaignId the campaign id to search with
+    * @param start the lower bound of the range of send campaigns to return
+    * @param end the upper bound of the range of send campaigns to return (not inclusive)
+    * @param orderByComparator the comparator to order the results by
+    * @return the ordered range of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindByCampaign(
+        long campaignId, int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Finds all the send campaigns where sendDate = &#63;.
     *
     * @param sendDate the send date to search with
@@ -401,6 +495,53 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.newsletter.NoSuchSendCampaignException,
             com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds all the send campaigns where sendDate = &#63;.
+    *
+    * @param sendDate the send date to search with
+    * @return the matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindBySendDate(
+        java.util.Date sendDate)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds a range of all the send campaigns where sendDate = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param sendDate the send date to search with
+    * @param start the lower bound of the range of send campaigns to return
+    * @param end the upper bound of the range of send campaigns to return (not inclusive)
+    * @return the range of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindBySendDate(
+        java.util.Date sendDate, int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds an ordered range of all the send campaigns where sendDate = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param sendDate the send date to search with
+    * @param start the lower bound of the range of send campaigns to return
+    * @param end the upper bound of the range of send campaigns to return (not inclusive)
+    * @param orderByComparator the comparator to order the results by
+    * @return the ordered range of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindBySendDate(
+        java.util.Date sendDate, int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
     * Finds all the send campaigns where sendDate &le; &#63; and sent = &#63;.
@@ -514,6 +655,56 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Filters by the user's permissions and finds all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+    *
+    * @param sendDate the send date to search with
+    * @param sent the sent to search with
+    * @return the matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindBySD_LT(
+        java.util.Date sendDate, boolean sent)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds a range of all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param sendDate the send date to search with
+    * @param sent the sent to search with
+    * @param start the lower bound of the range of send campaigns to return
+    * @param end the upper bound of the range of send campaigns to return (not inclusive)
+    * @return the range of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindBySD_LT(
+        java.util.Date sendDate, boolean sent, int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds an ordered range of all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param sendDate the send date to search with
+    * @param sent the sent to search with
+    * @param start the lower bound of the range of send campaigns to return
+    * @param end the upper bound of the range of send campaigns to return (not inclusive)
+    * @param orderByComparator the comparator to order the results by
+    * @return the ordered range of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.SendCampaign> filterFindBySD_LT(
+        java.util.Date sendDate, boolean sent, int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Finds all the send campaigns.
     *
     * @return the send campaigns
@@ -612,6 +803,16 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Filters by the user's permissions and counts all the send campaigns where uuid = &#63;.
+    *
+    * @param uuid the uuid to search with
+    * @return the number of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public int filterCountByUuid(java.lang.String uuid)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Counts all the send campaigns where campaignId = &#63;.
     *
     * @param campaignId the campaign id to search with
@@ -619,6 +820,16 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
     * @throws SystemException if a system exception occurred
     */
     public int countByCampaign(long campaignId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and counts all the send campaigns where campaignId = &#63;.
+    *
+    * @param campaignId the campaign id to search with
+    * @return the number of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public int filterCountByCampaign(long campaignId)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
@@ -632,6 +843,16 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Filters by the user's permissions and counts all the send campaigns where sendDate = &#63;.
+    *
+    * @param sendDate the send date to search with
+    * @return the number of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public int filterCountBySendDate(java.util.Date sendDate)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Counts all the send campaigns where sendDate &le; &#63; and sent = &#63;.
     *
     * @param sendDate the send date to search with
@@ -640,6 +861,17 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
     * @throws SystemException if a system exception occurred
     */
     public int countBySD_LT(java.util.Date sendDate, boolean sent)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and counts all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+    *
+    * @param sendDate the send date to search with
+    * @param sent the sent to search with
+    * @return the number of matching send campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public int filterCountBySD_LT(java.util.Date sendDate, boolean sent)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

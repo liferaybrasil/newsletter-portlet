@@ -26,6 +26,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 
+<%@ page import="com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil" %>
 <%@ page import="javax.portlet.PortletPreferences" %>
 <%@ page import="com.liferay.newsletter.util.NewsletterConstants" %>
 <%@ page import="com.liferay.portal.kernel.dao.search.ResultRow" %>
@@ -44,6 +45,20 @@
 <%@ page import="com.liferay.newsletter.service.NewsletterLogLocalServiceUtil" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="com.liferay.portlet.journal.model.JournalArticleDisplay" %>
+
+<%@ page import="com.liferay.portlet.journal.model.JournalArticle"%>
+<%@ page import="com.liferay.portlet.journal.model.JournalArticleConstants"%>
+<%@ page import="com.liferay.portal.service.permission.GroupPermissionUtil"%>
+<%@ page import="com.liferay.portal.kernel.language.LanguageUtil"%>
+<%@ page import="com.liferay.portal.kernel.util.HtmlUtil"%>
+<%@ page import="com.liferay.portal.util.PortletKeys"%>
+<%@ page import="com.liferay.portal.service.LayoutLocalServiceUtil"%>
+<%@ page import="com.liferay.portal.model.Layout"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="com.liferay.newsletter.search.ArticleDisplayTerms"%>
+<%@ page import="com.liferay.newsletter.search.ArticleSearch"%>
+<%@ page import="com.liferay.newsletter.search.ArticleSearchTerms"%>
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />

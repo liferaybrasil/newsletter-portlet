@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.model.ModelListener;
+import com.liferay.portal.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
@@ -154,7 +155,18 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
     private static final String _FINDER_COLUMN_SD_LT_SENDDATE_1 = "sendCampaign.sendDate <= NULL AND ";
     private static final String _FINDER_COLUMN_SD_LT_SENDDATE_2 = "sendCampaign.sendDate <= ? AND ";
     private static final String _FINDER_COLUMN_SD_LT_SENT_2 = "sendCampaign.sent = ?";
+    private static final String _FILTER_SQL_SELECT_SENDCAMPAIGN_WHERE = "SELECT DISTINCT {sendCampaign.*} FROM Newsletter_SendCampaign sendCampaign WHERE ";
+    private static final String _FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_1 =
+        "SELECT {Newsletter_SendCampaign.*} FROM (SELECT DISTINCT sendCampaign.sendCampaignId FROM Newsletter_SendCampaign sendCampaign WHERE ";
+    private static final String _FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_2 =
+        ") TEMP_TABLE INNER JOIN Newsletter_SendCampaign ON TEMP_TABLE.sendCampaignId = Newsletter_SendCampaign.sendCampaignId";
+    private static final String _FILTER_SQL_COUNT_SENDCAMPAIGN_WHERE = "SELECT COUNT(DISTINCT sendCampaign.sendCampaignId) AS COUNT_VALUE FROM Newsletter_SendCampaign sendCampaign WHERE ";
+    private static final String _FILTER_COLUMN_PK = "sendCampaign.sendCampaignId";
+    private static final String _FILTER_COLUMN_USERID = null;
+    private static final String _FILTER_ENTITY_ALIAS = "sendCampaign";
+    private static final String _FILTER_ENTITY_TABLE = "Newsletter_SendCampaign";
     private static final String _ORDER_BY_ENTITY_ALIAS = "sendCampaign.";
+    private static final String _ORDER_BY_ENTITY_TABLE = "Newsletter_SendCampaign.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No SendCampaign exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No SendCampaign exists with the key {";
     private static Log _log = LogFactoryUtil.getLog(SendCampaignPersistenceImpl.class);
@@ -797,6 +809,134 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
     }
 
     /**
+     * Filters by the user's permissions and finds all the send campaigns where uuid = &#63;.
+     *
+     * @param uuid the uuid to search with
+     * @return the matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindByUuid(String uuid)
+        throws SystemException {
+        return filterFindByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Filters by the user's permissions and finds a range of all the send campaigns where uuid = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param uuid the uuid to search with
+     * @param start the lower bound of the range of send campaigns to return
+     * @param end the upper bound of the range of send campaigns to return (not inclusive)
+     * @return the range of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindByUuid(String uuid, int start, int end)
+        throws SystemException {
+        return filterFindByUuid(uuid, start, end, null);
+    }
+
+    /**
+     * Filters by the user's permissions and finds an ordered range of all the send campaigns where uuid = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param uuid the uuid to search with
+     * @param start the lower bound of the range of send campaigns to return
+     * @param end the upper bound of the range of send campaigns to return (not inclusive)
+     * @param orderByComparator the comparator to order the results by
+     * @return the ordered range of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindByUuid(String uuid, int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        if (!InlineSQLHelperUtil.isEnabled()) {
+            return findByUuid(uuid, start, end, orderByComparator);
+        }
+
+        StringBundler query = null;
+
+        if (orderByComparator != null) {
+            query = new StringBundler(3 +
+                    (orderByComparator.getOrderByFields().length * 3));
+        } else {
+            query = new StringBundler(3);
+        }
+
+        if (getDB().isSupportsInlineDistinct()) {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_WHERE);
+        } else {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+        }
+
+        if (uuid == null) {
+            query.append(_FINDER_COLUMN_UUID_UUID_1);
+        } else {
+            if (uuid.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_UUID_UUID_3);
+            } else {
+                query.append(_FINDER_COLUMN_UUID_UUID_2);
+            }
+        }
+
+        if (!getDB().isSupportsInlineDistinct()) {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+        }
+
+        if (orderByComparator != null) {
+            if (getDB().isSupportsInlineDistinct()) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_TABLE,
+                    orderByComparator);
+            }
+        }
+        else {
+            if (getDB().isSupportsInlineDistinct()) {
+                query.append(SendCampaignModelImpl.ORDER_BY_JPQL);
+            } else {
+                query.append(SendCampaignModelImpl.ORDER_BY_SQL);
+            }
+        }
+
+        String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+                SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+                _FILTER_COLUMN_USERID);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SQLQuery q = session.createSQLQuery(sql);
+
+            if (getDB().isSupportsInlineDistinct()) {
+                q.addEntity(_FILTER_ENTITY_ALIAS, SendCampaignImpl.class);
+            } else {
+                q.addEntity(_FILTER_ENTITY_TABLE, SendCampaignImpl.class);
+            }
+
+            QueryPos qPos = QueryPos.getInstance(q);
+
+            if (uuid != null) {
+                qPos.add(uuid);
+            }
+
+            return (List<SendCampaign>) QueryUtil.list(q, getDialect(), start,
+                end);
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    /**
      * Finds all the send campaigns where campaignId = &#63;.
      *
      * @param campaignId the campaign id to search with
@@ -1116,6 +1256,125 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
             return list.get(1);
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Filters by the user's permissions and finds all the send campaigns where campaignId = &#63;.
+     *
+     * @param campaignId the campaign id to search with
+     * @return the matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindByCampaign(long campaignId)
+        throws SystemException {
+        return filterFindByCampaign(campaignId, QueryUtil.ALL_POS,
+            QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Filters by the user's permissions and finds a range of all the send campaigns where campaignId = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param campaignId the campaign id to search with
+     * @param start the lower bound of the range of send campaigns to return
+     * @param end the upper bound of the range of send campaigns to return (not inclusive)
+     * @return the range of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindByCampaign(long campaignId, int start,
+        int end) throws SystemException {
+        return filterFindByCampaign(campaignId, start, end, null);
+    }
+
+    /**
+     * Filters by the user's permissions and finds an ordered range of all the send campaigns where campaignId = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param campaignId the campaign id to search with
+     * @param start the lower bound of the range of send campaigns to return
+     * @param end the upper bound of the range of send campaigns to return (not inclusive)
+     * @param orderByComparator the comparator to order the results by
+     * @return the ordered range of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindByCampaign(long campaignId, int start,
+        int end, OrderByComparator orderByComparator) throws SystemException {
+        if (!InlineSQLHelperUtil.isEnabled()) {
+            return findByCampaign(campaignId, start, end, orderByComparator);
+        }
+
+        StringBundler query = null;
+
+        if (orderByComparator != null) {
+            query = new StringBundler(3 +
+                    (orderByComparator.getOrderByFields().length * 3));
+        } else {
+            query = new StringBundler(3);
+        }
+
+        if (getDB().isSupportsInlineDistinct()) {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_WHERE);
+        } else {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+        }
+
+        query.append(_FINDER_COLUMN_CAMPAIGN_CAMPAIGNID_2);
+
+        if (!getDB().isSupportsInlineDistinct()) {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+        }
+
+        if (orderByComparator != null) {
+            if (getDB().isSupportsInlineDistinct()) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_TABLE,
+                    orderByComparator);
+            }
+        }
+        else {
+            if (getDB().isSupportsInlineDistinct()) {
+                query.append(SendCampaignModelImpl.ORDER_BY_JPQL);
+            } else {
+                query.append(SendCampaignModelImpl.ORDER_BY_SQL);
+            }
+        }
+
+        String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+                SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+                _FILTER_COLUMN_USERID);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SQLQuery q = session.createSQLQuery(sql);
+
+            if (getDB().isSupportsInlineDistinct()) {
+                q.addEntity(_FILTER_ENTITY_ALIAS, SendCampaignImpl.class);
+            } else {
+                q.addEntity(_FILTER_ENTITY_TABLE, SendCampaignImpl.class);
+            }
+
+            QueryPos qPos = QueryPos.getInstance(q);
+
+            qPos.add(campaignId);
+
+            return (List<SendCampaign>) QueryUtil.list(q, getDialect(), start,
+                end);
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
         }
     }
 
@@ -1451,6 +1710,131 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
             return list.get(1);
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Filters by the user's permissions and finds all the send campaigns where sendDate = &#63;.
+     *
+     * @param sendDate the send date to search with
+     * @return the matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindBySendDate(Date sendDate)
+        throws SystemException {
+        return filterFindBySendDate(sendDate, QueryUtil.ALL_POS,
+            QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Filters by the user's permissions and finds a range of all the send campaigns where sendDate = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param sendDate the send date to search with
+     * @param start the lower bound of the range of send campaigns to return
+     * @param end the upper bound of the range of send campaigns to return (not inclusive)
+     * @return the range of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindBySendDate(Date sendDate, int start,
+        int end) throws SystemException {
+        return filterFindBySendDate(sendDate, start, end, null);
+    }
+
+    /**
+     * Filters by the user's permissions and finds an ordered range of all the send campaigns where sendDate = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param sendDate the send date to search with
+     * @param start the lower bound of the range of send campaigns to return
+     * @param end the upper bound of the range of send campaigns to return (not inclusive)
+     * @param orderByComparator the comparator to order the results by
+     * @return the ordered range of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindBySendDate(Date sendDate, int start,
+        int end, OrderByComparator orderByComparator) throws SystemException {
+        if (!InlineSQLHelperUtil.isEnabled()) {
+            return findBySendDate(sendDate, start, end, orderByComparator);
+        }
+
+        StringBundler query = null;
+
+        if (orderByComparator != null) {
+            query = new StringBundler(3 +
+                    (orderByComparator.getOrderByFields().length * 3));
+        } else {
+            query = new StringBundler(3);
+        }
+
+        if (getDB().isSupportsInlineDistinct()) {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_WHERE);
+        } else {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+        }
+
+        if (sendDate == null) {
+            query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+        } else {
+            query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+        }
+
+        if (!getDB().isSupportsInlineDistinct()) {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+        }
+
+        if (orderByComparator != null) {
+            if (getDB().isSupportsInlineDistinct()) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_TABLE,
+                    orderByComparator);
+            }
+        }
+        else {
+            if (getDB().isSupportsInlineDistinct()) {
+                query.append(SendCampaignModelImpl.ORDER_BY_JPQL);
+            } else {
+                query.append(SendCampaignModelImpl.ORDER_BY_SQL);
+            }
+        }
+
+        String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+                SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+                _FILTER_COLUMN_USERID);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SQLQuery q = session.createSQLQuery(sql);
+
+            if (getDB().isSupportsInlineDistinct()) {
+                q.addEntity(_FILTER_ENTITY_ALIAS, SendCampaignImpl.class);
+            } else {
+                q.addEntity(_FILTER_ENTITY_TABLE, SendCampaignImpl.class);
+            }
+
+            QueryPos qPos = QueryPos.getInstance(q);
+
+            if (sendDate != null) {
+                qPos.add(CalendarUtil.getTimestamp(sendDate));
+            }
+
+            return (List<SendCampaign>) QueryUtil.list(q, getDialect(), start,
+                end);
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
         }
     }
 
@@ -1811,6 +2195,139 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
     }
 
     /**
+     * Filters by the user's permissions and finds all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @return the matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindBySD_LT(Date sendDate, boolean sent)
+        throws SystemException {
+        return filterFindBySD_LT(sendDate, sent, QueryUtil.ALL_POS,
+            QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Filters by the user's permissions and finds a range of all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @param start the lower bound of the range of send campaigns to return
+     * @param end the upper bound of the range of send campaigns to return (not inclusive)
+     * @return the range of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindBySD_LT(Date sendDate, boolean sent,
+        int start, int end) throws SystemException {
+        return filterFindBySD_LT(sendDate, sent, start, end, null);
+    }
+
+    /**
+     * Filters by the user's permissions and finds an ordered range of all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @param start the lower bound of the range of send campaigns to return
+     * @param end the upper bound of the range of send campaigns to return (not inclusive)
+     * @param orderByComparator the comparator to order the results by
+     * @return the ordered range of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<SendCampaign> filterFindBySD_LT(Date sendDate, boolean sent,
+        int start, int end, OrderByComparator orderByComparator)
+        throws SystemException {
+        if (!InlineSQLHelperUtil.isEnabled()) {
+            return findBySD_LT(sendDate, sent, start, end, orderByComparator);
+        }
+
+        StringBundler query = null;
+
+        if (orderByComparator != null) {
+            query = new StringBundler(4 +
+                    (orderByComparator.getOrderByFields().length * 3));
+        } else {
+            query = new StringBundler(4);
+        }
+
+        if (getDB().isSupportsInlineDistinct()) {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_WHERE);
+        } else {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+        }
+
+        if (sendDate == null) {
+            query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+        } else {
+            query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+        }
+
+        query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+        if (!getDB().isSupportsInlineDistinct()) {
+            query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+        }
+
+        if (orderByComparator != null) {
+            if (getDB().isSupportsInlineDistinct()) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_TABLE,
+                    orderByComparator);
+            }
+        }
+        else {
+            if (getDB().isSupportsInlineDistinct()) {
+                query.append(SendCampaignModelImpl.ORDER_BY_JPQL);
+            } else {
+                query.append(SendCampaignModelImpl.ORDER_BY_SQL);
+            }
+        }
+
+        String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+                SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+                _FILTER_COLUMN_USERID);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SQLQuery q = session.createSQLQuery(sql);
+
+            if (getDB().isSupportsInlineDistinct()) {
+                q.addEntity(_FILTER_ENTITY_ALIAS, SendCampaignImpl.class);
+            } else {
+                q.addEntity(_FILTER_ENTITY_TABLE, SendCampaignImpl.class);
+            }
+
+            QueryPos qPos = QueryPos.getInstance(q);
+
+            if (sendDate != null) {
+                qPos.add(CalendarUtil.getTimestamp(sendDate));
+            }
+
+            qPos.add(sent);
+
+            return (List<SendCampaign>) QueryUtil.list(q, getDialect(), start,
+                end);
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    /**
      * Finds all the send campaigns.
      *
      * @return the send campaigns
@@ -2037,6 +2554,62 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
     }
 
     /**
+     * Filters by the user's permissions and counts all the send campaigns where uuid = &#63;.
+     *
+     * @param uuid the uuid to search with
+     * @return the number of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public int filterCountByUuid(String uuid) throws SystemException {
+        if (!InlineSQLHelperUtil.isEnabled()) {
+            return countByUuid(uuid);
+        }
+
+        StringBundler query = new StringBundler(2);
+
+        query.append(_FILTER_SQL_COUNT_SENDCAMPAIGN_WHERE);
+
+        if (uuid == null) {
+            query.append(_FINDER_COLUMN_UUID_UUID_1);
+        } else {
+            if (uuid.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_UUID_UUID_3);
+            } else {
+                query.append(_FINDER_COLUMN_UUID_UUID_2);
+            }
+        }
+
+        String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+                SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+                _FILTER_COLUMN_USERID);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SQLQuery q = session.createSQLQuery(sql);
+
+            q.addScalar(COUNT_COLUMN_NAME,
+                com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+            QueryPos qPos = QueryPos.getInstance(q);
+
+            if (uuid != null) {
+                qPos.add(uuid);
+            }
+
+            Long count = (Long) q.uniqueResult();
+
+            return count.intValue();
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    /**
      * Counts all the send campaigns where campaignId = &#63;.
      *
      * @param campaignId the campaign id to search with
@@ -2085,6 +2658,52 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
         }
 
         return count.intValue();
+    }
+
+    /**
+     * Filters by the user's permissions and counts all the send campaigns where campaignId = &#63;.
+     *
+     * @param campaignId the campaign id to search with
+     * @return the number of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public int filterCountByCampaign(long campaignId) throws SystemException {
+        if (!InlineSQLHelperUtil.isEnabled()) {
+            return countByCampaign(campaignId);
+        }
+
+        StringBundler query = new StringBundler(2);
+
+        query.append(_FILTER_SQL_COUNT_SENDCAMPAIGN_WHERE);
+
+        query.append(_FINDER_COLUMN_CAMPAIGN_CAMPAIGNID_2);
+
+        String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+                SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+                _FILTER_COLUMN_USERID);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SQLQuery q = session.createSQLQuery(sql);
+
+            q.addScalar(COUNT_COLUMN_NAME,
+                com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+            QueryPos qPos = QueryPos.getInstance(q);
+
+            qPos.add(campaignId);
+
+            Long count = (Long) q.uniqueResult();
+
+            return count.intValue();
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
     }
 
     /**
@@ -2142,6 +2761,58 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
         }
 
         return count.intValue();
+    }
+
+    /**
+     * Filters by the user's permissions and counts all the send campaigns where sendDate = &#63;.
+     *
+     * @param sendDate the send date to search with
+     * @return the number of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public int filterCountBySendDate(Date sendDate) throws SystemException {
+        if (!InlineSQLHelperUtil.isEnabled()) {
+            return countBySendDate(sendDate);
+        }
+
+        StringBundler query = new StringBundler(2);
+
+        query.append(_FILTER_SQL_COUNT_SENDCAMPAIGN_WHERE);
+
+        if (sendDate == null) {
+            query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+        } else {
+            query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+        }
+
+        String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+                SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+                _FILTER_COLUMN_USERID);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SQLQuery q = session.createSQLQuery(sql);
+
+            q.addScalar(COUNT_COLUMN_NAME,
+                com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+            QueryPos qPos = QueryPos.getInstance(q);
+
+            if (sendDate != null) {
+                qPos.add(CalendarUtil.getTimestamp(sendDate));
+            }
+
+            Long count = (Long) q.uniqueResult();
+
+            return count.intValue();
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
     }
 
     /**
@@ -2205,6 +2876,64 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
         }
 
         return count.intValue();
+    }
+
+    /**
+     * Filters by the user's permissions and counts all the send campaigns where sendDate &le; &#63; and sent = &#63;.
+     *
+     * @param sendDate the send date to search with
+     * @param sent the sent to search with
+     * @return the number of matching send campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public int filterCountBySD_LT(Date sendDate, boolean sent)
+        throws SystemException {
+        if (!InlineSQLHelperUtil.isEnabled()) {
+            return countBySD_LT(sendDate, sent);
+        }
+
+        StringBundler query = new StringBundler(3);
+
+        query.append(_FILTER_SQL_COUNT_SENDCAMPAIGN_WHERE);
+
+        if (sendDate == null) {
+            query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+        } else {
+            query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+        }
+
+        query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+        String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+                SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+                _FILTER_COLUMN_USERID);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SQLQuery q = session.createSQLQuery(sql);
+
+            q.addScalar(COUNT_COLUMN_NAME,
+                com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+            QueryPos qPos = QueryPos.getInstance(q);
+
+            if (sendDate != null) {
+                qPos.add(CalendarUtil.getTimestamp(sendDate));
+            }
+
+            qPos.add(sent);
+
+            Long count = (Long) q.uniqueResult();
+
+            return count.intValue();
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
     }
 
     /**

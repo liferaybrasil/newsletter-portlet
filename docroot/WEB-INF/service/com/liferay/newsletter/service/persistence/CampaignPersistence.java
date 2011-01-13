@@ -192,6 +192,53 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Filters by the user's permissions and finds all the campaigns where uuid = &#63;.
+    *
+    * @param uuid the uuid to search with
+    * @return the matching campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.Campaign> filterFindByUuid(
+        java.lang.String uuid)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds a range of all the campaigns where uuid = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param uuid the uuid to search with
+    * @param start the lower bound of the range of campaigns to return
+    * @param end the upper bound of the range of campaigns to return (not inclusive)
+    * @return the range of matching campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.Campaign> filterFindByUuid(
+        java.lang.String uuid, int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and finds an ordered range of all the campaigns where uuid = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param uuid the uuid to search with
+    * @param start the lower bound of the range of campaigns to return
+    * @param end the upper bound of the range of campaigns to return (not inclusive)
+    * @param orderByComparator the comparator to order the results by
+    * @return the ordered range of matching campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.liferay.newsletter.model.Campaign> filterFindByUuid(
+        java.lang.String uuid, int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Finds all the campaigns.
     *
     * @return the campaigns
@@ -259,6 +306,16 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
     * @throws SystemException if a system exception occurred
     */
     public int countByUuid(java.lang.String uuid)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Filters by the user's permissions and counts all the campaigns where uuid = &#63;.
+    *
+    * @param uuid the uuid to search with
+    * @return the number of matching campaigns that the user has permission to view
+    * @throws SystemException if a system exception occurred
+    */
+    public int filterCountByUuid(java.lang.String uuid)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

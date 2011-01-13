@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.model.ModelListener;
+import com.liferay.portal.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
@@ -109,7 +110,18 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
     private static final String _FINDER_COLUMN_UUID_UUID_1 = "campaign.uuid IS NULL";
     private static final String _FINDER_COLUMN_UUID_UUID_2 = "campaign.uuid = ?";
     private static final String _FINDER_COLUMN_UUID_UUID_3 = "(campaign.uuid IS NULL OR campaign.uuid = ?)";
+    private static final String _FILTER_SQL_SELECT_CAMPAIGN_WHERE = "SELECT DISTINCT {campaign.*} FROM Newsletter_Campaign campaign WHERE ";
+    private static final String _FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1 =
+        "SELECT {Newsletter_Campaign.*} FROM (SELECT DISTINCT campaign.campaignId FROM Newsletter_Campaign campaign WHERE ";
+    private static final String _FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2 =
+        ") TEMP_TABLE INNER JOIN Newsletter_Campaign ON TEMP_TABLE.campaignId = Newsletter_Campaign.campaignId";
+    private static final String _FILTER_SQL_COUNT_CAMPAIGN_WHERE = "SELECT COUNT(DISTINCT campaign.campaignId) AS COUNT_VALUE FROM Newsletter_Campaign campaign WHERE ";
+    private static final String _FILTER_COLUMN_PK = "campaign.campaignId";
+    private static final String _FILTER_COLUMN_USERID = null;
+    private static final String _FILTER_ENTITY_ALIAS = "campaign";
+    private static final String _FILTER_ENTITY_TABLE = "Newsletter_Campaign";
     private static final String _ORDER_BY_ENTITY_ALIAS = "campaign.";
+    private static final String _ORDER_BY_ENTITY_TABLE = "Newsletter_Campaign.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Campaign exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Campaign exists with the key {";
     private static Log _log = LogFactoryUtil.getLog(CampaignPersistenceImpl.class);
@@ -738,6 +750,126 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
     }
 
     /**
+     * Filters by the user's permissions and finds all the campaigns where uuid = &#63;.
+     *
+     * @param uuid the uuid to search with
+     * @return the matching campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<Campaign> filterFindByUuid(String uuid)
+        throws SystemException {
+        return filterFindByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Filters by the user's permissions and finds a range of all the campaigns where uuid = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param uuid the uuid to search with
+     * @param start the lower bound of the range of campaigns to return
+     * @param end the upper bound of the range of campaigns to return (not inclusive)
+     * @return the range of matching campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<Campaign> filterFindByUuid(String uuid, int start, int end)
+        throws SystemException {
+        return filterFindByUuid(uuid, start, end, null);
+    }
+
+    /**
+     * Filters by the user's permissions and finds an ordered range of all the campaigns where uuid = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param uuid the uuid to search with
+     * @param start the lower bound of the range of campaigns to return
+     * @param end the upper bound of the range of campaigns to return (not inclusive)
+     * @param orderByComparator the comparator to order the results by
+     * @return the ordered range of matching campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public List<Campaign> filterFindByUuid(String uuid, int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        if (!InlineSQLHelperUtil.isEnabled()) {
+            return findByUuid(uuid, start, end, orderByComparator);
+        }
+
+        StringBundler query = null;
+
+        if (orderByComparator != null) {
+            query = new StringBundler(3 +
+                    (orderByComparator.getOrderByFields().length * 3));
+        } else {
+            query = new StringBundler(2);
+        }
+
+        if (getDB().isSupportsInlineDistinct()) {
+            query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+        } else {
+            query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+        }
+
+        if (uuid == null) {
+            query.append(_FINDER_COLUMN_UUID_UUID_1);
+        } else {
+            if (uuid.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_UUID_UUID_3);
+            } else {
+                query.append(_FINDER_COLUMN_UUID_UUID_2);
+            }
+        }
+
+        if (!getDB().isSupportsInlineDistinct()) {
+            query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+        }
+
+        if (orderByComparator != null) {
+            if (getDB().isSupportsInlineDistinct()) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_TABLE,
+                    orderByComparator);
+            }
+        }
+
+        String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+                Campaign.class.getName(), _FILTER_COLUMN_PK,
+                _FILTER_COLUMN_USERID);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SQLQuery q = session.createSQLQuery(sql);
+
+            if (getDB().isSupportsInlineDistinct()) {
+                q.addEntity(_FILTER_ENTITY_ALIAS, CampaignImpl.class);
+            } else {
+                q.addEntity(_FILTER_ENTITY_TABLE, CampaignImpl.class);
+            }
+
+            QueryPos qPos = QueryPos.getInstance(q);
+
+            if (uuid != null) {
+                qPos.add(uuid);
+            }
+
+            return (List<Campaign>) QueryUtil.list(q, getDialect(), start, end);
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    /**
      * Finds all the campaigns.
      *
      * @return the campaigns
@@ -922,6 +1054,62 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
         }
 
         return count.intValue();
+    }
+
+    /**
+     * Filters by the user's permissions and counts all the campaigns where uuid = &#63;.
+     *
+     * @param uuid the uuid to search with
+     * @return the number of matching campaigns that the user has permission to view
+     * @throws SystemException if a system exception occurred
+     */
+    public int filterCountByUuid(String uuid) throws SystemException {
+        if (!InlineSQLHelperUtil.isEnabled()) {
+            return countByUuid(uuid);
+        }
+
+        StringBundler query = new StringBundler(2);
+
+        query.append(_FILTER_SQL_COUNT_CAMPAIGN_WHERE);
+
+        if (uuid == null) {
+            query.append(_FINDER_COLUMN_UUID_UUID_1);
+        } else {
+            if (uuid.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_UUID_UUID_3);
+            } else {
+                query.append(_FINDER_COLUMN_UUID_UUID_2);
+            }
+        }
+
+        String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+                Campaign.class.getName(), _FILTER_COLUMN_PK,
+                _FILTER_COLUMN_USERID);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            SQLQuery q = session.createSQLQuery(sql);
+
+            q.addScalar(COUNT_COLUMN_NAME,
+                com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+            QueryPos qPos = QueryPos.getInstance(q);
+
+            if (uuid != null) {
+                qPos.add(uuid);
+            }
+
+            Long count = (Long) q.uniqueResult();
+
+            return count.intValue();
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
     }
 
     /**
