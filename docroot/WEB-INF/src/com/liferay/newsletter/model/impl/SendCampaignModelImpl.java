@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.model.impl;
 
 import com.liferay.newsletter.model.SendCampaign;
@@ -36,291 +50,299 @@ import java.util.Date;
  * @generated
  */
 public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
-    implements SendCampaignModel {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never modify or reference this class directly. All methods that expect a send campaign model instance should use the {@link com.liferay.newsletter.model.SendCampaign} interface instead.
-     */
-    public static final String TABLE_NAME = "Newsletter_SendCampaign";
-    public static final Object[][] TABLE_COLUMNS = {
-            { "uuid_", new Integer(Types.VARCHAR) },
-            { "sendCampaignId", new Integer(Types.BIGINT) },
-            { "sendDate", new Integer(Types.TIMESTAMP) },
-            { "emailSubject", new Integer(Types.VARCHAR) },
-            { "senderName", new Integer(Types.VARCHAR) },
-            { "senderEmail", new Integer(Types.VARCHAR) },
-            { "sent", new Integer(Types.BOOLEAN) },
-            { "campaignId", new Integer(Types.BIGINT) }
-        };
-    public static final String TABLE_SQL_CREATE = "create table Newsletter_SendCampaign (uuid_ VARCHAR(75) null,sendCampaignId LONG not null primary key,sendDate DATE null,emailSubject VARCHAR(75) null,senderName VARCHAR(75) null,senderEmail VARCHAR(75) null,sent BOOLEAN,campaignId LONG)";
-    public static final String TABLE_SQL_DROP = "drop table Newsletter_SendCampaign";
-    public static final String ORDER_BY_JPQL = " ORDER BY sendCampaign.sendDate DESC";
-    public static final String ORDER_BY_SQL = " ORDER BY Newsletter_SendCampaign.sendDate DESC";
-    public static final String DATA_SOURCE = "liferayDataSource";
-    public static final String SESSION_FACTORY = "liferaySessionFactory";
-    public static final String TX_MANAGER = "liferayTransactionManager";
-    public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
-                "value.object.entity.cache.enabled.com.liferay.newsletter.model.SendCampaign"),
-            true);
-    public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
-                "value.object.finder.cache.enabled.com.liferay.newsletter.model.SendCampaign"),
-            true);
-    public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
-                "lock.expiration.time.com.liferay.newsletter.model.SendCampaign"));
-    private String _uuid;
-    private long _sendCampaignId;
-    private Date _sendDate;
-    private String _emailSubject;
-    private String _senderName;
-    private String _senderEmail;
-    private boolean _sent;
-    private long _campaignId;
-    private transient ExpandoBridge _expandoBridge;
+	implements SendCampaignModel {
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify or reference this class directly. All methods that expect a send campaign model instance should use the {@link com.liferay.newsletter.model.SendCampaign} interface instead.
+	 */
+	public static final String TABLE_NAME = "Newsletter_SendCampaign";
+	public static final Object[][] TABLE_COLUMNS = {
+			{ "uuid_", Types.VARCHAR },
+			{ "sendCampaignId", Types.BIGINT },
+			{ "sendDate", Types.TIMESTAMP },
+			{ "emailSubject", Types.VARCHAR },
+			{ "senderName", Types.VARCHAR },
+			{ "senderEmail", Types.VARCHAR },
+			{ "sent", Types.BOOLEAN },
+			{ "campaignId", Types.BIGINT }
+		};
+	public static final String TABLE_SQL_CREATE = "create table Newsletter_SendCampaign (uuid_ VARCHAR(75) null,sendCampaignId LONG not null primary key,sendDate DATE null,emailSubject VARCHAR(75) null,senderName VARCHAR(75) null,senderEmail VARCHAR(75) null,sent BOOLEAN,campaignId LONG)";
+	public static final String TABLE_SQL_DROP = "drop table Newsletter_SendCampaign";
+	public static final String ORDER_BY_JPQL = " ORDER BY sendCampaign.sendDate DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY Newsletter_SendCampaign.sendDate DESC";
+	public static final String DATA_SOURCE = "liferayDataSource";
+	public static final String SESSION_FACTORY = "liferaySessionFactory";
+	public static final String TX_MANAGER = "liferayTransactionManager";
+	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.entity.cache.enabled.com.liferay.newsletter.model.SendCampaign"),
+			true);
+	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.finder.cache.enabled.com.liferay.newsletter.model.SendCampaign"),
+			true);
+	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
+				"lock.expiration.time.com.liferay.newsletter.model.SendCampaign"));
 
-    public SendCampaignModelImpl() {
-    }
+	public SendCampaignModelImpl() {
+	}
 
-    public long getPrimaryKey() {
-        return _sendCampaignId;
-    }
+	public long getPrimaryKey() {
+		return _sendCampaignId;
+	}
 
-    public void setPrimaryKey(long pk) {
-        setSendCampaignId(pk);
-    }
+	public void setPrimaryKey(long pk) {
+		setSendCampaignId(pk);
+	}
 
-    public Serializable getPrimaryKeyObj() {
-        return new Long(_sendCampaignId);
-    }
+	public Serializable getPrimaryKeyObj() {
+		return new Long(_sendCampaignId);
+	}
 
-    public String getUuid() {
-        if (_uuid == null) {
-            return StringPool.BLANK;
-        } else {
-            return _uuid;
-        }
-    }
+	public String getUuid() {
+		if (_uuid == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _uuid;
+		}
+	}
 
-    public void setUuid(String uuid) {
-        _uuid = uuid;
-    }
+	public void setUuid(String uuid) {
+		_uuid = uuid;
+	}
 
-    public long getSendCampaignId() {
-        return _sendCampaignId;
-    }
+	public long getSendCampaignId() {
+		return _sendCampaignId;
+	}
 
-    public void setSendCampaignId(long sendCampaignId) {
-        _sendCampaignId = sendCampaignId;
-    }
+	public void setSendCampaignId(long sendCampaignId) {
+		_sendCampaignId = sendCampaignId;
+	}
 
-    public Date getSendDate() {
-        return _sendDate;
-    }
+	public Date getSendDate() {
+		return _sendDate;
+	}
 
-    public void setSendDate(Date sendDate) {
-        _sendDate = sendDate;
-    }
+	public void setSendDate(Date sendDate) {
+		_sendDate = sendDate;
+	}
 
-    public String getEmailSubject() {
-        if (_emailSubject == null) {
-            return StringPool.BLANK;
-        } else {
-            return _emailSubject;
-        }
-    }
+	public String getEmailSubject() {
+		if (_emailSubject == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _emailSubject;
+		}
+	}
 
-    public void setEmailSubject(String emailSubject) {
-        _emailSubject = emailSubject;
-    }
+	public void setEmailSubject(String emailSubject) {
+		_emailSubject = emailSubject;
+	}
 
-    public String getSenderName() {
-        if (_senderName == null) {
-            return StringPool.BLANK;
-        } else {
-            return _senderName;
-        }
-    }
+	public String getSenderName() {
+		if (_senderName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _senderName;
+		}
+	}
 
-    public void setSenderName(String senderName) {
-        _senderName = senderName;
-    }
+	public void setSenderName(String senderName) {
+		_senderName = senderName;
+	}
 
-    public String getSenderEmail() {
-        if (_senderEmail == null) {
-            return StringPool.BLANK;
-        } else {
-            return _senderEmail;
-        }
-    }
+	public String getSenderEmail() {
+		if (_senderEmail == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _senderEmail;
+		}
+	}
 
-    public void setSenderEmail(String senderEmail) {
-        _senderEmail = senderEmail;
-    }
+	public void setSenderEmail(String senderEmail) {
+		_senderEmail = senderEmail;
+	}
 
-    public boolean getSent() {
-        return _sent;
-    }
+	public boolean getSent() {
+		return _sent;
+	}
 
-    public boolean isSent() {
-        return _sent;
-    }
+	public boolean isSent() {
+		return _sent;
+	}
 
-    public void setSent(boolean sent) {
-        _sent = sent;
-    }
+	public void setSent(boolean sent) {
+		_sent = sent;
+	}
 
-    public long getCampaignId() {
-        return _campaignId;
-    }
+	public long getCampaignId() {
+		return _campaignId;
+	}
 
-    public void setCampaignId(long campaignId) {
-        _campaignId = campaignId;
-    }
+	public void setCampaignId(long campaignId) {
+		_campaignId = campaignId;
+	}
 
-    public SendCampaign toEscapedModel() {
-        if (isEscapedModel()) {
-            return (SendCampaign) this;
-        } else {
-            return (SendCampaign) Proxy.newProxyInstance(SendCampaign.class.getClassLoader(),
-                new Class[] { SendCampaign.class },
-                new AutoEscapeBeanHandler(this));
-        }
-    }
+	public SendCampaign toEscapedModel() {
+		if (isEscapedModel()) {
+			return (SendCampaign)this;
+		}
+		else {
+			return (SendCampaign)Proxy.newProxyInstance(SendCampaign.class.getClassLoader(),
+				new Class[] { SendCampaign.class },
+				new AutoEscapeBeanHandler(this));
+		}
+	}
 
-    public ExpandoBridge getExpandoBridge() {
-        if (_expandoBridge == null) {
-            _expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(0,
-                    SendCampaign.class.getName(), getPrimaryKey());
-        }
+	public ExpandoBridge getExpandoBridge() {
+		if (_expandoBridge == null) {
+			_expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+					SendCampaign.class.getName(), getPrimaryKey());
+		}
 
-        return _expandoBridge;
-    }
+		return _expandoBridge;
+	}
 
-    public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-        getExpandoBridge().setAttributes(serviceContext);
-    }
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
+		getExpandoBridge().setAttributes(serviceContext);
+	}
 
-    public Object clone() {
-        SendCampaignImpl clone = new SendCampaignImpl();
+	public Object clone() {
+		SendCampaignImpl clone = new SendCampaignImpl();
 
-        clone.setUuid(getUuid());
-        clone.setSendCampaignId(getSendCampaignId());
-        clone.setSendDate(getSendDate());
-        clone.setEmailSubject(getEmailSubject());
-        clone.setSenderName(getSenderName());
-        clone.setSenderEmail(getSenderEmail());
-        clone.setSent(getSent());
-        clone.setCampaignId(getCampaignId());
+		clone.setUuid(getUuid());
+		clone.setSendCampaignId(getSendCampaignId());
+		clone.setSendDate(getSendDate());
+		clone.setEmailSubject(getEmailSubject());
+		clone.setSenderName(getSenderName());
+		clone.setSenderEmail(getSenderEmail());
+		clone.setSent(getSent());
+		clone.setCampaignId(getCampaignId());
 
-        return clone;
-    }
+		return clone;
+	}
 
-    public int compareTo(SendCampaign sendCampaign) {
-        int value = 0;
+	public int compareTo(SendCampaign sendCampaign) {
+		int value = 0;
 
-        value = DateUtil.compareTo(getSendDate(), sendCampaign.getSendDate());
+		value = DateUtil.compareTo(getSendDate(), sendCampaign.getSendDate());
 
-        value = value * -1;
+		value = value * -1;
 
-        if (value != 0) {
-            return value;
-        }
+		if (value != 0) {
+			return value;
+		}
 
-        return 0;
-    }
+		return 0;
+	}
 
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
 
-        SendCampaign sendCampaign = null;
+		SendCampaign sendCampaign = null;
 
-        try {
-            sendCampaign = (SendCampaign) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+		try {
+			sendCampaign = (SendCampaign)obj;
+		}
+		catch (ClassCastException cce) {
+			return false;
+		}
 
-        long pk = sendCampaign.getPrimaryKey();
+		long pk = sendCampaign.getPrimaryKey();
 
-        if (getPrimaryKey() == pk) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+		if (getPrimaryKey() == pk) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
-    public int hashCode() {
-        return (int) getPrimaryKey();
-    }
+	public int hashCode() {
+		return (int)getPrimaryKey();
+	}
 
-    public String toString() {
-        StringBundler sb = new StringBundler(17);
+	public String toString() {
+		StringBundler sb = new StringBundler(17);
 
-        sb.append("{uuid=");
-        sb.append(getUuid());
-        sb.append(", sendCampaignId=");
-        sb.append(getSendCampaignId());
-        sb.append(", sendDate=");
-        sb.append(getSendDate());
-        sb.append(", emailSubject=");
-        sb.append(getEmailSubject());
-        sb.append(", senderName=");
-        sb.append(getSenderName());
-        sb.append(", senderEmail=");
-        sb.append(getSenderEmail());
-        sb.append(", sent=");
-        sb.append(getSent());
-        sb.append(", campaignId=");
-        sb.append(getCampaignId());
-        sb.append("}");
+		sb.append("{uuid=");
+		sb.append(getUuid());
+		sb.append(", sendCampaignId=");
+		sb.append(getSendCampaignId());
+		sb.append(", sendDate=");
+		sb.append(getSendDate());
+		sb.append(", emailSubject=");
+		sb.append(getEmailSubject());
+		sb.append(", senderName=");
+		sb.append(getSenderName());
+		sb.append(", senderEmail=");
+		sb.append(getSenderEmail());
+		sb.append(", sent=");
+		sb.append(getSent());
+		sb.append(", campaignId=");
+		sb.append(getCampaignId());
+		sb.append("}");
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String toXmlString() {
-        StringBundler sb = new StringBundler(28);
+	public String toXmlString() {
+		StringBundler sb = new StringBundler(28);
 
-        sb.append("<model><model-name>");
-        sb.append("com.liferay.newsletter.model.SendCampaign");
-        sb.append("</model-name>");
+		sb.append("<model><model-name>");
+		sb.append("com.liferay.newsletter.model.SendCampaign");
+		sb.append("</model-name>");
 
-        sb.append(
-            "<column><column-name>uuid</column-name><column-value><![CDATA[");
-        sb.append(getUuid());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>sendCampaignId</column-name><column-value><![CDATA[");
-        sb.append(getSendCampaignId());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>sendDate</column-name><column-value><![CDATA[");
-        sb.append(getSendDate());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>emailSubject</column-name><column-value><![CDATA[");
-        sb.append(getEmailSubject());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>senderName</column-name><column-value><![CDATA[");
-        sb.append(getSenderName());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>senderEmail</column-name><column-value><![CDATA[");
-        sb.append(getSenderEmail());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>sent</column-name><column-value><![CDATA[");
-        sb.append(getSent());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>campaignId</column-name><column-value><![CDATA[");
-        sb.append(getCampaignId());
-        sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>uuid</column-name><column-value><![CDATA[");
+		sb.append(getUuid());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sendCampaignId</column-name><column-value><![CDATA[");
+		sb.append(getSendCampaignId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sendDate</column-name><column-value><![CDATA[");
+		sb.append(getSendDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>emailSubject</column-name><column-value><![CDATA[");
+		sb.append(getEmailSubject());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>senderName</column-name><column-value><![CDATA[");
+		sb.append(getSenderName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>senderEmail</column-name><column-value><![CDATA[");
+		sb.append(getSenderEmail());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sent</column-name><column-value><![CDATA[");
+		sb.append(getSent());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>campaignId</column-name><column-value><![CDATA[");
+		sb.append(getCampaignId());
+		sb.append("]]></column-value></column>");
 
-        sb.append("</model>");
+		sb.append("</model>");
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
+
+	private String _uuid;
+	private long _sendCampaignId;
+	private Date _sendDate;
+	private String _emailSubject;
+	private String _senderName;
+	private String _senderEmail;
+	private boolean _sent;
+	private long _campaignId;
+	private transient ExpandoBridge _expandoBridge;
 }

@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.model;
 
 import java.io.Serializable;
@@ -6,108 +20,105 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>
- * This class is used by
- * {@link com.liferay.newsletter.service.http.NewsletterLogServiceSoap}.
- * </p>
+ * This class is used by SOAP remote services.
  *
  * @author    Bruno Pinheiro
- * @see       com.liferay.newsletter.service.http.NewsletterLogServiceSoap
  * @generated
  */
 public class NewsletterLogSoap implements Serializable {
-    private String _uuid;
-    private long _newsletterLogId;
-    private long _sendCampaignId;
-    private long _contactId;
+	public static NewsletterLogSoap toSoapModel(NewsletterLog model) {
+		NewsletterLogSoap soapModel = new NewsletterLogSoap();
 
-    public NewsletterLogSoap() {
-    }
+		soapModel.setUuid(model.getUuid());
+		soapModel.setNewsletterLogId(model.getNewsletterLogId());
+		soapModel.setSendCampaignId(model.getSendCampaignId());
+		soapModel.setContactId(model.getContactId());
 
-    public static NewsletterLogSoap toSoapModel(NewsletterLog model) {
-        NewsletterLogSoap soapModel = new NewsletterLogSoap();
+		return soapModel;
+	}
 
-        soapModel.setUuid(model.getUuid());
-        soapModel.setNewsletterLogId(model.getNewsletterLogId());
-        soapModel.setSendCampaignId(model.getSendCampaignId());
-        soapModel.setContactId(model.getContactId());
+	public static NewsletterLogSoap[] toSoapModels(NewsletterLog[] models) {
+		NewsletterLogSoap[] soapModels = new NewsletterLogSoap[models.length];
 
-        return soapModel;
-    }
+		for (int i = 0; i < models.length; i++) {
+			soapModels[i] = toSoapModel(models[i]);
+		}
 
-    public static NewsletterLogSoap[] toSoapModels(NewsletterLog[] models) {
-        NewsletterLogSoap[] soapModels = new NewsletterLogSoap[models.length];
+		return soapModels;
+	}
 
-        for (int i = 0; i < models.length; i++) {
-            soapModels[i] = toSoapModel(models[i]);
-        }
+	public static NewsletterLogSoap[][] toSoapModels(NewsletterLog[][] models) {
+		NewsletterLogSoap[][] soapModels = null;
 
-        return soapModels;
-    }
+		if (models.length > 0) {
+			soapModels = new NewsletterLogSoap[models.length][models[0].length];
+		}
+		else {
+			soapModels = new NewsletterLogSoap[0][0];
+		}
 
-    public static NewsletterLogSoap[][] toSoapModels(NewsletterLog[][] models) {
-        NewsletterLogSoap[][] soapModels = null;
+		for (int i = 0; i < models.length; i++) {
+			soapModels[i] = toSoapModels(models[i]);
+		}
 
-        if (models.length > 0) {
-            soapModels = new NewsletterLogSoap[models.length][models[0].length];
-        } else {
-            soapModels = new NewsletterLogSoap[0][0];
-        }
+		return soapModels;
+	}
 
-        for (int i = 0; i < models.length; i++) {
-            soapModels[i] = toSoapModels(models[i]);
-        }
+	public static NewsletterLogSoap[] toSoapModels(List<NewsletterLog> models) {
+		List<NewsletterLogSoap> soapModels = new ArrayList<NewsletterLogSoap>(models.size());
 
-        return soapModels;
-    }
+		for (NewsletterLog model : models) {
+			soapModels.add(toSoapModel(model));
+		}
 
-    public static NewsletterLogSoap[] toSoapModels(List<NewsletterLog> models) {
-        List<NewsletterLogSoap> soapModels = new ArrayList<NewsletterLogSoap>(models.size());
+		return soapModels.toArray(new NewsletterLogSoap[soapModels.size()]);
+	}
 
-        for (NewsletterLog model : models) {
-            soapModels.add(toSoapModel(model));
-        }
+	public NewsletterLogSoap() {
+	}
 
-        return soapModels.toArray(new NewsletterLogSoap[soapModels.size()]);
-    }
+	public long getPrimaryKey() {
+		return _newsletterLogId;
+	}
 
-    public long getPrimaryKey() {
-        return _newsletterLogId;
-    }
+	public void setPrimaryKey(long pk) {
+		setNewsletterLogId(pk);
+	}
 
-    public void setPrimaryKey(long pk) {
-        setNewsletterLogId(pk);
-    }
+	public String getUuid() {
+		return _uuid;
+	}
 
-    public String getUuid() {
-        return _uuid;
-    }
+	public void setUuid(String uuid) {
+		_uuid = uuid;
+	}
 
-    public void setUuid(String uuid) {
-        _uuid = uuid;
-    }
+	public long getNewsletterLogId() {
+		return _newsletterLogId;
+	}
 
-    public long getNewsletterLogId() {
-        return _newsletterLogId;
-    }
+	public void setNewsletterLogId(long newsletterLogId) {
+		_newsletterLogId = newsletterLogId;
+	}
 
-    public void setNewsletterLogId(long newsletterLogId) {
-        _newsletterLogId = newsletterLogId;
-    }
+	public long getSendCampaignId() {
+		return _sendCampaignId;
+	}
 
-    public long getSendCampaignId() {
-        return _sendCampaignId;
-    }
+	public void setSendCampaignId(long sendCampaignId) {
+		_sendCampaignId = sendCampaignId;
+	}
 
-    public void setSendCampaignId(long sendCampaignId) {
-        _sendCampaignId = sendCampaignId;
-    }
+	public long getContactId() {
+		return _contactId;
+	}
 
-    public long getContactId() {
-        return _contactId;
-    }
+	public void setContactId(long contactId) {
+		_contactId = contactId;
+	}
 
-    public void setContactId(long contactId) {
-        _contactId = contactId;
-    }
+	private String _uuid;
+	private long _newsletterLogId;
+	private long _sendCampaignId;
+	private long _contactId;
 }

@@ -14,6 +14,8 @@
 
 package com.liferay.newsletter.service.impl;
 
+import java.util.List;
+
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.NewsletterLog;
@@ -23,8 +25,6 @@ import com.liferay.newsletter.service.SendCampaignLocalServiceUtil;
 import com.liferay.newsletter.service.base.CampaignLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-
-import java.util.List;
 
 /**
  * @author Bruno Pinheiro

@@ -17,9 +17,7 @@
 <%@ include file="/html/init.jsp" %>
 
 <%
-ArticleSearch searchContainer = (ArticleSearch)request.getAttribute("liferay-ui:search:searchContainer");
-
-ArticleDisplayTerms displayTerms = (ArticleDisplayTerms)searchContainer.getDisplayTerms();
+ArticleDisplayTerms displayTerms = new ArticleDisplayTerms(renderRequest);
 %>
 
 <liferay-ui:search-toggle
@@ -29,13 +27,7 @@ ArticleDisplayTerms displayTerms = (ArticleDisplayTerms)searchContainer.getDispl
 >
 	<aui:fieldset>
 		<aui:column>
-			<aui:input label="id" name="<%= displayTerms.ARTICLE_ID %>" size="20" value="<%= displayTerms.getArticleId() %>" />
-
-			<aui:input name="<%= displayTerms.CONTENT %>" size="20" type="text" value="<%= displayTerms.getContent() %>" />
-		</aui:column>
-
-		<aui:column>
-			<aui:input label="name" name="<%= displayTerms.TITLE %>" size="20" type="text" value="<%= displayTerms.getTitle() %>" />
+			<aui:input label="Title" name="<%= displayTerms.TITLE %>" size="20" type="text" value="<%= displayTerms.getTitle() %>" />
 
 			<aui:select name="<%= displayTerms.TYPE %>">
 				<aui:option value=""></aui:option>
@@ -131,40 +123,3 @@ ArticleDisplayTerms displayTerms = (ArticleDisplayTerms)searchContainer.getDispl
 		</aui:column>
 	</aui:fieldset>
 </liferay-ui:search-toggle>
-
-<c:if test="<%= Validator.isNotNull(displayTerms.getStructureId()) %>">
-	<aui:input name="<%= displayTerms.STRUCTURE_ID %>" type="hidden" value="<%= displayTerms.getStructureId() %>" />
-
-	<div class="portlet-msg-info">
-		<liferay-ui:message key="filter-by-structure" />: <%= displayTerms.getStructureId() %><br />
-	</div>
-</c:if>
-
-<c:if test="<%= Validator.isNotNull(displayTerms.getTemplateId()) %>">
-	<aui:input name="<%= displayTerms.TEMPLATE_ID %>" type="hidden" value="<%= displayTerms.getTemplateId() %>" />
-
-	<div class="portlet-msg-info">
-		<liferay-ui:message key="filter-by-template" />: <%= displayTerms.getTemplateId() %><br />
-	</div>
-</c:if>
-
-<aui:script>
-	function <portlet:namespace />addArticle() {
-		var url = '<liferay-portlet:renderURL windowState="<%= WindowState.MAXIMIZED.toString() %>" portletName="<%= PortletKeys.JOURNAL %>"><portlet:param name="struts_action" value="/journal/edit_article" /><portlet:param name="redirect" value="<%= currentURL %>" /><portlet:param name="structureId" value="<%= displayTerms.getStructureId() %>" /><portlet:param name="templateId" value="<%= displayTerms.getTemplateId() %>" /></liferay-portlet:renderURL>';
-
-		if (toggle_id_journal_article_searchcurClickValue == 'basic') {
-			url += '&<portlet:namespace /><%= displayTerms.TITLE %>=' + document.<portlet:namespace />fm.<portlet:namespace /><%= displayTerms.KEYWORDS %>.value;
-
-			submitForm(document.hrefFm, url);
-		}
-		else {
-			document.<portlet:namespace />fm.method = 'post';
-			submitForm(document.<portlet:namespace />fm, url);
-		}
-	}
-
-	<c:if test="<%= windowState.equals(WindowState.MAXIMIZED) %>">
-		Liferay.Util.focusFormField(document.<portlet:namespace />fm.<portlet:namespace /><%= displayTerms.ARTICLE_ID %>);
-		Liferay.Util.focusFormField(document.<portlet:namespace />fm.<portlet:namespace /><%= displayTerms.KEYWORDS %>);
-	</c:if>
-</aui:script>

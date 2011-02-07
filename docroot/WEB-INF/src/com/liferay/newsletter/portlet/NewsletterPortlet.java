@@ -14,6 +14,21 @@
 
 package com.liferay.newsletter.portlet;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequest;
+import javax.portlet.ReadOnlyException;
+import javax.portlet.ValidatorException;
+
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
@@ -36,23 +51,6 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
-
-import java.io.IOException;
-
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletMode;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
-import javax.portlet.ReadOnlyException;
-import javax.portlet.ValidatorException;
 
 /**
  * @author Bruno Pinheiro
@@ -190,19 +188,19 @@ public class NewsletterPortlet extends MVCPortlet {
 		ActionResponse actionResponse)
 		throws ReadOnlyException, ValidatorException, IOException {
 
-		PortletPreferences prefs = actionRequest.getPreferences();
+		PortletPreferences preferences = actionRequest.getPreferences();
 
-		prefs.setValue(
+		preferences.setValue(
 			NewsletterConstants.ROWS_PER_PAGE, ParamUtil.getString(
 				actionRequest, "rowsPerPage"));
-		prefs.setValue(
+		preferences.setValue(
 			NewsletterConstants.SENDER_EMAIL, ParamUtil.getString(
 				actionRequest, "senderEmail"));
-		prefs.setValue(
+		preferences.setValue(
 			NewsletterConstants.SENDER_NAME, ParamUtil.getString(
 				actionRequest, "senderName"));
 
-		prefs.store();
+		preferences.store();
 
 		sendRedirect(actionRequest, actionResponse);
 	}
@@ -328,14 +326,14 @@ public class NewsletterPortlet extends MVCPortlet {
 		String host = request.getParameter(
 			PropsKeys.MAIL_SESSION_MAIL_POP3_HOST);
 
-		PortletPreferences prefs = request.getPreferences();
+		PortletPreferences preferences = request.getPreferences();
 
-		prefs.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_PASSWORD, password);
-		prefs.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_USER, user);
-		prefs.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_PORT, port);
-		prefs.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_HOST, host);
+		preferences.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_PASSWORD, password);
+		preferences.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_USER, user);
+		preferences.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_PORT, port);
+		preferences.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_HOST, host);
 
-		prefs.store();
+		preferences.store();
 
 		response.setPortletMode(PortletMode.VIEW);
 	}

@@ -58,6 +58,18 @@
 <%@ page import="com.liferay.newsletter.search.ArticleDisplayTerms"%>
 <%@ page import="com.liferay.newsletter.search.ArticleSearch"%>
 <%@ page import="com.liferay.newsletter.search.ArticleSearchTerms"%>
+<%@ page import="javax.portlet.PortletURL"%>
+<%@ page import="com.liferay.portlet.PortletURLUtil"%>
+
+
+<%@ page import="com.liferay.portal.kernel.util.StringPool"%>
+<%@ page import="com.liferay.portal.kernel.dao.search.RowChecker"%>
+<%@page import="com.liferay.portal.kernel.dao.search.SearchEntry"%>
+<%@page import="com.liferay.portal.kernel.util.FastDateFormatFactoryUtil"%>
+<%@page import="java.text.Format"%>
+<%@page import="com.liferay.portal.kernel.workflow.WorkflowConstants"%>
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+
 
 <liferay-theme:defineObjects />
 

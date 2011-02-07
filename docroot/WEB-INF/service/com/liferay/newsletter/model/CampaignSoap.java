@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.model;
 
 import java.io.Serializable;
@@ -6,108 +20,105 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>
- * This class is used by
- * {@link com.liferay.newsletter.service.http.CampaignServiceSoap}.
- * </p>
+ * This class is used by SOAP remote services.
  *
  * @author    Bruno Pinheiro
- * @see       com.liferay.newsletter.service.http.CampaignServiceSoap
  * @generated
  */
 public class CampaignSoap implements Serializable {
-    private String _uuid;
-    private long _campaignId;
-    private String _title;
-    private String _content;
+	public static CampaignSoap toSoapModel(Campaign model) {
+		CampaignSoap soapModel = new CampaignSoap();
 
-    public CampaignSoap() {
-    }
+		soapModel.setUuid(model.getUuid());
+		soapModel.setCampaignId(model.getCampaignId());
+		soapModel.setTitle(model.getTitle());
+		soapModel.setContent(model.getContent());
 
-    public static CampaignSoap toSoapModel(Campaign model) {
-        CampaignSoap soapModel = new CampaignSoap();
+		return soapModel;
+	}
 
-        soapModel.setUuid(model.getUuid());
-        soapModel.setCampaignId(model.getCampaignId());
-        soapModel.setTitle(model.getTitle());
-        soapModel.setContent(model.getContent());
+	public static CampaignSoap[] toSoapModels(Campaign[] models) {
+		CampaignSoap[] soapModels = new CampaignSoap[models.length];
 
-        return soapModel;
-    }
+		for (int i = 0; i < models.length; i++) {
+			soapModels[i] = toSoapModel(models[i]);
+		}
 
-    public static CampaignSoap[] toSoapModels(Campaign[] models) {
-        CampaignSoap[] soapModels = new CampaignSoap[models.length];
+		return soapModels;
+	}
 
-        for (int i = 0; i < models.length; i++) {
-            soapModels[i] = toSoapModel(models[i]);
-        }
+	public static CampaignSoap[][] toSoapModels(Campaign[][] models) {
+		CampaignSoap[][] soapModels = null;
 
-        return soapModels;
-    }
+		if (models.length > 0) {
+			soapModels = new CampaignSoap[models.length][models[0].length];
+		}
+		else {
+			soapModels = new CampaignSoap[0][0];
+		}
 
-    public static CampaignSoap[][] toSoapModels(Campaign[][] models) {
-        CampaignSoap[][] soapModels = null;
+		for (int i = 0; i < models.length; i++) {
+			soapModels[i] = toSoapModels(models[i]);
+		}
 
-        if (models.length > 0) {
-            soapModels = new CampaignSoap[models.length][models[0].length];
-        } else {
-            soapModels = new CampaignSoap[0][0];
-        }
+		return soapModels;
+	}
 
-        for (int i = 0; i < models.length; i++) {
-            soapModels[i] = toSoapModels(models[i]);
-        }
+	public static CampaignSoap[] toSoapModels(List<Campaign> models) {
+		List<CampaignSoap> soapModels = new ArrayList<CampaignSoap>(models.size());
 
-        return soapModels;
-    }
+		for (Campaign model : models) {
+			soapModels.add(toSoapModel(model));
+		}
 
-    public static CampaignSoap[] toSoapModels(List<Campaign> models) {
-        List<CampaignSoap> soapModels = new ArrayList<CampaignSoap>(models.size());
+		return soapModels.toArray(new CampaignSoap[soapModels.size()]);
+	}
 
-        for (Campaign model : models) {
-            soapModels.add(toSoapModel(model));
-        }
+	public CampaignSoap() {
+	}
 
-        return soapModels.toArray(new CampaignSoap[soapModels.size()]);
-    }
+	public long getPrimaryKey() {
+		return _campaignId;
+	}
 
-    public long getPrimaryKey() {
-        return _campaignId;
-    }
+	public void setPrimaryKey(long pk) {
+		setCampaignId(pk);
+	}
 
-    public void setPrimaryKey(long pk) {
-        setCampaignId(pk);
-    }
+	public String getUuid() {
+		return _uuid;
+	}
 
-    public String getUuid() {
-        return _uuid;
-    }
+	public void setUuid(String uuid) {
+		_uuid = uuid;
+	}
 
-    public void setUuid(String uuid) {
-        _uuid = uuid;
-    }
+	public long getCampaignId() {
+		return _campaignId;
+	}
 
-    public long getCampaignId() {
-        return _campaignId;
-    }
+	public void setCampaignId(long campaignId) {
+		_campaignId = campaignId;
+	}
 
-    public void setCampaignId(long campaignId) {
-        _campaignId = campaignId;
-    }
+	public String getTitle() {
+		return _title;
+	}
 
-    public String getTitle() {
-        return _title;
-    }
+	public void setTitle(String title) {
+		_title = title;
+	}
 
-    public void setTitle(String title) {
-        _title = title;
-    }
+	public String getContent() {
+		return _content;
+	}
 
-    public String getContent() {
-        return _content;
-    }
+	public void setContent(String content) {
+		_content = content;
+	}
 
-    public void setContent(String content) {
-        _content = content;
-    }
+	private String _uuid;
+	private long _campaignId;
+	private String _title;
+	private String _content;
 }

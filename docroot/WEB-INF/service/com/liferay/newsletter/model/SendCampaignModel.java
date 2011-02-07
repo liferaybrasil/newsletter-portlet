@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
@@ -24,176 +38,176 @@ import java.util.Date;
  * @generated
  */
 public interface SendCampaignModel extends BaseModel<SendCampaign> {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never modify or reference this interface directly. All methods that expect a send campaign model instance should use the {@link SendCampaign} interface instead.
-     */
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify or reference this interface directly. All methods that expect a send campaign model instance should use the {@link SendCampaign} interface instead.
+	 */
 
-    /**
-     * Gets the primary key of this send campaign.
-     *
-     * @return the primary key of this send campaign
-     */
-    public long getPrimaryKey();
+	/**
+	 * Gets the primary key of this send campaign.
+	 *
+	 * @return the primary key of this send campaign
+	 */
+	public long getPrimaryKey();
 
-    /**
-     * Sets the primary key of this send campaign
-     *
-     * @param pk the primary key of this send campaign
-     */
-    public void setPrimaryKey(long pk);
+	/**
+	 * Sets the primary key of this send campaign
+	 *
+	 * @param pk the primary key of this send campaign
+	 */
+	public void setPrimaryKey(long pk);
 
-    /**
-     * Gets the uuid of this send campaign.
-     *
-     * @return the uuid of this send campaign
-     */
-    @AutoEscape
-    public String getUuid();
+	/**
+	 * Gets the uuid of this send campaign.
+	 *
+	 * @return the uuid of this send campaign
+	 */
+	@AutoEscape
+	public String getUuid();
 
-    /**
-     * Sets the uuid of this send campaign.
-     *
-     * @param uuid the uuid of this send campaign
-     */
-    public void setUuid(String uuid);
+	/**
+	 * Sets the uuid of this send campaign.
+	 *
+	 * @param uuid the uuid of this send campaign
+	 */
+	public void setUuid(String uuid);
 
-    /**
-     * Gets the send campaign id of this send campaign.
-     *
-     * @return the send campaign id of this send campaign
-     */
-    public long getSendCampaignId();
+	/**
+	 * Gets the send campaign ID of this send campaign.
+	 *
+	 * @return the send campaign ID of this send campaign
+	 */
+	public long getSendCampaignId();
 
-    /**
-     * Sets the send campaign id of this send campaign.
-     *
-     * @param sendCampaignId the send campaign id of this send campaign
-     */
-    public void setSendCampaignId(long sendCampaignId);
+	/**
+	 * Sets the send campaign ID of this send campaign.
+	 *
+	 * @param sendCampaignId the send campaign ID of this send campaign
+	 */
+	public void setSendCampaignId(long sendCampaignId);
 
-    /**
-     * Gets the send date of this send campaign.
-     *
-     * @return the send date of this send campaign
-     */
-    public Date getSendDate();
+	/**
+	 * Gets the send date of this send campaign.
+	 *
+	 * @return the send date of this send campaign
+	 */
+	public Date getSendDate();
 
-    /**
-     * Sets the send date of this send campaign.
-     *
-     * @param sendDate the send date of this send campaign
-     */
-    public void setSendDate(Date sendDate);
+	/**
+	 * Sets the send date of this send campaign.
+	 *
+	 * @param sendDate the send date of this send campaign
+	 */
+	public void setSendDate(Date sendDate);
 
-    /**
-     * Gets the email subject of this send campaign.
-     *
-     * @return the email subject of this send campaign
-     */
-    @AutoEscape
-    public String getEmailSubject();
+	/**
+	 * Gets the email subject of this send campaign.
+	 *
+	 * @return the email subject of this send campaign
+	 */
+	@AutoEscape
+	public String getEmailSubject();
 
-    /**
-     * Sets the email subject of this send campaign.
-     *
-     * @param emailSubject the email subject of this send campaign
-     */
-    public void setEmailSubject(String emailSubject);
+	/**
+	 * Sets the email subject of this send campaign.
+	 *
+	 * @param emailSubject the email subject of this send campaign
+	 */
+	public void setEmailSubject(String emailSubject);
 
-    /**
-     * Gets the sender name of this send campaign.
-     *
-     * @return the sender name of this send campaign
-     */
-    @AutoEscape
-    public String getSenderName();
+	/**
+	 * Gets the sender name of this send campaign.
+	 *
+	 * @return the sender name of this send campaign
+	 */
+	@AutoEscape
+	public String getSenderName();
 
-    /**
-     * Sets the sender name of this send campaign.
-     *
-     * @param senderName the sender name of this send campaign
-     */
-    public void setSenderName(String senderName);
+	/**
+	 * Sets the sender name of this send campaign.
+	 *
+	 * @param senderName the sender name of this send campaign
+	 */
+	public void setSenderName(String senderName);
 
-    /**
-     * Gets the sender email of this send campaign.
-     *
-     * @return the sender email of this send campaign
-     */
-    @AutoEscape
-    public String getSenderEmail();
+	/**
+	 * Gets the sender email of this send campaign.
+	 *
+	 * @return the sender email of this send campaign
+	 */
+	@AutoEscape
+	public String getSenderEmail();
 
-    /**
-     * Sets the sender email of this send campaign.
-     *
-     * @param senderEmail the sender email of this send campaign
-     */
-    public void setSenderEmail(String senderEmail);
+	/**
+	 * Sets the sender email of this send campaign.
+	 *
+	 * @param senderEmail the sender email of this send campaign
+	 */
+	public void setSenderEmail(String senderEmail);
 
-    /**
-     * Gets the sent of this send campaign.
-     *
-     * @return the sent of this send campaign
-     */
-    public boolean getSent();
+	/**
+	 * Gets the sent of this send campaign.
+	 *
+	 * @return the sent of this send campaign
+	 */
+	public boolean getSent();
 
-    /**
-     * Determines if this send campaign is sent.
-     *
-     * @return <code>true</code> if this send campaign is sent; <code>false</code> otherwise
-     */
-    public boolean isSent();
+	/**
+	 * Determines if this send campaign is sent.
+	 *
+	 * @return <code>true</code> if this send campaign is sent; <code>false</code> otherwise
+	 */
+	public boolean isSent();
 
-    /**
-     * Sets whether this send campaign is sent.
-     *
-     * @param sent the sent of this send campaign
-     */
-    public void setSent(boolean sent);
+	/**
+	 * Sets whether this send campaign is sent.
+	 *
+	 * @param sent the sent of this send campaign
+	 */
+	public void setSent(boolean sent);
 
-    /**
-     * Gets the campaign id of this send campaign.
-     *
-     * @return the campaign id of this send campaign
-     */
-    public long getCampaignId();
+	/**
+	 * Gets the campaign ID of this send campaign.
+	 *
+	 * @return the campaign ID of this send campaign
+	 */
+	public long getCampaignId();
 
-    /**
-     * Sets the campaign id of this send campaign.
-     *
-     * @param campaignId the campaign id of this send campaign
-     */
-    public void setCampaignId(long campaignId);
+	/**
+	 * Sets the campaign ID of this send campaign.
+	 *
+	 * @param campaignId the campaign ID of this send campaign
+	 */
+	public void setCampaignId(long campaignId);
 
-    public boolean isNew();
+	public boolean isNew();
 
-    public void setNew(boolean n);
+	public void setNew(boolean n);
 
-    public boolean isCachedModel();
+	public boolean isCachedModel();
 
-    public void setCachedModel(boolean cachedModel);
+	public void setCachedModel(boolean cachedModel);
 
-    public boolean isEscapedModel();
+	public boolean isEscapedModel();
 
-    public void setEscapedModel(boolean escapedModel);
+	public void setEscapedModel(boolean escapedModel);
 
-    public Serializable getPrimaryKeyObj();
+	public Serializable getPrimaryKeyObj();
 
-    public ExpandoBridge getExpandoBridge();
+	public ExpandoBridge getExpandoBridge();
 
-    public void setExpandoBridgeAttributes(ServiceContext serviceContext);
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
 
-    public Object clone();
+	public Object clone();
 
-    public int compareTo(SendCampaign sendCampaign);
+	public int compareTo(SendCampaign sendCampaign);
 
-    public int hashCode();
+	public int hashCode();
 
-    public SendCampaign toEscapedModel();
+	public SendCampaign toEscapedModel();
 
-    public String toString();
+	public String toString();
 
-    public String toXmlString();
+	public String toXmlString();
 }

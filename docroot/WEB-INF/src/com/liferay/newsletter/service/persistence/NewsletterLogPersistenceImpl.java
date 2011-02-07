@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.service.persistence;
 
 import com.liferay.newsletter.NoSuchLogException;
@@ -51,1326 +65,1398 @@ import java.util.List;
  * @generated
  */
 public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<NewsletterLog>
-    implements NewsletterLogPersistence {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never modify or reference this class directly. Always use {@link NewsletterLogUtil} to access the newsletter log persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
-     */
-    public static final String FINDER_CLASS_NAME_ENTITY = NewsletterLogImpl.class.getName();
-    public static final String FINDER_CLASS_NAME_LIST = FINDER_CLASS_NAME_ENTITY +
-        ".List";
-    public static final FinderPath FINDER_PATH_FIND_BY_UUID = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-            NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
-            FINDER_CLASS_NAME_LIST, "findByUuid",
-            new String[] {
-                String.class.getName(),
-                
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
-            });
-    public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-            NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
-            FINDER_CLASS_NAME_LIST, "countByUuid",
-            new String[] { String.class.getName() });
-    public static final FinderPath FINDER_PATH_FIND_BY_SENDCAMPAIGN = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-            NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
-            FINDER_CLASS_NAME_LIST, "findBySendCampaign",
-            new String[] {
-                Long.class.getName(),
-                
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
-            });
-    public static final FinderPath FINDER_PATH_COUNT_BY_SENDCAMPAIGN = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-            NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
-            FINDER_CLASS_NAME_LIST, "countBySendCampaign",
-            new String[] { Long.class.getName() });
-    public static final FinderPath FINDER_PATH_FIND_ALL = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-            NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
-            FINDER_CLASS_NAME_LIST, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-            NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
-            FINDER_CLASS_NAME_LIST, "countAll", new String[0]);
-    private static final String _SQL_SELECT_NEWSLETTERLOG = "SELECT newsletterLog FROM NewsletterLog newsletterLog";
-    private static final String _SQL_SELECT_NEWSLETTERLOG_WHERE = "SELECT newsletterLog FROM NewsletterLog newsletterLog WHERE ";
-    private static final String _SQL_COUNT_NEWSLETTERLOG = "SELECT COUNT(newsletterLog) FROM NewsletterLog newsletterLog";
-    private static final String _SQL_COUNT_NEWSLETTERLOG_WHERE = "SELECT COUNT(newsletterLog) FROM NewsletterLog newsletterLog WHERE ";
-    private static final String _FINDER_COLUMN_UUID_UUID_1 = "newsletterLog.uuid IS NULL";
-    private static final String _FINDER_COLUMN_UUID_UUID_2 = "newsletterLog.uuid = ?";
-    private static final String _FINDER_COLUMN_UUID_UUID_3 = "(newsletterLog.uuid IS NULL OR newsletterLog.uuid = ?)";
-    private static final String _FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2 = "newsletterLog.sendCampaignId = ?";
-    private static final String _ORDER_BY_ENTITY_ALIAS = "newsletterLog.";
-    private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No NewsletterLog exists with the primary key ";
-    private static final String _NO_SUCH_ENTITY_WITH_KEY = "No NewsletterLog exists with the key {";
-    private static Log _log = LogFactoryUtil.getLog(NewsletterLogPersistenceImpl.class);
-    @BeanReference(type = CampaignPersistence.class)
-    protected CampaignPersistence campaignPersistence;
-    @BeanReference(type = ContactPersistence.class)
-    protected ContactPersistence contactPersistence;
-    @BeanReference(type = SendCampaignPersistence.class)
-    protected SendCampaignPersistence sendCampaignPersistence;
-    @BeanReference(type = NewsletterLogPersistence.class)
-    protected NewsletterLogPersistence newsletterLogPersistence;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
-
-    /**
-     * Caches the newsletter log in the entity cache if it is enabled.
-     *
-     * @param newsletterLog the newsletter log to cache
-     */
-    public void cacheResult(NewsletterLog newsletterLog) {
-        EntityCacheUtil.putResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-            NewsletterLogImpl.class, newsletterLog.getPrimaryKey(),
-            newsletterLog);
-    }
-
-    /**
-     * Caches the newsletter logs in the entity cache if it is enabled.
-     *
-     * @param newsletterLogs the newsletter logs to cache
-     */
-    public void cacheResult(List<NewsletterLog> newsletterLogs) {
-        for (NewsletterLog newsletterLog : newsletterLogs) {
-            if (EntityCacheUtil.getResult(
-                        NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-                        NewsletterLogImpl.class, newsletterLog.getPrimaryKey(),
-                        this) == null) {
-                cacheResult(newsletterLog);
-            }
-        }
-    }
-
-    /**
-     * Clears the cache for all newsletter logs.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    public void clearCache() {
-        CacheRegistryUtil.clear(NewsletterLogImpl.class.getName());
-        EntityCacheUtil.clearCache(NewsletterLogImpl.class.getName());
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
-    }
-
-    /**
-     * Clears the cache for the newsletter log.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    public void clearCache(NewsletterLog newsletterLog) {
-        EntityCacheUtil.removeResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-            NewsletterLogImpl.class, newsletterLog.getPrimaryKey());
-    }
-
-    /**
-     * Creates a new newsletter log with the primary key. Does not add the newsletter log to the database.
-     *
-     * @param newsletterLogId the primary key for the new newsletter log
-     * @return the new newsletter log
-     */
-    public NewsletterLog create(long newsletterLogId) {
-        NewsletterLog newsletterLog = new NewsletterLogImpl();
-
-        newsletterLog.setNew(true);
-        newsletterLog.setPrimaryKey(newsletterLogId);
-
-        String uuid = PortalUUIDUtil.generate();
-
-        newsletterLog.setUuid(uuid);
-
-        return newsletterLog;
-    }
-
-    /**
-     * Removes the newsletter log with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param primaryKey the primary key of the newsletter log to remove
-     * @return the newsletter log that was removed
-     * @throws com.liferay.portal.NoSuchModelException if a newsletter log with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog remove(Serializable primaryKey)
-        throws NoSuchModelException, SystemException {
-        return remove(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Removes the newsletter log with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param newsletterLogId the primary key of the newsletter log to remove
-     * @return the newsletter log that was removed
-     * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog remove(long newsletterLogId)
-        throws NoSuchLogException, SystemException {
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            NewsletterLog newsletterLog = (NewsletterLog) session.get(NewsletterLogImpl.class,
-                    new Long(newsletterLogId));
-
-            if (newsletterLog == null) {
-                if (_log.isWarnEnabled()) {
-                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                        newsletterLogId);
-                }
-
-                throw new NoSuchLogException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                    newsletterLogId);
-            }
-
-            return remove(newsletterLog);
-        } catch (NoSuchLogException nsee) {
-            throw nsee;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    protected NewsletterLog removeImpl(NewsletterLog newsletterLog)
-        throws SystemException {
-        newsletterLog = toUnwrappedModel(newsletterLog);
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.delete(session, newsletterLog);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
-
-        EntityCacheUtil.removeResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-            NewsletterLogImpl.class, newsletterLog.getPrimaryKey());
-
-        return newsletterLog;
-    }
-
-    public NewsletterLog updateImpl(
-        com.liferay.newsletter.model.NewsletterLog newsletterLog, boolean merge)
-        throws SystemException {
-        newsletterLog = toUnwrappedModel(newsletterLog);
-
-        if (Validator.isNull(newsletterLog.getUuid())) {
-            String uuid = PortalUUIDUtil.generate();
-
-            newsletterLog.setUuid(uuid);
-        }
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.update(session, newsletterLog, merge);
-
-            newsletterLog.setNew(false);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
-
-        EntityCacheUtil.putResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-            NewsletterLogImpl.class, newsletterLog.getPrimaryKey(),
-            newsletterLog);
-
-        return newsletterLog;
-    }
-
-    protected NewsletterLog toUnwrappedModel(NewsletterLog newsletterLog) {
-        if (newsletterLog instanceof NewsletterLogImpl) {
-            return newsletterLog;
-        }
-
-        NewsletterLogImpl newsletterLogImpl = new NewsletterLogImpl();
-
-        newsletterLogImpl.setNew(newsletterLog.isNew());
-        newsletterLogImpl.setPrimaryKey(newsletterLog.getPrimaryKey());
-
-        newsletterLogImpl.setUuid(newsletterLog.getUuid());
-        newsletterLogImpl.setNewsletterLogId(newsletterLog.getNewsletterLogId());
-        newsletterLogImpl.setSendCampaignId(newsletterLog.getSendCampaignId());
-        newsletterLogImpl.setContactId(newsletterLog.getContactId());
-
-        return newsletterLogImpl;
-    }
-
-    /**
-     * Finds the newsletter log with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
-     *
-     * @param primaryKey the primary key of the newsletter log to find
-     * @return the newsletter log
-     * @throws com.liferay.portal.NoSuchModelException if a newsletter log with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog findByPrimaryKey(Serializable primaryKey)
-        throws NoSuchModelException, SystemException {
-        return findByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Finds the newsletter log with the primary key or throws a {@link com.liferay.newsletter.NoSuchLogException} if it could not be found.
-     *
-     * @param newsletterLogId the primary key of the newsletter log to find
-     * @return the newsletter log
-     * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog findByPrimaryKey(long newsletterLogId)
-        throws NoSuchLogException, SystemException {
-        NewsletterLog newsletterLog = fetchByPrimaryKey(newsletterLogId);
-
-        if (newsletterLog == null) {
-            if (_log.isWarnEnabled()) {
-                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + newsletterLogId);
-            }
-
-            throw new NoSuchLogException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                newsletterLogId);
-        }
-
-        return newsletterLog;
-    }
-
-    /**
-     * Finds the newsletter log with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param primaryKey the primary key of the newsletter log to find
-     * @return the newsletter log, or <code>null</code> if a newsletter log with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog fetchByPrimaryKey(Serializable primaryKey)
-        throws SystemException {
-        return fetchByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Finds the newsletter log with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param newsletterLogId the primary key of the newsletter log to find
-     * @return the newsletter log, or <code>null</code> if a newsletter log with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog fetchByPrimaryKey(long newsletterLogId)
-        throws SystemException {
-        NewsletterLog newsletterLog = (NewsletterLog) EntityCacheUtil.getResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
-                NewsletterLogImpl.class, newsletterLogId, this);
-
-        if (newsletterLog == null) {
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                newsletterLog = (NewsletterLog) session.get(NewsletterLogImpl.class,
-                        new Long(newsletterLogId));
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (newsletterLog != null) {
-                    cacheResult(newsletterLog);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return newsletterLog;
-    }
-
-    /**
-     * Finds all the newsletter logs where uuid = &#63;.
-     *
-     * @param uuid the uuid to search with
-     * @return the matching newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<NewsletterLog> findByUuid(String uuid)
-        throws SystemException {
-        return findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-    }
-
-    /**
-     * Finds a range of all the newsletter logs where uuid = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param uuid the uuid to search with
-     * @param start the lower bound of the range of newsletter logs to return
-     * @param end the upper bound of the range of newsletter logs to return (not inclusive)
-     * @return the range of matching newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<NewsletterLog> findByUuid(String uuid, int start, int end)
-        throws SystemException {
-        return findByUuid(uuid, start, end, null);
-    }
-
-    /**
-     * Finds an ordered range of all the newsletter logs where uuid = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param uuid the uuid to search with
-     * @param start the lower bound of the range of newsletter logs to return
-     * @param end the upper bound of the range of newsletter logs to return (not inclusive)
-     * @param orderByComparator the comparator to order the results by
-     * @return the ordered range of matching newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<NewsletterLog> findByUuid(String uuid, int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        Object[] finderArgs = new Object[] {
-                uuid,
-                
-                String.valueOf(start), String.valueOf(end),
-                String.valueOf(orderByComparator)
-            };
-
-        List<NewsletterLog> list = (List<NewsletterLog>) FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_UUID,
-                finderArgs, this);
-
-        if (list == null) {
-            StringBundler query = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(3 +
-                        (orderByComparator.getOrderByFields().length * 3));
-            } else {
-                query = new StringBundler(2);
-            }
-
-            query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
-
-            if (uuid == null) {
-                query.append(_FINDER_COLUMN_UUID_UUID_1);
-            } else {
-                if (uuid.equals(StringPool.BLANK)) {
-                    query.append(_FINDER_COLUMN_UUID_UUID_3);
-                } else {
-                    query.append(_FINDER_COLUMN_UUID_UUID_2);
-                }
-            }
-
-            if (orderByComparator != null) {
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (uuid != null) {
-                    qPos.add(uuid);
-                }
-
-                list = (List<NewsletterLog>) QueryUtil.list(q, getDialect(),
-                        start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_UUID,
-                        finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_UUID,
-                        finderArgs, list);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * Finds the first newsletter log in the ordered set where uuid = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param uuid the uuid to search with
-     * @param orderByComparator the comparator to order the set by
-     * @return the first matching newsletter log
-     * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog findByUuid_First(String uuid,
-        OrderByComparator orderByComparator)
-        throws NoSuchLogException, SystemException {
-        List<NewsletterLog> list = findByUuid(uuid, 0, 1, orderByComparator);
-
-        if (list.isEmpty()) {
-            StringBundler msg = new StringBundler(4);
-
-            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-            msg.append("uuid=");
-            msg.append(uuid);
-
-            msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-            throw new NoSuchLogException(msg.toString());
-        } else {
-            return list.get(0);
-        }
-    }
-
-    /**
-     * Finds the last newsletter log in the ordered set where uuid = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param uuid the uuid to search with
-     * @param orderByComparator the comparator to order the set by
-     * @return the last matching newsletter log
-     * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog findByUuid_Last(String uuid,
-        OrderByComparator orderByComparator)
-        throws NoSuchLogException, SystemException {
-        int count = countByUuid(uuid);
-
-        List<NewsletterLog> list = findByUuid(uuid, count - 1, count,
-                orderByComparator);
-
-        if (list.isEmpty()) {
-            StringBundler msg = new StringBundler(4);
-
-            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-            msg.append("uuid=");
-            msg.append(uuid);
-
-            msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-            throw new NoSuchLogException(msg.toString());
-        } else {
-            return list.get(0);
-        }
-    }
-
-    /**
-     * Finds the newsletter logs before and after the current newsletter log in the ordered set where uuid = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param newsletterLogId the primary key of the current newsletter log
-     * @param uuid the uuid to search with
-     * @param orderByComparator the comparator to order the set by
-     * @return the previous, current, and next newsletter log
-     * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog[] findByUuid_PrevAndNext(long newsletterLogId,
-        String uuid, OrderByComparator orderByComparator)
-        throws NoSuchLogException, SystemException {
-        NewsletterLog newsletterLog = findByPrimaryKey(newsletterLogId);
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            NewsletterLog[] array = new NewsletterLogImpl[3];
-
-            array[0] = getByUuid_PrevAndNext(session, newsletterLog, uuid,
-                    orderByComparator, true);
-
-            array[1] = newsletterLog;
-
-            array[2] = getByUuid_PrevAndNext(session, newsletterLog, uuid,
-                    orderByComparator, false);
-
-            return array;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    protected NewsletterLog getByUuid_PrevAndNext(Session session,
-        NewsletterLog newsletterLog, String uuid,
-        OrderByComparator orderByComparator, boolean previous) {
-        StringBundler query = null;
-
-        if (orderByComparator != null) {
-            query = new StringBundler(6 +
-                    (orderByComparator.getOrderByFields().length * 6));
-        } else {
-            query = new StringBundler(3);
-        }
-
-        query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
-
-        if (uuid == null) {
-            query.append(_FINDER_COLUMN_UUID_UUID_1);
-        } else {
-            if (uuid.equals(StringPool.BLANK)) {
-                query.append(_FINDER_COLUMN_UUID_UUID_3);
-            } else {
-                query.append(_FINDER_COLUMN_UUID_UUID_2);
-            }
-        }
-
-        if (orderByComparator != null) {
-            String[] orderByFields = orderByComparator.getOrderByFields();
-
-            if (orderByFields.length > 0) {
-                query.append(WHERE_AND);
-            }
-
-            for (int i = 0; i < orderByFields.length; i++) {
-                query.append(_ORDER_BY_ENTITY_ALIAS);
-                query.append(orderByFields[i]);
-
-                if ((i + 1) < orderByFields.length) {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(WHERE_GREATER_THAN_HAS_NEXT);
-                    } else {
-                        query.append(WHERE_LESSER_THAN_HAS_NEXT);
-                    }
-                } else {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(WHERE_GREATER_THAN);
-                    } else {
-                        query.append(WHERE_LESSER_THAN);
-                    }
-                }
-            }
-
-            query.append(ORDER_BY_CLAUSE);
-
-            for (int i = 0; i < orderByFields.length; i++) {
-                query.append(_ORDER_BY_ENTITY_ALIAS);
-                query.append(orderByFields[i]);
-
-                if ((i + 1) < orderByFields.length) {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(ORDER_BY_ASC_HAS_NEXT);
-                    } else {
-                        query.append(ORDER_BY_DESC_HAS_NEXT);
-                    }
-                } else {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(ORDER_BY_ASC);
-                    } else {
-                        query.append(ORDER_BY_DESC);
-                    }
-                }
-            }
-        }
-
-        String sql = query.toString();
-
-        Query q = session.createQuery(sql);
-
-        q.setFirstResult(0);
-        q.setMaxResults(2);
-
-        QueryPos qPos = QueryPos.getInstance(q);
-
-        if (uuid != null) {
-            qPos.add(uuid);
-        }
-
-        if (orderByComparator != null) {
-            Object[] values = orderByComparator.getOrderByValues(newsletterLog);
-
-            for (Object value : values) {
-                qPos.add(value);
-            }
-        }
-
-        List<NewsletterLog> list = q.list();
-
-        if (list.size() == 2) {
-            return list.get(1);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Finds all the newsletter logs where sendCampaignId = &#63;.
-     *
-     * @param sendCampaignId the send campaign id to search with
-     * @return the matching newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<NewsletterLog> findBySendCampaign(long sendCampaignId)
-        throws SystemException {
-        return findBySendCampaign(sendCampaignId, QueryUtil.ALL_POS,
-            QueryUtil.ALL_POS, null);
-    }
-
-    /**
-     * Finds a range of all the newsletter logs where sendCampaignId = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param sendCampaignId the send campaign id to search with
-     * @param start the lower bound of the range of newsletter logs to return
-     * @param end the upper bound of the range of newsletter logs to return (not inclusive)
-     * @return the range of matching newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<NewsletterLog> findBySendCampaign(long sendCampaignId,
-        int start, int end) throws SystemException {
-        return findBySendCampaign(sendCampaignId, start, end, null);
-    }
-
-    /**
-     * Finds an ordered range of all the newsletter logs where sendCampaignId = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param sendCampaignId the send campaign id to search with
-     * @param start the lower bound of the range of newsletter logs to return
-     * @param end the upper bound of the range of newsletter logs to return (not inclusive)
-     * @param orderByComparator the comparator to order the results by
-     * @return the ordered range of matching newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<NewsletterLog> findBySendCampaign(long sendCampaignId,
-        int start, int end, OrderByComparator orderByComparator)
-        throws SystemException {
-        Object[] finderArgs = new Object[] {
-                sendCampaignId,
-                
-                String.valueOf(start), String.valueOf(end),
-                String.valueOf(orderByComparator)
-            };
-
-        List<NewsletterLog> list = (List<NewsletterLog>) FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_SENDCAMPAIGN,
-                finderArgs, this);
-
-        if (list == null) {
-            StringBundler query = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(3 +
-                        (orderByComparator.getOrderByFields().length * 3));
-            } else {
-                query = new StringBundler(2);
-            }
-
-            query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
-
-            query.append(_FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2);
-
-            if (orderByComparator != null) {
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                qPos.add(sendCampaignId);
-
-                list = (List<NewsletterLog>) QueryUtil.list(q, getDialect(),
-                        start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_SENDCAMPAIGN,
-                        finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_SENDCAMPAIGN,
-                        finderArgs, list);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * Finds the first newsletter log in the ordered set where sendCampaignId = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param sendCampaignId the send campaign id to search with
-     * @param orderByComparator the comparator to order the set by
-     * @return the first matching newsletter log
-     * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog findBySendCampaign_First(long sendCampaignId,
-        OrderByComparator orderByComparator)
-        throws NoSuchLogException, SystemException {
-        List<NewsletterLog> list = findBySendCampaign(sendCampaignId, 0, 1,
-                orderByComparator);
-
-        if (list.isEmpty()) {
-            StringBundler msg = new StringBundler(4);
-
-            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-            msg.append("sendCampaignId=");
-            msg.append(sendCampaignId);
-
-            msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-            throw new NoSuchLogException(msg.toString());
-        } else {
-            return list.get(0);
-        }
-    }
-
-    /**
-     * Finds the last newsletter log in the ordered set where sendCampaignId = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param sendCampaignId the send campaign id to search with
-     * @param orderByComparator the comparator to order the set by
-     * @return the last matching newsletter log
-     * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog findBySendCampaign_Last(long sendCampaignId,
-        OrderByComparator orderByComparator)
-        throws NoSuchLogException, SystemException {
-        int count = countBySendCampaign(sendCampaignId);
-
-        List<NewsletterLog> list = findBySendCampaign(sendCampaignId,
-                count - 1, count, orderByComparator);
-
-        if (list.isEmpty()) {
-            StringBundler msg = new StringBundler(4);
-
-            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-            msg.append("sendCampaignId=");
-            msg.append(sendCampaignId);
-
-            msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-            throw new NoSuchLogException(msg.toString());
-        } else {
-            return list.get(0);
-        }
-    }
-
-    /**
-     * Finds the newsletter logs before and after the current newsletter log in the ordered set where sendCampaignId = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param newsletterLogId the primary key of the current newsletter log
-     * @param sendCampaignId the send campaign id to search with
-     * @param orderByComparator the comparator to order the set by
-     * @return the previous, current, and next newsletter log
-     * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public NewsletterLog[] findBySendCampaign_PrevAndNext(
-        long newsletterLogId, long sendCampaignId,
-        OrderByComparator orderByComparator)
-        throws NoSuchLogException, SystemException {
-        NewsletterLog newsletterLog = findByPrimaryKey(newsletterLogId);
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            NewsletterLog[] array = new NewsletterLogImpl[3];
-
-            array[0] = getBySendCampaign_PrevAndNext(session, newsletterLog,
-                    sendCampaignId, orderByComparator, true);
-
-            array[1] = newsletterLog;
-
-            array[2] = getBySendCampaign_PrevAndNext(session, newsletterLog,
-                    sendCampaignId, orderByComparator, false);
-
-            return array;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    protected NewsletterLog getBySendCampaign_PrevAndNext(Session session,
-        NewsletterLog newsletterLog, long sendCampaignId,
-        OrderByComparator orderByComparator, boolean previous) {
-        StringBundler query = null;
-
-        if (orderByComparator != null) {
-            query = new StringBundler(6 +
-                    (orderByComparator.getOrderByFields().length * 6));
-        } else {
-            query = new StringBundler(3);
-        }
-
-        query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
-
-        query.append(_FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2);
-
-        if (orderByComparator != null) {
-            String[] orderByFields = orderByComparator.getOrderByFields();
-
-            if (orderByFields.length > 0) {
-                query.append(WHERE_AND);
-            }
-
-            for (int i = 0; i < orderByFields.length; i++) {
-                query.append(_ORDER_BY_ENTITY_ALIAS);
-                query.append(orderByFields[i]);
-
-                if ((i + 1) < orderByFields.length) {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(WHERE_GREATER_THAN_HAS_NEXT);
-                    } else {
-                        query.append(WHERE_LESSER_THAN_HAS_NEXT);
-                    }
-                } else {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(WHERE_GREATER_THAN);
-                    } else {
-                        query.append(WHERE_LESSER_THAN);
-                    }
-                }
-            }
-
-            query.append(ORDER_BY_CLAUSE);
-
-            for (int i = 0; i < orderByFields.length; i++) {
-                query.append(_ORDER_BY_ENTITY_ALIAS);
-                query.append(orderByFields[i]);
-
-                if ((i + 1) < orderByFields.length) {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(ORDER_BY_ASC_HAS_NEXT);
-                    } else {
-                        query.append(ORDER_BY_DESC_HAS_NEXT);
-                    }
-                } else {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(ORDER_BY_ASC);
-                    } else {
-                        query.append(ORDER_BY_DESC);
-                    }
-                }
-            }
-        }
-
-        String sql = query.toString();
-
-        Query q = session.createQuery(sql);
-
-        q.setFirstResult(0);
-        q.setMaxResults(2);
-
-        QueryPos qPos = QueryPos.getInstance(q);
-
-        qPos.add(sendCampaignId);
-
-        if (orderByComparator != null) {
-            Object[] values = orderByComparator.getOrderByValues(newsletterLog);
-
-            for (Object value : values) {
-                qPos.add(value);
-            }
-        }
-
-        List<NewsletterLog> list = q.list();
-
-        if (list.size() == 2) {
-            return list.get(1);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Finds all the newsletter logs.
-     *
-     * @return the newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<NewsletterLog> findAll() throws SystemException {
-        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-    }
-
-    /**
-     * Finds a range of all the newsletter logs.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of newsletter logs to return
-     * @param end the upper bound of the range of newsletter logs to return (not inclusive)
-     * @return the range of newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<NewsletterLog> findAll(int start, int end)
-        throws SystemException {
-        return findAll(start, end, null);
-    }
-
-    /**
-     * Finds an ordered range of all the newsletter logs.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of newsletter logs to return
-     * @param end the upper bound of the range of newsletter logs to return (not inclusive)
-     * @param orderByComparator the comparator to order the results by
-     * @return the ordered range of newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<NewsletterLog> findAll(int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        Object[] finderArgs = new Object[] {
-                String.valueOf(start), String.valueOf(end),
-                String.valueOf(orderByComparator)
-            };
-
-        List<NewsletterLog> list = (List<NewsletterLog>) FinderCacheUtil.getResult(FINDER_PATH_FIND_ALL,
-                finderArgs, this);
-
-        if (list == null) {
-            StringBundler query = null;
-            String sql = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(2 +
-                        (orderByComparator.getOrderByFields().length * 3));
-
-                query.append(_SQL_SELECT_NEWSLETTERLOG);
-
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-
-                sql = query.toString();
-            } else {
-                sql = _SQL_SELECT_NEWSLETTERLOG;
-            }
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                if (orderByComparator == null) {
-                    list = (List<NewsletterLog>) QueryUtil.list(q,
-                            getDialect(), start, end, false);
-
-                    Collections.sort(list);
-                } else {
-                    list = (List<NewsletterLog>) QueryUtil.list(q,
-                            getDialect(), start, end);
-                }
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(FINDER_PATH_FIND_ALL,
-                        finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(FINDER_PATH_FIND_ALL, finderArgs,
-                        list);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * Removes all the newsletter logs where uuid = &#63; from the database.
-     *
-     * @param uuid the uuid to search with
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeByUuid(String uuid) throws SystemException {
-        for (NewsletterLog newsletterLog : findByUuid(uuid)) {
-            remove(newsletterLog);
-        }
-    }
-
-    /**
-     * Removes all the newsletter logs where sendCampaignId = &#63; from the database.
-     *
-     * @param sendCampaignId the send campaign id to search with
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeBySendCampaign(long sendCampaignId)
-        throws SystemException {
-        for (NewsletterLog newsletterLog : findBySendCampaign(sendCampaignId)) {
-            remove(newsletterLog);
-        }
-    }
-
-    /**
-     * Removes all the newsletter logs from the database.
-     *
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeAll() throws SystemException {
-        for (NewsletterLog newsletterLog : findAll()) {
-            remove(newsletterLog);
-        }
-    }
-
-    /**
-     * Counts all the newsletter logs where uuid = &#63;.
-     *
-     * @param uuid the uuid to search with
-     * @return the number of matching newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public int countByUuid(String uuid) throws SystemException {
-        Object[] finderArgs = new Object[] { uuid };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_UUID,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler(2);
-
-            query.append(_SQL_COUNT_NEWSLETTERLOG_WHERE);
-
-            if (uuid == null) {
-                query.append(_FINDER_COLUMN_UUID_UUID_1);
-            } else {
-                if (uuid.equals(StringPool.BLANK)) {
-                    query.append(_FINDER_COLUMN_UUID_UUID_3);
-                } else {
-                    query.append(_FINDER_COLUMN_UUID_UUID_2);
-                }
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (uuid != null) {
-                    qPos.add(uuid);
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_UUID,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
-    }
-
-    /**
-     * Counts all the newsletter logs where sendCampaignId = &#63;.
-     *
-     * @param sendCampaignId the send campaign id to search with
-     * @return the number of matching newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public int countBySendCampaign(long sendCampaignId)
-        throws SystemException {
-        Object[] finderArgs = new Object[] { sendCampaignId };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SENDCAMPAIGN,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler(2);
-
-            query.append(_SQL_COUNT_NEWSLETTERLOG_WHERE);
-
-            query.append(_FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2);
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                qPos.add(sendCampaignId);
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SENDCAMPAIGN,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
-    }
-
-    /**
-     * Counts all the newsletter logs.
-     *
-     * @return the number of newsletter logs
-     * @throws SystemException if a system exception occurred
-     */
-    public int countAll() throws SystemException {
-        Object[] finderArgs = new Object[0];
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
-                finderArgs, this);
-
-        if (count == null) {
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(_SQL_COUNT_NEWSLETTERLOG);
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL, finderArgs,
-                    count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
-    }
-
-    /**
-     * Initializes the newsletter log persistence.
-     */
-    public void afterPropertiesSet() {
-        String[] listenerClassNames = StringUtil.split(GetterUtil.getString(
-                    com.liferay.util.service.ServiceProps.get(
-                        "value.object.listener.com.liferay.newsletter.model.NewsletterLog")));
-
-        if (listenerClassNames.length > 0) {
-            try {
-                List<ModelListener<NewsletterLog>> listenersList = new ArrayList<ModelListener<NewsletterLog>>();
-
-                for (String listenerClassName : listenerClassNames) {
-                    listenersList.add((ModelListener<NewsletterLog>) InstanceFactory.newInstance(
-                            listenerClassName));
-                }
-
-                listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
-            } catch (Exception e) {
-                _log.error(e);
-            }
-        }
-    }
-
-    public void destroy() {
-        EntityCacheUtil.removeCache(NewsletterLogImpl.class.getName());
-        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
-        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST);
-    }
+	implements NewsletterLogPersistence {
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify or reference this class directly. Always use {@link NewsletterLogUtil} to access the newsletter log persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 */
+	public static final String FINDER_CLASS_NAME_ENTITY = NewsletterLogImpl.class.getName();
+	public static final String FINDER_CLASS_NAME_LIST = FINDER_CLASS_NAME_ENTITY +
+		".List";
+	public static final FinderPath FINDER_PATH_FIND_BY_UUID = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST, "findByUuid",
+			new String[] {
+				String.class.getName(),
+				
+			"java.lang.Integer", "java.lang.Integer",
+				"com.liferay.portal.kernel.util.OrderByComparator"
+			});
+	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST, "countByUuid",
+			new String[] { String.class.getName() });
+	public static final FinderPath FINDER_PATH_FIND_BY_SENDCAMPAIGN = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST, "findBySendCampaign",
+			new String[] {
+				Long.class.getName(),
+				
+			"java.lang.Integer", "java.lang.Integer",
+				"com.liferay.portal.kernel.util.OrderByComparator"
+			});
+	public static final FinderPath FINDER_PATH_COUNT_BY_SENDCAMPAIGN = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST, "countBySendCampaign",
+			new String[] { Long.class.getName() });
+	public static final FinderPath FINDER_PATH_FIND_ALL = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST, "findAll", new String[0]);
+	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST, "countAll", new String[0]);
+
+	/**
+	 * Caches the newsletter log in the entity cache if it is enabled.
+	 *
+	 * @param newsletterLog the newsletter log to cache
+	 */
+	public void cacheResult(NewsletterLog newsletterLog) {
+		EntityCacheUtil.putResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogImpl.class, newsletterLog.getPrimaryKey(),
+			newsletterLog);
+	}
+
+	/**
+	 * Caches the newsletter logs in the entity cache if it is enabled.
+	 *
+	 * @param newsletterLogs the newsletter logs to cache
+	 */
+	public void cacheResult(List<NewsletterLog> newsletterLogs) {
+		for (NewsletterLog newsletterLog : newsletterLogs) {
+			if (EntityCacheUtil.getResult(
+						NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+						NewsletterLogImpl.class, newsletterLog.getPrimaryKey(),
+						this) == null) {
+				cacheResult(newsletterLog);
+			}
+		}
+	}
+
+	/**
+	 * Clears the cache for all newsletter logs.
+	 *
+	 * <p>
+	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+	 * </p>
+	 */
+	public void clearCache() {
+		CacheRegistryUtil.clear(NewsletterLogImpl.class.getName());
+		EntityCacheUtil.clearCache(NewsletterLogImpl.class.getName());
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
+	}
+
+	/**
+	 * Clears the cache for the newsletter log.
+	 *
+	 * <p>
+	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+	 * </p>
+	 */
+	public void clearCache(NewsletterLog newsletterLog) {
+		EntityCacheUtil.removeResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogImpl.class, newsletterLog.getPrimaryKey());
+	}
+
+	/**
+	 * Creates a new newsletter log with the primary key. Does not add the newsletter log to the database.
+	 *
+	 * @param newsletterLogId the primary key for the new newsletter log
+	 * @return the new newsletter log
+	 */
+	public NewsletterLog create(long newsletterLogId) {
+		NewsletterLog newsletterLog = new NewsletterLogImpl();
+
+		newsletterLog.setNew(true);
+		newsletterLog.setPrimaryKey(newsletterLogId);
+
+		String uuid = PortalUUIDUtil.generate();
+
+		newsletterLog.setUuid(uuid);
+
+		return newsletterLog;
+	}
+
+	/**
+	 * Removes the newsletter log with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param primaryKey the primary key of the newsletter log to remove
+	 * @return the newsletter log that was removed
+	 * @throws com.liferay.portal.NoSuchModelException if a newsletter log with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog remove(Serializable primaryKey)
+		throws NoSuchModelException, SystemException {
+		return remove(((Long)primaryKey).longValue());
+	}
+
+	/**
+	 * Removes the newsletter log with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param newsletterLogId the primary key of the newsletter log to remove
+	 * @return the newsletter log that was removed
+	 * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog remove(long newsletterLogId)
+		throws NoSuchLogException, SystemException {
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			NewsletterLog newsletterLog = (NewsletterLog)session.get(NewsletterLogImpl.class,
+					new Long(newsletterLogId));
+
+			if (newsletterLog == null) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+						newsletterLogId);
+				}
+
+				throw new NoSuchLogException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+					newsletterLogId);
+			}
+
+			return newsletterLogPersistence.remove(newsletterLog);
+		}
+		catch (NoSuchLogException nsee) {
+			throw nsee;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Removes the newsletter log from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param newsletterLog the newsletter log to remove
+	 * @return the newsletter log that was removed
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog remove(NewsletterLog newsletterLog)
+		throws SystemException {
+		return super.remove(newsletterLog);
+	}
+
+	protected NewsletterLog removeImpl(NewsletterLog newsletterLog)
+		throws SystemException {
+		newsletterLog = toUnwrappedModel(newsletterLog);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			BatchSessionUtil.delete(session, newsletterLog);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
+
+		EntityCacheUtil.removeResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogImpl.class, newsletterLog.getPrimaryKey());
+
+		return newsletterLog;
+	}
+
+	public NewsletterLog updateImpl(
+		com.liferay.newsletter.model.NewsletterLog newsletterLog, boolean merge)
+		throws SystemException {
+		newsletterLog = toUnwrappedModel(newsletterLog);
+
+		if (Validator.isNull(newsletterLog.getUuid())) {
+			String uuid = PortalUUIDUtil.generate();
+
+			newsletterLog.setUuid(uuid);
+		}
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			BatchSessionUtil.update(session, newsletterLog, merge);
+
+			newsletterLog.setNew(false);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
+
+		EntityCacheUtil.putResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogImpl.class, newsletterLog.getPrimaryKey(),
+			newsletterLog);
+
+		return newsletterLog;
+	}
+
+	protected NewsletterLog toUnwrappedModel(NewsletterLog newsletterLog) {
+		if (newsletterLog instanceof NewsletterLogImpl) {
+			return newsletterLog;
+		}
+
+		NewsletterLogImpl newsletterLogImpl = new NewsletterLogImpl();
+
+		newsletterLogImpl.setNew(newsletterLog.isNew());
+		newsletterLogImpl.setPrimaryKey(newsletterLog.getPrimaryKey());
+
+		newsletterLogImpl.setUuid(newsletterLog.getUuid());
+		newsletterLogImpl.setNewsletterLogId(newsletterLog.getNewsletterLogId());
+		newsletterLogImpl.setSendCampaignId(newsletterLog.getSendCampaignId());
+		newsletterLogImpl.setContactId(newsletterLog.getContactId());
+
+		return newsletterLogImpl;
+	}
+
+	/**
+	 * Finds the newsletter log with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 *
+	 * @param primaryKey the primary key of the newsletter log to find
+	 * @return the newsletter log
+	 * @throws com.liferay.portal.NoSuchModelException if a newsletter log with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog findByPrimaryKey(Serializable primaryKey)
+		throws NoSuchModelException, SystemException {
+		return findByPrimaryKey(((Long)primaryKey).longValue());
+	}
+
+	/**
+	 * Finds the newsletter log with the primary key or throws a {@link com.liferay.newsletter.NoSuchLogException} if it could not be found.
+	 *
+	 * @param newsletterLogId the primary key of the newsletter log to find
+	 * @return the newsletter log
+	 * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog findByPrimaryKey(long newsletterLogId)
+		throws NoSuchLogException, SystemException {
+		NewsletterLog newsletterLog = fetchByPrimaryKey(newsletterLogId);
+
+		if (newsletterLog == null) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + newsletterLogId);
+			}
+
+			throw new NoSuchLogException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+				newsletterLogId);
+		}
+
+		return newsletterLog;
+	}
+
+	/**
+	 * Finds the newsletter log with the primary key or returns <code>null</code> if it could not be found.
+	 *
+	 * @param primaryKey the primary key of the newsletter log to find
+	 * @return the newsletter log, or <code>null</code> if a newsletter log with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog fetchByPrimaryKey(Serializable primaryKey)
+		throws SystemException {
+		return fetchByPrimaryKey(((Long)primaryKey).longValue());
+	}
+
+	/**
+	 * Finds the newsletter log with the primary key or returns <code>null</code> if it could not be found.
+	 *
+	 * @param newsletterLogId the primary key of the newsletter log to find
+	 * @return the newsletter log, or <code>null</code> if a newsletter log with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog fetchByPrimaryKey(long newsletterLogId)
+		throws SystemException {
+		NewsletterLog newsletterLog = (NewsletterLog)EntityCacheUtil.getResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+				NewsletterLogImpl.class, newsletterLogId, this);
+
+		if (newsletterLog == null) {
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				newsletterLog = (NewsletterLog)session.get(NewsletterLogImpl.class,
+						new Long(newsletterLogId));
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (newsletterLog != null) {
+					cacheResult(newsletterLog);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return newsletterLog;
+	}
+
+	/**
+	 * Finds all the newsletter logs where uuid = &#63;.
+	 *
+	 * @param uuid the uuid to search with
+	 * @return the matching newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<NewsletterLog> findByUuid(String uuid)
+		throws SystemException {
+		return findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Finds a range of all the newsletter logs where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param uuid the uuid to search with
+	 * @param start the lower bound of the range of newsletter logs to return
+	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	 * @return the range of matching newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<NewsletterLog> findByUuid(String uuid, int start, int end)
+		throws SystemException {
+		return findByUuid(uuid, start, end, null);
+	}
+
+	/**
+	 * Finds an ordered range of all the newsletter logs where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param uuid the uuid to search with
+	 * @param start the lower bound of the range of newsletter logs to return
+	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by
+	 * @return the ordered range of matching newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<NewsletterLog> findByUuid(String uuid, int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		Object[] finderArgs = new Object[] {
+				uuid,
+				
+				String.valueOf(start), String.valueOf(end),
+				String.valueOf(orderByComparator)
+			};
+
+		List<NewsletterLog> list = (List<NewsletterLog>)FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_UUID,
+				finderArgs, this);
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(2);
+			}
+
+			query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
+
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_UUID_1);
+			}
+			else {
+				if (uuid.equals(StringPool.BLANK)) {
+					query.append(_FINDER_COLUMN_UUID_UUID_3);
+				}
+				else {
+					query.append(_FINDER_COLUMN_UUID_UUID_2);
+				}
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (uuid != null) {
+					qPos.add(uuid);
+				}
+
+				list = (List<NewsletterLog>)QueryUtil.list(q, getDialect(),
+						start, end);
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_UUID,
+						finderArgs);
+				}
+				else {
+					cacheResult(list);
+
+					FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_UUID,
+						finderArgs, list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Finds the first newsletter log in the ordered set where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param uuid the uuid to search with
+	 * @param orderByComparator the comparator to order the set by
+	 * @return the first matching newsletter log
+	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog findByUuid_First(String uuid,
+		OrderByComparator orderByComparator)
+		throws NoSuchLogException, SystemException {
+		List<NewsletterLog> list = findByUuid(uuid, 0, 1, orderByComparator);
+
+		if (list.isEmpty()) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("uuid=");
+			msg.append(uuid);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			throw new NoSuchLogException(msg.toString());
+		}
+		else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * Finds the last newsletter log in the ordered set where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param uuid the uuid to search with
+	 * @param orderByComparator the comparator to order the set by
+	 * @return the last matching newsletter log
+	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog findByUuid_Last(String uuid,
+		OrderByComparator orderByComparator)
+		throws NoSuchLogException, SystemException {
+		int count = countByUuid(uuid);
+
+		List<NewsletterLog> list = findByUuid(uuid, count - 1, count,
+				orderByComparator);
+
+		if (list.isEmpty()) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("uuid=");
+			msg.append(uuid);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			throw new NoSuchLogException(msg.toString());
+		}
+		else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * Finds the newsletter logs before and after the current newsletter log in the ordered set where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param newsletterLogId the primary key of the current newsletter log
+	 * @param uuid the uuid to search with
+	 * @param orderByComparator the comparator to order the set by
+	 * @return the previous, current, and next newsletter log
+	 * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog[] findByUuid_PrevAndNext(long newsletterLogId,
+		String uuid, OrderByComparator orderByComparator)
+		throws NoSuchLogException, SystemException {
+		NewsletterLog newsletterLog = findByPrimaryKey(newsletterLogId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			NewsletterLog[] array = new NewsletterLogImpl[3];
+
+			array[0] = getByUuid_PrevAndNext(session, newsletterLog, uuid,
+					orderByComparator, true);
+
+			array[1] = newsletterLog;
+
+			array[2] = getByUuid_PrevAndNext(session, newsletterLog, uuid,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected NewsletterLog getByUuid_PrevAndNext(Session session,
+		NewsletterLog newsletterLog, String uuid,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
+
+		if (uuid == null) {
+			query.append(_FINDER_COLUMN_UUID_UUID_1);
+		}
+		else {
+			if (uuid.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_UUID_UUID_3);
+			}
+			else {
+				query.append(_FINDER_COLUMN_UUID_UUID_2);
+			}
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (uuid != null) {
+			qPos.add(uuid);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(newsletterLog);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<NewsletterLog> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Finds all the newsletter logs where sendCampaignId = &#63;.
+	 *
+	 * @param sendCampaignId the send campaign ID to search with
+	 * @return the matching newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<NewsletterLog> findBySendCampaign(long sendCampaignId)
+		throws SystemException {
+		return findBySendCampaign(sendCampaignId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Finds a range of all the newsletter logs where sendCampaignId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendCampaignId the send campaign ID to search with
+	 * @param start the lower bound of the range of newsletter logs to return
+	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	 * @return the range of matching newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<NewsletterLog> findBySendCampaign(long sendCampaignId,
+		int start, int end) throws SystemException {
+		return findBySendCampaign(sendCampaignId, start, end, null);
+	}
+
+	/**
+	 * Finds an ordered range of all the newsletter logs where sendCampaignId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendCampaignId the send campaign ID to search with
+	 * @param start the lower bound of the range of newsletter logs to return
+	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by
+	 * @return the ordered range of matching newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<NewsletterLog> findBySendCampaign(long sendCampaignId,
+		int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
+		Object[] finderArgs = new Object[] {
+				sendCampaignId,
+				
+				String.valueOf(start), String.valueOf(end),
+				String.valueOf(orderByComparator)
+			};
+
+		List<NewsletterLog> list = (List<NewsletterLog>)FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_SENDCAMPAIGN,
+				finderArgs, this);
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(2);
+			}
+
+			query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
+
+			query.append(_FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(sendCampaignId);
+
+				list = (List<NewsletterLog>)QueryUtil.list(q, getDialect(),
+						start, end);
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_SENDCAMPAIGN,
+						finderArgs);
+				}
+				else {
+					cacheResult(list);
+
+					FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_SENDCAMPAIGN,
+						finderArgs, list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Finds the first newsletter log in the ordered set where sendCampaignId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendCampaignId the send campaign ID to search with
+	 * @param orderByComparator the comparator to order the set by
+	 * @return the first matching newsletter log
+	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog findBySendCampaign_First(long sendCampaignId,
+		OrderByComparator orderByComparator)
+		throws NoSuchLogException, SystemException {
+		List<NewsletterLog> list = findBySendCampaign(sendCampaignId, 0, 1,
+				orderByComparator);
+
+		if (list.isEmpty()) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("sendCampaignId=");
+			msg.append(sendCampaignId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			throw new NoSuchLogException(msg.toString());
+		}
+		else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * Finds the last newsletter log in the ordered set where sendCampaignId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendCampaignId the send campaign ID to search with
+	 * @param orderByComparator the comparator to order the set by
+	 * @return the last matching newsletter log
+	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog findBySendCampaign_Last(long sendCampaignId,
+		OrderByComparator orderByComparator)
+		throws NoSuchLogException, SystemException {
+		int count = countBySendCampaign(sendCampaignId);
+
+		List<NewsletterLog> list = findBySendCampaign(sendCampaignId,
+				count - 1, count, orderByComparator);
+
+		if (list.isEmpty()) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("sendCampaignId=");
+			msg.append(sendCampaignId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			throw new NoSuchLogException(msg.toString());
+		}
+		else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * Finds the newsletter logs before and after the current newsletter log in the ordered set where sendCampaignId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param newsletterLogId the primary key of the current newsletter log
+	 * @param sendCampaignId the send campaign ID to search with
+	 * @param orderByComparator the comparator to order the set by
+	 * @return the previous, current, and next newsletter log
+	 * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog[] findBySendCampaign_PrevAndNext(
+		long newsletterLogId, long sendCampaignId,
+		OrderByComparator orderByComparator)
+		throws NoSuchLogException, SystemException {
+		NewsletterLog newsletterLog = findByPrimaryKey(newsletterLogId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			NewsletterLog[] array = new NewsletterLogImpl[3];
+
+			array[0] = getBySendCampaign_PrevAndNext(session, newsletterLog,
+					sendCampaignId, orderByComparator, true);
+
+			array[1] = newsletterLog;
+
+			array[2] = getBySendCampaign_PrevAndNext(session, newsletterLog,
+					sendCampaignId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected NewsletterLog getBySendCampaign_PrevAndNext(Session session,
+		NewsletterLog newsletterLog, long sendCampaignId,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
+
+		query.append(_FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(sendCampaignId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(newsletterLog);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<NewsletterLog> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Finds all the newsletter logs.
+	 *
+	 * @return the newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<NewsletterLog> findAll() throws SystemException {
+		return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Finds a range of all the newsletter logs.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of newsletter logs to return
+	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	 * @return the range of newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<NewsletterLog> findAll(int start, int end)
+		throws SystemException {
+		return findAll(start, end, null);
+	}
+
+	/**
+	 * Finds an ordered range of all the newsletter logs.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of newsletter logs to return
+	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by
+	 * @return the ordered range of newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<NewsletterLog> findAll(int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		Object[] finderArgs = new Object[] {
+				String.valueOf(start), String.valueOf(end),
+				String.valueOf(orderByComparator)
+			};
+
+		List<NewsletterLog> list = (List<NewsletterLog>)FinderCacheUtil.getResult(FINDER_PATH_FIND_ALL,
+				finderArgs, this);
+
+		if (list == null) {
+			StringBundler query = null;
+			String sql = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(2 +
+						(orderByComparator.getOrderByFields().length * 3));
+
+				query.append(_SQL_SELECT_NEWSLETTERLOG);
+
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+
+				sql = query.toString();
+			}
+			else {
+				sql = _SQL_SELECT_NEWSLETTERLOG;
+			}
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				if (orderByComparator == null) {
+					list = (List<NewsletterLog>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+				}
+				else {
+					list = (List<NewsletterLog>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(FINDER_PATH_FIND_ALL,
+						finderArgs);
+				}
+				else {
+					cacheResult(list);
+
+					FinderCacheUtil.putResult(FINDER_PATH_FIND_ALL, finderArgs,
+						list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Removes all the newsletter logs where uuid = &#63; from the database.
+	 *
+	 * @param uuid the uuid to search with
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeByUuid(String uuid) throws SystemException {
+		for (NewsletterLog newsletterLog : findByUuid(uuid)) {
+			newsletterLogPersistence.remove(newsletterLog);
+		}
+	}
+
+	/**
+	 * Removes all the newsletter logs where sendCampaignId = &#63; from the database.
+	 *
+	 * @param sendCampaignId the send campaign ID to search with
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeBySendCampaign(long sendCampaignId)
+		throws SystemException {
+		for (NewsletterLog newsletterLog : findBySendCampaign(sendCampaignId)) {
+			newsletterLogPersistence.remove(newsletterLog);
+		}
+	}
+
+	/**
+	 * Removes all the newsletter logs from the database.
+	 *
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeAll() throws SystemException {
+		for (NewsletterLog newsletterLog : findAll()) {
+			newsletterLogPersistence.remove(newsletterLog);
+		}
+	}
+
+	/**
+	 * Counts all the newsletter logs where uuid = &#63;.
+	 *
+	 * @param uuid the uuid to search with
+	 * @return the number of matching newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int countByUuid(String uuid) throws SystemException {
+		Object[] finderArgs = new Object[] { uuid };
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_UUID,
+				finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_NEWSLETTERLOG_WHERE);
+
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_UUID_1);
+			}
+			else {
+				if (uuid.equals(StringPool.BLANK)) {
+					query.append(_FINDER_COLUMN_UUID_UUID_3);
+				}
+				else {
+					query.append(_FINDER_COLUMN_UUID_UUID_2);
+				}
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (uuid != null) {
+					qPos.add(uuid);
+				}
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_UUID,
+					finderArgs, count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Counts all the newsletter logs where sendCampaignId = &#63;.
+	 *
+	 * @param sendCampaignId the send campaign ID to search with
+	 * @return the number of matching newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int countBySendCampaign(long sendCampaignId)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { sendCampaignId };
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SENDCAMPAIGN,
+				finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_NEWSLETTERLOG_WHERE);
+
+			query.append(_FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(sendCampaignId);
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SENDCAMPAIGN,
+					finderArgs, count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Counts all the newsletter logs.
+	 *
+	 * @return the number of newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int countAll() throws SystemException {
+		Object[] finderArgs = new Object[0];
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
+				finderArgs, this);
+
+		if (count == null) {
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(_SQL_COUNT_NEWSLETTERLOG);
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL, finderArgs,
+					count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Initializes the newsletter log persistence.
+	 */
+	public void afterPropertiesSet() {
+		String[] listenerClassNames = StringUtil.split(GetterUtil.getString(
+					com.liferay.util.service.ServiceProps.get(
+						"value.object.listener.com.liferay.newsletter.model.NewsletterLog")));
+
+		if (listenerClassNames.length > 0) {
+			try {
+				List<ModelListener<NewsletterLog>> listenersList = new ArrayList<ModelListener<NewsletterLog>>();
+
+				for (String listenerClassName : listenerClassNames) {
+					listenersList.add((ModelListener<NewsletterLog>)InstanceFactory.newInstance(
+							listenerClassName));
+				}
+
+				listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
+			}
+			catch (Exception e) {
+				_log.error(e);
+			}
+		}
+	}
+
+	public void destroy() {
+		EntityCacheUtil.removeCache(NewsletterLogImpl.class.getName());
+		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST);
+	}
+
+	@BeanReference(type = CampaignPersistence.class)
+	protected CampaignPersistence campaignPersistence;
+	@BeanReference(type = ContactPersistence.class)
+	protected ContactPersistence contactPersistence;
+	@BeanReference(type = SendCampaignPersistence.class)
+	protected SendCampaignPersistence sendCampaignPersistence;
+	@BeanReference(type = NewsletterLogPersistence.class)
+	protected NewsletterLogPersistence newsletterLogPersistence;
+	@BeanReference(type = ResourcePersistence.class)
+	protected ResourcePersistence resourcePersistence;
+	@BeanReference(type = UserPersistence.class)
+	protected UserPersistence userPersistence;
+	private static final String _SQL_SELECT_NEWSLETTERLOG = "SELECT newsletterLog FROM NewsletterLog newsletterLog";
+	private static final String _SQL_SELECT_NEWSLETTERLOG_WHERE = "SELECT newsletterLog FROM NewsletterLog newsletterLog WHERE ";
+	private static final String _SQL_COUNT_NEWSLETTERLOG = "SELECT COUNT(newsletterLog) FROM NewsletterLog newsletterLog";
+	private static final String _SQL_COUNT_NEWSLETTERLOG_WHERE = "SELECT COUNT(newsletterLog) FROM NewsletterLog newsletterLog WHERE ";
+	private static final String _FINDER_COLUMN_UUID_UUID_1 = "newsletterLog.uuid IS NULL";
+	private static final String _FINDER_COLUMN_UUID_UUID_2 = "newsletterLog.uuid = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(newsletterLog.uuid IS NULL OR newsletterLog.uuid = ?)";
+	private static final String _FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2 = "newsletterLog.sendCampaignId = ?";
+	private static final String _ORDER_BY_ENTITY_ALIAS = "newsletterLog.";
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No NewsletterLog exists with the primary key ";
+	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No NewsletterLog exists with the key {";
+	private static Log _log = LogFactoryUtil.getLog(NewsletterLogPersistenceImpl.class);
 }

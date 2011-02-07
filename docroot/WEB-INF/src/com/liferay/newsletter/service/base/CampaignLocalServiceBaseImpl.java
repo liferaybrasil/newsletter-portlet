@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.service.base;
 
 import com.liferay.counter.service.CounterLocalService;
@@ -43,513 +57,514 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class CampaignLocalServiceBaseImpl
-    implements CampaignLocalService {
-    @BeanReference(type = CampaignLocalService.class)
-    protected CampaignLocalService campaignLocalService;
-    @BeanReference(type = CampaignPersistence.class)
-    protected CampaignPersistence campaignPersistence;
-    @BeanReference(type = ContactLocalService.class)
-    protected ContactLocalService contactLocalService;
-    @BeanReference(type = ContactPersistence.class)
-    protected ContactPersistence contactPersistence;
-    @BeanReference(type = SendCampaignLocalService.class)
-    protected SendCampaignLocalService sendCampaignLocalService;
-    @BeanReference(type = SendCampaignPersistence.class)
-    protected SendCampaignPersistence sendCampaignPersistence;
-    @BeanReference(type = NewsletterLogLocalService.class)
-    protected NewsletterLogLocalService newsletterLogLocalService;
-    @BeanReference(type = NewsletterLogPersistence.class)
-    protected NewsletterLogPersistence newsletterLogPersistence;
-    @BeanReference(type = CounterLocalService.class)
-    protected CounterLocalService counterLocalService;
-    @BeanReference(type = ResourceLocalService.class)
-    protected ResourceLocalService resourceLocalService;
-    @BeanReference(type = ResourceService.class)
-    protected ResourceService resourceService;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserLocalService.class)
-    protected UserLocalService userLocalService;
-    @BeanReference(type = UserService.class)
-    protected UserService userService;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
+	implements CampaignLocalService {
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify or reference this class directly. Always use {@link com.liferay.newsletter.service.CampaignLocalServiceUtil} to access the campaign local service.
+	 */
 
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never modify or reference this class directly. Always use {@link com.liferay.newsletter.service.CampaignLocalServiceUtil} to access the campaign local service.
-     */
+	/**
+	 * Adds the campaign to the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param campaign the campaign to add
+	 * @return the campaign that was added
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign addCampaign(Campaign campaign) throws SystemException {
+		campaign.setNew(true);
 
-    /**
-     * Adds the campaign to the database. Also notifies the appropriate model listeners.
-     *
-     * @param campaign the campaign to add
-     * @return the campaign that was added
-     * @throws SystemException if a system exception occurred
-     */
-    public Campaign addCampaign(Campaign campaign) throws SystemException {
-        campaign.setNew(true);
+		return campaignPersistence.update(campaign, false);
+	}
 
-        return campaignPersistence.update(campaign, false);
-    }
+	/**
+	 * Creates a new campaign with the primary key. Does not add the campaign to the database.
+	 *
+	 * @param campaignId the primary key for the new campaign
+	 * @return the new campaign
+	 */
+	public Campaign createCampaign(long campaignId) {
+		return campaignPersistence.create(campaignId);
+	}
 
-    /**
-     * Creates a new campaign with the primary key. Does not add the campaign to the database.
-     *
-     * @param campaignId the primary key for the new campaign
-     * @return the new campaign
-     */
-    public Campaign createCampaign(long campaignId) {
-        return campaignPersistence.create(campaignId);
-    }
+	/**
+	 * Deletes the campaign with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param campaignId the primary key of the campaign to delete
+	 * @throws PortalException if a campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void deleteCampaign(long campaignId)
+		throws PortalException, SystemException {
+		campaignPersistence.remove(campaignId);
+	}
 
-    /**
-     * Deletes the campaign with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param campaignId the primary key of the campaign to delete
-     * @throws PortalException if a campaign with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public void deleteCampaign(long campaignId)
-        throws PortalException, SystemException {
-        campaignPersistence.remove(campaignId);
-    }
+	/**
+	 * Deletes the campaign from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param campaign the campaign to delete
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void deleteCampaign(Campaign campaign) throws SystemException {
+		campaignPersistence.remove(campaign);
+	}
 
-    /**
-     * Deletes the campaign from the database. Also notifies the appropriate model listeners.
-     *
-     * @param campaign the campaign to delete
-     * @throws SystemException if a system exception occurred
-     */
-    public void deleteCampaign(Campaign campaign) throws SystemException {
-        campaignPersistence.remove(campaign);
-    }
+	/**
+	 * Performs a dynamic query on the database and returns the matching rows.
+	 *
+	 * @param dynamicQuery the dynamic query to search with
+	 * @return the matching rows
+	 * @throws SystemException if a system exception occurred
+	 */
+	@SuppressWarnings("rawtypes")
+	public List dynamicQuery(DynamicQuery dynamicQuery)
+		throws SystemException {
+		return campaignPersistence.findWithDynamicQuery(dynamicQuery);
+	}
 
-    /**
-     * Performs a dynamic query on the database and returns the matching rows.
-     *
-     * @param dynamicQuery the dynamic query to search with
-     * @return the matching rows
-     * @throws SystemException if a system exception occurred
-     */
-    @SuppressWarnings("rawtypes")
-    public List dynamicQuery(DynamicQuery dynamicQuery)
-        throws SystemException {
-        return campaignPersistence.findWithDynamicQuery(dynamicQuery);
-    }
+	/**
+	 * Performs a dynamic query on the database and returns a range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query to search with
+	 * @param start the lower bound of the range of model instances to return
+	 * @param end the upper bound of the range of model instances to return (not inclusive)
+	 * @return the range of matching rows
+	 * @throws SystemException if a system exception occurred
+	 */
+	@SuppressWarnings("rawtypes")
+	public List dynamicQuery(DynamicQuery dynamicQuery, int start, int end)
+		throws SystemException {
+		return campaignPersistence.findWithDynamicQuery(dynamicQuery, start, end);
+	}
 
-    /**
-     * Performs a dynamic query on the database and returns a range of the matching rows.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param dynamicQuery the dynamic query to search with
-     * @param start the lower bound of the range of model instances to return
-     * @param end the upper bound of the range of model instances to return (not inclusive)
-     * @return the range of matching rows
-     * @throws SystemException if a system exception occurred
-     */
-    @SuppressWarnings("rawtypes")
-    public List dynamicQuery(DynamicQuery dynamicQuery, int start, int end)
-        throws SystemException {
-        return campaignPersistence.findWithDynamicQuery(dynamicQuery, start, end);
-    }
+	/**
+	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query to search with
+	 * @param start the lower bound of the range of model instances to return
+	 * @param end the upper bound of the range of model instances to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by
+	 * @return the ordered range of matching rows
+	 * @throws SystemException if a system exception occurred
+	 */
+	@SuppressWarnings("rawtypes")
+	public List dynamicQuery(DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		return campaignPersistence.findWithDynamicQuery(dynamicQuery, start,
+			end, orderByComparator);
+	}
 
-    /**
-     * Performs a dynamic query on the database and returns an ordered range of the matching rows.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param dynamicQuery the dynamic query to search with
-     * @param start the lower bound of the range of model instances to return
-     * @param end the upper bound of the range of model instances to return (not inclusive)
-     * @param orderByComparator the comparator to order the results by
-     * @return the ordered range of matching rows
-     * @throws SystemException if a system exception occurred
-     */
-    @SuppressWarnings("rawtypes")
-    public List dynamicQuery(DynamicQuery dynamicQuery, int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        return campaignPersistence.findWithDynamicQuery(dynamicQuery, start,
-            end, orderByComparator);
-    }
+	/**
+	 * Counts the number of rows that match the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query to search with
+	 * @return the number of rows that match the dynamic query
+	 * @throws SystemException if a system exception occurred
+	 */
+	public long dynamicQueryCount(DynamicQuery dynamicQuery)
+		throws SystemException {
+		return campaignPersistence.countWithDynamicQuery(dynamicQuery);
+	}
 
-    /**
-     * Counts the number of rows that match the dynamic query.
-     *
-     * @param dynamicQuery the dynamic query to search with
-     * @return the number of rows that match the dynamic query
-     * @throws SystemException if a system exception occurred
-     */
-    public long dynamicQueryCount(DynamicQuery dynamicQuery)
-        throws SystemException {
-        return campaignPersistence.countWithDynamicQuery(dynamicQuery);
-    }
+	/**
+	 * Gets the campaign with the primary key.
+	 *
+	 * @param campaignId the primary key of the campaign to get
+	 * @return the campaign
+	 * @throws PortalException if a campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign getCampaign(long campaignId)
+		throws PortalException, SystemException {
+		return campaignPersistence.findByPrimaryKey(campaignId);
+	}
 
-    /**
-     * Gets the campaign with the primary key.
-     *
-     * @param campaignId the primary key of the campaign to get
-     * @return the campaign
-     * @throws PortalException if a campaign with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public Campaign getCampaign(long campaignId)
-        throws PortalException, SystemException {
-        return campaignPersistence.findByPrimaryKey(campaignId);
-    }
+	/**
+	 * Gets a range of all the campaigns.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @return the range of campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> getCampaigns(int start, int end)
+		throws SystemException {
+		return campaignPersistence.findAll(start, end);
+	}
 
-    /**
-     * Gets a range of all the campaigns.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of campaigns to return
-     * @param end the upper bound of the range of campaigns to return (not inclusive)
-     * @return the range of campaigns
-     * @throws SystemException if a system exception occurred
-     */
-    public List<Campaign> getCampaigns(int start, int end)
-        throws SystemException {
-        return campaignPersistence.findAll(start, end);
-    }
+	/**
+	 * Gets the number of campaigns.
+	 *
+	 * @return the number of campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int getCampaignsCount() throws SystemException {
+		return campaignPersistence.countAll();
+	}
 
-    /**
-     * Gets the number of campaigns.
-     *
-     * @return the number of campaigns
-     * @throws SystemException if a system exception occurred
-     */
-    public int getCampaignsCount() throws SystemException {
-        return campaignPersistence.countAll();
-    }
+	/**
+	 * Updates the campaign in the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param campaign the campaign to update
+	 * @return the campaign that was updated
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign updateCampaign(Campaign campaign) throws SystemException {
+		campaign.setNew(false);
 
-    /**
-     * Updates the campaign in the database. Also notifies the appropriate model listeners.
-     *
-     * @param campaign the campaign to update
-     * @return the campaign that was updated
-     * @throws SystemException if a system exception occurred
-     */
-    public Campaign updateCampaign(Campaign campaign) throws SystemException {
-        campaign.setNew(false);
+		return campaignPersistence.update(campaign, true);
+	}
 
-        return campaignPersistence.update(campaign, true);
-    }
+	/**
+	 * Updates the campaign in the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param campaign the campaign to update
+	 * @param merge whether to merge the campaign with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
+	 * @return the campaign that was updated
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign updateCampaign(Campaign campaign, boolean merge)
+		throws SystemException {
+		campaign.setNew(false);
 
-    /**
-     * Updates the campaign in the database. Also notifies the appropriate model listeners.
-     *
-     * @param campaign the campaign to update
-     * @param merge whether to merge the campaign with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
-     * @return the campaign that was updated
-     * @throws SystemException if a system exception occurred
-     */
-    public Campaign updateCampaign(Campaign campaign, boolean merge)
-        throws SystemException {
-        campaign.setNew(false);
+		return campaignPersistence.update(campaign, merge);
+	}
 
-        return campaignPersistence.update(campaign, merge);
-    }
+	/**
+	 * Gets the campaign local service.
+	 *
+	 * @return the campaign local service
+	 */
+	public CampaignLocalService getCampaignLocalService() {
+		return campaignLocalService;
+	}
 
-    /**
-     * Gets the campaign local service.
-     *
-     * @return the campaign local service
-     */
-    public CampaignLocalService getCampaignLocalService() {
-        return campaignLocalService;
-    }
+	/**
+	 * Sets the campaign local service.
+	 *
+	 * @param campaignLocalService the campaign local service
+	 */
+	public void setCampaignLocalService(
+		CampaignLocalService campaignLocalService) {
+		this.campaignLocalService = campaignLocalService;
+	}
 
-    /**
-     * Sets the campaign local service.
-     *
-     * @param campaignLocalService the campaign local service
-     */
-    public void setCampaignLocalService(
-        CampaignLocalService campaignLocalService) {
-        this.campaignLocalService = campaignLocalService;
-    }
+	/**
+	 * Gets the campaign persistence.
+	 *
+	 * @return the campaign persistence
+	 */
+	public CampaignPersistence getCampaignPersistence() {
+		return campaignPersistence;
+	}
 
-    /**
-     * Gets the campaign persistence.
-     *
-     * @return the campaign persistence
-     */
-    public CampaignPersistence getCampaignPersistence() {
-        return campaignPersistence;
-    }
+	/**
+	 * Sets the campaign persistence.
+	 *
+	 * @param campaignPersistence the campaign persistence
+	 */
+	public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
+		this.campaignPersistence = campaignPersistence;
+	}
 
-    /**
-     * Sets the campaign persistence.
-     *
-     * @param campaignPersistence the campaign persistence
-     */
-    public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
-        this.campaignPersistence = campaignPersistence;
-    }
+	/**
+	 * Gets the contact local service.
+	 *
+	 * @return the contact local service
+	 */
+	public ContactLocalService getContactLocalService() {
+		return contactLocalService;
+	}
 
-    /**
-     * Gets the contact local service.
-     *
-     * @return the contact local service
-     */
-    public ContactLocalService getContactLocalService() {
-        return contactLocalService;
-    }
+	/**
+	 * Sets the contact local service.
+	 *
+	 * @param contactLocalService the contact local service
+	 */
+	public void setContactLocalService(ContactLocalService contactLocalService) {
+		this.contactLocalService = contactLocalService;
+	}
 
-    /**
-     * Sets the contact local service.
-     *
-     * @param contactLocalService the contact local service
-     */
-    public void setContactLocalService(ContactLocalService contactLocalService) {
-        this.contactLocalService = contactLocalService;
-    }
+	/**
+	 * Gets the contact persistence.
+	 *
+	 * @return the contact persistence
+	 */
+	public ContactPersistence getContactPersistence() {
+		return contactPersistence;
+	}
 
-    /**
-     * Gets the contact persistence.
-     *
-     * @return the contact persistence
-     */
-    public ContactPersistence getContactPersistence() {
-        return contactPersistence;
-    }
+	/**
+	 * Sets the contact persistence.
+	 *
+	 * @param contactPersistence the contact persistence
+	 */
+	public void setContactPersistence(ContactPersistence contactPersistence) {
+		this.contactPersistence = contactPersistence;
+	}
 
-    /**
-     * Sets the contact persistence.
-     *
-     * @param contactPersistence the contact persistence
-     */
-    public void setContactPersistence(ContactPersistence contactPersistence) {
-        this.contactPersistence = contactPersistence;
-    }
+	/**
+	 * Gets the send campaign local service.
+	 *
+	 * @return the send campaign local service
+	 */
+	public SendCampaignLocalService getSendCampaignLocalService() {
+		return sendCampaignLocalService;
+	}
 
-    /**
-     * Gets the send campaign local service.
-     *
-     * @return the send campaign local service
-     */
-    public SendCampaignLocalService getSendCampaignLocalService() {
-        return sendCampaignLocalService;
-    }
+	/**
+	 * Sets the send campaign local service.
+	 *
+	 * @param sendCampaignLocalService the send campaign local service
+	 */
+	public void setSendCampaignLocalService(
+		SendCampaignLocalService sendCampaignLocalService) {
+		this.sendCampaignLocalService = sendCampaignLocalService;
+	}
 
-    /**
-     * Sets the send campaign local service.
-     *
-     * @param sendCampaignLocalService the send campaign local service
-     */
-    public void setSendCampaignLocalService(
-        SendCampaignLocalService sendCampaignLocalService) {
-        this.sendCampaignLocalService = sendCampaignLocalService;
-    }
+	/**
+	 * Gets the send campaign persistence.
+	 *
+	 * @return the send campaign persistence
+	 */
+	public SendCampaignPersistence getSendCampaignPersistence() {
+		return sendCampaignPersistence;
+	}
 
-    /**
-     * Gets the send campaign persistence.
-     *
-     * @return the send campaign persistence
-     */
-    public SendCampaignPersistence getSendCampaignPersistence() {
-        return sendCampaignPersistence;
-    }
+	/**
+	 * Sets the send campaign persistence.
+	 *
+	 * @param sendCampaignPersistence the send campaign persistence
+	 */
+	public void setSendCampaignPersistence(
+		SendCampaignPersistence sendCampaignPersistence) {
+		this.sendCampaignPersistence = sendCampaignPersistence;
+	}
 
-    /**
-     * Sets the send campaign persistence.
-     *
-     * @param sendCampaignPersistence the send campaign persistence
-     */
-    public void setSendCampaignPersistence(
-        SendCampaignPersistence sendCampaignPersistence) {
-        this.sendCampaignPersistence = sendCampaignPersistence;
-    }
+	/**
+	 * Gets the newsletter log local service.
+	 *
+	 * @return the newsletter log local service
+	 */
+	public NewsletterLogLocalService getNewsletterLogLocalService() {
+		return newsletterLogLocalService;
+	}
 
-    /**
-     * Gets the newsletter log local service.
-     *
-     * @return the newsletter log local service
-     */
-    public NewsletterLogLocalService getNewsletterLogLocalService() {
-        return newsletterLogLocalService;
-    }
+	/**
+	 * Sets the newsletter log local service.
+	 *
+	 * @param newsletterLogLocalService the newsletter log local service
+	 */
+	public void setNewsletterLogLocalService(
+		NewsletterLogLocalService newsletterLogLocalService) {
+		this.newsletterLogLocalService = newsletterLogLocalService;
+	}
 
-    /**
-     * Sets the newsletter log local service.
-     *
-     * @param newsletterLogLocalService the newsletter log local service
-     */
-    public void setNewsletterLogLocalService(
-        NewsletterLogLocalService newsletterLogLocalService) {
-        this.newsletterLogLocalService = newsletterLogLocalService;
-    }
+	/**
+	 * Gets the newsletter log persistence.
+	 *
+	 * @return the newsletter log persistence
+	 */
+	public NewsletterLogPersistence getNewsletterLogPersistence() {
+		return newsletterLogPersistence;
+	}
 
-    /**
-     * Gets the newsletter log persistence.
-     *
-     * @return the newsletter log persistence
-     */
-    public NewsletterLogPersistence getNewsletterLogPersistence() {
-        return newsletterLogPersistence;
-    }
+	/**
+	 * Sets the newsletter log persistence.
+	 *
+	 * @param newsletterLogPersistence the newsletter log persistence
+	 */
+	public void setNewsletterLogPersistence(
+		NewsletterLogPersistence newsletterLogPersistence) {
+		this.newsletterLogPersistence = newsletterLogPersistence;
+	}
 
-    /**
-     * Sets the newsletter log persistence.
-     *
-     * @param newsletterLogPersistence the newsletter log persistence
-     */
-    public void setNewsletterLogPersistence(
-        NewsletterLogPersistence newsletterLogPersistence) {
-        this.newsletterLogPersistence = newsletterLogPersistence;
-    }
+	/**
+	 * Gets the counter local service.
+	 *
+	 * @return the counter local service
+	 */
+	public CounterLocalService getCounterLocalService() {
+		return counterLocalService;
+	}
 
-    /**
-     * Gets the counter local service.
-     *
-     * @return the counter local service
-     */
-    public CounterLocalService getCounterLocalService() {
-        return counterLocalService;
-    }
+	/**
+	 * Sets the counter local service.
+	 *
+	 * @param counterLocalService the counter local service
+	 */
+	public void setCounterLocalService(CounterLocalService counterLocalService) {
+		this.counterLocalService = counterLocalService;
+	}
 
-    /**
-     * Sets the counter local service.
-     *
-     * @param counterLocalService the counter local service
-     */
-    public void setCounterLocalService(CounterLocalService counterLocalService) {
-        this.counterLocalService = counterLocalService;
-    }
+	/**
+	 * Gets the resource local service.
+	 *
+	 * @return the resource local service
+	 */
+	public ResourceLocalService getResourceLocalService() {
+		return resourceLocalService;
+	}
 
-    /**
-     * Gets the resource local service.
-     *
-     * @return the resource local service
-     */
-    public ResourceLocalService getResourceLocalService() {
-        return resourceLocalService;
-    }
+	/**
+	 * Sets the resource local service.
+	 *
+	 * @param resourceLocalService the resource local service
+	 */
+	public void setResourceLocalService(
+		ResourceLocalService resourceLocalService) {
+		this.resourceLocalService = resourceLocalService;
+	}
 
-    /**
-     * Sets the resource local service.
-     *
-     * @param resourceLocalService the resource local service
-     */
-    public void setResourceLocalService(
-        ResourceLocalService resourceLocalService) {
-        this.resourceLocalService = resourceLocalService;
-    }
+	/**
+	 * Gets the resource remote service.
+	 *
+	 * @return the resource remote service
+	 */
+	public ResourceService getResourceService() {
+		return resourceService;
+	}
 
-    /**
-     * Gets the resource remote service.
-     *
-     * @return the resource remote service
-     */
-    public ResourceService getResourceService() {
-        return resourceService;
-    }
+	/**
+	 * Sets the resource remote service.
+	 *
+	 * @param resourceService the resource remote service
+	 */
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
 
-    /**
-     * Sets the resource remote service.
-     *
-     * @param resourceService the resource remote service
-     */
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-    }
+	/**
+	 * Gets the resource persistence.
+	 *
+	 * @return the resource persistence
+	 */
+	public ResourcePersistence getResourcePersistence() {
+		return resourcePersistence;
+	}
 
-    /**
-     * Gets the resource persistence.
-     *
-     * @return the resource persistence
-     */
-    public ResourcePersistence getResourcePersistence() {
-        return resourcePersistence;
-    }
+	/**
+	 * Sets the resource persistence.
+	 *
+	 * @param resourcePersistence the resource persistence
+	 */
+	public void setResourcePersistence(ResourcePersistence resourcePersistence) {
+		this.resourcePersistence = resourcePersistence;
+	}
 
-    /**
-     * Sets the resource persistence.
-     *
-     * @param resourcePersistence the resource persistence
-     */
-    public void setResourcePersistence(ResourcePersistence resourcePersistence) {
-        this.resourcePersistence = resourcePersistence;
-    }
+	/**
+	 * Gets the user local service.
+	 *
+	 * @return the user local service
+	 */
+	public UserLocalService getUserLocalService() {
+		return userLocalService;
+	}
 
-    /**
-     * Gets the user local service.
-     *
-     * @return the user local service
-     */
-    public UserLocalService getUserLocalService() {
-        return userLocalService;
-    }
+	/**
+	 * Sets the user local service.
+	 *
+	 * @param userLocalService the user local service
+	 */
+	public void setUserLocalService(UserLocalService userLocalService) {
+		this.userLocalService = userLocalService;
+	}
 
-    /**
-     * Sets the user local service.
-     *
-     * @param userLocalService the user local service
-     */
-    public void setUserLocalService(UserLocalService userLocalService) {
-        this.userLocalService = userLocalService;
-    }
+	/**
+	 * Gets the user remote service.
+	 *
+	 * @return the user remote service
+	 */
+	public UserService getUserService() {
+		return userService;
+	}
 
-    /**
-     * Gets the user remote service.
-     *
-     * @return the user remote service
-     */
-    public UserService getUserService() {
-        return userService;
-    }
+	/**
+	 * Sets the user remote service.
+	 *
+	 * @param userService the user remote service
+	 */
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
-    /**
-     * Sets the user remote service.
-     *
-     * @param userService the user remote service
-     */
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+	/**
+	 * Gets the user persistence.
+	 *
+	 * @return the user persistence
+	 */
+	public UserPersistence getUserPersistence() {
+		return userPersistence;
+	}
 
-    /**
-     * Gets the user persistence.
-     *
-     * @return the user persistence
-     */
-    public UserPersistence getUserPersistence() {
-        return userPersistence;
-    }
+	/**
+	 * Sets the user persistence.
+	 *
+	 * @param userPersistence the user persistence
+	 */
+	public void setUserPersistence(UserPersistence userPersistence) {
+		this.userPersistence = userPersistence;
+	}
 
-    /**
-     * Sets the user persistence.
-     *
-     * @param userPersistence the user persistence
-     */
-    public void setUserPersistence(UserPersistence userPersistence) {
-        this.userPersistence = userPersistence;
-    }
+	/**
+	 * Performs an SQL query.
+	 *
+	 * @param sql the sql query to perform
+	 */
+	protected void runSQL(String sql) throws SystemException {
+		try {
+			DataSource dataSource = campaignPersistence.getDataSource();
 
-    /**
-     * Performs an SQL query.
-     *
-     * @param sql the sql query to perform
-     */
-    protected void runSQL(String sql) throws SystemException {
-        try {
-            DataSource dataSource = campaignPersistence.getDataSource();
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
+					sql, new int[0]);
 
-            SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-                    sql, new int[0]);
+			sqlUpdate.update();
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+	}
 
-            sqlUpdate.update();
-        } catch (Exception e) {
-            throw new SystemException(e);
-        }
-    }
+	@BeanReference(type = CampaignLocalService.class)
+	protected CampaignLocalService campaignLocalService;
+	@BeanReference(type = CampaignPersistence.class)
+	protected CampaignPersistence campaignPersistence;
+	@BeanReference(type = ContactLocalService.class)
+	protected ContactLocalService contactLocalService;
+	@BeanReference(type = ContactPersistence.class)
+	protected ContactPersistence contactPersistence;
+	@BeanReference(type = SendCampaignLocalService.class)
+	protected SendCampaignLocalService sendCampaignLocalService;
+	@BeanReference(type = SendCampaignPersistence.class)
+	protected SendCampaignPersistence sendCampaignPersistence;
+	@BeanReference(type = NewsletterLogLocalService.class)
+	protected NewsletterLogLocalService newsletterLogLocalService;
+	@BeanReference(type = NewsletterLogPersistence.class)
+	protected NewsletterLogPersistence newsletterLogPersistence;
+	@BeanReference(type = CounterLocalService.class)
+	protected CounterLocalService counterLocalService;
+	@BeanReference(type = ResourceLocalService.class)
+	protected ResourceLocalService resourceLocalService;
+	@BeanReference(type = ResourceService.class)
+	protected ResourceService resourceService;
+	@BeanReference(type = ResourcePersistence.class)
+	protected ResourcePersistence resourcePersistence;
+	@BeanReference(type = UserLocalService.class)
+	protected UserLocalService userLocalService;
+	@BeanReference(type = UserService.class)
+	protected UserService userService;
+	@BeanReference(type = UserPersistence.class)
+	protected UserPersistence userPersistence;
 }

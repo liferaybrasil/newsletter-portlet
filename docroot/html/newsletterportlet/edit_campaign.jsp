@@ -38,6 +38,13 @@
 
 <portlet:actionURL var="editCampaignURL" />
 
+<liferay-portlet:renderURL windowState="<%= LiferayWindowState.POP_UP.toString() %>" varImpl="selectContentPopupURL">
+			<portlet:param name="tabs1" value="Campaign" />
+			<portlet:param name="redirect" value="<%= redirect %>" />
+			<portlet:param name="jspPage" value="/html/newsletterportlet/popup.jsp" />
+			<portlet:param name="" value="<portl"></portlet:param>
+</liferay-portlet:renderURL>
+
 <aui:form action="<%= editCampaignURL %>" method="POST" name="fm">
 	<aui:fieldset>
 		<aui:input type="hidden" name="cmd" value="campaign" />
@@ -51,6 +58,18 @@
 
 		<aui:input name="content" label="Content" />
 		<liferay-ui:error key="campaigncontent-required" message="campaigncontent-required" />
+		
+		<%
+		String webContentPopUpURL = "javascript:Liferay.Util.openIframePopUp('','', '"+selectContentPopupURL+"', '" + renderResponse.getNamespace() + "','WebContent');";
+		%>
+
+		<liferay-ui:icon
+			message='Select WebContent'
+			src="edit"
+			url='<%= webContentPopUpURL %>'
+			label="Select Webcontent"
+		/>
+		
 
 	</aui:fieldset>
 

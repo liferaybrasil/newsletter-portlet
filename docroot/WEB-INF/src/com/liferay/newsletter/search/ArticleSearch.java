@@ -14,17 +14,6 @@
 
 package com.liferay.newsletter.search;
 
-import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.JavaConstants;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.util.PortletKeys;
-import com.liferay.portlet.PortalPreferences;
-import com.liferay.portlet.PortletPreferencesFactoryUtil;
-import com.liferay.portlet.journal.model.JournalArticle;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +23,27 @@ import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.JavaConstants;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.util.PortletKeys;
+import com.liferay.portlet.PortalPreferences;
+import com.liferay.portlet.PortletPreferencesFactoryUtil;
+import com.liferay.portlet.journal.model.JournalArticle;
+import com.liferay.portlet.journal.util.comparator.ArticleCreateDateComparator;
+import com.liferay.portlet.journal.util.comparator.ArticleDisplayDateComparator;
+import com.liferay.portlet.journal.util.comparator.ArticleIDComparator;
+import com.liferay.portlet.journal.util.comparator.ArticleModifiedDateComparator;
+import com.liferay.portlet.journal.util.comparator.ArticleReviewDateComparator;
+import com.liferay.portlet.journal.util.comparator.ArticleTitleComparator;
+import com.liferay.portlet.journal.util.comparator.ArticleVersionComparator;
+
 /**
  * @author Brian Wing Shun Chan
- * 		   Bruno Pinheiro
  */
 public class ArticleSearch extends SearchContainer<JournalArticle> {
 
@@ -130,13 +137,53 @@ public class ArticleSearch extends SearchContainer<JournalArticle> {
 					PortletKeys.JOURNAL, "articles-order-by-type", "asc");
 			}
 
+			OrderByComparator orderByComparator = getArticleOrderByComparator(
+				orderByCol, orderByType);
+			
 			setOrderableHeaders(orderableHeaders);
 			setOrderByCol(orderByCol);
 			setOrderByType(orderByType);
+			setOrderByComparator(orderByComparator);
 		}
 		catch (Exception e) {
 			_log.error(e);
 		}
+	}
+	
+	private OrderByComparator getArticleOrderByComparator(
+		String orderByCol, String orderByType) {
+
+		boolean orderByAsc = false;
+
+		if (orderByType.equals("asc")) {
+			orderByAsc = true;
+		}
+
+		OrderByComparator orderByComparator = null;
+
+		if (orderByCol.equals("create-date")) {
+			orderByComparator = new ArticleCreateDateComparator(orderByAsc);
+		}
+		else if (orderByCol.equals("display-date")) {
+			orderByComparator = new ArticleDisplayDateComparator(orderByAsc);
+		}
+		else if (orderByCol.equals("id")) {
+			orderByComparator = new ArticleIDComparator(orderByAsc);
+		}
+		else if (orderByCol.equals("modified-date")) {
+			orderByComparator = new ArticleModifiedDateComparator(orderByAsc);
+		}
+		else if (orderByCol.equals("review-date")) {
+			orderByComparator = new ArticleReviewDateComparator(orderByAsc);
+		}
+		else if (orderByCol.equals("title")) {
+			orderByComparator = new ArticleTitleComparator(orderByAsc);
+		}
+		else if (orderByCol.equals("version")) {
+			orderByComparator = new ArticleVersionComparator(orderByAsc);
+		}
+
+		return orderByComparator;
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(ArticleSearch.class);

@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
@@ -22,112 +36,112 @@ import java.io.Serializable;
  * @generated
  */
 public interface ContactModel extends BaseModel<Contact> {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never modify or reference this interface directly. All methods that expect a contact model instance should use the {@link Contact} interface instead.
-     */
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify or reference this interface directly. All methods that expect a contact model instance should use the {@link Contact} interface instead.
+	 */
 
-    /**
-     * Gets the primary key of this contact.
-     *
-     * @return the primary key of this contact
-     */
-    public long getPrimaryKey();
+	/**
+	 * Gets the primary key of this contact.
+	 *
+	 * @return the primary key of this contact
+	 */
+	public long getPrimaryKey();
 
-    /**
-     * Sets the primary key of this contact
-     *
-     * @param pk the primary key of this contact
-     */
-    public void setPrimaryKey(long pk);
+	/**
+	 * Sets the primary key of this contact
+	 *
+	 * @param pk the primary key of this contact
+	 */
+	public void setPrimaryKey(long pk);
 
-    /**
-     * Gets the uuid of this contact.
-     *
-     * @return the uuid of this contact
-     */
-    @AutoEscape
-    public String getUuid();
+	/**
+	 * Gets the uuid of this contact.
+	 *
+	 * @return the uuid of this contact
+	 */
+	@AutoEscape
+	public String getUuid();
 
-    /**
-     * Sets the uuid of this contact.
-     *
-     * @param uuid the uuid of this contact
-     */
-    public void setUuid(String uuid);
+	/**
+	 * Sets the uuid of this contact.
+	 *
+	 * @param uuid the uuid of this contact
+	 */
+	public void setUuid(String uuid);
 
-    /**
-     * Gets the contact id of this contact.
-     *
-     * @return the contact id of this contact
-     */
-    public long getContactId();
+	/**
+	 * Gets the contact ID of this contact.
+	 *
+	 * @return the contact ID of this contact
+	 */
+	public long getContactId();
 
-    /**
-     * Sets the contact id of this contact.
-     *
-     * @param contactId the contact id of this contact
-     */
-    public void setContactId(long contactId);
+	/**
+	 * Sets the contact ID of this contact.
+	 *
+	 * @param contactId the contact ID of this contact
+	 */
+	public void setContactId(long contactId);
 
-    /**
-     * Gets the email of this contact.
-     *
-     * @return the email of this contact
-     */
-    @AutoEscape
-    public String getEmail();
+	/**
+	 * Gets the email of this contact.
+	 *
+	 * @return the email of this contact
+	 */
+	@AutoEscape
+	public String getEmail();
 
-    /**
-     * Sets the email of this contact.
-     *
-     * @param email the email of this contact
-     */
-    public void setEmail(String email);
+	/**
+	 * Sets the email of this contact.
+	 *
+	 * @param email the email of this contact
+	 */
+	public void setEmail(String email);
 
-    /**
-     * Gets the name of this contact.
-     *
-     * @return the name of this contact
-     */
-    @AutoEscape
-    public String getName();
+	/**
+	 * Gets the name of this contact.
+	 *
+	 * @return the name of this contact
+	 */
+	@AutoEscape
+	public String getName();
 
-    /**
-     * Sets the name of this contact.
-     *
-     * @param name the name of this contact
-     */
-    public void setName(String name);
+	/**
+	 * Sets the name of this contact.
+	 *
+	 * @param name the name of this contact
+	 */
+	public void setName(String name);
 
-    public boolean isNew();
+	public boolean isNew();
 
-    public void setNew(boolean n);
+	public void setNew(boolean n);
 
-    public boolean isCachedModel();
+	public boolean isCachedModel();
 
-    public void setCachedModel(boolean cachedModel);
+	public void setCachedModel(boolean cachedModel);
 
-    public boolean isEscapedModel();
+	public boolean isEscapedModel();
 
-    public void setEscapedModel(boolean escapedModel);
+	public void setEscapedModel(boolean escapedModel);
 
-    public Serializable getPrimaryKeyObj();
+	public Serializable getPrimaryKeyObj();
 
-    public ExpandoBridge getExpandoBridge();
+	public ExpandoBridge getExpandoBridge();
 
-    public void setExpandoBridgeAttributes(ServiceContext serviceContext);
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
 
-    public Object clone();
+	public Object clone();
 
-    public int compareTo(Contact contact);
+	public int compareTo(Contact contact);
 
-    public int hashCode();
+	public int hashCode();
 
-    public Contact toEscapedModel();
+	public Contact toEscapedModel();
 
-    public String toString();
+	public String toString();
 
-    public String toXmlString();
+	public String toXmlString();
 }

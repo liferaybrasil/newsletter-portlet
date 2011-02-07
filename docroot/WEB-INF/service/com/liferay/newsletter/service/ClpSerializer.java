@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.service;
 
 import com.liferay.newsletter.model.CampaignClp;
@@ -7,6 +21,8 @@ import com.liferay.newsletter.model.SendCampaignClp;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.BaseModel;
 
 import java.lang.reflect.Method;
@@ -15,532 +31,598 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ */
 public class ClpSerializer {
-    public static final String SERVLET_CONTEXT_NAME = "newsletter-portlet";
-    private static Log _log = LogFactoryUtil.getLog(ClpSerializer.class);
-    private static ClassLoader _classLoader;
+	public static String getServletContextName() {
+		if (Validator.isNotNull(_servletContextName)) {
+			return _servletContextName;
+		}
 
-    public static void setClassLoader(ClassLoader classLoader) {
-        _classLoader = classLoader;
-    }
+		synchronized (ClpSerializer.class) {
+			if (Validator.isNotNull(_servletContextName)) {
+				return _servletContextName;
+			}
 
-    public static Object translateInput(BaseModel<?> oldModel) {
-        Class<?> oldModelClass = oldModel.getClass();
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
 
-        String oldModelClassName = oldModelClass.getName();
+				Class<?> portletPropsClass = classLoader.loadClass(
+						"com.liferay.util.portlet.PortletProps");
 
-        if (oldModelClassName.equals(CampaignClp.class.getName())) {
-            CampaignClp oldCplModel = (CampaignClp) oldModel;
+				Method getMethod = portletPropsClass.getMethod("get",
+						new Class<?>[] { String.class });
 
-            ClassLoader contextClassLoader = Thread.currentThread()
-                                                   .getContextClassLoader();
+				String portletPropsServletContextName = (String)getMethod.invoke(null,
+						"newsletter-portlet-deployment-context");
 
-            try {
-                Thread.currentThread().setContextClassLoader(_classLoader);
+				if (Validator.isNotNull(portletPropsServletContextName)) {
+					_servletContextName = portletPropsServletContextName;
+				}
+			}
+			catch (Exception e) {
+				_log.error(e, e);
+			}
 
-                try {
-                    Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.CampaignImpl",
-                            true, _classLoader);
+			if (Validator.isNull(_servletContextName)) {
+				try {
+					String propsUtilServletContextName = PropsUtil.get(
+							"newsletter-portlet-deployment-context");
 
-                    Object newModel = newModelClass.newInstance();
+					if (Validator.isNotNull(propsUtilServletContextName)) {
+						_servletContextName = propsUtilServletContextName;
+					}
+				}
+				catch (Exception e) {
+					_log.error(e, e);
+				}
+			}
 
-                    Method method0 = newModelClass.getMethod("setUuid",
-                            new Class[] { String.class });
+			if (Validator.isNull(_servletContextName)) {
+				_servletContextName = "newsletter-portlet";
+			}
 
-                    String value0 = oldCplModel.getUuid();
+			return _servletContextName;
+		}
+	}
 
-                    method0.invoke(newModel, value0);
+	public static void setClassLoader(ClassLoader classLoader) {
+		_classLoader = classLoader;
+	}
 
-                    Method method1 = newModelClass.getMethod("setCampaignId",
-                            new Class[] { Long.TYPE });
+	public static Object translateInput(BaseModel<?> oldModel) {
+		Class<?> oldModelClass = oldModel.getClass();
 
-                    Long value1 = new Long(oldCplModel.getCampaignId());
+		String oldModelClassName = oldModelClass.getName();
 
-                    method1.invoke(newModel, value1);
+		if (oldModelClassName.equals(CampaignClp.class.getName())) {
+			CampaignClp oldCplModel = (CampaignClp)oldModel;
 
-                    Method method2 = newModelClass.getMethod("setTitle",
-                            new Class[] { String.class });
+			ClassLoader contextClassLoader = Thread.currentThread()
+												   .getContextClassLoader();
 
-                    String value2 = oldCplModel.getTitle();
+			try {
+				Thread.currentThread().setContextClassLoader(_classLoader);
 
-                    method2.invoke(newModel, value2);
+				try {
+					Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.CampaignImpl",
+							true, _classLoader);
 
-                    Method method3 = newModelClass.getMethod("setContent",
-                            new Class[] { String.class });
+					Object newModel = newModelClass.newInstance();
 
-                    String value3 = oldCplModel.getContent();
+					Method method0 = newModelClass.getMethod("setUuid",
+							new Class[] { String.class });
 
-                    method3.invoke(newModel, value3);
+					String value0 = oldCplModel.getUuid();
 
-                    return newModel;
-                } catch (Exception e) {
-                    _log.error(e, e);
-                }
-            } finally {
-                Thread.currentThread().setContextClassLoader(contextClassLoader);
-            }
-        }
+					method0.invoke(newModel, value0);
 
-        if (oldModelClassName.equals(ContactClp.class.getName())) {
-            ContactClp oldCplModel = (ContactClp) oldModel;
+					Method method1 = newModelClass.getMethod("setCampaignId",
+							new Class[] { Long.TYPE });
 
-            ClassLoader contextClassLoader = Thread.currentThread()
-                                                   .getContextClassLoader();
+					Long value1 = new Long(oldCplModel.getCampaignId());
 
-            try {
-                Thread.currentThread().setContextClassLoader(_classLoader);
+					method1.invoke(newModel, value1);
 
-                try {
-                    Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.ContactImpl",
-                            true, _classLoader);
+					Method method2 = newModelClass.getMethod("setTitle",
+							new Class[] { String.class });
 
-                    Object newModel = newModelClass.newInstance();
+					String value2 = oldCplModel.getTitle();
 
-                    Method method0 = newModelClass.getMethod("setUuid",
-                            new Class[] { String.class });
+					method2.invoke(newModel, value2);
 
-                    String value0 = oldCplModel.getUuid();
+					Method method3 = newModelClass.getMethod("setContent",
+							new Class[] { String.class });
 
-                    method0.invoke(newModel, value0);
+					String value3 = oldCplModel.getContent();
 
-                    Method method1 = newModelClass.getMethod("setContactId",
-                            new Class[] { Long.TYPE });
+					method3.invoke(newModel, value3);
 
-                    Long value1 = new Long(oldCplModel.getContactId());
+					return newModel;
+				}
+				catch (Exception e) {
+					_log.error(e, e);
+				}
+			}
+			finally {
+				Thread.currentThread().setContextClassLoader(contextClassLoader);
+			}
+		}
 
-                    method1.invoke(newModel, value1);
+		if (oldModelClassName.equals(ContactClp.class.getName())) {
+			ContactClp oldCplModel = (ContactClp)oldModel;
 
-                    Method method2 = newModelClass.getMethod("setEmail",
-                            new Class[] { String.class });
+			ClassLoader contextClassLoader = Thread.currentThread()
+												   .getContextClassLoader();
 
-                    String value2 = oldCplModel.getEmail();
+			try {
+				Thread.currentThread().setContextClassLoader(_classLoader);
 
-                    method2.invoke(newModel, value2);
+				try {
+					Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.ContactImpl",
+							true, _classLoader);
 
-                    Method method3 = newModelClass.getMethod("setName",
-                            new Class[] { String.class });
+					Object newModel = newModelClass.newInstance();
 
-                    String value3 = oldCplModel.getName();
+					Method method0 = newModelClass.getMethod("setUuid",
+							new Class[] { String.class });
 
-                    method3.invoke(newModel, value3);
+					String value0 = oldCplModel.getUuid();
 
-                    return newModel;
-                } catch (Exception e) {
-                    _log.error(e, e);
-                }
-            } finally {
-                Thread.currentThread().setContextClassLoader(contextClassLoader);
-            }
-        }
+					method0.invoke(newModel, value0);
 
-        if (oldModelClassName.equals(SendCampaignClp.class.getName())) {
-            SendCampaignClp oldCplModel = (SendCampaignClp) oldModel;
+					Method method1 = newModelClass.getMethod("setContactId",
+							new Class[] { Long.TYPE });
 
-            ClassLoader contextClassLoader = Thread.currentThread()
-                                                   .getContextClassLoader();
+					Long value1 = new Long(oldCplModel.getContactId());
 
-            try {
-                Thread.currentThread().setContextClassLoader(_classLoader);
+					method1.invoke(newModel, value1);
 
-                try {
-                    Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.SendCampaignImpl",
-                            true, _classLoader);
+					Method method2 = newModelClass.getMethod("setEmail",
+							new Class[] { String.class });
 
-                    Object newModel = newModelClass.newInstance();
+					String value2 = oldCplModel.getEmail();
 
-                    Method method0 = newModelClass.getMethod("setUuid",
-                            new Class[] { String.class });
+					method2.invoke(newModel, value2);
 
-                    String value0 = oldCplModel.getUuid();
+					Method method3 = newModelClass.getMethod("setName",
+							new Class[] { String.class });
 
-                    method0.invoke(newModel, value0);
+					String value3 = oldCplModel.getName();
 
-                    Method method1 = newModelClass.getMethod("setSendCampaignId",
-                            new Class[] { Long.TYPE });
+					method3.invoke(newModel, value3);
 
-                    Long value1 = new Long(oldCplModel.getSendCampaignId());
+					return newModel;
+				}
+				catch (Exception e) {
+					_log.error(e, e);
+				}
+			}
+			finally {
+				Thread.currentThread().setContextClassLoader(contextClassLoader);
+			}
+		}
 
-                    method1.invoke(newModel, value1);
+		if (oldModelClassName.equals(SendCampaignClp.class.getName())) {
+			SendCampaignClp oldCplModel = (SendCampaignClp)oldModel;
 
-                    Method method2 = newModelClass.getMethod("setSendDate",
-                            new Class[] { Date.class });
+			ClassLoader contextClassLoader = Thread.currentThread()
+												   .getContextClassLoader();
 
-                    Date value2 = oldCplModel.getSendDate();
+			try {
+				Thread.currentThread().setContextClassLoader(_classLoader);
 
-                    method2.invoke(newModel, value2);
+				try {
+					Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.SendCampaignImpl",
+							true, _classLoader);
 
-                    Method method3 = newModelClass.getMethod("setEmailSubject",
-                            new Class[] { String.class });
+					Object newModel = newModelClass.newInstance();
 
-                    String value3 = oldCplModel.getEmailSubject();
+					Method method0 = newModelClass.getMethod("setUuid",
+							new Class[] { String.class });
 
-                    method3.invoke(newModel, value3);
+					String value0 = oldCplModel.getUuid();
 
-                    Method method4 = newModelClass.getMethod("setSenderName",
-                            new Class[] { String.class });
+					method0.invoke(newModel, value0);
 
-                    String value4 = oldCplModel.getSenderName();
+					Method method1 = newModelClass.getMethod("setSendCampaignId",
+							new Class[] { Long.TYPE });
 
-                    method4.invoke(newModel, value4);
+					Long value1 = new Long(oldCplModel.getSendCampaignId());
 
-                    Method method5 = newModelClass.getMethod("setSenderEmail",
-                            new Class[] { String.class });
+					method1.invoke(newModel, value1);
 
-                    String value5 = oldCplModel.getSenderEmail();
+					Method method2 = newModelClass.getMethod("setSendDate",
+							new Class[] { Date.class });
 
-                    method5.invoke(newModel, value5);
+					Date value2 = oldCplModel.getSendDate();
 
-                    Method method6 = newModelClass.getMethod("setSent",
-                            new Class[] { Boolean.TYPE });
+					method2.invoke(newModel, value2);
 
-                    Boolean value6 = new Boolean(oldCplModel.getSent());
+					Method method3 = newModelClass.getMethod("setEmailSubject",
+							new Class[] { String.class });
 
-                    method6.invoke(newModel, value6);
+					String value3 = oldCplModel.getEmailSubject();
 
-                    Method method7 = newModelClass.getMethod("setCampaignId",
-                            new Class[] { Long.TYPE });
+					method3.invoke(newModel, value3);
 
-                    Long value7 = new Long(oldCplModel.getCampaignId());
+					Method method4 = newModelClass.getMethod("setSenderName",
+							new Class[] { String.class });
 
-                    method7.invoke(newModel, value7);
+					String value4 = oldCplModel.getSenderName();
 
-                    return newModel;
-                } catch (Exception e) {
-                    _log.error(e, e);
-                }
-            } finally {
-                Thread.currentThread().setContextClassLoader(contextClassLoader);
-            }
-        }
+					method4.invoke(newModel, value4);
 
-        if (oldModelClassName.equals(NewsletterLogClp.class.getName())) {
-            NewsletterLogClp oldCplModel = (NewsletterLogClp) oldModel;
+					Method method5 = newModelClass.getMethod("setSenderEmail",
+							new Class[] { String.class });
 
-            ClassLoader contextClassLoader = Thread.currentThread()
-                                                   .getContextClassLoader();
+					String value5 = oldCplModel.getSenderEmail();
 
-            try {
-                Thread.currentThread().setContextClassLoader(_classLoader);
+					method5.invoke(newModel, value5);
 
-                try {
-                    Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.NewsletterLogImpl",
-                            true, _classLoader);
+					Method method6 = newModelClass.getMethod("setSent",
+							new Class[] { Boolean.TYPE });
 
-                    Object newModel = newModelClass.newInstance();
+					Boolean value6 = new Boolean(oldCplModel.getSent());
 
-                    Method method0 = newModelClass.getMethod("setUuid",
-                            new Class[] { String.class });
+					method6.invoke(newModel, value6);
 
-                    String value0 = oldCplModel.getUuid();
+					Method method7 = newModelClass.getMethod("setCampaignId",
+							new Class[] { Long.TYPE });
 
-                    method0.invoke(newModel, value0);
+					Long value7 = new Long(oldCplModel.getCampaignId());
 
-                    Method method1 = newModelClass.getMethod("setNewsletterLogId",
-                            new Class[] { Long.TYPE });
+					method7.invoke(newModel, value7);
 
-                    Long value1 = new Long(oldCplModel.getNewsletterLogId());
+					return newModel;
+				}
+				catch (Exception e) {
+					_log.error(e, e);
+				}
+			}
+			finally {
+				Thread.currentThread().setContextClassLoader(contextClassLoader);
+			}
+		}
 
-                    method1.invoke(newModel, value1);
+		if (oldModelClassName.equals(NewsletterLogClp.class.getName())) {
+			NewsletterLogClp oldCplModel = (NewsletterLogClp)oldModel;
 
-                    Method method2 = newModelClass.getMethod("setSendCampaignId",
-                            new Class[] { Long.TYPE });
+			ClassLoader contextClassLoader = Thread.currentThread()
+												   .getContextClassLoader();
 
-                    Long value2 = new Long(oldCplModel.getSendCampaignId());
+			try {
+				Thread.currentThread().setContextClassLoader(_classLoader);
 
-                    method2.invoke(newModel, value2);
+				try {
+					Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.NewsletterLogImpl",
+							true, _classLoader);
 
-                    Method method3 = newModelClass.getMethod("setContactId",
-                            new Class[] { Long.TYPE });
+					Object newModel = newModelClass.newInstance();
 
-                    Long value3 = new Long(oldCplModel.getContactId());
+					Method method0 = newModelClass.getMethod("setUuid",
+							new Class[] { String.class });
 
-                    method3.invoke(newModel, value3);
+					String value0 = oldCplModel.getUuid();
 
-                    return newModel;
-                } catch (Exception e) {
-                    _log.error(e, e);
-                }
-            } finally {
-                Thread.currentThread().setContextClassLoader(contextClassLoader);
-            }
-        }
+					method0.invoke(newModel, value0);
 
-        return oldModel;
-    }
+					Method method1 = newModelClass.getMethod("setNewsletterLogId",
+							new Class[] { Long.TYPE });
 
-    public static Object translateInput(List<Object> oldList) {
-        List<Object> newList = new ArrayList<Object>(oldList.size());
+					Long value1 = new Long(oldCplModel.getNewsletterLogId());
 
-        for (int i = 0; i < oldList.size(); i++) {
-            Object curObj = oldList.get(i);
+					method1.invoke(newModel, value1);
 
-            newList.add(translateInput(curObj));
-        }
+					Method method2 = newModelClass.getMethod("setSendCampaignId",
+							new Class[] { Long.TYPE });
 
-        return newList;
-    }
+					Long value2 = new Long(oldCplModel.getSendCampaignId());
 
-    public static Object translateInput(Object obj) {
-        if (obj instanceof BaseModel<?>) {
-            return translateInput((BaseModel<?>) obj);
-        } else if (obj instanceof List<?>) {
-            return translateInput((List<Object>) obj);
-        } else {
-            return obj;
-        }
-    }
+					method2.invoke(newModel, value2);
 
-    public static Object translateOutput(BaseModel<?> oldModel) {
-        Class<?> oldModelClass = oldModel.getClass();
+					Method method3 = newModelClass.getMethod("setContactId",
+							new Class[] { Long.TYPE });
 
-        String oldModelClassName = oldModelClass.getName();
+					Long value3 = new Long(oldCplModel.getContactId());
 
-        if (oldModelClassName.equals(
-                    "com.liferay.newsletter.model.impl.CampaignImpl")) {
-            ClassLoader contextClassLoader = Thread.currentThread()
-                                                   .getContextClassLoader();
+					method3.invoke(newModel, value3);
 
-            try {
-                Thread.currentThread().setContextClassLoader(_classLoader);
+					return newModel;
+				}
+				catch (Exception e) {
+					_log.error(e, e);
+				}
+			}
+			finally {
+				Thread.currentThread().setContextClassLoader(contextClassLoader);
+			}
+		}
 
-                try {
-                    CampaignClp newModel = new CampaignClp();
+		return oldModel;
+	}
 
-                    Method method0 = oldModelClass.getMethod("getUuid");
+	public static Object translateInput(List<Object> oldList) {
+		List<Object> newList = new ArrayList<Object>(oldList.size());
 
-                    String value0 = (String) method0.invoke(oldModel,
-                            (Object[]) null);
+		for (int i = 0; i < oldList.size(); i++) {
+			Object curObj = oldList.get(i);
 
-                    newModel.setUuid(value0);
+			newList.add(translateInput(curObj));
+		}
 
-                    Method method1 = oldModelClass.getMethod("getCampaignId");
+		return newList;
+	}
 
-                    Long value1 = (Long) method1.invoke(oldModel,
-                            (Object[]) null);
+	public static Object translateInput(Object obj) {
+		if (obj instanceof BaseModel<?>) {
+			return translateInput((BaseModel<?>)obj);
+		}
+		else if (obj instanceof List<?>) {
+			return translateInput((List<Object>)obj);
+		}
+		else {
+			return obj;
+		}
+	}
 
-                    newModel.setCampaignId(value1);
+	public static Object translateOutput(BaseModel<?> oldModel) {
+		Class<?> oldModelClass = oldModel.getClass();
 
-                    Method method2 = oldModelClass.getMethod("getTitle");
+		String oldModelClassName = oldModelClass.getName();
 
-                    String value2 = (String) method2.invoke(oldModel,
-                            (Object[]) null);
+		if (oldModelClassName.equals(
+					"com.liferay.newsletter.model.impl.CampaignImpl")) {
+			ClassLoader contextClassLoader = Thread.currentThread()
+												   .getContextClassLoader();
 
-                    newModel.setTitle(value2);
+			try {
+				Thread.currentThread().setContextClassLoader(_classLoader);
 
-                    Method method3 = oldModelClass.getMethod("getContent");
+				try {
+					CampaignClp newModel = new CampaignClp();
 
-                    String value3 = (String) method3.invoke(oldModel,
-                            (Object[]) null);
+					Method method0 = oldModelClass.getMethod("getUuid");
 
-                    newModel.setContent(value3);
+					String value0 = (String)method0.invoke(oldModel,
+							(Object[])null);
 
-                    return newModel;
-                } catch (Exception e) {
-                    _log.error(e, e);
-                }
-            } finally {
-                Thread.currentThread().setContextClassLoader(contextClassLoader);
-            }
-        }
+					newModel.setUuid(value0);
 
-        if (oldModelClassName.equals(
-                    "com.liferay.newsletter.model.impl.ContactImpl")) {
-            ClassLoader contextClassLoader = Thread.currentThread()
-                                                   .getContextClassLoader();
+					Method method1 = oldModelClass.getMethod("getCampaignId");
 
-            try {
-                Thread.currentThread().setContextClassLoader(_classLoader);
+					Long value1 = (Long)method1.invoke(oldModel, (Object[])null);
 
-                try {
-                    ContactClp newModel = new ContactClp();
+					newModel.setCampaignId(value1);
 
-                    Method method0 = oldModelClass.getMethod("getUuid");
+					Method method2 = oldModelClass.getMethod("getTitle");
 
-                    String value0 = (String) method0.invoke(oldModel,
-                            (Object[]) null);
+					String value2 = (String)method2.invoke(oldModel,
+							(Object[])null);
 
-                    newModel.setUuid(value0);
+					newModel.setTitle(value2);
 
-                    Method method1 = oldModelClass.getMethod("getContactId");
+					Method method3 = oldModelClass.getMethod("getContent");
 
-                    Long value1 = (Long) method1.invoke(oldModel,
-                            (Object[]) null);
+					String value3 = (String)method3.invoke(oldModel,
+							(Object[])null);
 
-                    newModel.setContactId(value1);
+					newModel.setContent(value3);
 
-                    Method method2 = oldModelClass.getMethod("getEmail");
+					return newModel;
+				}
+				catch (Exception e) {
+					_log.error(e, e);
+				}
+			}
+			finally {
+				Thread.currentThread().setContextClassLoader(contextClassLoader);
+			}
+		}
 
-                    String value2 = (String) method2.invoke(oldModel,
-                            (Object[]) null);
+		if (oldModelClassName.equals(
+					"com.liferay.newsletter.model.impl.ContactImpl")) {
+			ClassLoader contextClassLoader = Thread.currentThread()
+												   .getContextClassLoader();
 
-                    newModel.setEmail(value2);
+			try {
+				Thread.currentThread().setContextClassLoader(_classLoader);
 
-                    Method method3 = oldModelClass.getMethod("getName");
+				try {
+					ContactClp newModel = new ContactClp();
 
-                    String value3 = (String) method3.invoke(oldModel,
-                            (Object[]) null);
+					Method method0 = oldModelClass.getMethod("getUuid");
 
-                    newModel.setName(value3);
+					String value0 = (String)method0.invoke(oldModel,
+							(Object[])null);
 
-                    return newModel;
-                } catch (Exception e) {
-                    _log.error(e, e);
-                }
-            } finally {
-                Thread.currentThread().setContextClassLoader(contextClassLoader);
-            }
-        }
+					newModel.setUuid(value0);
 
-        if (oldModelClassName.equals(
-                    "com.liferay.newsletter.model.impl.SendCampaignImpl")) {
-            ClassLoader contextClassLoader = Thread.currentThread()
-                                                   .getContextClassLoader();
+					Method method1 = oldModelClass.getMethod("getContactId");
 
-            try {
-                Thread.currentThread().setContextClassLoader(_classLoader);
+					Long value1 = (Long)method1.invoke(oldModel, (Object[])null);
 
-                try {
-                    SendCampaignClp newModel = new SendCampaignClp();
+					newModel.setContactId(value1);
 
-                    Method method0 = oldModelClass.getMethod("getUuid");
+					Method method2 = oldModelClass.getMethod("getEmail");
 
-                    String value0 = (String) method0.invoke(oldModel,
-                            (Object[]) null);
+					String value2 = (String)method2.invoke(oldModel,
+							(Object[])null);
 
-                    newModel.setUuid(value0);
+					newModel.setEmail(value2);
 
-                    Method method1 = oldModelClass.getMethod(
-                            "getSendCampaignId");
+					Method method3 = oldModelClass.getMethod("getName");
 
-                    Long value1 = (Long) method1.invoke(oldModel,
-                            (Object[]) null);
+					String value3 = (String)method3.invoke(oldModel,
+							(Object[])null);
 
-                    newModel.setSendCampaignId(value1);
+					newModel.setName(value3);
 
-                    Method method2 = oldModelClass.getMethod("getSendDate");
+					return newModel;
+				}
+				catch (Exception e) {
+					_log.error(e, e);
+				}
+			}
+			finally {
+				Thread.currentThread().setContextClassLoader(contextClassLoader);
+			}
+		}
 
-                    Date value2 = (Date) method2.invoke(oldModel,
-                            (Object[]) null);
+		if (oldModelClassName.equals(
+					"com.liferay.newsletter.model.impl.SendCampaignImpl")) {
+			ClassLoader contextClassLoader = Thread.currentThread()
+												   .getContextClassLoader();
 
-                    newModel.setSendDate(value2);
+			try {
+				Thread.currentThread().setContextClassLoader(_classLoader);
 
-                    Method method3 = oldModelClass.getMethod("getEmailSubject");
+				try {
+					SendCampaignClp newModel = new SendCampaignClp();
 
-                    String value3 = (String) method3.invoke(oldModel,
-                            (Object[]) null);
+					Method method0 = oldModelClass.getMethod("getUuid");
 
-                    newModel.setEmailSubject(value3);
+					String value0 = (String)method0.invoke(oldModel,
+							(Object[])null);
 
-                    Method method4 = oldModelClass.getMethod("getSenderName");
+					newModel.setUuid(value0);
 
-                    String value4 = (String) method4.invoke(oldModel,
-                            (Object[]) null);
+					Method method1 = oldModelClass.getMethod(
+							"getSendCampaignId");
 
-                    newModel.setSenderName(value4);
+					Long value1 = (Long)method1.invoke(oldModel, (Object[])null);
 
-                    Method method5 = oldModelClass.getMethod("getSenderEmail");
+					newModel.setSendCampaignId(value1);
 
-                    String value5 = (String) method5.invoke(oldModel,
-                            (Object[]) null);
+					Method method2 = oldModelClass.getMethod("getSendDate");
 
-                    newModel.setSenderEmail(value5);
+					Date value2 = (Date)method2.invoke(oldModel, (Object[])null);
 
-                    Method method6 = oldModelClass.getMethod("getSent");
+					newModel.setSendDate(value2);
 
-                    Boolean value6 = (Boolean) method6.invoke(oldModel,
-                            (Object[]) null);
+					Method method3 = oldModelClass.getMethod("getEmailSubject");
 
-                    newModel.setSent(value6);
+					String value3 = (String)method3.invoke(oldModel,
+							(Object[])null);
 
-                    Method method7 = oldModelClass.getMethod("getCampaignId");
+					newModel.setEmailSubject(value3);
 
-                    Long value7 = (Long) method7.invoke(oldModel,
-                            (Object[]) null);
+					Method method4 = oldModelClass.getMethod("getSenderName");
 
-                    newModel.setCampaignId(value7);
+					String value4 = (String)method4.invoke(oldModel,
+							(Object[])null);
 
-                    return newModel;
-                } catch (Exception e) {
-                    _log.error(e, e);
-                }
-            } finally {
-                Thread.currentThread().setContextClassLoader(contextClassLoader);
-            }
-        }
+					newModel.setSenderName(value4);
 
-        if (oldModelClassName.equals(
-                    "com.liferay.newsletter.model.impl.NewsletterLogImpl")) {
-            ClassLoader contextClassLoader = Thread.currentThread()
-                                                   .getContextClassLoader();
+					Method method5 = oldModelClass.getMethod("getSenderEmail");
 
-            try {
-                Thread.currentThread().setContextClassLoader(_classLoader);
+					String value5 = (String)method5.invoke(oldModel,
+							(Object[])null);
 
-                try {
-                    NewsletterLogClp newModel = new NewsletterLogClp();
+					newModel.setSenderEmail(value5);
 
-                    Method method0 = oldModelClass.getMethod("getUuid");
+					Method method6 = oldModelClass.getMethod("getSent");
 
-                    String value0 = (String) method0.invoke(oldModel,
-                            (Object[]) null);
+					Boolean value6 = (Boolean)method6.invoke(oldModel,
+							(Object[])null);
 
-                    newModel.setUuid(value0);
+					newModel.setSent(value6);
 
-                    Method method1 = oldModelClass.getMethod(
-                            "getNewsletterLogId");
+					Method method7 = oldModelClass.getMethod("getCampaignId");
 
-                    Long value1 = (Long) method1.invoke(oldModel,
-                            (Object[]) null);
+					Long value7 = (Long)method7.invoke(oldModel, (Object[])null);
 
-                    newModel.setNewsletterLogId(value1);
+					newModel.setCampaignId(value7);
 
-                    Method method2 = oldModelClass.getMethod(
-                            "getSendCampaignId");
+					return newModel;
+				}
+				catch (Exception e) {
+					_log.error(e, e);
+				}
+			}
+			finally {
+				Thread.currentThread().setContextClassLoader(contextClassLoader);
+			}
+		}
 
-                    Long value2 = (Long) method2.invoke(oldModel,
-                            (Object[]) null);
+		if (oldModelClassName.equals(
+					"com.liferay.newsletter.model.impl.NewsletterLogImpl")) {
+			ClassLoader contextClassLoader = Thread.currentThread()
+												   .getContextClassLoader();
 
-                    newModel.setSendCampaignId(value2);
+			try {
+				Thread.currentThread().setContextClassLoader(_classLoader);
 
-                    Method method3 = oldModelClass.getMethod("getContactId");
+				try {
+					NewsletterLogClp newModel = new NewsletterLogClp();
 
-                    Long value3 = (Long) method3.invoke(oldModel,
-                            (Object[]) null);
+					Method method0 = oldModelClass.getMethod("getUuid");
 
-                    newModel.setContactId(value3);
+					String value0 = (String)method0.invoke(oldModel,
+							(Object[])null);
 
-                    return newModel;
-                } catch (Exception e) {
-                    _log.error(e, e);
-                }
-            } finally {
-                Thread.currentThread().setContextClassLoader(contextClassLoader);
-            }
-        }
+					newModel.setUuid(value0);
 
-        return oldModel;
-    }
+					Method method1 = oldModelClass.getMethod(
+							"getNewsletterLogId");
 
-    public static Object translateOutput(List<Object> oldList) {
-        List<Object> newList = new ArrayList<Object>(oldList.size());
+					Long value1 = (Long)method1.invoke(oldModel, (Object[])null);
 
-        for (int i = 0; i < oldList.size(); i++) {
-            Object curObj = oldList.get(i);
+					newModel.setNewsletterLogId(value1);
 
-            newList.add(translateOutput(curObj));
-        }
+					Method method2 = oldModelClass.getMethod(
+							"getSendCampaignId");
 
-        return newList;
-    }
+					Long value2 = (Long)method2.invoke(oldModel, (Object[])null);
 
-    public static Object translateOutput(Object obj) {
-        if (obj instanceof BaseModel<?>) {
-            return translateOutput((BaseModel<?>) obj);
-        } else if (obj instanceof List<?>) {
-            return translateOutput((List<Object>) obj);
-        } else {
-            return obj;
-        }
-    }
+					newModel.setSendCampaignId(value2);
+
+					Method method3 = oldModelClass.getMethod("getContactId");
+
+					Long value3 = (Long)method3.invoke(oldModel, (Object[])null);
+
+					newModel.setContactId(value3);
+
+					return newModel;
+				}
+				catch (Exception e) {
+					_log.error(e, e);
+				}
+			}
+			finally {
+				Thread.currentThread().setContextClassLoader(contextClassLoader);
+			}
+		}
+
+		return oldModel;
+	}
+
+	public static Object translateOutput(List<Object> oldList) {
+		List<Object> newList = new ArrayList<Object>(oldList.size());
+
+		for (int i = 0; i < oldList.size(); i++) {
+			Object curObj = oldList.get(i);
+
+			newList.add(translateOutput(curObj));
+		}
+
+		return newList;
+	}
+
+	public static Object translateOutput(Object obj) {
+		if (obj instanceof BaseModel<?>) {
+			return translateOutput((BaseModel<?>)obj);
+		}
+		else if (obj instanceof List<?>) {
+			return translateOutput((List<Object>)obj);
+		}
+		else {
+			return obj;
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(ClpSerializer.class);
+	private static ClassLoader _classLoader;
+	private static String _servletContextName;
 }

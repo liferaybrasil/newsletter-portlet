@@ -14,11 +14,11 @@
 
 package com.liferay.newsletter.portlet;
 
+import java.util.List;
+
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.SendCampaign;
 import com.liferay.portal.kernel.util.Validator;
-
-import java.util.List;
 
 /**
  * @author Bruno Pinheiro

@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.model.impl;
 
 import com.liferay.newsletter.model.Contact;
@@ -33,221 +47,228 @@ import java.sql.Types;
  * @generated
  */
 public class ContactModelImpl extends BaseModelImpl<Contact>
-    implements ContactModel {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never modify or reference this class directly. All methods that expect a contact model instance should use the {@link com.liferay.newsletter.model.Contact} interface instead.
-     */
-    public static final String TABLE_NAME = "Newsletter_Contact";
-    public static final Object[][] TABLE_COLUMNS = {
-            { "uuid_", new Integer(Types.VARCHAR) },
-            { "contactId", new Integer(Types.BIGINT) },
-            { "email", new Integer(Types.VARCHAR) },
-            { "name", new Integer(Types.VARCHAR) }
-        };
-    public static final String TABLE_SQL_CREATE = "create table Newsletter_Contact (uuid_ VARCHAR(75) null,contactId LONG not null primary key,email VARCHAR(75) null,name VARCHAR(75) null)";
-    public static final String TABLE_SQL_DROP = "drop table Newsletter_Contact";
-    public static final String ORDER_BY_JPQL = " ORDER BY contact.email ASC";
-    public static final String ORDER_BY_SQL = " ORDER BY Newsletter_Contact.email ASC";
-    public static final String DATA_SOURCE = "liferayDataSource";
-    public static final String SESSION_FACTORY = "liferaySessionFactory";
-    public static final String TX_MANAGER = "liferayTransactionManager";
-    public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
-                "value.object.entity.cache.enabled.com.liferay.newsletter.model.Contact"),
-            true);
-    public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
-                "value.object.finder.cache.enabled.com.liferay.newsletter.model.Contact"),
-            true);
-    public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
-                "lock.expiration.time.com.liferay.newsletter.model.Contact"));
-    private String _uuid;
-    private long _contactId;
-    private String _email;
-    private String _originalEmail;
-    private String _name;
-    private transient ExpandoBridge _expandoBridge;
+	implements ContactModel {
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify or reference this class directly. All methods that expect a contact model instance should use the {@link com.liferay.newsletter.model.Contact} interface instead.
+	 */
+	public static final String TABLE_NAME = "Newsletter_Contact";
+	public static final Object[][] TABLE_COLUMNS = {
+			{ "uuid_", Types.VARCHAR },
+			{ "contactId", Types.BIGINT },
+			{ "email", Types.VARCHAR },
+			{ "name", Types.VARCHAR }
+		};
+	public static final String TABLE_SQL_CREATE = "create table Newsletter_Contact (uuid_ VARCHAR(75) null,contactId LONG not null primary key,email VARCHAR(75) null,name VARCHAR(75) null)";
+	public static final String TABLE_SQL_DROP = "drop table Newsletter_Contact";
+	public static final String ORDER_BY_JPQL = " ORDER BY contact.email ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY Newsletter_Contact.email ASC";
+	public static final String DATA_SOURCE = "liferayDataSource";
+	public static final String SESSION_FACTORY = "liferaySessionFactory";
+	public static final String TX_MANAGER = "liferayTransactionManager";
+	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.entity.cache.enabled.com.liferay.newsletter.model.Contact"),
+			true);
+	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.finder.cache.enabled.com.liferay.newsletter.model.Contact"),
+			true);
+	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
+				"lock.expiration.time.com.liferay.newsletter.model.Contact"));
 
-    public ContactModelImpl() {
-    }
+	public ContactModelImpl() {
+	}
 
-    public long getPrimaryKey() {
-        return _contactId;
-    }
+	public long getPrimaryKey() {
+		return _contactId;
+	}
 
-    public void setPrimaryKey(long pk) {
-        setContactId(pk);
-    }
+	public void setPrimaryKey(long pk) {
+		setContactId(pk);
+	}
 
-    public Serializable getPrimaryKeyObj() {
-        return new Long(_contactId);
-    }
+	public Serializable getPrimaryKeyObj() {
+		return new Long(_contactId);
+	}
 
-    public String getUuid() {
-        if (_uuid == null) {
-            return StringPool.BLANK;
-        } else {
-            return _uuid;
-        }
-    }
+	public String getUuid() {
+		if (_uuid == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _uuid;
+		}
+	}
 
-    public void setUuid(String uuid) {
-        _uuid = uuid;
-    }
+	public void setUuid(String uuid) {
+		_uuid = uuid;
+	}
 
-    public long getContactId() {
-        return _contactId;
-    }
+	public long getContactId() {
+		return _contactId;
+	}
 
-    public void setContactId(long contactId) {
-        _contactId = contactId;
-    }
+	public void setContactId(long contactId) {
+		_contactId = contactId;
+	}
 
-    public String getEmail() {
-        if (_email == null) {
-            return StringPool.BLANK;
-        } else {
-            return _email;
-        }
-    }
+	public String getEmail() {
+		if (_email == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _email;
+		}
+	}
 
-    public void setEmail(String email) {
-        _email = email;
+	public void setEmail(String email) {
+		_email = email;
 
-        if (_originalEmail == null) {
-            _originalEmail = email;
-        }
-    }
+		if (_originalEmail == null) {
+			_originalEmail = email;
+		}
+	}
 
-    public String getOriginalEmail() {
-        return GetterUtil.getString(_originalEmail);
-    }
+	public String getOriginalEmail() {
+		return GetterUtil.getString(_originalEmail);
+	}
 
-    public String getName() {
-        if (_name == null) {
-            return StringPool.BLANK;
-        } else {
-            return _name;
-        }
-    }
+	public String getName() {
+		if (_name == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _name;
+		}
+	}
 
-    public void setName(String name) {
-        _name = name;
-    }
+	public void setName(String name) {
+		_name = name;
+	}
 
-    public Contact toEscapedModel() {
-        if (isEscapedModel()) {
-            return (Contact) this;
-        } else {
-            return (Contact) Proxy.newProxyInstance(Contact.class.getClassLoader(),
-                new Class[] { Contact.class }, new AutoEscapeBeanHandler(this));
-        }
-    }
+	public Contact toEscapedModel() {
+		if (isEscapedModel()) {
+			return (Contact)this;
+		}
+		else {
+			return (Contact)Proxy.newProxyInstance(Contact.class.getClassLoader(),
+				new Class[] { Contact.class }, new AutoEscapeBeanHandler(this));
+		}
+	}
 
-    public ExpandoBridge getExpandoBridge() {
-        if (_expandoBridge == null) {
-            _expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(0,
-                    Contact.class.getName(), getPrimaryKey());
-        }
+	public ExpandoBridge getExpandoBridge() {
+		if (_expandoBridge == null) {
+			_expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+					Contact.class.getName(), getPrimaryKey());
+		}
 
-        return _expandoBridge;
-    }
+		return _expandoBridge;
+	}
 
-    public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-        getExpandoBridge().setAttributes(serviceContext);
-    }
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
+		getExpandoBridge().setAttributes(serviceContext);
+	}
 
-    public Object clone() {
-        ContactImpl clone = new ContactImpl();
+	public Object clone() {
+		ContactImpl clone = new ContactImpl();
 
-        clone.setUuid(getUuid());
-        clone.setContactId(getContactId());
-        clone.setEmail(getEmail());
-        clone.setName(getName());
+		clone.setUuid(getUuid());
+		clone.setContactId(getContactId());
+		clone.setEmail(getEmail());
+		clone.setName(getName());
 
-        return clone;
-    }
+		return clone;
+	}
 
-    public int compareTo(Contact contact) {
-        int value = 0;
+	public int compareTo(Contact contact) {
+		int value = 0;
 
-        value = getEmail().compareTo(contact.getEmail());
+		value = getEmail().compareTo(contact.getEmail());
 
-        if (value != 0) {
-            return value;
-        }
+		if (value != 0) {
+			return value;
+		}
 
-        return 0;
-    }
+		return 0;
+	}
 
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
 
-        Contact contact = null;
+		Contact contact = null;
 
-        try {
-            contact = (Contact) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+		try {
+			contact = (Contact)obj;
+		}
+		catch (ClassCastException cce) {
+			return false;
+		}
 
-        long pk = contact.getPrimaryKey();
+		long pk = contact.getPrimaryKey();
 
-        if (getPrimaryKey() == pk) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+		if (getPrimaryKey() == pk) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
-    public int hashCode() {
-        return (int) getPrimaryKey();
-    }
+	public int hashCode() {
+		return (int)getPrimaryKey();
+	}
 
-    public String toString() {
-        StringBundler sb = new StringBundler(9);
+	public String toString() {
+		StringBundler sb = new StringBundler(9);
 
-        sb.append("{uuid=");
-        sb.append(getUuid());
-        sb.append(", contactId=");
-        sb.append(getContactId());
-        sb.append(", email=");
-        sb.append(getEmail());
-        sb.append(", name=");
-        sb.append(getName());
-        sb.append("}");
+		sb.append("{uuid=");
+		sb.append(getUuid());
+		sb.append(", contactId=");
+		sb.append(getContactId());
+		sb.append(", email=");
+		sb.append(getEmail());
+		sb.append(", name=");
+		sb.append(getName());
+		sb.append("}");
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    public String toXmlString() {
-        StringBundler sb = new StringBundler(16);
+	public String toXmlString() {
+		StringBundler sb = new StringBundler(16);
 
-        sb.append("<model><model-name>");
-        sb.append("com.liferay.newsletter.model.Contact");
-        sb.append("</model-name>");
+		sb.append("<model><model-name>");
+		sb.append("com.liferay.newsletter.model.Contact");
+		sb.append("</model-name>");
 
-        sb.append(
-            "<column><column-name>uuid</column-name><column-value><![CDATA[");
-        sb.append(getUuid());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>contactId</column-name><column-value><![CDATA[");
-        sb.append(getContactId());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>email</column-name><column-value><![CDATA[");
-        sb.append(getEmail());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>name</column-name><column-value><![CDATA[");
-        sb.append(getName());
-        sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>uuid</column-name><column-value><![CDATA[");
+		sb.append(getUuid());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>contactId</column-name><column-value><![CDATA[");
+		sb.append(getContactId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>email</column-name><column-value><![CDATA[");
+		sb.append(getEmail());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>name</column-name><column-value><![CDATA[");
+		sb.append(getName());
+		sb.append("]]></column-value></column>");
 
-        sb.append("</model>");
+		sb.append("</model>");
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
+
+	private String _uuid;
+	private long _contactId;
+	private String _email;
+	private String _originalEmail;
+	private String _name;
+	private transient ExpandoBridge _expandoBridge;
 }

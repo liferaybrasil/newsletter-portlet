@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.model;
 
 /**
@@ -10,165 +24,165 @@ package com.liferay.newsletter.model;
  * @generated
  */
 public class NewsletterLogWrapper implements NewsletterLog {
-    private NewsletterLog _newsletterLog;
+	public NewsletterLogWrapper(NewsletterLog newsletterLog) {
+		_newsletterLog = newsletterLog;
+	}
 
-    public NewsletterLogWrapper(NewsletterLog newsletterLog) {
-        _newsletterLog = newsletterLog;
-    }
+	/**
+	* Gets the primary key of this newsletter log.
+	*
+	* @return the primary key of this newsletter log
+	*/
+	public long getPrimaryKey() {
+		return _newsletterLog.getPrimaryKey();
+	}
 
-    /**
-    * Gets the primary key of this newsletter log.
-    *
-    * @return the primary key of this newsletter log
-    */
-    public long getPrimaryKey() {
-        return _newsletterLog.getPrimaryKey();
-    }
+	/**
+	* Sets the primary key of this newsletter log
+	*
+	* @param pk the primary key of this newsletter log
+	*/
+	public void setPrimaryKey(long pk) {
+		_newsletterLog.setPrimaryKey(pk);
+	}
 
-    /**
-    * Sets the primary key of this newsletter log
-    *
-    * @param pk the primary key of this newsletter log
-    */
-    public void setPrimaryKey(long pk) {
-        _newsletterLog.setPrimaryKey(pk);
-    }
+	/**
+	* Gets the uuid of this newsletter log.
+	*
+	* @return the uuid of this newsletter log
+	*/
+	public java.lang.String getUuid() {
+		return _newsletterLog.getUuid();
+	}
 
-    /**
-    * Gets the uuid of this newsletter log.
-    *
-    * @return the uuid of this newsletter log
-    */
-    public java.lang.String getUuid() {
-        return _newsletterLog.getUuid();
-    }
+	/**
+	* Sets the uuid of this newsletter log.
+	*
+	* @param uuid the uuid of this newsletter log
+	*/
+	public void setUuid(java.lang.String uuid) {
+		_newsletterLog.setUuid(uuid);
+	}
 
-    /**
-    * Sets the uuid of this newsletter log.
-    *
-    * @param uuid the uuid of this newsletter log
-    */
-    public void setUuid(java.lang.String uuid) {
-        _newsletterLog.setUuid(uuid);
-    }
+	/**
+	* Gets the newsletter log ID of this newsletter log.
+	*
+	* @return the newsletter log ID of this newsletter log
+	*/
+	public long getNewsletterLogId() {
+		return _newsletterLog.getNewsletterLogId();
+	}
 
-    /**
-    * Gets the newsletter log id of this newsletter log.
-    *
-    * @return the newsletter log id of this newsletter log
-    */
-    public long getNewsletterLogId() {
-        return _newsletterLog.getNewsletterLogId();
-    }
+	/**
+	* Sets the newsletter log ID of this newsletter log.
+	*
+	* @param newsletterLogId the newsletter log ID of this newsletter log
+	*/
+	public void setNewsletterLogId(long newsletterLogId) {
+		_newsletterLog.setNewsletterLogId(newsletterLogId);
+	}
 
-    /**
-    * Sets the newsletter log id of this newsletter log.
-    *
-    * @param newsletterLogId the newsletter log id of this newsletter log
-    */
-    public void setNewsletterLogId(long newsletterLogId) {
-        _newsletterLog.setNewsletterLogId(newsletterLogId);
-    }
+	/**
+	* Gets the send campaign ID of this newsletter log.
+	*
+	* @return the send campaign ID of this newsletter log
+	*/
+	public long getSendCampaignId() {
+		return _newsletterLog.getSendCampaignId();
+	}
 
-    /**
-    * Gets the send campaign id of this newsletter log.
-    *
-    * @return the send campaign id of this newsletter log
-    */
-    public long getSendCampaignId() {
-        return _newsletterLog.getSendCampaignId();
-    }
+	/**
+	* Sets the send campaign ID of this newsletter log.
+	*
+	* @param sendCampaignId the send campaign ID of this newsletter log
+	*/
+	public void setSendCampaignId(long sendCampaignId) {
+		_newsletterLog.setSendCampaignId(sendCampaignId);
+	}
 
-    /**
-    * Sets the send campaign id of this newsletter log.
-    *
-    * @param sendCampaignId the send campaign id of this newsletter log
-    */
-    public void setSendCampaignId(long sendCampaignId) {
-        _newsletterLog.setSendCampaignId(sendCampaignId);
-    }
+	/**
+	* Gets the contact ID of this newsletter log.
+	*
+	* @return the contact ID of this newsletter log
+	*/
+	public long getContactId() {
+		return _newsletterLog.getContactId();
+	}
 
-    /**
-    * Gets the contact id of this newsletter log.
-    *
-    * @return the contact id of this newsletter log
-    */
-    public long getContactId() {
-        return _newsletterLog.getContactId();
-    }
+	/**
+	* Sets the contact ID of this newsletter log.
+	*
+	* @param contactId the contact ID of this newsletter log
+	*/
+	public void setContactId(long contactId) {
+		_newsletterLog.setContactId(contactId);
+	}
 
-    /**
-    * Sets the contact id of this newsletter log.
-    *
-    * @param contactId the contact id of this newsletter log
-    */
-    public void setContactId(long contactId) {
-        _newsletterLog.setContactId(contactId);
-    }
+	public boolean isNew() {
+		return _newsletterLog.isNew();
+	}
 
-    public boolean isNew() {
-        return _newsletterLog.isNew();
-    }
+	public void setNew(boolean n) {
+		_newsletterLog.setNew(n);
+	}
 
-    public void setNew(boolean n) {
-        _newsletterLog.setNew(n);
-    }
+	public boolean isCachedModel() {
+		return _newsletterLog.isCachedModel();
+	}
 
-    public boolean isCachedModel() {
-        return _newsletterLog.isCachedModel();
-    }
+	public void setCachedModel(boolean cachedModel) {
+		_newsletterLog.setCachedModel(cachedModel);
+	}
 
-    public void setCachedModel(boolean cachedModel) {
-        _newsletterLog.setCachedModel(cachedModel);
-    }
+	public boolean isEscapedModel() {
+		return _newsletterLog.isEscapedModel();
+	}
 
-    public boolean isEscapedModel() {
-        return _newsletterLog.isEscapedModel();
-    }
+	public void setEscapedModel(boolean escapedModel) {
+		_newsletterLog.setEscapedModel(escapedModel);
+	}
 
-    public void setEscapedModel(boolean escapedModel) {
-        _newsletterLog.setEscapedModel(escapedModel);
-    }
+	public java.io.Serializable getPrimaryKeyObj() {
+		return _newsletterLog.getPrimaryKeyObj();
+	}
 
-    public java.io.Serializable getPrimaryKeyObj() {
-        return _newsletterLog.getPrimaryKeyObj();
-    }
+	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
+		return _newsletterLog.getExpandoBridge();
+	}
 
-    public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
-        return _newsletterLog.getExpandoBridge();
-    }
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.service.ServiceContext serviceContext) {
+		_newsletterLog.setExpandoBridgeAttributes(serviceContext);
+	}
 
-    public void setExpandoBridgeAttributes(
-        com.liferay.portal.service.ServiceContext serviceContext) {
-        _newsletterLog.setExpandoBridgeAttributes(serviceContext);
-    }
+	public java.lang.Object clone() {
+		return new NewsletterLogWrapper((NewsletterLog)_newsletterLog.clone());
+	}
 
-    public java.lang.Object clone() {
-        return _newsletterLog.clone();
-    }
+	public int compareTo(
+		com.liferay.newsletter.model.NewsletterLog newsletterLog) {
+		return _newsletterLog.compareTo(newsletterLog);
+	}
 
-    public int compareTo(
-        com.liferay.newsletter.model.NewsletterLog newsletterLog) {
-        return _newsletterLog.compareTo(newsletterLog);
-    }
+	public int hashCode() {
+		return _newsletterLog.hashCode();
+	}
 
-    public int hashCode() {
-        return _newsletterLog.hashCode();
-    }
+	public com.liferay.newsletter.model.NewsletterLog toEscapedModel() {
+		return new NewsletterLogWrapper(_newsletterLog.toEscapedModel());
+	}
 
-    public com.liferay.newsletter.model.NewsletterLog toEscapedModel() {
-        return _newsletterLog.toEscapedModel();
-    }
+	public java.lang.String toString() {
+		return _newsletterLog.toString();
+	}
 
-    public java.lang.String toString() {
-        return _newsletterLog.toString();
-    }
+	public java.lang.String toXmlString() {
+		return _newsletterLog.toXmlString();
+	}
 
-    public java.lang.String toXmlString() {
-        return _newsletterLog.toXmlString();
-    }
+	public NewsletterLog getWrappedNewsletterLog() {
+		return _newsletterLog;
+	}
 
-    public NewsletterLog getWrappedNewsletterLog() {
-        return _newsletterLog;
-    }
+	private NewsletterLog _newsletterLog;
 }

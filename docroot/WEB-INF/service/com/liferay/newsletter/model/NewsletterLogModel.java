@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
@@ -22,110 +36,110 @@ import java.io.Serializable;
  * @generated
  */
 public interface NewsletterLogModel extends BaseModel<NewsletterLog> {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never modify or reference this interface directly. All methods that expect a newsletter log model instance should use the {@link NewsletterLog} interface instead.
-     */
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify or reference this interface directly. All methods that expect a newsletter log model instance should use the {@link NewsletterLog} interface instead.
+	 */
 
-    /**
-     * Gets the primary key of this newsletter log.
-     *
-     * @return the primary key of this newsletter log
-     */
-    public long getPrimaryKey();
+	/**
+	 * Gets the primary key of this newsletter log.
+	 *
+	 * @return the primary key of this newsletter log
+	 */
+	public long getPrimaryKey();
 
-    /**
-     * Sets the primary key of this newsletter log
-     *
-     * @param pk the primary key of this newsletter log
-     */
-    public void setPrimaryKey(long pk);
+	/**
+	 * Sets the primary key of this newsletter log
+	 *
+	 * @param pk the primary key of this newsletter log
+	 */
+	public void setPrimaryKey(long pk);
 
-    /**
-     * Gets the uuid of this newsletter log.
-     *
-     * @return the uuid of this newsletter log
-     */
-    @AutoEscape
-    public String getUuid();
+	/**
+	 * Gets the uuid of this newsletter log.
+	 *
+	 * @return the uuid of this newsletter log
+	 */
+	@AutoEscape
+	public String getUuid();
 
-    /**
-     * Sets the uuid of this newsletter log.
-     *
-     * @param uuid the uuid of this newsletter log
-     */
-    public void setUuid(String uuid);
+	/**
+	 * Sets the uuid of this newsletter log.
+	 *
+	 * @param uuid the uuid of this newsletter log
+	 */
+	public void setUuid(String uuid);
 
-    /**
-     * Gets the newsletter log id of this newsletter log.
-     *
-     * @return the newsletter log id of this newsletter log
-     */
-    public long getNewsletterLogId();
+	/**
+	 * Gets the newsletter log ID of this newsletter log.
+	 *
+	 * @return the newsletter log ID of this newsletter log
+	 */
+	public long getNewsletterLogId();
 
-    /**
-     * Sets the newsletter log id of this newsletter log.
-     *
-     * @param newsletterLogId the newsletter log id of this newsletter log
-     */
-    public void setNewsletterLogId(long newsletterLogId);
+	/**
+	 * Sets the newsletter log ID of this newsletter log.
+	 *
+	 * @param newsletterLogId the newsletter log ID of this newsletter log
+	 */
+	public void setNewsletterLogId(long newsletterLogId);
 
-    /**
-     * Gets the send campaign id of this newsletter log.
-     *
-     * @return the send campaign id of this newsletter log
-     */
-    public long getSendCampaignId();
+	/**
+	 * Gets the send campaign ID of this newsletter log.
+	 *
+	 * @return the send campaign ID of this newsletter log
+	 */
+	public long getSendCampaignId();
 
-    /**
-     * Sets the send campaign id of this newsletter log.
-     *
-     * @param sendCampaignId the send campaign id of this newsletter log
-     */
-    public void setSendCampaignId(long sendCampaignId);
+	/**
+	 * Sets the send campaign ID of this newsletter log.
+	 *
+	 * @param sendCampaignId the send campaign ID of this newsletter log
+	 */
+	public void setSendCampaignId(long sendCampaignId);
 
-    /**
-     * Gets the contact id of this newsletter log.
-     *
-     * @return the contact id of this newsletter log
-     */
-    public long getContactId();
+	/**
+	 * Gets the contact ID of this newsletter log.
+	 *
+	 * @return the contact ID of this newsletter log
+	 */
+	public long getContactId();
 
-    /**
-     * Sets the contact id of this newsletter log.
-     *
-     * @param contactId the contact id of this newsletter log
-     */
-    public void setContactId(long contactId);
+	/**
+	 * Sets the contact ID of this newsletter log.
+	 *
+	 * @param contactId the contact ID of this newsletter log
+	 */
+	public void setContactId(long contactId);
 
-    public boolean isNew();
+	public boolean isNew();
 
-    public void setNew(boolean n);
+	public void setNew(boolean n);
 
-    public boolean isCachedModel();
+	public boolean isCachedModel();
 
-    public void setCachedModel(boolean cachedModel);
+	public void setCachedModel(boolean cachedModel);
 
-    public boolean isEscapedModel();
+	public boolean isEscapedModel();
 
-    public void setEscapedModel(boolean escapedModel);
+	public void setEscapedModel(boolean escapedModel);
 
-    public Serializable getPrimaryKeyObj();
+	public Serializable getPrimaryKeyObj();
 
-    public ExpandoBridge getExpandoBridge();
+	public ExpandoBridge getExpandoBridge();
 
-    public void setExpandoBridgeAttributes(ServiceContext serviceContext);
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
 
-    public Object clone();
+	public Object clone();
 
-    public int compareTo(NewsletterLog newsletterLog);
+	public int compareTo(NewsletterLog newsletterLog);
 
-    public int hashCode();
+	public int hashCode();
 
-    public NewsletterLog toEscapedModel();
+	public NewsletterLog toEscapedModel();
 
-    public String toString();
+	public String toString();
 
-    public String toXmlString();
+	public String toXmlString();
 }

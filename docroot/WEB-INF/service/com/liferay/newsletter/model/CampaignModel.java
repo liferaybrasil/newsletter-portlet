@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.newsletter.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
@@ -22,112 +36,112 @@ import java.io.Serializable;
  * @generated
  */
 public interface CampaignModel extends BaseModel<Campaign> {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never modify or reference this interface directly. All methods that expect a campaign model instance should use the {@link Campaign} interface instead.
-     */
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify or reference this interface directly. All methods that expect a campaign model instance should use the {@link Campaign} interface instead.
+	 */
 
-    /**
-     * Gets the primary key of this campaign.
-     *
-     * @return the primary key of this campaign
-     */
-    public long getPrimaryKey();
+	/**
+	 * Gets the primary key of this campaign.
+	 *
+	 * @return the primary key of this campaign
+	 */
+	public long getPrimaryKey();
 
-    /**
-     * Sets the primary key of this campaign
-     *
-     * @param pk the primary key of this campaign
-     */
-    public void setPrimaryKey(long pk);
+	/**
+	 * Sets the primary key of this campaign
+	 *
+	 * @param pk the primary key of this campaign
+	 */
+	public void setPrimaryKey(long pk);
 
-    /**
-     * Gets the uuid of this campaign.
-     *
-     * @return the uuid of this campaign
-     */
-    @AutoEscape
-    public String getUuid();
+	/**
+	 * Gets the uuid of this campaign.
+	 *
+	 * @return the uuid of this campaign
+	 */
+	@AutoEscape
+	public String getUuid();
 
-    /**
-     * Sets the uuid of this campaign.
-     *
-     * @param uuid the uuid of this campaign
-     */
-    public void setUuid(String uuid);
+	/**
+	 * Sets the uuid of this campaign.
+	 *
+	 * @param uuid the uuid of this campaign
+	 */
+	public void setUuid(String uuid);
 
-    /**
-     * Gets the campaign id of this campaign.
-     *
-     * @return the campaign id of this campaign
-     */
-    public long getCampaignId();
+	/**
+	 * Gets the campaign ID of this campaign.
+	 *
+	 * @return the campaign ID of this campaign
+	 */
+	public long getCampaignId();
 
-    /**
-     * Sets the campaign id of this campaign.
-     *
-     * @param campaignId the campaign id of this campaign
-     */
-    public void setCampaignId(long campaignId);
+	/**
+	 * Sets the campaign ID of this campaign.
+	 *
+	 * @param campaignId the campaign ID of this campaign
+	 */
+	public void setCampaignId(long campaignId);
 
-    /**
-     * Gets the title of this campaign.
-     *
-     * @return the title of this campaign
-     */
-    @AutoEscape
-    public String getTitle();
+	/**
+	 * Gets the title of this campaign.
+	 *
+	 * @return the title of this campaign
+	 */
+	@AutoEscape
+	public String getTitle();
 
-    /**
-     * Sets the title of this campaign.
-     *
-     * @param title the title of this campaign
-     */
-    public void setTitle(String title);
+	/**
+	 * Sets the title of this campaign.
+	 *
+	 * @param title the title of this campaign
+	 */
+	public void setTitle(String title);
 
-    /**
-     * Gets the content of this campaign.
-     *
-     * @return the content of this campaign
-     */
-    @AutoEscape
-    public String getContent();
+	/**
+	 * Gets the content of this campaign.
+	 *
+	 * @return the content of this campaign
+	 */
+	@AutoEscape
+	public String getContent();
 
-    /**
-     * Sets the content of this campaign.
-     *
-     * @param content the content of this campaign
-     */
-    public void setContent(String content);
+	/**
+	 * Sets the content of this campaign.
+	 *
+	 * @param content the content of this campaign
+	 */
+	public void setContent(String content);
 
-    public boolean isNew();
+	public boolean isNew();
 
-    public void setNew(boolean n);
+	public void setNew(boolean n);
 
-    public boolean isCachedModel();
+	public boolean isCachedModel();
 
-    public void setCachedModel(boolean cachedModel);
+	public void setCachedModel(boolean cachedModel);
 
-    public boolean isEscapedModel();
+	public boolean isEscapedModel();
 
-    public void setEscapedModel(boolean escapedModel);
+	public void setEscapedModel(boolean escapedModel);
 
-    public Serializable getPrimaryKeyObj();
+	public Serializable getPrimaryKeyObj();
 
-    public ExpandoBridge getExpandoBridge();
+	public ExpandoBridge getExpandoBridge();
 
-    public void setExpandoBridgeAttributes(ServiceContext serviceContext);
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
 
-    public Object clone();
+	public Object clone();
 
-    public int compareTo(Campaign campaign);
+	public int compareTo(Campaign campaign);
 
-    public int hashCode();
+	public int hashCode();
 
-    public Campaign toEscapedModel();
+	public Campaign toEscapedModel();
 
-    public String toString();
+	public String toString();
 
-    public String toXmlString();
+	public String toXmlString();
 }
