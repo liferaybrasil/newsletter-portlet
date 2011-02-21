@@ -15,6 +15,7 @@
 package com.liferay.newsletter.portlet;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -27,6 +28,8 @@ import javax.portlet.PortletMode;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 import javax.portlet.ReadOnlyException;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.portlet.ValidatorException;
 
 import com.liferay.newsletter.model.Campaign;
@@ -44,12 +47,16 @@ import com.liferay.newsletter.service.SendCampaignLocalServiceUtil;
 import com.liferay.newsletter.util.NewsletterConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portlet.journal.model.JournalArticleDisplay;
+import com.liferay.portlet.journalcontent.util.JournalContentUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 /**
@@ -81,6 +88,59 @@ public class NewsletterPortlet extends MVCPortlet {
 			response.setRenderParameter(
 				"jspPage", "/html/newsletterportlet/edit_campaign.jsp");
 		}
+	}
+
+	public void serveResource(
+			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+		throws IOException, PortletException {
+
+		String cmd = ParamUtil.getString(resourceRequest, "cmd");
+			
+		try {
+			if (cmd.equals(NewsletterConstants.GET_ARTICLE_CONTENT)) {
+				getArticleContent(resourceRequest, resourceResponse);
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void getArticleContent(
+		ResourceRequest resourceRequest, ResourceResponse resourceResponse) 
+		throws Exception {
+
+		long groupId = ParamUtil.getLong(resourceRequest, "groupId");
+		String articleId = ParamUtil.getString(resourceRequest, "articleId");
+
+		OutputStream os = resourceResponse.getPortletOutputStream();
+
+		JournalArticleDisplay contentDisplay = getArticleContentDisplay(
+			resourceRequest, resourceResponse, groupId, articleId);
+
+		try {
+			os.write(contentDisplay.getContent().getBytes());
+		}
+		finally {
+			os.close();
+		}
+	}
+
+	private JournalArticleDisplay getArticleContentDisplay(
+		ResourceRequest resourceRequest, ResourceResponse resourceResponse, 
+		long groupId, String articleId) {
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(
+			"THEME_DISPLAY");
+
+		String viewMode = ParamUtil.getString(resourceRequest, "viewMode");
+		String languageId = LanguageUtil.getLanguageId(resourceRequest);
+
+		JournalArticleDisplay articleDisplay = null;
+
+		articleDisplay = JournalContentUtil.getDisplay(groupId,articleId,viewMode,languageId,themeDisplay);
+
+		return articleDisplay;
 	}
 
 	public void addSendCampaign(ActionRequest request, ActionResponse response)
@@ -116,8 +176,7 @@ public class NewsletterPortlet extends MVCPortlet {
 
 	private void _registerLog(
 		SendCampaign sendCampaign, String contacts, ActionRequest request)
-		throws PortalException, SystemException, AddressException,
-		MessagingException {
+		throws Exception {
 
 		NewsletterLog newsletterLog;
 
@@ -156,6 +215,7 @@ public class NewsletterPortlet extends MVCPortlet {
 		throws IOException, PortletException {
 
 		String cmd = ParamUtil.getString(actionRequest, "cmd");
+
 		try {
 			if (cmd.equals("sending")) {
 				addSendCampaign(actionRequest, actionResponse);

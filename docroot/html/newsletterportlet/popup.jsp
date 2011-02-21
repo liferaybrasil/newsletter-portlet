@@ -14,6 +14,10 @@
  */
 --%>
 
+<%
+String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
+%>
+
 <%@ include file="/html/init.jsp" %>
 
 <liferay-portlet:renderURL varImpl="portletURL">
@@ -48,25 +52,25 @@
 	>
 	
 	<%
-	String parentFunctionURL = "javascript:Window.Parent.setArticleId("+ article.getArticleId() +")";
+	String parentFunctionURL = "javascript:" + resourceNamespace + "setParentWindowsHiddenFieldValue("+ article.getArticleId() +");";
 	%>
 	
 		<liferay-ui:search-container-column-text
 			name="Title"
 			value="<%= article.getTitle() %>"
-			href="<%=parentFunctionURL %>"
+			href="<%= parentFunctionURL %>"
 		/>
 		
 		<liferay-ui:search-container-column-text
 			name="Description"
 			value="<%= article.getDescription() %>"
-			href="<%=parentFunctionURL %>"
+			href="<%= parentFunctionURL %>"
 		/>
 		
 		<liferay-ui:search-container-column-text
 			name="Version"
 			value="<%= String.valueOf(article.getVersion()) %>"
-			href="<%=parentFunctionURL %>"
+			href="<%= parentFunctionURL %>"
 		/>
 
 		<%
@@ -90,3 +94,15 @@
 
 	<liferay-ui:search-iterator />
 </liferay-ui:search-container>
+
+
+<aui:script>
+    function <portlet:namespace/>setParentWindowsHiddenFieldValue(articleId) {
+    	var parentWindow = window.parent;
+    	//var AUI = parentWindow.AUI;
+
+        parentWindow.<%= resourceNamespace %>setCampaignContentValue(articleId);
+        
+        //AUI().DialogManager.closeByChild();
+    } 
+</aui:script>

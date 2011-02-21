@@ -943,6 +943,206 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	}
 
 	/**
+	 * Filters the send campaigns before and after the current send campaign in the ordered set where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendCampaignId the primary key of the current send campaign
+	 * @param uuid the uuid to search with
+	 * @param orderByComparator the comparator to order the set by
+	 * @return the previous, current, and next send campaign
+	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public SendCampaign[] filterFindByUuid_PrevAndNext(long sendCampaignId,
+		String uuid, OrderByComparator orderByComparator)
+		throws NoSuchSendCampaignException, SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByUuid_PrevAndNext(sendCampaignId, uuid,
+				orderByComparator);
+		}
+
+		SendCampaign sendCampaign = findByPrimaryKey(sendCampaignId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SendCampaign[] array = new SendCampaignImpl[3];
+
+			array[0] = filterGetByUuid_PrevAndNext(session, sendCampaign, uuid,
+					orderByComparator, true);
+
+			array[1] = sendCampaign;
+
+			array[2] = filterGetByUuid_PrevAndNext(session, sendCampaign, uuid,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected SendCampaign filterGetByUuid_PrevAndNext(Session session,
+		SendCampaign sendCampaign, String uuid,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		if (uuid == null) {
+			query.append(_FINDER_COLUMN_UUID_UUID_1);
+		}
+		else {
+			if (uuid.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_UUID_UUID_3);
+			}
+			else {
+				query.append(_FINDER_COLUMN_UUID_UUID_2);
+			}
+		}
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(SendCampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(SendCampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		SQLQuery q = session.createSQLQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			q.addEntity(_FILTER_ENTITY_ALIAS, SendCampaignImpl.class);
+		}
+		else {
+			q.addEntity(_FILTER_ENTITY_TABLE, SendCampaignImpl.class);
+		}
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (uuid != null) {
+			qPos.add(uuid);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(sendCampaign);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<SendCampaign> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
 	 * Finds all the send campaigns where campaignId = &#63;.
 	 *
 	 * @param campaignId the campaign ID to search with
@@ -1407,6 +1607,195 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 		}
 		finally {
 			closeSession(session);
+		}
+	}
+
+	/**
+	 * Filters the send campaigns before and after the current send campaign in the ordered set where campaignId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendCampaignId the primary key of the current send campaign
+	 * @param campaignId the campaign ID to search with
+	 * @param orderByComparator the comparator to order the set by
+	 * @return the previous, current, and next send campaign
+	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public SendCampaign[] filterFindByCampaign_PrevAndNext(
+		long sendCampaignId, long campaignId,
+		OrderByComparator orderByComparator)
+		throws NoSuchSendCampaignException, SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByCampaign_PrevAndNext(sendCampaignId, campaignId,
+				orderByComparator);
+		}
+
+		SendCampaign sendCampaign = findByPrimaryKey(sendCampaignId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SendCampaign[] array = new SendCampaignImpl[3];
+
+			array[0] = filterGetByCampaign_PrevAndNext(session, sendCampaign,
+					campaignId, orderByComparator, true);
+
+			array[1] = sendCampaign;
+
+			array[2] = filterGetByCampaign_PrevAndNext(session, sendCampaign,
+					campaignId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected SendCampaign filterGetByCampaign_PrevAndNext(Session session,
+		SendCampaign sendCampaign, long campaignId,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		query.append(_FINDER_COLUMN_CAMPAIGN_CAMPAIGNID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(SendCampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(SendCampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		SQLQuery q = session.createSQLQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			q.addEntity(_FILTER_ENTITY_ALIAS, SendCampaignImpl.class);
+		}
+		else {
+			q.addEntity(_FILTER_ENTITY_TABLE, SendCampaignImpl.class);
+		}
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(campaignId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(sendCampaign);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<SendCampaign> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
 		}
 	}
 
@@ -1896,6 +2285,201 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 		}
 		finally {
 			closeSession(session);
+		}
+	}
+
+	/**
+	 * Filters the send campaigns before and after the current send campaign in the ordered set where sendDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendCampaignId the primary key of the current send campaign
+	 * @param sendDate the send date to search with
+	 * @param orderByComparator the comparator to order the set by
+	 * @return the previous, current, and next send campaign
+	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public SendCampaign[] filterFindBySendDate_PrevAndNext(
+		long sendCampaignId, Date sendDate, OrderByComparator orderByComparator)
+		throws NoSuchSendCampaignException, SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findBySendDate_PrevAndNext(sendCampaignId, sendDate,
+				orderByComparator);
+		}
+
+		SendCampaign sendCampaign = findByPrimaryKey(sendCampaignId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SendCampaign[] array = new SendCampaignImpl[3];
+
+			array[0] = filterGetBySendDate_PrevAndNext(session, sendCampaign,
+					sendDate, orderByComparator, true);
+
+			array[1] = sendCampaign;
+
+			array[2] = filterGetBySendDate_PrevAndNext(session, sendCampaign,
+					sendDate, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected SendCampaign filterGetBySendDate_PrevAndNext(Session session,
+		SendCampaign sendCampaign, Date sendDate,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+		}
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(SendCampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(SendCampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		SQLQuery q = session.createSQLQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			q.addEntity(_FILTER_ENTITY_ALIAS, SendCampaignImpl.class);
+		}
+		else {
+			q.addEntity(_FILTER_ENTITY_TABLE, SendCampaignImpl.class);
+		}
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (sendDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sendDate));
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(sendCampaign);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<SendCampaign> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
 		}
 	}
 
@@ -2414,6 +2998,206 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 		}
 		finally {
 			closeSession(session);
+		}
+	}
+
+	/**
+	 * Filters the send campaigns before and after the current send campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendCampaignId the primary key of the current send campaign
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @param orderByComparator the comparator to order the set by
+	 * @return the previous, current, and next send campaign
+	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public SendCampaign[] filterFindBySD_LT_PrevAndNext(long sendCampaignId,
+		Date sendDate, boolean sent, OrderByComparator orderByComparator)
+		throws NoSuchSendCampaignException, SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findBySD_LT_PrevAndNext(sendCampaignId, sendDate, sent,
+				orderByComparator);
+		}
+
+		SendCampaign sendCampaign = findByPrimaryKey(sendCampaignId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SendCampaign[] array = new SendCampaignImpl[3];
+
+			array[0] = filterGetBySD_LT_PrevAndNext(session, sendCampaign,
+					sendDate, sent, orderByComparator, true);
+
+			array[1] = sendCampaign;
+
+			array[2] = filterGetBySD_LT_PrevAndNext(session, sendCampaign,
+					sendDate, sent, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected SendCampaign filterGetBySD_LT_PrevAndNext(Session session,
+		SendCampaign sendCampaign, Date sendDate, boolean sent,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+		}
+
+		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_SENDCAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(SendCampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(SendCampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				SendCampaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		SQLQuery q = session.createSQLQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			q.addEntity(_FILTER_ENTITY_ALIAS, SendCampaignImpl.class);
+		}
+		else {
+			q.addEntity(_FILTER_ENTITY_TABLE, SendCampaignImpl.class);
+		}
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (sendDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sendDate));
+		}
+
+		qPos.add(sent);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(sendCampaign);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<SendCampaign> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
 		}
 	}
 

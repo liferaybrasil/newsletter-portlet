@@ -122,11 +122,11 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 	}
 
 	public void setEmail(String email) {
-		_email = email;
-
 		if (_originalEmail == null) {
-			_originalEmail = email;
+			_originalEmail = _email;
 		}
+
+		_email = email;
 	}
 
 	public String getOriginalEmail() {

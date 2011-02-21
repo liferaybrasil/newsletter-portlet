@@ -39,11 +39,19 @@
 <portlet:actionURL var="editCampaignURL" />
 
 <liferay-portlet:renderURL windowState="<%= LiferayWindowState.POP_UP.toString() %>" varImpl="selectContentPopupURL">
-			<portlet:param name="tabs1" value="Campaign" />
-			<portlet:param name="redirect" value="<%= redirect %>" />
-			<portlet:param name="jspPage" value="/html/newsletterportlet/popup.jsp" />
-			<portlet:param name="" value="<portl"></portlet:param>
+	<portlet:param name="tabs1" value="Campaign" />
+	<portlet:param name="redirect" value="<%= redirect %>" />
+	<portlet:param name="jspPage" value="/html/newsletterportlet/popup.jsp" />
+	<portlet:param name="resourceNamespace" value="<%= renderResponse.getNamespace() %>" />
 </liferay-portlet:renderURL>
+
+
+<liferay-portlet:resourceURL varImpl="getArticleContentURL">
+	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_ARTICLE_CONTENT %>" />
+	<portlet:param name="articleId" value="10305" />
+	<portlet:param name="groupId" value="<%= String.valueOf(scopeGroupId) %>" />
+	<portlet:param name="portletResource" value="<portlet:namespace/>" />	
+</liferay-portlet:resourceURL>
 
 <aui:form action="<%= editCampaignURL %>" method="POST" name="fm">
 	<aui:fieldset>
@@ -52,6 +60,8 @@
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
 		<aui:input type="hidden" name="campaignId" />
+		
+		<aui:input type="hidden" name="articleId" />
 
 		<aui:input name="title" label="Title" />
 		<liferay-ui:error key="campaigntitle-required" message="campaigntitle-required" />
@@ -69,7 +79,6 @@
 			url='<%= webContentPopUpURL %>'
 			label="Select Webcontent"
 		/>
-		
 
 	</aui:fieldset>
 
@@ -79,3 +88,32 @@
 		<aui:button type="cancel"  onClick="<%= redirect %>" />
 	</aui:button-row>
 </aui:form>
+
+<aui:script>
+Liferay.provide(
+	window,
+	'<portlet:namespace/>setCampaignContentValue',
+	function(articleId) {
+		var A = AUI();
+	
+		A.io.request('<%= getArticleContentURL %>',
+			{
+				data: {
+					articleId: articleId
+				},
+				
+				on: {
+					success: function() {
+						var instance = this;
+
+						var data = instance.get('responseData');
+
+						A.one('#<portlet:namespace/>content').val(data);
+					}
+				}
+			}
+		);
+	},
+	['aui-io']
+);
+</aui:script>

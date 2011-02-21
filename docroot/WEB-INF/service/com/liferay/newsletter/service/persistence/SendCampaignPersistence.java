@@ -255,6 +255,26 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Filters the send campaigns before and after the current send campaign in the ordered set where uuid = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param sendCampaignId the primary key of the current send campaign
+	* @param uuid the uuid to search with
+	* @param orderByComparator the comparator to order the set by
+	* @return the previous, current, and next send campaign
+	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.liferay.newsletter.model.SendCampaign[] filterFindByUuid_PrevAndNext(
+		long sendCampaignId, java.lang.String uuid,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.newsletter.NoSuchSendCampaignException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Finds all the send campaigns where campaignId = &#63;.
 	*
 	* @param campaignId the campaign ID to search with
@@ -407,6 +427,26 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Filters the send campaigns before and after the current send campaign in the ordered set where campaignId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param sendCampaignId the primary key of the current send campaign
+	* @param campaignId the campaign ID to search with
+	* @param orderByComparator the comparator to order the set by
+	* @return the previous, current, and next send campaign
+	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.liferay.newsletter.model.SendCampaign[] filterFindByCampaign_PrevAndNext(
+		long sendCampaignId, long campaignId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.newsletter.NoSuchSendCampaignException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Finds all the send campaigns where sendDate = &#63;.
 	*
 	* @param sendDate the send date to search with
@@ -557,6 +597,26 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
 		java.util.Date sendDate, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Filters the send campaigns before and after the current send campaign in the ordered set where sendDate = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param sendCampaignId the primary key of the current send campaign
+	* @param sendDate the send date to search with
+	* @param orderByComparator the comparator to order the set by
+	* @return the previous, current, and next send campaign
+	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.liferay.newsletter.model.SendCampaign[] filterFindBySendDate_PrevAndNext(
+		long sendCampaignId, java.util.Date sendDate,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.newsletter.NoSuchSendCampaignException,
+			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Finds all the send campaigns where sendDate &le; &#63; and sent = &#63;.
@@ -718,6 +778,27 @@ public interface SendCampaignPersistence extends BasePersistence<SendCampaign> {
 		java.util.Date sendDate, boolean sent, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Filters the send campaigns before and after the current send campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param sendCampaignId the primary key of the current send campaign
+	* @param sendDate the send date to search with
+	* @param sent the sent to search with
+	* @param orderByComparator the comparator to order the set by
+	* @return the previous, current, and next send campaign
+	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.liferay.newsletter.model.SendCampaign[] filterFindBySD_LT_PrevAndNext(
+		long sendCampaignId, java.util.Date sendDate, boolean sent,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.newsletter.NoSuchSendCampaignException,
+			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Finds all the send campaigns.

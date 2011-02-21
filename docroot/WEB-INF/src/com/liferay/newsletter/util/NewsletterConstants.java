@@ -19,6 +19,8 @@ package com.liferay.newsletter.util;
  */
 public interface NewsletterConstants {
 
+	public static final String GET_ARTICLE_CONTENT = "get-article-content";
+	
 	public static final String SENDER_NAME = "sender.name";
 
 	public static final String SENDER_EMAIL = "sender.email";
