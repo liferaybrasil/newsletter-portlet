@@ -48,7 +48,6 @@
 
 <liferay-portlet:resourceURL varImpl="getArticleContentURL">
 	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_ARTICLE_CONTENT %>" />
-	<portlet:param name="articleId" value="10305" />
 	<portlet:param name="groupId" value="<%= String.valueOf(scopeGroupId) %>" />
 	<portlet:param name="portletResource" value="<portlet:namespace/>" />	
 </liferay-portlet:resourceURL>
@@ -66,11 +65,12 @@
 		<aui:input name="title" label="Title" />
 		<liferay-ui:error key="campaigntitle-required" message="campaigntitle-required" />
 
-		<aui:input name="content" label="Content" />
+		<liferay-ui:input-editor name="content" toolbarSet="liferay-article" width="100%" />
 		<liferay-ui:error key="campaigncontent-required" message="campaigncontent-required" />
 		
+		
 		<%
-		String webContentPopUpURL = "javascript:Liferay.Util.openIframePopUp('','', '"+selectContentPopupURL+"', '" + renderResponse.getNamespace() + "','WebContent');";
+		String webContentPopUpURL = "javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '" + selectContentPopupURL +"'});";
 		%>
 
 		<liferay-ui:icon
@@ -90,12 +90,16 @@
 </aui:form>
 
 <aui:script>
+
+function <portlet:namespace />initEditor() {
+	return null;
+}
+	
 Liferay.provide(
 	window,
 	'<portlet:namespace/>setCampaignContentValue',
 	function(articleId) {
 		var A = AUI();
-	
 		A.io.request('<%= getArticleContentURL %>',
 			{
 				data: {
@@ -108,7 +112,7 @@ Liferay.provide(
 
 						var data = instance.get('responseData');
 
-						A.one('#<portlet:namespace/>content').val(data);
+						window.frames['content'].setHTML(data);
 					}
 				}
 			}

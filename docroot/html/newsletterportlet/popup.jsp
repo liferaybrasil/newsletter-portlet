@@ -57,7 +57,7 @@ String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 	
 		<liferay-ui:search-container-column-text
 			name="Title"
-			value="<%= article.getTitle() %>"
+			value="<%= article.getTitle(locale) %>"
 			href="<%= parentFunctionURL %>"
 		/>
 		
