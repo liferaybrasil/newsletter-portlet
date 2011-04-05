@@ -28,6 +28,14 @@ public class NewsletterLogWrapper implements NewsletterLog {
 		_newsletterLog = newsletterLog;
 	}
 
+	public Class<?> getModelClass() {
+		return NewsletterLog.class;
+	}
+
+	public String getModelClassName() {
+		return NewsletterLog.class.getName();
+	}
+
 	/**
 	* Gets the primary key of this newsletter log.
 	*
@@ -182,6 +190,10 @@ public class NewsletterLogWrapper implements NewsletterLog {
 
 	public NewsletterLog getWrappedNewsletterLog() {
 		return _newsletterLog;
+	}
+
+	public void resetOriginalValues() {
+		_newsletterLog.resetOriginalValues();
 	}
 
 	private NewsletterLog _newsletterLog;

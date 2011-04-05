@@ -29,6 +29,14 @@ public class ContactClp extends BaseModelImpl<Contact> implements Contact {
 	public ContactClp() {
 	}
 
+	public Class<?> getModelClass() {
+		return Contact.class;
+	}
+
+	public String getModelClassName() {
+		return Contact.class.getName();
+	}
+
 	public long getPrimaryKey() {
 		return _contactId;
 	}

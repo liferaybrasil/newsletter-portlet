@@ -29,6 +29,14 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 	public CampaignClp() {
 	}
 
+	public Class<?> getModelClass() {
+		return Campaign.class;
+	}
+
+	public String getModelClassName() {
+		return Campaign.class.getName();
+	}
+
 	public long getPrimaryKey() {
 		return _campaignId;
 	}

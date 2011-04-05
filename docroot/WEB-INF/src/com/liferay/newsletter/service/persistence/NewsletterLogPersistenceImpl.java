@@ -35,6 +35,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -116,6 +118,8 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 		EntityCacheUtil.putResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			NewsletterLogImpl.class, newsletterLog.getPrimaryKey(),
 			newsletterLog);
+
+		newsletterLog.resetOriginalValues();
 	}
 
 	/**
@@ -142,7 +146,10 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	 * </p>
 	 */
 	public void clearCache() {
-		CacheRegistryUtil.clear(NewsletterLogImpl.class.getName());
+		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+			CacheRegistryUtil.clear(NewsletterLogImpl.class.getName());
+		}
+
 		EntityCacheUtil.clearCache(NewsletterLogImpl.class.getName());
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
@@ -208,7 +215,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 			session = openSession();
 
 			NewsletterLog newsletterLog = (NewsletterLog)session.get(NewsletterLogImpl.class,
-					new Long(newsletterLogId));
+					Long.valueOf(newsletterLogId));
 
 			if (newsletterLog == null) {
 				if (_log.isWarnEnabled()) {
@@ -393,7 +400,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 				session = openSession();
 
 				newsletterLog = (NewsletterLog)session.get(NewsletterLogImpl.class,
-						new Long(newsletterLogId));
+						Long.valueOf(newsletterLogId));
 			}
 			catch (Exception e) {
 				throw processException(e);
@@ -450,7 +457,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	 * @param uuid the uuid to search with
 	 * @param start the lower bound of the range of newsletter logs to return
 	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching newsletter logs
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -544,7 +551,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	 * </p>
 	 *
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching newsletter log
 	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
 	 * @throws SystemException if a system exception occurred
@@ -579,7 +586,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	 * </p>
 	 *
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching newsletter log
 	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
 	 * @throws SystemException if a system exception occurred
@@ -618,7 +625,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	 *
 	 * @param newsletterLogId the primary key of the current newsletter log
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next newsletter log
 	 * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -806,7 +813,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	 * @param sendCampaignId the send campaign ID to search with
 	 * @param start the lower bound of the range of newsletter logs to return
 	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching newsletter logs
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -889,7 +896,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	 * </p>
 	 *
 	 * @param sendCampaignId the send campaign ID to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching newsletter log
 	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
 	 * @throws SystemException if a system exception occurred
@@ -925,7 +932,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	 * </p>
 	 *
 	 * @param sendCampaignId the send campaign ID to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching newsletter log
 	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
 	 * @throws SystemException if a system exception occurred
@@ -964,7 +971,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	 *
 	 * @param newsletterLogId the primary key of the current newsletter log
 	 * @param sendCampaignId the send campaign ID to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next newsletter log
 	 * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -1136,7 +1143,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	 *
 	 * @param start the lower bound of the range of newsletter logs to return
 	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of newsletter logs
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1458,5 +1465,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	private static final String _ORDER_BY_ENTITY_ALIAS = "newsletterLog.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No NewsletterLog exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No NewsletterLog exists with the key {";
+	private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
+				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(NewsletterLogPersistenceImpl.class);
 }

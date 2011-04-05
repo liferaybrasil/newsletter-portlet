@@ -28,6 +28,14 @@ public class SendCampaignWrapper implements SendCampaign {
 		_sendCampaign = sendCampaign;
 	}
 
+	public Class<?> getModelClass() {
+		return SendCampaign.class;
+	}
+
+	public String getModelClassName() {
+		return SendCampaign.class.getName();
+	}
+
 	/**
 	* Gets the primary key of this send campaign.
 	*
@@ -262,6 +270,10 @@ public class SendCampaignWrapper implements SendCampaign {
 
 	public SendCampaign getWrappedSendCampaign() {
 		return _sendCampaign;
+	}
+
+	public void resetOriginalValues() {
+		_sendCampaign.resetOriginalValues();
 	}
 
 	private SendCampaign _sendCampaign;

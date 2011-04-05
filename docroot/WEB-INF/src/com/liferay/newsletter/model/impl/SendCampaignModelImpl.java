@@ -80,6 +80,15 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.liferay.newsletter.model.SendCampaign"),
 			true);
+
+	public Class<?> getModelClass() {
+		return SendCampaign.class;
+	}
+
+	public String getModelClassName() {
+		return SendCampaign.class.getName();
+	}
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.liferay.newsletter.model.SendCampaign"));
 
@@ -211,18 +220,20 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
 	}
 
 	public Object clone() {
-		SendCampaignImpl clone = new SendCampaignImpl();
+		SendCampaignImpl sendCampaignImpl = new SendCampaignImpl();
 
-		clone.setUuid(getUuid());
-		clone.setSendCampaignId(getSendCampaignId());
-		clone.setSendDate(getSendDate());
-		clone.setEmailSubject(getEmailSubject());
-		clone.setSenderName(getSenderName());
-		clone.setSenderEmail(getSenderEmail());
-		clone.setSent(getSent());
-		clone.setCampaignId(getCampaignId());
+		sendCampaignImpl.setUuid(getUuid());
+		sendCampaignImpl.setSendCampaignId(getSendCampaignId());
+		sendCampaignImpl.setSendDate(getSendDate());
+		sendCampaignImpl.setEmailSubject(getEmailSubject());
+		sendCampaignImpl.setSenderName(getSenderName());
+		sendCampaignImpl.setSenderEmail(getSenderEmail());
+		sendCampaignImpl.setSent(getSent());
+		sendCampaignImpl.setCampaignId(getCampaignId());
 
-		return clone;
+		sendCampaignImpl.resetOriginalValues();
+
+		return sendCampaignImpl;
 	}
 
 	public int compareTo(SendCampaign sendCampaign) {
@@ -265,6 +276,9 @@ public class SendCampaignModelImpl extends BaseModelImpl<SendCampaign>
 
 	public int hashCode() {
 		return (int)getPrimaryKey();
+	}
+
+	public void resetOriginalValues() {
 	}
 
 	public String toString() {

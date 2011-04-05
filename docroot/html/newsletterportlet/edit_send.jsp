@@ -72,7 +72,7 @@
 
 		</aui:select>
 
-		<aui:input type="text" name="contacts" label="Contacts" />
+		<aui:input type="textarea" name="contacts" label="Contacts" />
 		<liferay-ui:error key="sendcampaigncontacts-required" message="sendcampaigncontacts-required" />
 
 	</aui:fieldset>

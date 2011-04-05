@@ -89,6 +89,32 @@ public class NewsletterPortlet extends MVCPortlet {
 				"jspPage", "/html/newsletterportlet/edit_campaign.jsp");
 		}
 	}
+	
+	public void updateCampaign(ActionRequest request, ActionResponse response)
+		throws Exception {
+
+		Campaign campaign = _campaignFromRequest(request);
+	
+		ArrayList<String> errors = new ArrayList<String>();
+	
+		if (NewsletterValidator.validateCampaign(campaign, errors)) {
+			campaign = CampaignLocalServiceUtil.updateCampaign(campaign);
+	
+			SessionMessages.add(request, "campaign-updated");
+	
+			sendRedirect(request, response);
+		}
+		else {
+			for (String error : errors) {
+				SessionErrors.add(request, error);
+			}
+	
+			PortalUtil.copyRequestParameters(request, response);
+	
+			response.setRenderParameter(
+				"jspPage", "/html/newsletterportlet/edit_campaign.jsp");
+		}
+	}
 
 	public void serveResource(
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
@@ -209,6 +235,7 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		return contact;
 	}
+	
 
 	public void processAction(
 			ActionRequest actionRequest, ActionResponse actionResponse)
@@ -227,7 +254,7 @@ public class NewsletterPortlet extends MVCPortlet {
 				resendSendCampaign(actionRequest, actionResponse);
 			}
 			else if (cmd.equals("editCampaign")) {
-				deleteCampaign(actionRequest, actionResponse);
+				updateCampaign(actionRequest, actionResponse);
 			}
 			else if (cmd.equals("deleteSendCampaign")){
 				deleteSendCampaign(actionRequest, actionResponse);
@@ -261,6 +288,8 @@ public class NewsletterPortlet extends MVCPortlet {
 				actionRequest, "senderName"));
 
 		preferences.store();
+		
+		SessionMessages.add(actionRequest, "preferences-added");
 
 		sendRedirect(actionRequest, actionResponse);
 	}

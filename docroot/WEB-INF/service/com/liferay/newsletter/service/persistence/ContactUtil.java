@@ -236,7 +236,7 @@ public class ContactUtil {
 	* @param uuid the uuid to search with
 	* @param start the lower bound of the range of contacts to return
 	* @param end the upper bound of the range of contacts to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -255,7 +255,7 @@ public class ContactUtil {
 	* </p>
 	*
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
 	* @throws SystemException if a system exception occurred
@@ -276,7 +276,7 @@ public class ContactUtil {
 	* </p>
 	*
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
 	* @throws SystemException if a system exception occurred
@@ -298,7 +298,7 @@ public class ContactUtil {
 	*
 	* @param contactId the primary key of the current contact
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -391,7 +391,7 @@ public class ContactUtil {
 	*
 	* @param start the lower bound of the range of contacts to return
 	* @param end the upper bound of the range of contacts to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -511,7 +511,7 @@ public class ContactUtil {
 	* @param pk the primary key of the contact to get the associated newsletter logs for
 	* @param start the lower bound of the range of contacts to return
 	* @param end the upper bound of the range of contacts to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of newsletter logs associated with the contact
 	* @throws SystemException if a system exception occurred
 	*/

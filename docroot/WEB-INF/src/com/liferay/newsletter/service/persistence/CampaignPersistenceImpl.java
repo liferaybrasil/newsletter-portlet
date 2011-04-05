@@ -39,6 +39,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -106,6 +108,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	public void cacheResult(Campaign campaign) {
 		EntityCacheUtil.putResult(CampaignModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignImpl.class, campaign.getPrimaryKey(), campaign);
+
+		campaign.resetOriginalValues();
 	}
 
 	/**
@@ -131,7 +135,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * </p>
 	 */
 	public void clearCache() {
-		CacheRegistryUtil.clear(CampaignImpl.class.getName());
+		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+			CacheRegistryUtil.clear(CampaignImpl.class.getName());
+		}
+
 		EntityCacheUtil.clearCache(CampaignImpl.class.getName());
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
@@ -197,7 +204,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			session = openSession();
 
 			Campaign campaign = (Campaign)session.get(CampaignImpl.class,
-					new Long(campaignId));
+					Long.valueOf(campaignId));
 
 			if (campaign == null) {
 				if (_log.isWarnEnabled()) {
@@ -377,7 +384,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 				session = openSession();
 
 				campaign = (Campaign)session.get(CampaignImpl.class,
-						new Long(campaignId));
+						Long.valueOf(campaignId));
 			}
 			catch (Exception e) {
 				throw processException(e);
@@ -433,7 +440,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * @param uuid the uuid to search with
 	 * @param start the lower bound of the range of campaigns to return
 	 * @param end the upper bound of the range of campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -527,7 +534,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * </p>
 	 *
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
 	 * @throws SystemException if a system exception occurred
@@ -562,7 +569,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * </p>
 	 *
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
 	 * @throws SystemException if a system exception occurred
@@ -601,7 +608,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 *
 	 * @param campaignId the primary key of the current campaign
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -788,7 +795,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * @param uuid the uuid to search with
 	 * @param start the lower bound of the range of campaigns to return
 	 * @param end the upper bound of the range of campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -885,7 +892,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 *
 	 * @param campaignId the primary key of the current campaign
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -1101,7 +1108,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 *
 	 * @param start the lower bound of the range of campaigns to return
 	 * @param end the upper bound of the range of campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1411,7 +1418,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * @param pk the primary key of the campaign to get the associated send campaigns for
 	 * @param start the lower bound of the range of campaigns to return
 	 * @param end the upper bound of the range of campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of send campaigns associated with the campaign
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1687,5 +1694,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	private static final String _ORDER_BY_ENTITY_TABLE = "Newsletter_Campaign.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Campaign exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Campaign exists with the key {";
+	private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
+				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(CampaignPersistenceImpl.class);
 }

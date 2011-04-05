@@ -22,6 +22,7 @@
 
 <portlet:actionURL name="setNewsletterPref" var="setNewsletterPrefUrl" />
 
+<liferay-ui:error key="preferences-added" message="preferences-added" />
 <aui:form action="<%= setNewsletterPrefUrl %>" method="POST" name="fm">
 	<aui:input type="hidden" name="cmd" value="setNewsletterPref" />
 	<aui:input name="rowsPerPage" label="Rows Per Page" value='<%= prefs.getValue(NewsletterConstants.ROWS_PER_PAGE,"") %>' size="45" type="text" />

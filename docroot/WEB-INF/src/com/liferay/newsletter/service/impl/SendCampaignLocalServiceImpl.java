@@ -37,9 +37,11 @@ import com.liferay.newsletter.service.ContactLocalServiceUtil;
 import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
 import com.liferay.newsletter.service.SendCampaignLocalServiceUtil;
 import com.liferay.newsletter.service.base.SendCampaignLocalServiceBaseImpl;
+import com.liferay.newsletter.util.NewsletterConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.util.portlet.PortletProps;
 
 /**
@@ -136,24 +138,41 @@ public class SendCampaignLocalServiceImpl
 		Campaign campaign, SendCampaign sendCampaign, Contact contact)
 		throws AddressException, MessagingException {
 
-		final String password = PortletProps.get(
-			PropsKeys.MAIL_SESSION_MAIL_POP3_PASSWORD);
-		final String user = PortletProps.get(
-			PropsKeys.MAIL_SESSION_MAIL_POP3_USER);
+		String passwordString = PortletProps.get(
+			PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD);
+		String userString = PortletProps.get(
+			PropsKeys.MAIL_SESSION_MAIL_SMTP_USER);
 		String host = PortletProps.get(
-			PropsKeys.MAIL_SESSION_MAIL_POP3_HOST);
+			PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
 		String port = PortletProps.get(
-			PropsKeys.MAIL_SESSION_MAIL_POP3_PORT);
+			PropsKeys.MAIL_SESSION_MAIL_SMTP_PORT);
+		
+		
+		if(passwordString.isEmpty()){
+			passwordString = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
+		}
+		if(userString.isEmpty()){
+			userString = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
+		}
+		if(host.isEmpty()){
+			host = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
+		}
+		if(port.isEmpty()){
+			port = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
+		}
 
 		Properties props = new Properties();
-		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.socketFactory.port", port);
-		props.put("mail.smtp.port", port);
-		props.put("mail.smtp.socketFactory.fallback", "false");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.auth", "true");
+		props.put(NewsletterConstants.MAIL_TRANSPORT_PROTOCOL, "smtp");
+		props.put(NewsletterConstants.MAIL_SMTP_HOST, host);
+		props.put(NewsletterConstants.MAIL_SMTP_SOCKETFACTORY_PORT, port);
+		props.put(NewsletterConstants.MAIL_SMTP_PORT, port);
+		props.put(NewsletterConstants.MAIL_SMTP_SOCKETFACTORY_FALLBACK, "false");
+		props.put(NewsletterConstants.MAIL_SMTP_STARTTLS_ENABLE, "true");
+		props.put(NewsletterConstants.MAIL_SMTP_AUTH, "true");
 
+		final String user = userString;
+		final String password = passwordString;
+		
 		Session session = Session.getDefaultInstance(
 			props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {

@@ -33,6 +33,14 @@ public class SendCampaignClp extends BaseModelImpl<SendCampaign>
 	public SendCampaignClp() {
 	}
 
+	public Class<?> getModelClass() {
+		return SendCampaign.class;
+	}
+
+	public String getModelClassName() {
+		return SendCampaign.class.getName();
+	}
+
 	public long getPrimaryKey() {
 		return _sendCampaignId;
 	}

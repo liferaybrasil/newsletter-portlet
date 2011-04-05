@@ -240,7 +240,7 @@ public class SendCampaignUtil {
 	* @param uuid the uuid to search with
 	* @param start the lower bound of the range of send campaigns to return
 	* @param end the upper bound of the range of send campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching send campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -259,7 +259,7 @@ public class SendCampaignUtil {
 	* </p>
 	*
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	* @throws SystemException if a system exception occurred
@@ -280,7 +280,7 @@ public class SendCampaignUtil {
 	* </p>
 	*
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	* @throws SystemException if a system exception occurred
@@ -302,7 +302,7 @@ public class SendCampaignUtil {
 	*
 	* @param sendCampaignId the primary key of the current send campaign
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -359,7 +359,7 @@ public class SendCampaignUtil {
 	* @param uuid the uuid to search with
 	* @param start the lower bound of the range of send campaigns to return
 	* @param end the upper bound of the range of send campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching send campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -380,7 +380,7 @@ public class SendCampaignUtil {
 	*
 	* @param sendCampaignId the primary key of the current send campaign
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -437,7 +437,7 @@ public class SendCampaignUtil {
 	* @param campaignId the campaign ID to search with
 	* @param start the lower bound of the range of send campaigns to return
 	* @param end the upper bound of the range of send campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching send campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -457,7 +457,7 @@ public class SendCampaignUtil {
 	* </p>
 	*
 	* @param campaignId the campaign ID to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	* @throws SystemException if a system exception occurred
@@ -479,7 +479,7 @@ public class SendCampaignUtil {
 	* </p>
 	*
 	* @param campaignId the campaign ID to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	* @throws SystemException if a system exception occurred
@@ -502,7 +502,7 @@ public class SendCampaignUtil {
 	*
 	* @param sendCampaignId the primary key of the current send campaign
 	* @param campaignId the campaign ID to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -559,7 +559,7 @@ public class SendCampaignUtil {
 	* @param campaignId the campaign ID to search with
 	* @param start the lower bound of the range of send campaigns to return
 	* @param end the upper bound of the range of send campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching send campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -581,7 +581,7 @@ public class SendCampaignUtil {
 	*
 	* @param sendCampaignId the primary key of the current send campaign
 	* @param campaignId the campaign ID to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -638,7 +638,7 @@ public class SendCampaignUtil {
 	* @param sendDate the send date to search with
 	* @param start the lower bound of the range of send campaigns to return
 	* @param end the upper bound of the range of send campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching send campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -658,7 +658,7 @@ public class SendCampaignUtil {
 	* </p>
 	*
 	* @param sendDate the send date to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	* @throws SystemException if a system exception occurred
@@ -679,7 +679,7 @@ public class SendCampaignUtil {
 	* </p>
 	*
 	* @param sendDate the send date to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	* @throws SystemException if a system exception occurred
@@ -701,7 +701,7 @@ public class SendCampaignUtil {
 	*
 	* @param sendCampaignId the primary key of the current send campaign
 	* @param sendDate the send date to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -758,7 +758,7 @@ public class SendCampaignUtil {
 	* @param sendDate the send date to search with
 	* @param start the lower bound of the range of send campaigns to return
 	* @param end the upper bound of the range of send campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching send campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -779,7 +779,7 @@ public class SendCampaignUtil {
 	*
 	* @param sendCampaignId the primary key of the current send campaign
 	* @param sendDate the send date to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -839,7 +839,7 @@ public class SendCampaignUtil {
 	* @param sent the sent to search with
 	* @param start the lower bound of the range of send campaigns to return
 	* @param end the upper bound of the range of send campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching send campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -860,7 +860,7 @@ public class SendCampaignUtil {
 	*
 	* @param sendDate the send date to search with
 	* @param sent the sent to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	* @throws SystemException if a system exception occurred
@@ -883,7 +883,7 @@ public class SendCampaignUtil {
 	*
 	* @param sendDate the send date to search with
 	* @param sent the sent to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	* @throws SystemException if a system exception occurred
@@ -907,7 +907,7 @@ public class SendCampaignUtil {
 	* @param sendCampaignId the primary key of the current send campaign
 	* @param sendDate the send date to search with
 	* @param sent the sent to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -967,7 +967,7 @@ public class SendCampaignUtil {
 	* @param sent the sent to search with
 	* @param start the lower bound of the range of send campaigns to return
 	* @param end the upper bound of the range of send campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching send campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -990,7 +990,7 @@ public class SendCampaignUtil {
 	* @param sendCampaignId the primary key of the current send campaign
 	* @param sendDate the send date to search with
 	* @param sent the sent to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next send campaign
 	* @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -1043,7 +1043,7 @@ public class SendCampaignUtil {
 	*
 	* @param start the lower bound of the range of send campaigns to return
 	* @param end the upper bound of the range of send campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of send campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -1259,7 +1259,7 @@ public class SendCampaignUtil {
 	* @param pk the primary key of the send campaign to get the associated newsletter logs for
 	* @param start the lower bound of the range of send campaigns to return
 	* @param end the upper bound of the range of send campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of newsletter logs associated with the send campaign
 	* @throws SystemException if a system exception occurred
 	*/

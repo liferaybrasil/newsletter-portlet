@@ -30,6 +30,14 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 	public NewsletterLogClp() {
 	}
 
+	public Class<?> getModelClass() {
+		return NewsletterLog.class;
+	}
+
+	public String getModelClassName() {
+		return NewsletterLog.class.getName();
+	}
+
 	public long getPrimaryKey() {
 		return _newsletterLogId;
 	}

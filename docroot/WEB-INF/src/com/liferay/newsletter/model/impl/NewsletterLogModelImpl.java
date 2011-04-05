@@ -71,6 +71,15 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.liferay.newsletter.model.NewsletterLog"),
 			true);
+
+	public Class<?> getModelClass() {
+		return NewsletterLog.class;
+	}
+
+	public String getModelClassName() {
+		return NewsletterLog.class.getName();
+	}
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.liferay.newsletter.model.NewsletterLog"));
 
@@ -151,14 +160,16 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 	}
 
 	public Object clone() {
-		NewsletterLogImpl clone = new NewsletterLogImpl();
+		NewsletterLogImpl newsletterLogImpl = new NewsletterLogImpl();
 
-		clone.setUuid(getUuid());
-		clone.setNewsletterLogId(getNewsletterLogId());
-		clone.setSendCampaignId(getSendCampaignId());
-		clone.setContactId(getContactId());
+		newsletterLogImpl.setUuid(getUuid());
+		newsletterLogImpl.setNewsletterLogId(getNewsletterLogId());
+		newsletterLogImpl.setSendCampaignId(getSendCampaignId());
+		newsletterLogImpl.setContactId(getContactId());
 
-		return clone;
+		newsletterLogImpl.resetOriginalValues();
+
+		return newsletterLogImpl;
 	}
 
 	public int compareTo(NewsletterLog newsletterLog) {
@@ -201,6 +212,9 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 
 	public int hashCode() {
 		return (int)getPrimaryKey();
+	}
+
+	public void resetOriginalValues() {
 	}
 
 	public String toString() {

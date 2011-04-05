@@ -75,13 +75,19 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 				"updateNewsletterLog",
 				com.liferay.newsletter.model.NewsletterLog.class, boolean.class);
 
-		_getNewsletterLogBySendCampaignMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getBeanIdentifierMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getBeanIdentifier");
+
+		_setBeanIdentifierMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+				"setBeanIdentifier", java.lang.String.class);
+
+		_getNewsletterLogBySendCampaignMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getNewsletterLogBySendCampaign", long.class);
 
-		_getContactsBySendCampaignMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactsBySendCampaignMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactsBySendCampaign", long.class);
 
-		_getContactsBySendCampaignCountMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactsBySendCampaignCountMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactsBySendCampaignCount", long.class);
 	}
 
@@ -449,12 +455,51 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 		return (com.liferay.newsletter.model.NewsletterLog)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public java.lang.String getBeanIdentifier() {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey13);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey14,
+				ClpSerializer.translateInput(beanIdentifier));
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogBySendCampaign(
 		long sendCampaignId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogBySendCampaignMethodKey13,
+		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogBySendCampaignMethodKey15,
 				sendCampaignId);
 
 		try {
@@ -483,7 +528,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactsBySendCampaignMethodKey14,
+		MethodHandler methodHandler = new MethodHandler(_getContactsBySendCampaignMethodKey16,
 				sendCampaignId);
 
 		try {
@@ -514,7 +559,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactsBySendCampaignCountMethodKey15,
+		MethodHandler methodHandler = new MethodHandler(_getContactsBySendCampaignCountMethodKey17,
 				sendCampaignId);
 
 		try {
@@ -555,7 +600,9 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 	private MethodKey _getNewsletterLogsCountMethodKey10;
 	private MethodKey _updateNewsletterLogMethodKey11;
 	private MethodKey _updateNewsletterLogMethodKey12;
-	private MethodKey _getNewsletterLogBySendCampaignMethodKey13;
-	private MethodKey _getContactsBySendCampaignMethodKey14;
-	private MethodKey _getContactsBySendCampaignCountMethodKey15;
+	private MethodKey _getBeanIdentifierMethodKey13;
+	private MethodKey _setBeanIdentifierMethodKey14;
+	private MethodKey _getNewsletterLogBySendCampaignMethodKey15;
+	private MethodKey _getContactsBySendCampaignMethodKey16;
+	private MethodKey _getContactsBySendCampaignCountMethodKey17;
 }

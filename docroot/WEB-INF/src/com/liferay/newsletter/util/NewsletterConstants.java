@@ -27,4 +27,17 @@ public interface NewsletterConstants {
 
 	public static final String ROWS_PER_PAGE = "rowsPerPage";
 
+	public static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
+
+	public static final String MAIL_SMTP_HOST = "mail.smtp.host";
+
+	public static final String MAIL_SMTP_PORT = "mail.smtp.port";
+
+	public static final String MAIL_SMTP_SOCKETFACTORY_PORT = "mail.smtp.socketFactory.port";
+
+	public static final String MAIL_SMTP_SOCKETFACTORY_FALLBACK = "mail.smtp.socketFactory.fallback";
+
+	public static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
+
+	public static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
 }

@@ -120,7 +120,7 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 	* @param dynamicQuery the dynamic query to search with
 	* @param start the lower bound of the range of model instances to return
 	* @param end the upper bound of the range of model instances to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching rows
 	* @throws SystemException if a system exception occurred
 	*/
@@ -215,6 +215,24 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 		com.liferay.newsletter.model.Campaign campaign, boolean merge)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _campaignLocalService.updateCampaign(campaign, merge);
+	}
+
+	/**
+	* Gets the Spring bean ID for this bean.
+	*
+	* @return the Spring bean ID for this bean
+	*/
+	public java.lang.String getBeanIdentifier() {
+		return _campaignLocalService.getBeanIdentifier();
+	}
+
+	/**
+	* Sets the Spring bean ID for this bean.
+	*
+	* @param beanIdentifier the Spring bean ID for this bean
+	*/
+	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+		_campaignLocalService.setBeanIdentifier(beanIdentifier);
 	}
 
 	public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaigns(

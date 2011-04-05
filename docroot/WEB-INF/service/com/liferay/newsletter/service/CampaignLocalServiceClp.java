@@ -72,7 +72,13 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 				"updateCampaign", com.liferay.newsletter.model.Campaign.class,
 				boolean.class);
 
-		_getSendCampaignsMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getBeanIdentifierMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getBeanIdentifier");
+
+		_setBeanIdentifierMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+				"setBeanIdentifier", java.lang.String.class);
+
+		_getSendCampaignsMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getSendCampaigns", com.liferay.newsletter.model.Campaign.class);
 	}
 
@@ -437,12 +443,51 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		return (com.liferay.newsletter.model.Campaign)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public java.lang.String getBeanIdentifier() {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey13);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey14,
+				ClpSerializer.translateInput(beanIdentifier));
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaigns(
 		com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getSendCampaignsMethodKey13,
+		MethodHandler methodHandler = new MethodHandler(_getSendCampaignsMethodKey15,
 				ClpSerializer.translateInput(campaign));
 
 		try {
@@ -483,5 +528,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	private MethodKey _getCampaignsCountMethodKey10;
 	private MethodKey _updateCampaignMethodKey11;
 	private MethodKey _updateCampaignMethodKey12;
-	private MethodKey _getSendCampaignsMethodKey13;
+	private MethodKey _getBeanIdentifierMethodKey13;
+	private MethodKey _setBeanIdentifierMethodKey14;
+	private MethodKey _getSendCampaignsMethodKey15;
 }

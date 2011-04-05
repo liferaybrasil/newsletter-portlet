@@ -28,6 +28,14 @@ public class CampaignWrapper implements Campaign {
 		_campaign = campaign;
 	}
 
+	public Class<?> getModelClass() {
+		return Campaign.class;
+	}
+
+	public String getModelClassName() {
+		return Campaign.class.getName();
+	}
+
 	/**
 	* Gets the primary key of this campaign.
 	*
@@ -181,6 +189,10 @@ public class CampaignWrapper implements Campaign {
 
 	public Campaign getWrappedCampaign() {
 		return _campaign;
+	}
+
+	public void resetOriginalValues() {
+		_campaign.resetOriginalValues();
 	}
 
 	private Campaign _campaign;

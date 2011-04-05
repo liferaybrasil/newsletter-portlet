@@ -39,6 +39,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -114,6 +116,8 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_EMAIL,
 			new Object[] { contact.getEmail() }, contact);
+
+		contact.resetOriginalValues();
 	}
 
 	/**
@@ -139,7 +143,10 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	 * </p>
 	 */
 	public void clearCache() {
-		CacheRegistryUtil.clear(ContactImpl.class.getName());
+		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+			CacheRegistryUtil.clear(ContactImpl.class.getName());
+		}
+
 		EntityCacheUtil.clearCache(ContactImpl.class.getName());
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
@@ -208,7 +215,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 			session = openSession();
 
 			Contact contact = (Contact)session.get(ContactImpl.class,
-					new Long(contactId));
+					Long.valueOf(contactId));
 
 			if (contact == null) {
 				if (_log.isWarnEnabled()) {
@@ -265,7 +272,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 		ContactModelImpl contactModelImpl = (ContactModelImpl)contact;
 
 		FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_EMAIL,
-			new Object[] { contactModelImpl.getOriginalEmail() });
+			new Object[] { contactModelImpl.getEmail() });
 
 		EntityCacheUtil.removeResult(ContactModelImpl.ENTITY_CACHE_ENABLED,
 			ContactImpl.class, contact.getPrimaryKey());
@@ -410,7 +417,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 				session = openSession();
 
 				contact = (Contact)session.get(ContactImpl.class,
-						new Long(contactId));
+						Long.valueOf(contactId));
 			}
 			catch (Exception e) {
 				throw processException(e);
@@ -466,7 +473,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	 * @param uuid the uuid to search with
 	 * @param start the lower bound of the range of contacts to return
 	 * @param end the upper bound of the range of contacts to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -563,7 +570,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	 * </p>
 	 *
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
 	 * @throws SystemException if a system exception occurred
@@ -598,7 +605,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	 * </p>
 	 *
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
 	 * @throws SystemException if a system exception occurred
@@ -637,7 +644,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	 *
 	 * @param contactId the primary key of the current contact
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -963,7 +970,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	 *
 	 * @param start the lower bound of the range of contacts to return
 	 * @param end the upper bound of the range of contacts to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1291,7 +1298,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	 * @param pk the primary key of the contact to get the associated newsletter logs for
 	 * @param start the lower bound of the range of contacts to return
 	 * @param end the upper bound of the range of contacts to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of newsletter logs associated with the contact
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1559,5 +1566,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	private static final String _ORDER_BY_ENTITY_ALIAS = "contact.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Contact exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Contact exists with the key {";
+	private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
+				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(ContactPersistenceImpl.class);
 }

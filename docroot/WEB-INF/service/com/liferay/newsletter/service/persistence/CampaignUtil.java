@@ -237,7 +237,7 @@ public class CampaignUtil {
 	* @param uuid the uuid to search with
 	* @param start the lower bound of the range of campaigns to return
 	* @param end the upper bound of the range of campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -256,7 +256,7 @@ public class CampaignUtil {
 	* </p>
 	*
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
 	* @throws SystemException if a system exception occurred
@@ -277,7 +277,7 @@ public class CampaignUtil {
 	* </p>
 	*
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
 	* @throws SystemException if a system exception occurred
@@ -299,7 +299,7 @@ public class CampaignUtil {
 	*
 	* @param campaignId the primary key of the current campaign
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -355,7 +355,7 @@ public class CampaignUtil {
 	* @param uuid the uuid to search with
 	* @param start the lower bound of the range of campaigns to return
 	* @param end the upper bound of the range of campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -376,7 +376,7 @@ public class CampaignUtil {
 	*
 	* @param campaignId the primary key of the current campaign
 	* @param uuid the uuid to search with
-	* @param orderByComparator the comparator to order the set by
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -429,7 +429,7 @@ public class CampaignUtil {
 	*
 	* @param start the lower bound of the range of campaigns to return
 	* @param end the upper bound of the range of campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -537,7 +537,7 @@ public class CampaignUtil {
 	* @param pk the primary key of the campaign to get the associated send campaigns for
 	* @param start the lower bound of the range of campaigns to return
 	* @param end the upper bound of the range of campaigns to return (not inclusive)
-	* @param orderByComparator the comparator to order the results by
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of send campaigns associated with the campaign
 	* @throws SystemException if a system exception occurred
 	*/

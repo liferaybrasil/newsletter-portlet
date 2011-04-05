@@ -73,6 +73,15 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.liferay.newsletter.model.Contact"),
 			true);
+
+	public Class<?> getModelClass() {
+		return Contact.class;
+	}
+
+	public String getModelClassName() {
+		return Contact.class.getName();
+	}
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.liferay.newsletter.model.Contact"));
 
@@ -170,14 +179,16 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 	}
 
 	public Object clone() {
-		ContactImpl clone = new ContactImpl();
+		ContactImpl contactImpl = new ContactImpl();
 
-		clone.setUuid(getUuid());
-		clone.setContactId(getContactId());
-		clone.setEmail(getEmail());
-		clone.setName(getName());
+		contactImpl.setUuid(getUuid());
+		contactImpl.setContactId(getContactId());
+		contactImpl.setEmail(getEmail());
+		contactImpl.setName(getName());
 
-		return clone;
+		contactImpl.resetOriginalValues();
+
+		return contactImpl;
 	}
 
 	public int compareTo(Contact contact) {
@@ -218,6 +229,12 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 
 	public int hashCode() {
 		return (int)getPrimaryKey();
+	}
+
+	public void resetOriginalValues() {
+		ContactModelImpl contactModelImpl = this;
+
+		contactModelImpl._originalEmail = contactModelImpl._email;
 	}
 
 	public String toString() {

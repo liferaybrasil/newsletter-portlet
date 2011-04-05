@@ -71,6 +71,15 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.liferay.newsletter.model.Campaign"),
 			true);
+
+	public Class<?> getModelClass() {
+		return Campaign.class;
+	}
+
+	public String getModelClassName() {
+		return Campaign.class.getName();
+	}
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.liferay.newsletter.model.Campaign"));
 
@@ -160,14 +169,16 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 	}
 
 	public Object clone() {
-		CampaignImpl clone = new CampaignImpl();
+		CampaignImpl campaignImpl = new CampaignImpl();
 
-		clone.setUuid(getUuid());
-		clone.setCampaignId(getCampaignId());
-		clone.setTitle(getTitle());
-		clone.setContent(getContent());
+		campaignImpl.setUuid(getUuid());
+		campaignImpl.setCampaignId(getCampaignId());
+		campaignImpl.setTitle(getTitle());
+		campaignImpl.setContent(getContent());
 
-		return clone;
+		campaignImpl.resetOriginalValues();
+
+		return campaignImpl;
 	}
 
 	public int compareTo(Campaign campaign) {
@@ -210,6 +221,9 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 
 	public int hashCode() {
 		return (int)getPrimaryKey();
+	}
+
+	public void resetOriginalValues() {
 	}
 
 	public String toString() {

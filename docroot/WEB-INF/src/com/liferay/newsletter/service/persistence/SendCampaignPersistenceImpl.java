@@ -40,6 +40,8 @@ import com.liferay.portal.kernel.util.CalendarUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -145,6 +147,8 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	public void cacheResult(SendCampaign sendCampaign) {
 		EntityCacheUtil.putResult(SendCampaignModelImpl.ENTITY_CACHE_ENABLED,
 			SendCampaignImpl.class, sendCampaign.getPrimaryKey(), sendCampaign);
+
+		sendCampaign.resetOriginalValues();
 	}
 
 	/**
@@ -171,7 +175,10 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * </p>
 	 */
 	public void clearCache() {
-		CacheRegistryUtil.clear(SendCampaignImpl.class.getName());
+		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+			CacheRegistryUtil.clear(SendCampaignImpl.class.getName());
+		}
+
 		EntityCacheUtil.clearCache(SendCampaignImpl.class.getName());
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
@@ -237,7 +244,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 			session = openSession();
 
 			SendCampaign sendCampaign = (SendCampaign)session.get(SendCampaignImpl.class,
-					new Long(sendCampaignId));
+					Long.valueOf(sendCampaignId));
 
 			if (sendCampaign == null) {
 				if (_log.isWarnEnabled()) {
@@ -425,7 +432,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 				session = openSession();
 
 				sendCampaign = (SendCampaign)session.get(SendCampaignImpl.class,
-						new Long(sendCampaignId));
+						Long.valueOf(sendCampaignId));
 			}
 			catch (Exception e) {
 				throw processException(e);
@@ -481,7 +488,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param uuid the uuid to search with
 	 * @param start the lower bound of the range of send campaigns to return
 	 * @param end the upper bound of the range of send campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching send campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -579,7 +586,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * </p>
 	 *
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	 * @throws SystemException if a system exception occurred
@@ -614,7 +621,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * </p>
 	 *
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	 * @throws SystemException if a system exception occurred
@@ -653,7 +660,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 *
 	 * @param sendCampaignId the primary key of the current send campaign
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -844,7 +851,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param uuid the uuid to search with
 	 * @param start the lower bound of the range of send campaigns to return
 	 * @param end the upper bound of the range of send campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching send campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -951,7 +958,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 *
 	 * @param sendCampaignId the primary key of the current send campaign
 	 * @param uuid the uuid to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -1183,7 +1190,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param campaignId the campaign ID to search with
 	 * @param start the lower bound of the range of send campaigns to return
 	 * @param end the upper bound of the range of send campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching send campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1269,7 +1276,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * </p>
 	 *
 	 * @param campaignId the campaign ID to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	 * @throws SystemException if a system exception occurred
@@ -1305,7 +1312,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * </p>
 	 *
 	 * @param campaignId the campaign ID to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	 * @throws SystemException if a system exception occurred
@@ -1344,7 +1351,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 *
 	 * @param sendCampaignId the primary key of the current send campaign
 	 * @param campaignId the campaign ID to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -1524,7 +1531,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param campaignId the campaign ID to search with
 	 * @param start the lower bound of the range of send campaigns to return
 	 * @param end the upper bound of the range of send campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching send campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1619,7 +1626,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 *
 	 * @param sendCampaignId the primary key of the current send campaign
 	 * @param campaignId the campaign ID to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -1840,7 +1847,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param sendDate the send date to search with
 	 * @param start the lower bound of the range of send campaigns to return
 	 * @param end the upper bound of the range of send campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching send campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1933,7 +1940,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * </p>
 	 *
 	 * @param sendDate the send date to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	 * @throws SystemException if a system exception occurred
@@ -1969,7 +1976,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * </p>
 	 *
 	 * @param sendDate the send date to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	 * @throws SystemException if a system exception occurred
@@ -2008,7 +2015,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 *
 	 * @param sendCampaignId the primary key of the current send campaign
 	 * @param sendDate the send date to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -2195,7 +2202,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param sendDate the send date to search with
 	 * @param start the lower bound of the range of send campaigns to return
 	 * @param end the upper bound of the range of send campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching send campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -2297,7 +2304,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 *
 	 * @param sendCampaignId the primary key of the current send campaign
 	 * @param sendDate the send date to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -2527,7 +2534,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param sent the sent to search with
 	 * @param start the lower bound of the range of send campaigns to return
 	 * @param end the upper bound of the range of send campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching send campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -2626,7 +2633,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 *
 	 * @param sendDate the send date to search with
 	 * @param sent the sent to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	 * @throws SystemException if a system exception occurred
@@ -2666,7 +2673,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 *
 	 * @param sendDate the send date to search with
 	 * @param sent the sent to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a matching send campaign could not be found
 	 * @throws SystemException if a system exception occurred
@@ -2709,7 +2716,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param sendCampaignId the primary key of the current send campaign
 	 * @param sendDate the send date to search with
 	 * @param sent the sent to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -2903,7 +2910,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param sent the sent to search with
 	 * @param start the lower bound of the range of send campaigns to return
 	 * @param end the upper bound of the range of send campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching send campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3011,7 +3018,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param sendCampaignId the primary key of the current send campaign
 	 * @param sendDate the send date to search with
 	 * @param sent the sent to search with
-	 * @param orderByComparator the comparator to order the set by
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next send campaign
 	 * @throws com.liferay.newsletter.NoSuchSendCampaignException if a send campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -3237,7 +3244,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 *
 	 * @param start the lower bound of the range of send campaigns to return
 	 * @param end the upper bound of the range of send campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of send campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3928,7 +3935,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	 * @param pk the primary key of the send campaign to get the associated newsletter logs for
 	 * @param start the lower bound of the range of send campaigns to return
 	 * @param end the upper bound of the range of send campaigns to return (not inclusive)
-	 * @param orderByComparator the comparator to order the results by
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of newsletter logs associated with the send campaign
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -4211,5 +4218,7 @@ public class SendCampaignPersistenceImpl extends BasePersistenceImpl<SendCampaig
 	private static final String _ORDER_BY_ENTITY_TABLE = "Newsletter_SendCampaign.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No SendCampaign exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No SendCampaign exists with the key {";
+	private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
+				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(SendCampaignPersistenceImpl.class);
 }

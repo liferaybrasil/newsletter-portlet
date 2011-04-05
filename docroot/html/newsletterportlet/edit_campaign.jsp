@@ -18,7 +18,7 @@
 
 <%
 	Campaign campaign = null;
-
+		
 	long campaignId = ParamUtil.getLong(request, "campaignId");
 
 	if (campaignId > 0) {
@@ -54,18 +54,20 @@
 
 <aui:form action="<%= editCampaignURL %>" method="POST" name="fm">
 	<aui:fieldset>
-		<aui:input type="hidden" name="cmd" value="campaign" />
+		<aui:input type="hidden" name="cmd" value="<%= campaign == null ? "campaign" : "editCampaign"%>" />
 
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
-		<aui:input type="hidden" name="campaignId" />
+		<aui:input type="hidden" name="campaignId" value="<%= campaignId %>"/>
 		
-		<aui:input type="hidden" name="articleId" />
+		<aui:input type="hidden" name="articleId"/>
+
+		<aui:input type="hidden" name="content" id="content" value="<%= campaign.getContent() %>"/>
 
 		<aui:input name="title" label="Title" />
 		<liferay-ui:error key="campaigntitle-required" message="campaigntitle-required" />
 
-		<liferay-ui:input-editor name="content" toolbarSet="liferay-article" width="100%" />
+		<liferay-ui:input-editor name="contentEditor" toolbarSet="liferay-article" width="100%" onChangeMethod='<%= renderResponse.getNamespace() + "changeContent"%>' />
 		<liferay-ui:error key="campaigncontent-required" message="campaigncontent-required" />
 		
 		
@@ -92,9 +94,13 @@
 <aui:script>
 
 function <portlet:namespace />initEditor() {
-	return null;
+	return document.getElementById('<portlet:namespace/>content').value;
 }
-	
+
+function <portlet:namespace />changeContent() {
+	document.getElementById('<portlet:namespace/>content').value = window.frames['contentEditor'].getHTML();
+}
+
 Liferay.provide(
 	window,
 	'<portlet:namespace/>setCampaignContentValue',
@@ -112,7 +118,7 @@ Liferay.provide(
 
 						var data = instance.get('responseData');
 
-						window.frames['content'].setHTML(data);
+						window.frames['contentEditor'].setHTML(data);
 					}
 				}
 			}
