@@ -5,7 +5,7 @@
 	<portlet>
 		<portlet-name>newsletter</portlet-name>
 		<icon>/icon.png</icon>
-		<!-- <scheduler-entry>
+		<scheduler-entry>
 			<scheduler-event-listener-class>com.liferay.newsletter.CheckScheduledNewsletters</scheduler-event-listener-class>
 			<trigger>
 				<simple>
@@ -13,7 +13,7 @@
 					<time-unit>minute</time-unit>
 				</simple>
 			</trigger>
-		</scheduler-entry> -->
+		</scheduler-entry> 
 		<instanceable>true</instanceable>
 		<header-portlet-css>/css/portlet.css</header-portlet-css>
 		<footer-portlet-javascript>

@@ -182,16 +182,17 @@ public class SendCampaignLocalServiceImpl
 
 		String senderEmail = sendCampaign.getSenderEmail();
 		String emailSubject = sendCampaign.getEmailSubject();
-
 		String content = campaign.getContent();
+		String senderName = sendCampaign.getSenderName();
+		String from = "\""+senderName+"\" <"+senderEmail+">";
 
 		MimeMessage msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(senderEmail));
+		msg.setFrom(new InternetAddress(from));
 		msg.setRecipient(Message.RecipientType.TO, new InternetAddress(
 				contact.getEmail()));
 		msg.setSentDate(new Date());
 		msg.setSubject(emailSubject);
-		msg.setText(content);
+		msg.setContent(content, "text/html");
 
 		Transport.send(msg);
 	}

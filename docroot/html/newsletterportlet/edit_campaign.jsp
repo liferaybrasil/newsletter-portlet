@@ -18,13 +18,16 @@
 
 <%
 	Campaign campaign = null;
+	String content = "";
 		
 	long campaignId = ParamUtil.getLong(request, "campaignId");
 
 	if (campaignId > 0) {
 		campaign = CampaignLocalServiceUtil.getCampaign(campaignId);
+		content = campaign.getContent();
 	}
 
+	
 	String redirect = ParamUtil.getString(request, "redirect");
 %>
 
@@ -62,7 +65,7 @@
 		
 		<aui:input type="hidden" name="articleId"/>
 
-		<aui:input type="hidden" name="content" id="content" value="<%= campaign.getContent() %>"/>
+		<aui:input type="hidden" name="content" id="content" value="<%= content %>"/>
 
 		<aui:input name="title" label="Title" />
 		<liferay-ui:error key="campaigntitle-required" message="campaigntitle-required" />
