@@ -2,7 +2,7 @@ create table Newsletter_Campaign (
 	uuid_ VARCHAR(75) null,
 	campaignId LONG not null primary key,
 	title VARCHAR(75) null,
-	content VARCHAR(75) null
+	content STRING null
 );
 
 create table Newsletter_Campaign_Contact (

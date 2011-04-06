@@ -60,7 +60,7 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 			{ "title", Types.VARCHAR },
 			{ "content", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Newsletter_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,title VARCHAR(75) null,content VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table Newsletter_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,title VARCHAR(75) null,content STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table Newsletter_Campaign";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
