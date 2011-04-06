@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -14,13 +14,13 @@
 
 package com.liferay.newsletter.search;
 
-import java.util.Date;
-
-import javax.portlet.PortletRequest;
-
 import com.liferay.portal.kernel.dao.search.DisplayTerms;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringPool;
+
+import java.util.Date;
+
+import javax.portlet.PortletRequest;
 
 /**
  * @author Brian Wing Shun Chan

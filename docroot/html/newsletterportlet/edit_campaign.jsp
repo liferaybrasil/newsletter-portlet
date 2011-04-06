@@ -1,6 +1,6 @@
 <%--
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -19,7 +19,7 @@
 <%
 	Campaign campaign = null;
 	String content = "";
-		
+
 	long campaignId = ParamUtil.getLong(request, "campaignId");
 
 	if (campaignId > 0) {
@@ -27,7 +27,7 @@
 		content = campaign.getContent();
 	}
 
-	
+
 	String redirect = ParamUtil.getString(request, "redirect");
 %>
 
@@ -52,28 +52,28 @@
 <liferay-portlet:resourceURL varImpl="getArticleContentURL">
 	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_ARTICLE_CONTENT %>" />
 	<portlet:param name="groupId" value="<%= String.valueOf(scopeGroupId) %>" />
-	<portlet:param name="portletResource" value="<portlet:namespace/>" />	
+	<portlet:param name="portletResource" value="<portlet:namespace/>" />
 </liferay-portlet:resourceURL>
 
 <aui:form action="<%= editCampaignURL %>" method="POST" name="fm">
 	<aui:fieldset>
-		<aui:input type="hidden" name="cmd" value="<%= campaign == null ? "campaign" : "editCampaign"%>" />
+		<aui:input type="hidden" name="cmd" value='<%= campaign == null ? "campaign" : "editCampaign" %>' />
 
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
-		<aui:input type="hidden" name="campaignId" value="<%= campaignId %>"/>
-		
-		<aui:input type="hidden" name="articleId"/>
+		<aui:input type="hidden" name="campaignId" value="<%= campaignId %>" />
 
-		<aui:input type="hidden" name="content" id="content" value="<%= content %>"/>
+		<aui:input type="hidden" name="articleId" />
+
+		<aui:input type="hidden" name="content" id="content" value="<%= content %>" />
 
 		<aui:input name="title" label="Title" />
 		<liferay-ui:error key="campaigntitle-required" message="campaigntitle-required" />
 
-		<liferay-ui:input-editor name="contentEditor" toolbarSet="liferay-article" width="100%" onChangeMethod='<%= renderResponse.getNamespace() + "changeContent"%>' />
+		<liferay-ui:input-editor name="contentEditor" toolbarSet="liferay-article" width="100%" onChangeMethod='<%= renderResponse.getNamespace() + "changeContent" %>' />
 		<liferay-ui:error key="campaigncontent-required" message="campaigncontent-required" />
-		
-		
+
+
 		<%
 		String webContentPopUpURL = "javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '" + selectContentPopupURL +"'});";
 		%>
@@ -114,7 +114,7 @@ Liferay.provide(
 				data: {
 					articleId: articleId
 				},
-				
+
 				on: {
 					success: function() {
 						var instance = this;

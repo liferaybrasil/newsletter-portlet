@@ -1,6 +1,6 @@
 <%--
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -46,7 +46,7 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 			<portlet:param name="tabs1" value="Sending" />
 		</portlet:renderURL>
 
-	<liferay-ui:icon message="detail" label="true" image="view" url="<%=detailURL.toString() %>" />
+	<liferay-ui:icon message="Detail" label="true" image="view" url="<%=detailURL.toString() %>" />
 	</c:if>
 
 	<c:if test="<%= permissionChecker.hasPermission(scopeGroupId, name, sendCampaignId, ActionKeys.DELETE) %>">

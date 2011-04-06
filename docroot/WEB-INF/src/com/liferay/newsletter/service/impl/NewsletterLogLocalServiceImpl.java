@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -14,9 +14,6 @@
 
 package com.liferay.newsletter.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
@@ -24,6 +21,9 @@ import com.liferay.newsletter.service.ContactLocalServiceUtil;
 import com.liferay.newsletter.service.base.NewsletterLogLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Bruno Pinheiro

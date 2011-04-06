@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -13,19 +13,6 @@
  */
 
 package com.liferay.newsletter.service.impl;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Campaign;
@@ -43,6 +30,19 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.util.portlet.PortletProps;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  * @author Bruno Pinheiro
@@ -86,7 +86,7 @@ public class SendCampaignLocalServiceImpl
 	return sendCampaignPersistence.findBySD_LT(sendDate, sent);
 }
 
-	public void job(){
+	public void job() {
 		try {
 			Date currentDate = new Date();
 			List<SendCampaign> sendCampaigns = getSendCampaignsBySendDateLT(
@@ -146,18 +146,18 @@ public class SendCampaignLocalServiceImpl
 			PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
 		String port = PortletProps.get(
 			PropsKeys.MAIL_SESSION_MAIL_SMTP_PORT);
-		
-		
-		if(passwordString.isEmpty()){
-			passwordString = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
+
+		if (passwordString.isEmpty()) {
+			passwordString = PropsUtil.get(
+				PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
 		}
-		if(userString.isEmpty()){
+		if (userString.isEmpty()) {
 			userString = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
 		}
-		if(host.isEmpty()){
+		if (host.isEmpty()) {
 			host = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
 		}
-		if(port.isEmpty()){
+		if (port.isEmpty()) {
 			port = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
 		}
 
@@ -166,13 +166,14 @@ public class SendCampaignLocalServiceImpl
 		props.put(NewsletterConstants.MAIL_SMTP_HOST, host);
 		props.put(NewsletterConstants.MAIL_SMTP_SOCKETFACTORY_PORT, port);
 		props.put(NewsletterConstants.MAIL_SMTP_PORT, port);
-		props.put(NewsletterConstants.MAIL_SMTP_SOCKETFACTORY_FALLBACK, "false");
+		props.put(
+			NewsletterConstants.MAIL_SMTP_SOCKETFACTORY_FALLBACK, "false");
 		props.put(NewsletterConstants.MAIL_SMTP_STARTTLS_ENABLE, "true");
 		props.put(NewsletterConstants.MAIL_SMTP_AUTH, "true");
 
 		final String user = userString;
 		final String password = passwordString;
-		
+
 		Session session = Session.getDefaultInstance(
 			props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
@@ -204,7 +205,7 @@ public class SendCampaignLocalServiceImpl
 			NewsletterLogLocalServiceUtil.getNewsletterLogBySendCampaign(
 				sendCampaignId);
 
-		if (!newsletterLogBySendCampaign.isEmpty()){
+		if (!newsletterLogBySendCampaign.isEmpty()) {
 			for (NewsletterLog newsletterLog : newsletterLogBySendCampaign) {
 				NewsletterLogLocalServiceUtil.deleteNewsletterLog(
 					newsletterLog);

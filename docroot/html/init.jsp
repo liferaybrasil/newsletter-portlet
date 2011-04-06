@@ -1,6 +1,6 @@
 <%--
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -46,29 +46,29 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="com.liferay.portlet.journal.model.JournalArticleDisplay" %>
 
-<%@ page import="com.liferay.portlet.journal.model.JournalArticle"%>
-<%@ page import="com.liferay.portlet.journal.model.JournalArticleConstants"%>
-<%@ page import="com.liferay.portal.service.permission.GroupPermissionUtil"%>
-<%@ page import="com.liferay.portal.kernel.language.LanguageUtil"%>
-<%@ page import="com.liferay.portal.kernel.util.HtmlUtil"%>
-<%@ page import="com.liferay.portal.util.PortletKeys"%>
-<%@ page import="com.liferay.portal.service.LayoutLocalServiceUtil"%>
-<%@ page import="com.liferay.portal.model.Layout"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="com.liferay.newsletter.search.ArticleDisplayTerms"%>
-<%@ page import="com.liferay.newsletter.search.ArticleSearch"%>
-<%@ page import="com.liferay.newsletter.search.ArticleSearchTerms"%>
-<%@ page import="javax.portlet.PortletURL"%>
-<%@ page import="com.liferay.portlet.PortletURLUtil"%>
+<%@ page import="com.liferay.portlet.journal.model.JournalArticle" %>
+<%@ page import="com.liferay.portlet.journal.model.JournalArticleConstants" %>
+<%@ page import="com.liferay.portal.service.permission.GroupPermissionUtil" %>
+<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %>
+<%@ page import="com.liferay.portal.util.PortletKeys" %>
+<%@ page import="com.liferay.portal.service.LayoutLocalServiceUtil" %>
+<%@ page import="com.liferay.portal.model.Layout" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.liferay.newsletter.search.ArticleDisplayTerms" %>
+<%@ page import="com.liferay.newsletter.search.ArticleSearch" %>
+<%@ page import="com.liferay.newsletter.search.ArticleSearchTerms" %>
+<%@ page import="javax.portlet.PortletURL" %>
+<%@ page import="com.liferay.portlet.PortletURLUtil" %>
 
 
-<%@ page import="com.liferay.portal.kernel.util.StringPool"%>
-<%@ page import="com.liferay.portal.kernel.dao.search.RowChecker"%>
-<%@page import="com.liferay.portal.kernel.dao.search.SearchEntry"%>
-<%@page import="com.liferay.portal.kernel.util.FastDateFormatFactoryUtil"%>
-<%@page import="java.text.Format"%>
-<%@page import="com.liferay.portal.kernel.workflow.WorkflowConstants"%>
-<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+<%@ page import="com.liferay.portal.kernel.util.StringPool" %>
+<%@ page import="com.liferay.portal.kernel.dao.search.RowChecker" %>
+<%@ page import="com.liferay.portal.kernel.dao.search.SearchEntry" %>
+<%@ page import="com.liferay.portal.kernel.util.FastDateFormatFactoryUtil" %>
+<%@ page import="java.text.Format" %>
+<%@ page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %>
+<%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
 
 
 <liferay-theme:defineObjects />

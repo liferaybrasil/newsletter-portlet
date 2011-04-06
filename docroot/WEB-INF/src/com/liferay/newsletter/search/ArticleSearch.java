@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -13,15 +13,6 @@
  */
 
 package com.liferay.newsletter.search;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.PortletConfig;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.log.Log;
@@ -41,6 +32,15 @@ import com.liferay.portlet.journal.util.comparator.ArticleModifiedDateComparator
 import com.liferay.portlet.journal.util.comparator.ArticleReviewDateComparator;
 import com.liferay.portlet.journal.util.comparator.ArticleTitleComparator;
 import com.liferay.portlet.journal.util.comparator.ArticleVersionComparator;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.portlet.PortletConfig;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
 /**
  * @author Brian Wing Shun Chan
@@ -139,7 +139,7 @@ public class ArticleSearch extends SearchContainer<JournalArticle> {
 
 			OrderByComparator orderByComparator = getArticleOrderByComparator(
 				orderByCol, orderByType);
-			
+
 			setOrderableHeaders(orderableHeaders);
 			setOrderByCol(orderByCol);
 			setOrderByType(orderByType);
@@ -149,7 +149,7 @@ public class ArticleSearch extends SearchContainer<JournalArticle> {
 			_log.error(e);
 		}
 	}
-	
+
 	private OrderByComparator getArticleOrderByComparator(
 		String orderByCol, String orderByType) {
 

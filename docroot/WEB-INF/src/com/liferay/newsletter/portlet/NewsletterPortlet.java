@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -13,24 +13,6 @@
  */
 
 package com.liferay.newsletter.portlet;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletMode;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
-import javax.portlet.ReadOnlyException;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.portlet.ValidatorException;
 
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.Contact;
@@ -58,6 +40,26 @@ import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.journal.model.JournalArticleDisplay;
 import com.liferay.portlet.journalcontent.util.JournalContentUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequest;
+import javax.portlet.ReadOnlyException;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.portlet.ValidatorException;
 
 /**
  * @author Bruno Pinheiro
@@ -89,28 +91,28 @@ public class NewsletterPortlet extends MVCPortlet {
 				"jspPage", "/html/newsletterportlet/edit_campaign.jsp");
 		}
 	}
-	
+
 	public void updateCampaign(ActionRequest request, ActionResponse response)
 		throws Exception {
 
 		Campaign campaign = _campaignFromRequest(request);
-	
+
 		ArrayList<String> errors = new ArrayList<String>();
-	
+
 		if (NewsletterValidator.validateCampaign(campaign, errors)) {
 			campaign = CampaignLocalServiceUtil.updateCampaign(campaign);
-	
+
 			SessionMessages.add(request, "campaign-updated");
-	
+
 			sendRedirect(request, response);
 		}
 		else {
 			for (String error : errors) {
 				SessionErrors.add(request, error);
 			}
-	
+
 			PortalUtil.copyRequestParameters(request, response);
-	
+
 			response.setRenderParameter(
 				"jspPage", "/html/newsletterportlet/edit_campaign.jsp");
 		}
@@ -121,7 +123,7 @@ public class NewsletterPortlet extends MVCPortlet {
 		throws IOException, PortletException {
 
 		String cmd = ParamUtil.getString(resourceRequest, "cmd");
-			
+
 		try {
 			if (cmd.equals(NewsletterConstants.GET_ARTICLE_CONTENT)) {
 				getArticleContent(resourceRequest, resourceResponse);
@@ -133,7 +135,7 @@ public class NewsletterPortlet extends MVCPortlet {
 	}
 
 	private void getArticleContent(
-		ResourceRequest resourceRequest, ResourceResponse resourceResponse) 
+		ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 		throws Exception {
 
 		long groupId = ParamUtil.getLong(resourceRequest, "groupId");
@@ -153,7 +155,7 @@ public class NewsletterPortlet extends MVCPortlet {
 	}
 
 	private JournalArticleDisplay getArticleContentDisplay(
-		ResourceRequest resourceRequest, ResourceResponse resourceResponse, 
+		ResourceRequest resourceRequest, ResourceResponse resourceResponse,
 		long groupId, String articleId) {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(
@@ -164,7 +166,8 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		JournalArticleDisplay articleDisplay = null;
 
-		articleDisplay = JournalContentUtil.getDisplay(groupId,articleId,viewMode,languageId,themeDisplay);
+		articleDisplay = JournalContentUtil.getDisplay(
+			groupId,articleId,viewMode,languageId,themeDisplay);
 
 		return articleDisplay;
 	}
@@ -235,7 +238,6 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		return contact;
 	}
-	
 
 	public void processAction(
 			ActionRequest actionRequest, ActionResponse actionResponse)
@@ -256,7 +258,7 @@ public class NewsletterPortlet extends MVCPortlet {
 			else if (cmd.equals("editCampaign")) {
 				updateCampaign(actionRequest, actionResponse);
 			}
-			else if (cmd.equals("deleteSendCampaign")){
+			else if (cmd.equals("deleteSendCampaign")) {
 				deleteSendCampaign(actionRequest, actionResponse);
 			}
 			else if (cmd.equals("deleteCampaign")) {
@@ -288,7 +290,7 @@ public class NewsletterPortlet extends MVCPortlet {
 				actionRequest, "senderName"));
 
 		preferences.store();
-		
+
 		SessionMessages.add(actionRequest, "preferences-added");
 
 		sendRedirect(actionRequest, actionResponse);
@@ -417,7 +419,8 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		PortletPreferences preferences = request.getPreferences();
 
-		preferences.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_PASSWORD, password);
+		preferences.setValue(
+			PropsKeys.MAIL_SESSION_MAIL_POP3_PASSWORD, password);
 		preferences.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_USER, user);
 		preferences.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_PORT, port);
 		preferences.setValue(PropsKeys.MAIL_SESSION_MAIL_POP3_HOST, host);

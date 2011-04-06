@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -14,8 +14,6 @@
 
 package com.liferay.newsletter.service.impl;
 
-import java.util.List;
-
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.NewsletterLog;
@@ -25,6 +23,8 @@ import com.liferay.newsletter.service.SendCampaignLocalServiceUtil;
 import com.liferay.newsletter.service.base.CampaignLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.List;
 
 /**
  * @author Bruno Pinheiro
@@ -53,14 +53,14 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		List<SendCampaign> sendCampaignsByCampaign =
 			SendCampaignLocalServiceUtil.getSendCampaignsByCampaign(campaignId);
 
-		if (!sendCampaignsByCampaign.isEmpty()){
+		if (!sendCampaignsByCampaign.isEmpty()) {
 			for (SendCampaign sendCampaign : sendCampaignsByCampaign) {
 				List<NewsletterLog> newsletterLogBySendCampaign =
 					NewsletterLogLocalServiceUtil.
 						getNewsletterLogBySendCampaign(
 								sendCampaign.getSendCampaignId());
 
-				for (NewsletterLog newsletterLog : newsletterLogBySendCampaign){
+				for (NewsletterLog newsletterLog : newsletterLogBySendCampaign) {
 					NewsletterLogLocalServiceUtil.deleteNewsletterLog(
 						newsletterLog);
 				}

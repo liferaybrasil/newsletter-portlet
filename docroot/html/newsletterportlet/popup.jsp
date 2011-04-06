@@ -1,6 +1,6 @@
 <%--
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -44,29 +44,29 @@ String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 		results="<%= resultList %>"
 		total="<%= totalCount %>"
 	/>
-	
+
 	<liferay-ui:search-container-row
 		className="com.liferay.portlet.journal.model.JournalArticle"
 		keyProperty="articleId"
 		modelVar="article"
 	>
-	
+
 	<%
 	String parentFunctionURL = "javascript:" + resourceNamespace + "setParentWindowsHiddenFieldValue("+ article.getArticleId() +");";
 	%>
-	
+
 		<liferay-ui:search-container-column-text
 			name="Title"
 			value="<%= article.getTitle(locale) %>"
 			href="<%= parentFunctionURL %>"
 		/>
-		
+
 		<liferay-ui:search-container-column-text
 			name="Description"
 			value="<%= article.getDescription() %>"
 			href="<%= parentFunctionURL %>"
 		/>
-		
+
 		<liferay-ui:search-container-column-text
 			name="Version"
 			value="<%= String.valueOf(article.getVersion()) %>"
@@ -88,8 +88,8 @@ String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 			value="<%= dateFormat.format(article.getDisplayDate()) %>"
 			href="<%=parentFunctionURL %>"
 		/>
-		
-		
+
+
 	</liferay-ui:search-container-row>
 
 	<liferay-ui:search-iterator />
@@ -102,7 +102,7 @@ String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
     	//var AUI = parentWindow.AUI;
 
         parentWindow.<%= resourceNamespace %>setCampaignContentValue(articleId);
-        
+
         //AUI().DialogManager.closeByChild();
-    } 
+    }
 </aui:script>

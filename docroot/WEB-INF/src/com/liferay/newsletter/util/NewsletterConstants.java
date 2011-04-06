@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2011 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -20,7 +20,7 @@ package com.liferay.newsletter.util;
 public interface NewsletterConstants {
 
 	public static final String GET_ARTICLE_CONTENT = "get-article-content";
-	
+
 	public static final String SENDER_NAME = "sender.name";
 
 	public static final String SENDER_EMAIL = "sender.email";
@@ -33,11 +33,15 @@ public interface NewsletterConstants {
 
 	public static final String MAIL_SMTP_PORT = "mail.smtp.port";
 
-	public static final String MAIL_SMTP_SOCKETFACTORY_PORT = "mail.smtp.socketFactory.port";
+	public static final String MAIL_SMTP_SOCKETFACTORY_PORT =
+		"mail.smtp.socketFactory.port";
 
-	public static final String MAIL_SMTP_SOCKETFACTORY_FALLBACK = "mail.smtp.socketFactory.fallback";
+	public static final String MAIL_SMTP_SOCKETFACTORY_FALLBACK =
+		"mail.smtp.socketFactory.fallback";
 
-	public static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
+	public static final String MAIL_SMTP_STARTTLS_ENABLE =
+		"mail.smtp.starttls.enable";
 
-	public static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
+	public static final String MAIL_TRANSPORT_PROTOCOL =
+		"mail.transport.protocol";
 }
