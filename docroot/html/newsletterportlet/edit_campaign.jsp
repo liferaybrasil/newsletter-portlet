@@ -57,7 +57,7 @@
 
 <aui:form action="<%= editCampaignURL %>" method="POST" name="fm">
 	<aui:fieldset>
-		<aui:input type="hidden" name="cmd" value='<%= campaign == null ? "campaign" : "editCampaign" %>' />
+		<aui:input type="hidden" name="cmd" value="<%= campaign == null ? "campaign" : "editCampaign" %>" />
 
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
