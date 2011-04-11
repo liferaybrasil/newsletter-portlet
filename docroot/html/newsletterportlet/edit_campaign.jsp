@@ -78,13 +78,8 @@
 		String webContentPopUpURL = "javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '" + selectContentPopupURL +"'});";
 		%>
 
-		<liferay-ui:icon
-			message='Select WebContent'
-			src="edit"
-			url='<%= webContentPopUpURL %>'
-			label="Select Webcontent"
-		/>
-
+		<aui:button value="Select WebContent" onClick="<%= webContentPopUpURL %>"/>
+	
 	</aui:fieldset>
 
 	<aui:button-row>

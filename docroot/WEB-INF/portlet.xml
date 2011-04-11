@@ -37,12 +37,6 @@
 			<short-title>Newsletter</short-title>
 			<keywords></keywords>
 		</portlet-info>
-		<portlet-preferences>
-			<preference>
-				<name>rowsPerPage</name>
-				<value>5</value>
-			</preference>
-		</portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>
 		</security-role-ref>

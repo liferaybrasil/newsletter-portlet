@@ -39,7 +39,7 @@
 <liferay-ui:error key="sendcampaign-added" message="sendcampaign-added" />
 <liferay-ui:error key="campaign-resent" message="campaign-resent" />
 <liferay-ui:error key="sendcampaign-deleted" message="sendcampaign-deleted" />
-<liferay-ui:search-container delta='<%= GetterUtil.getInteger(prefs.getValue("rowsPerPage", "2")) %>' emptyResultsMessage="newsletter-empty-results-message">
+<liferay-ui:search-container emptyResultsMessage="newsletter-empty-results-message">
 	<liferay-ui:search-container-results
 		results="<%= SendCampaignLocalServiceUtil.getSendCampaigns(searchContainer.getStart(), searchContainer.getEnd()) %>"
 		total="<%= SendCampaignLocalServiceUtil.getSendCampaignsCount() %>"
@@ -63,6 +63,11 @@
 		<liferay-ui:search-container-column-text
 			name="Campaign"
 			value="<%= CampaignLocalServiceUtil.getCampaign(sendCampaign.getCampaignId()).getTitle() %>"
+		/>
+		
+		<liferay-ui:search-container-column-text
+			name="# of emails"
+			value="<%= ""+NewsletterLogLocalServiceUtil.getContactsBySendCampaignCount(sendCampaign.getCampaignId()) %>"
 		/>
 
 		<liferay-ui:search-container-column-jsp

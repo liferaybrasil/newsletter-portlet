@@ -34,7 +34,7 @@
 	title='Scheduling Detail'
 />
 
-
+<aui:fieldset>
 <aui:input disabled="true" name="emailSubject" label="Email Subject" />
 
 <aui:input disabled="true" name="senderName" label="Sender Name" />
@@ -44,9 +44,9 @@
 <aui:input disabled="true" name="sendDate" label="Send Date" />
 
 <aui:input disabled="true" type="text" name="campaignTitle" label="Campaign"  value="<%= campaignTitle %>" />
-
+</aui:fieldset>
 <br />
-<liferay-ui:search-container delta='<%= GetterUtil.getInteger(prefs.getValue("rowsPerPage", "2")) %>' emptyResultsMessage="newsletter-empty-results-message">
+<liferay-ui:search-container emptyResultsMessage="newsletter-empty-results-message">
 	<liferay-ui:search-container-results
 		results="<%= NewsletterLogLocalServiceUtil.getContactsBySendCampaign(sendCampaignId) %>"
 		total="<%= NewsletterLogLocalServiceUtil.getContactsBySendCampaignCount(sendCampaignId) %>"
@@ -67,7 +67,25 @@
 			name="Email"
 			value="<%= contactNewsletter.getEmail() %>"
 		/>
+		
+		<liferay-ui:search-container-column-text
+			name="Status"
+			value="Sent"
+		/>
 	</liferay-ui:search-container-row>
 
 	<liferay-ui:search-iterator />
 </liferay-ui:search-container>
+
+<portlet:actionURL name="resendSendCampaign" var="resendURL">
+			<portlet:param name="cmd" value="resendSendCampaign" />
+			<portlet:param name="sendCampaignId" value="<%= String.valueOf(sendCampaignId) %>" />
+			<portlet:param name="redirect" value="<%= redirect %>" />
+			<portlet:param name="tabs1" value="Sending" />
+</portlet:actionURL>
+
+<aui:button-row>
+		<aui:button value="Resend All" onClick="<%= resendURL.toString() %>"/>
+
+		<aui:button value="Resend Failed" />
+</aui:button-row>

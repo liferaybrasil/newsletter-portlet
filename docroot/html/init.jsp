@@ -61,6 +61,8 @@
 <%@ page import="javax.portlet.PortletURL" %>
 <%@ page import="com.liferay.portlet.PortletURLUtil" %>
 
+<%@page import="com.liferay.portal.kernel.util.PropsKeys"%>
+<%@page import="com.liferay.util.portlet.PortletProps"%>
 
 <%@ page import="com.liferay.portal.kernel.util.StringPool" %>
 <%@ page import="com.liferay.portal.kernel.dao.search.RowChecker" %>

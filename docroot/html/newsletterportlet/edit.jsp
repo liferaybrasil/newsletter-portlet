@@ -24,12 +24,16 @@
 
 <liferay-ui:error key="preferences-added" message="preferences-added" />
 <aui:form action="<%= setNewsletterPrefUrl %>" method="POST" name="fm">
+<aui:fieldset>
 	<aui:input type="hidden" name="cmd" value="setNewsletterPref" />
-	<aui:input name="rowsPerPage" label="Rows Per Page" value='<%= prefs.getValue(NewsletterConstants.ROWS_PER_PAGE,"") %>' size="45" type="text" />
 	<aui:input name="senderName" label="Sender Name" value='<%= prefs.getValue(NewsletterConstants.SENDER_NAME,"") %>' size="45" type="text" />
 	<aui:input name="senderEmail" label="Sender Email" value='<%= prefs.getValue(NewsletterConstants.SENDER_EMAIL,"") %>' size="45" type="text" />
-
+</aui:fieldset>
 	<aui:button-row>
 		<aui:button type="submit" />
 	</aui:button-row>
 </aui:form>
+
+<aui:script>
+	Liferay.Util.toggleBoxes('<portlet:namespace />outCustomCheckbox', '<portlet:namespace />outCustomSettings');
+</aui:script>
