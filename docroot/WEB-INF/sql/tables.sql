@@ -1,8 +1,21 @@
 create table Newsletter_Campaign (
 	uuid_ VARCHAR(75) null,
 	campaignId LONG not null primary key,
+	sendDate DATE null,
+	emailSubject VARCHAR(75) null,
+	senderName VARCHAR(75) null,
+	senderEmail VARCHAR(75) null,
+	content STRING null,
+	sent BOOLEAN,
+	campaignContentId LONG
+);
+
+create table Newsletter_CampaignContent (
+	uuid_ VARCHAR(75) null,
+	campaignContentId LONG not null primary key,
 	title VARCHAR(75) null,
-	content STRING null
+	content STRING null,
+	createDate DATE null
 );
 
 create table Newsletter_Campaign_Contact (
@@ -21,8 +34,9 @@ create table Newsletter_Contact (
 create table Newsletter_NewsletterLog (
 	uuid_ VARCHAR(75) null,
 	newsletterLogId LONG not null primary key,
-	sendCampaignId LONG,
-	contactId LONG
+	campaignId LONG,
+	contactId LONG,
+	sent BOOLEAN
 );
 
 create table Newsletter_SendCampaign (

@@ -19,9 +19,9 @@
 <%@ include file="/html/init.jsp" %>
 
 <%
-String tabs1 = ParamUtil.getString(request, "tabs1", "Campaign");
+String tabs1 = ParamUtil.getString(request, "tabs1", "Campaign Content");
 
-String tabNames = "Campaign,Sending";
+String tabNames = "Campaign Content,Campaign";
 
 %>
 <portlet:renderURL var="renderURL">
@@ -34,9 +34,9 @@ String tabNames = "Campaign,Sending";
 
 />
 
+<c:if test='<%= tabs1.equals("Campaign Content") %>'>
+  <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_campaignContent.jsp" />
+</c:if>
 <c:if test='<%= tabs1.equals("Campaign") %>'>
   <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_campaign.jsp" />
-</c:if>
-<c:if test='<%= tabs1.equals("Sending") %>'>
-  <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_send.jsp" />
 </c:if>

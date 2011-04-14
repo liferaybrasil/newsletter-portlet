@@ -235,10 +235,44 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 		_campaignLocalService.setBeanIdentifier(beanIdentifier);
 	}
 
-	public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaigns(
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
 		com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _campaignLocalService.getSendCampaigns(campaign);
+		return _campaignLocalService.getNewsletterLogs(campaign);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByCampaignContent(
+		long campaignContentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _campaignLocalService.getCampaignsByCampaignContent(campaignContentId);
+	}
+
+	public int getCampaignsByCampaignContentCount(long campaignContentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _campaignLocalService.getCampaignsByCampaignContentCount(campaignContentId);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByDate(
+		java.util.Date sendDate)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _campaignLocalService.getCampaignsByDate(sendDate);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsBySendDateLT(
+		java.util.Date sendDate, boolean sent)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _campaignLocalService.getCampaignsBySendDateLT(sendDate, sent);
+	}
+
+	public void job() {
+		_campaignLocalService.job();
+	}
+
+	public void sendCampaign(com.liferay.newsletter.model.Campaign campaign)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException,
+			javax.mail.MessagingException, javax.mail.internet.AddressException {
+		_campaignLocalService.sendCampaign(campaign);
 	}
 
 	public CampaignLocalService getWrappedCampaignLocalService() {

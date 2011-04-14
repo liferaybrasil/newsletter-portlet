@@ -52,7 +52,7 @@ String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 	>
 
 	<%
-	String parentFunctionURL = "javascript:" + resourceNamespace + "setParentWindowsHiddenFieldValue("+ article.getArticleId() +");";
+	String parentFunctionURL = "javascript:" + resourceNamespace + "setParentWindowsHiddenFieldValue("+ article.getArticleId() + ",'" + article.getTitle(locale) +"');";
 	%>
 
 		<liferay-ui:search-container-column-text
@@ -97,11 +97,11 @@ String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 
 
 <aui:script>
-    function <portlet:namespace/>setParentWindowsHiddenFieldValue(articleId) {
+    function <portlet:namespace/>setParentWindowsHiddenFieldValue(articleId, articleTitle) {
     	var parentWindow = window.parent;
     	//var AUI = parentWindow.AUI;
 
-        parentWindow.<%= resourceNamespace %>setCampaignContentValue(articleId);
+        parentWindow.<%= resourceNamespace %>setCampaignContentValue(articleId, articleTitle);
 
         //AUI().DialogManager.closeByChild();
     }

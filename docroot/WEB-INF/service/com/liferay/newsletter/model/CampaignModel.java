@@ -22,6 +22,8 @@ import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
  * The base model interface for the Campaign service. Represents a row in the &quot;Newsletter_Campaign&quot; database table, with each column mapped to a property of this class.
  *
@@ -86,19 +88,63 @@ public interface CampaignModel extends BaseModel<Campaign> {
 	public void setCampaignId(long campaignId);
 
 	/**
-	 * Gets the title of this campaign.
+	 * Gets the send date of this campaign.
 	 *
-	 * @return the title of this campaign
+	 * @return the send date of this campaign
 	 */
-	@AutoEscape
-	public String getTitle();
+	public Date getSendDate();
 
 	/**
-	 * Sets the title of this campaign.
+	 * Sets the send date of this campaign.
 	 *
-	 * @param title the title of this campaign
+	 * @param sendDate the send date of this campaign
 	 */
-	public void setTitle(String title);
+	public void setSendDate(Date sendDate);
+
+	/**
+	 * Gets the email subject of this campaign.
+	 *
+	 * @return the email subject of this campaign
+	 */
+	@AutoEscape
+	public String getEmailSubject();
+
+	/**
+	 * Sets the email subject of this campaign.
+	 *
+	 * @param emailSubject the email subject of this campaign
+	 */
+	public void setEmailSubject(String emailSubject);
+
+	/**
+	 * Gets the sender name of this campaign.
+	 *
+	 * @return the sender name of this campaign
+	 */
+	@AutoEscape
+	public String getSenderName();
+
+	/**
+	 * Sets the sender name of this campaign.
+	 *
+	 * @param senderName the sender name of this campaign
+	 */
+	public void setSenderName(String senderName);
+
+	/**
+	 * Gets the sender email of this campaign.
+	 *
+	 * @return the sender email of this campaign
+	 */
+	@AutoEscape
+	public String getSenderEmail();
+
+	/**
+	 * Sets the sender email of this campaign.
+	 *
+	 * @param senderEmail the sender email of this campaign
+	 */
+	public void setSenderEmail(String senderEmail);
 
 	/**
 	 * Gets the content of this campaign.
@@ -114,6 +160,41 @@ public interface CampaignModel extends BaseModel<Campaign> {
 	 * @param content the content of this campaign
 	 */
 	public void setContent(String content);
+
+	/**
+	 * Gets the sent of this campaign.
+	 *
+	 * @return the sent of this campaign
+	 */
+	public boolean getSent();
+
+	/**
+	 * Determines if this campaign is sent.
+	 *
+	 * @return <code>true</code> if this campaign is sent; <code>false</code> otherwise
+	 */
+	public boolean isSent();
+
+	/**
+	 * Sets whether this campaign is sent.
+	 *
+	 * @param sent the sent of this campaign
+	 */
+	public void setSent(boolean sent);
+
+	/**
+	 * Gets the campaign content ID of this campaign.
+	 *
+	 * @return the campaign content ID of this campaign
+	 */
+	public long getCampaignContentId();
+
+	/**
+	 * Sets the campaign content ID of this campaign.
+	 *
+	 * @param campaignContentId the campaign content ID of this campaign
+	 */
+	public void setCampaignContentId(long campaignContentId);
 
 	public boolean isNew();
 

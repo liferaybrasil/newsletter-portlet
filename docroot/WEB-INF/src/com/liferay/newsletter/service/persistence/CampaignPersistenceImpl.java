@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.CalendarUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -57,6 +58,7 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,6 +95,43 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
 			"countByUuid", new String[] { String.class.getName() });
+	public static final FinderPath FINDER_PATH_FIND_BY_CAMPAIGNCONTENT = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
+			"findByCampaignContent",
+			new String[] {
+				Long.class.getName(),
+				
+			"java.lang.Integer", "java.lang.Integer",
+				"com.liferay.portal.kernel.util.OrderByComparator"
+			});
+	public static final FinderPath FINDER_PATH_COUNT_BY_CAMPAIGNCONTENT = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
+			"countByCampaignContent", new String[] { Long.class.getName() });
+	public static final FinderPath FINDER_PATH_FIND_BY_SENDDATE = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
+			"findBySendDate",
+			new String[] {
+				Date.class.getName(),
+				
+			"java.lang.Integer", "java.lang.Integer",
+				"com.liferay.portal.kernel.util.OrderByComparator"
+			});
+	public static final FinderPath FINDER_PATH_COUNT_BY_SENDDATE = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
+			"countBySendDate", new String[] { Date.class.getName() });
+	public static final FinderPath FINDER_PATH_FIND_BY_SD_LT = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
+			"findBySD_LT",
+			new String[] {
+				Date.class.getName(), Boolean.class.getName(),
+				
+			"java.lang.Integer", "java.lang.Integer",
+				"com.liferay.portal.kernel.util.OrderByComparator"
+			});
+	public static final FinderPath FINDER_PATH_COUNT_BY_SD_LT = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
+			"countBySD_LT",
+			new String[] { Date.class.getName(), Boolean.class.getName() });
 	public static final FinderPath FINDER_PATH_FIND_ALL = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
 			"findAll", new String[0]);
@@ -310,8 +349,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		campaignImpl.setUuid(campaign.getUuid());
 		campaignImpl.setCampaignId(campaign.getCampaignId());
-		campaignImpl.setTitle(campaign.getTitle());
+		campaignImpl.setSendDate(campaign.getSendDate());
+		campaignImpl.setEmailSubject(campaign.getEmailSubject());
+		campaignImpl.setSenderName(campaign.getSenderName());
+		campaignImpl.setSenderEmail(campaign.getSenderEmail());
 		campaignImpl.setContent(campaign.getContent());
+		campaignImpl.setSent(campaign.isSent());
+		campaignImpl.setCampaignContentId(campaign.getCampaignContentId());
 
 		return campaignImpl;
 	}
@@ -464,7 +508,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 						(orderByComparator.getOrderByFields().length * 3));
 			}
 			else {
-				query = new StringBundler(2);
+				query = new StringBundler(3);
 			}
 
 			query.append(_SQL_SELECT_CAMPAIGN_WHERE);
@@ -484,6 +528,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
 					orderByComparator);
+			}
+
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = query.toString();
@@ -724,6 +772,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			}
 		}
 
+		else {
+			query.append(CampaignModelImpl.ORDER_BY_JPQL);
+		}
+
 		String sql = query.toString();
 
 		Query q = session.createQuery(sql);
@@ -812,7 +864,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(2);
+			query = new StringBundler(3);
 		}
 
 		if (getDB().isSupportsInlineDistinct()) {
@@ -846,6 +898,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			else {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_TABLE,
 					orderByComparator);
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_SQL);
 			}
 		}
 
@@ -1033,6 +1094,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			}
 		}
 
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				Campaign.class.getName(), _FILTER_COLUMN_PK,
 				_FILTER_COLUMN_USERID);
@@ -1054,6 +1124,2062 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		if (uuid != null) {
 			qPos.add(uuid);
 		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(campaign);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Campaign> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Finds all the campaigns where campaignContentId = &#63;.
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @return the matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> findByCampaignContent(long campaignContentId)
+		throws SystemException {
+		return findByCampaignContent(campaignContentId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Finds a range of all the campaigns where campaignContentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @return the range of matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> findByCampaignContent(long campaignContentId,
+		int start, int end) throws SystemException {
+		return findByCampaignContent(campaignContentId, start, end, null);
+	}
+
+	/**
+	 * Finds an ordered range of all the campaigns where campaignContentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> findByCampaignContent(long campaignContentId,
+		int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
+		Object[] finderArgs = new Object[] {
+				campaignContentId,
+				
+				String.valueOf(start), String.valueOf(end),
+				String.valueOf(orderByComparator)
+			};
+
+		List<Campaign> list = (List<Campaign>)FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_CAMPAIGNCONTENT,
+				finderArgs, this);
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_CAMPAIGN_WHERE);
+
+			query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(campaignContentId);
+
+				list = (List<Campaign>)QueryUtil.list(q, getDialect(), start,
+						end);
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_CAMPAIGNCONTENT,
+						finderArgs);
+				}
+				else {
+					cacheResult(list);
+
+					FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_CAMPAIGNCONTENT,
+						finderArgs, list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Finds the first campaign in the ordered set where campaignContentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign findByCampaignContent_First(long campaignContentId,
+		OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		List<Campaign> list = findByCampaignContent(campaignContentId, 0, 1,
+				orderByComparator);
+
+		if (list.isEmpty()) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("campaignContentId=");
+			msg.append(campaignContentId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			throw new NoSuchCampaignException(msg.toString());
+		}
+		else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * Finds the last campaign in the ordered set where campaignContentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign findByCampaignContent_Last(long campaignContentId,
+		OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		int count = countByCampaignContent(campaignContentId);
+
+		List<Campaign> list = findByCampaignContent(campaignContentId,
+				count - 1, count, orderByComparator);
+
+		if (list.isEmpty()) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("campaignContentId=");
+			msg.append(campaignContentId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			throw new NoSuchCampaignException(msg.toString());
+		}
+		else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * Finds the campaigns before and after the current campaign in the ordered set where campaignContentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignId the primary key of the current campaign
+	 * @param campaignContentId the campaign content ID to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign[] findByCampaignContent_PrevAndNext(long campaignId,
+		long campaignContentId, OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		Campaign campaign = findByPrimaryKey(campaignId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Campaign[] array = new CampaignImpl[3];
+
+			array[0] = getByCampaignContent_PrevAndNext(session, campaign,
+					campaignContentId, orderByComparator, true);
+
+			array[1] = campaign;
+
+			array[2] = getByCampaignContent_PrevAndNext(session, campaign,
+					campaignContentId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Campaign getByCampaignContent_PrevAndNext(Session session,
+		Campaign campaign, long campaignContentId,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_CAMPAIGN_WHERE);
+
+		query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			query.append(CampaignModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(campaignContentId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(campaign);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Campaign> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Filters by the user's permissions and finds all the campaigns where campaignContentId = &#63;.
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @return the matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> filterFindByCampaignContent(long campaignContentId)
+		throws SystemException {
+		return filterFindByCampaignContent(campaignContentId,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Filters by the user's permissions and finds a range of all the campaigns where campaignContentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @return the range of matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> filterFindByCampaignContent(long campaignContentId,
+		int start, int end) throws SystemException {
+		return filterFindByCampaignContent(campaignContentId, start, end, null);
+	}
+
+	/**
+	 * Filters by the user's permissions and finds an ordered range of all the campaigns where campaignContentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> filterFindByCampaignContent(long campaignContentId,
+		int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByCampaignContent(campaignContentId, start, end,
+				orderByComparator);
+		}
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(3 +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_TABLE,
+					orderByComparator);
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Campaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				q.addEntity(_FILTER_ENTITY_ALIAS, CampaignImpl.class);
+			}
+			else {
+				q.addEntity(_FILTER_ENTITY_TABLE, CampaignImpl.class);
+			}
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(campaignContentId);
+
+			return (List<Campaign>)QueryUtil.list(q, getDialect(), start, end);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Filters the campaigns before and after the current campaign in the ordered set where campaignContentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignId the primary key of the current campaign
+	 * @param campaignContentId the campaign content ID to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign[] filterFindByCampaignContent_PrevAndNext(long campaignId,
+		long campaignContentId, OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByCampaignContent_PrevAndNext(campaignId,
+				campaignContentId, orderByComparator);
+		}
+
+		Campaign campaign = findByPrimaryKey(campaignId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Campaign[] array = new CampaignImpl[3];
+
+			array[0] = filterGetByCampaignContent_PrevAndNext(session,
+					campaign, campaignContentId, orderByComparator, true);
+
+			array[1] = campaign;
+
+			array[2] = filterGetByCampaignContent_PrevAndNext(session,
+					campaign, campaignContentId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Campaign filterGetByCampaignContent_PrevAndNext(Session session,
+		Campaign campaign, long campaignContentId,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Campaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		SQLQuery q = session.createSQLQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			q.addEntity(_FILTER_ENTITY_ALIAS, CampaignImpl.class);
+		}
+		else {
+			q.addEntity(_FILTER_ENTITY_TABLE, CampaignImpl.class);
+		}
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(campaignContentId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(campaign);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Campaign> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Finds all the campaigns where sendDate = &#63;.
+	 *
+	 * @param sendDate the send date to search with
+	 * @return the matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> findBySendDate(Date sendDate)
+		throws SystemException {
+		return findBySendDate(sendDate, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Finds a range of all the campaigns where sendDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @return the range of matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> findBySendDate(Date sendDate, int start, int end)
+		throws SystemException {
+		return findBySendDate(sendDate, start, end, null);
+	}
+
+	/**
+	 * Finds an ordered range of all the campaigns where sendDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> findBySendDate(Date sendDate, int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		Object[] finderArgs = new Object[] {
+				sendDate,
+				
+				String.valueOf(start), String.valueOf(end),
+				String.valueOf(orderByComparator)
+			};
+
+		List<Campaign> list = (List<Campaign>)FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_SENDDATE,
+				finderArgs, this);
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_CAMPAIGN_WHERE);
+
+			if (sendDate == null) {
+				query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+			}
+			else {
+				query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (sendDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(sendDate));
+				}
+
+				list = (List<Campaign>)QueryUtil.list(q, getDialect(), start,
+						end);
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_SENDDATE,
+						finderArgs);
+				}
+				else {
+					cacheResult(list);
+
+					FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_SENDDATE,
+						finderArgs, list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Finds the first campaign in the ordered set where sendDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign findBySendDate_First(Date sendDate,
+		OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		List<Campaign> list = findBySendDate(sendDate, 0, 1, orderByComparator);
+
+		if (list.isEmpty()) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("sendDate=");
+			msg.append(sendDate);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			throw new NoSuchCampaignException(msg.toString());
+		}
+		else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * Finds the last campaign in the ordered set where sendDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign findBySendDate_Last(Date sendDate,
+		OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		int count = countBySendDate(sendDate);
+
+		List<Campaign> list = findBySendDate(sendDate, count - 1, count,
+				orderByComparator);
+
+		if (list.isEmpty()) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("sendDate=");
+			msg.append(sendDate);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			throw new NoSuchCampaignException(msg.toString());
+		}
+		else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * Finds the campaigns before and after the current campaign in the ordered set where sendDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignId the primary key of the current campaign
+	 * @param sendDate the send date to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign[] findBySendDate_PrevAndNext(long campaignId,
+		Date sendDate, OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		Campaign campaign = findByPrimaryKey(campaignId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Campaign[] array = new CampaignImpl[3];
+
+			array[0] = getBySendDate_PrevAndNext(session, campaign, sendDate,
+					orderByComparator, true);
+
+			array[1] = campaign;
+
+			array[2] = getBySendDate_PrevAndNext(session, campaign, sendDate,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Campaign getBySendDate_PrevAndNext(Session session,
+		Campaign campaign, Date sendDate, OrderByComparator orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_CAMPAIGN_WHERE);
+
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			query.append(CampaignModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (sendDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sendDate));
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(campaign);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Campaign> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Filters by the user's permissions and finds all the campaigns where sendDate = &#63;.
+	 *
+	 * @param sendDate the send date to search with
+	 * @return the matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> filterFindBySendDate(Date sendDate)
+		throws SystemException {
+		return filterFindBySendDate(sendDate, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Filters by the user's permissions and finds a range of all the campaigns where sendDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @return the range of matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> filterFindBySendDate(Date sendDate, int start, int end)
+		throws SystemException {
+		return filterFindBySendDate(sendDate, start, end, null);
+	}
+
+	/**
+	 * Filters by the user's permissions and finds an ordered range of all the campaigns where sendDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> filterFindBySendDate(Date sendDate, int start,
+		int end, OrderByComparator orderByComparator) throws SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findBySendDate(sendDate, start, end, orderByComparator);
+		}
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(3 +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+		}
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_TABLE,
+					orderByComparator);
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Campaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				q.addEntity(_FILTER_ENTITY_ALIAS, CampaignImpl.class);
+			}
+			else {
+				q.addEntity(_FILTER_ENTITY_TABLE, CampaignImpl.class);
+			}
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			if (sendDate != null) {
+				qPos.add(CalendarUtil.getTimestamp(sendDate));
+			}
+
+			return (List<Campaign>)QueryUtil.list(q, getDialect(), start, end);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Filters the campaigns before and after the current campaign in the ordered set where sendDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignId the primary key of the current campaign
+	 * @param sendDate the send date to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign[] filterFindBySendDate_PrevAndNext(long campaignId,
+		Date sendDate, OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findBySendDate_PrevAndNext(campaignId, sendDate,
+				orderByComparator);
+		}
+
+		Campaign campaign = findByPrimaryKey(campaignId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Campaign[] array = new CampaignImpl[3];
+
+			array[0] = filterGetBySendDate_PrevAndNext(session, campaign,
+					sendDate, orderByComparator, true);
+
+			array[1] = campaign;
+
+			array[2] = filterGetBySendDate_PrevAndNext(session, campaign,
+					sendDate, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Campaign filterGetBySendDate_PrevAndNext(Session session,
+		Campaign campaign, Date sendDate, OrderByComparator orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+		}
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Campaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		SQLQuery q = session.createSQLQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			q.addEntity(_FILTER_ENTITY_ALIAS, CampaignImpl.class);
+		}
+		else {
+			q.addEntity(_FILTER_ENTITY_TABLE, CampaignImpl.class);
+		}
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (sendDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sendDate));
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(campaign);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Campaign> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Finds all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @return the matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> findBySD_LT(Date sendDate, boolean sent)
+		throws SystemException {
+		return findBySD_LT(sendDate, sent, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Finds a range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @return the range of matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> findBySD_LT(Date sendDate, boolean sent, int start,
+		int end) throws SystemException {
+		return findBySD_LT(sendDate, sent, start, end, null);
+	}
+
+	/**
+	 * Finds an ordered range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> findBySD_LT(Date sendDate, boolean sent, int start,
+		int end, OrderByComparator orderByComparator) throws SystemException {
+		Object[] finderArgs = new Object[] {
+				sendDate, sent,
+				
+				String.valueOf(start), String.valueOf(end),
+				String.valueOf(orderByComparator)
+			};
+
+		List<Campaign> list = (List<Campaign>)FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_SD_LT,
+				finderArgs, this);
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_CAMPAIGN_WHERE);
+
+			if (sendDate == null) {
+				query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+			}
+			else {
+				query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+			}
+
+			query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (sendDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(sendDate));
+				}
+
+				qPos.add(sent);
+
+				list = (List<Campaign>)QueryUtil.list(q, getDialect(), start,
+						end);
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_SD_LT,
+						finderArgs);
+				}
+				else {
+					cacheResult(list);
+
+					FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_SD_LT,
+						finderArgs, list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Finds the first campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign findBySD_LT_First(Date sendDate, boolean sent,
+		OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		List<Campaign> list = findBySD_LT(sendDate, sent, 0, 1,
+				orderByComparator);
+
+		if (list.isEmpty()) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("sendDate=");
+			msg.append(sendDate);
+
+			msg.append(", sent=");
+			msg.append(sent);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			throw new NoSuchCampaignException(msg.toString());
+		}
+		else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * Finds the last campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign findBySD_LT_Last(Date sendDate, boolean sent,
+		OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		int count = countBySD_LT(sendDate, sent);
+
+		List<Campaign> list = findBySD_LT(sendDate, sent, count - 1, count,
+				orderByComparator);
+
+		if (list.isEmpty()) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("sendDate=");
+			msg.append(sendDate);
+
+			msg.append(", sent=");
+			msg.append(sent);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			throw new NoSuchCampaignException(msg.toString());
+		}
+		else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * Finds the campaigns before and after the current campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignId the primary key of the current campaign
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign[] findBySD_LT_PrevAndNext(long campaignId, Date sendDate,
+		boolean sent, OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		Campaign campaign = findByPrimaryKey(campaignId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Campaign[] array = new CampaignImpl[3];
+
+			array[0] = getBySD_LT_PrevAndNext(session, campaign, sendDate,
+					sent, orderByComparator, true);
+
+			array[1] = campaign;
+
+			array[2] = getBySD_LT_PrevAndNext(session, campaign, sendDate,
+					sent, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Campaign getBySD_LT_PrevAndNext(Session session,
+		Campaign campaign, Date sendDate, boolean sent,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_CAMPAIGN_WHERE);
+
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+		}
+
+		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			query.append(CampaignModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (sendDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sendDate));
+		}
+
+		qPos.add(sent);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByValues(campaign);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Campaign> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Filters by the user's permissions and finds all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @return the matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> filterFindBySD_LT(Date sendDate, boolean sent)
+		throws SystemException {
+		return filterFindBySD_LT(sendDate, sent, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Filters by the user's permissions and finds a range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @return the range of matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> filterFindBySD_LT(Date sendDate, boolean sent,
+		int start, int end) throws SystemException {
+		return filterFindBySD_LT(sendDate, sent, start, end, null);
+	}
+
+	/**
+	 * Filters by the user's permissions and finds an ordered range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @param start the lower bound of the range of campaigns to return
+	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Campaign> filterFindBySD_LT(Date sendDate, boolean sent,
+		int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findBySD_LT(sendDate, sent, start, end, orderByComparator);
+		}
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+		}
+
+		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_TABLE,
+					orderByComparator);
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Campaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				q.addEntity(_FILTER_ENTITY_ALIAS, CampaignImpl.class);
+			}
+			else {
+				q.addEntity(_FILTER_ENTITY_TABLE, CampaignImpl.class);
+			}
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			if (sendDate != null) {
+				qPos.add(CalendarUtil.getTimestamp(sendDate));
+			}
+
+			qPos.add(sent);
+
+			return (List<Campaign>)QueryUtil.list(q, getDialect(), start, end);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Filters the campaigns before and after the current campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param campaignId the primary key of the current campaign
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next campaign
+	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Campaign[] filterFindBySD_LT_PrevAndNext(long campaignId,
+		Date sendDate, boolean sent, OrderByComparator orderByComparator)
+		throws NoSuchCampaignException, SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findBySD_LT_PrevAndNext(campaignId, sendDate, sent,
+				orderByComparator);
+		}
+
+		Campaign campaign = findByPrimaryKey(campaignId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Campaign[] array = new CampaignImpl[3];
+
+			array[0] = filterGetBySD_LT_PrevAndNext(session, campaign,
+					sendDate, sent, orderByComparator, true);
+
+			array[1] = campaign;
+
+			array[2] = filterGetBySD_LT_PrevAndNext(session, campaign,
+					sendDate, sent, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Campaign filterGetBySD_LT_PrevAndNext(Session session,
+		Campaign campaign, Date sendDate, boolean sent,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+		}
+
+		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			if (orderByFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					query.append(_ORDER_BY_ENTITY_ALIAS);
+				}
+				else {
+					query.append(_ORDER_BY_ENTITY_TABLE);
+				}
+
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(CampaignModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(CampaignModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Campaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		SQLQuery q = session.createSQLQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			q.addEntity(_FILTER_ENTITY_ALIAS, CampaignImpl.class);
+		}
+		else {
+			q.addEntity(_FILTER_ENTITY_TABLE, CampaignImpl.class);
+		}
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (sendDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sendDate));
+		}
+
+		qPos.add(sent);
 
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByValues(campaign);
@@ -1138,7 +3264,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 				sql = query.toString();
 			}
 			else {
-				sql = _SQL_SELECT_CAMPAIGN;
+				sql = _SQL_SELECT_CAMPAIGN.concat(CampaignModelImpl.ORDER_BY_JPQL);
 			}
 
 			Session session = null;
@@ -1189,6 +3315,45 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 */
 	public void removeByUuid(String uuid) throws SystemException {
 		for (Campaign campaign : findByUuid(uuid)) {
+			campaignPersistence.remove(campaign);
+		}
+	}
+
+	/**
+	 * Removes all the campaigns where campaignContentId = &#63; from the database.
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeByCampaignContent(long campaignContentId)
+		throws SystemException {
+		for (Campaign campaign : findByCampaignContent(campaignContentId)) {
+			campaignPersistence.remove(campaign);
+		}
+	}
+
+	/**
+	 * Removes all the campaigns where sendDate = &#63; from the database.
+	 *
+	 * @param sendDate the send date to search with
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeBySendDate(Date sendDate) throws SystemException {
+		for (Campaign campaign : findBySendDate(sendDate)) {
+			campaignPersistence.remove(campaign);
+		}
+	}
+
+	/**
+	 * Removes all the campaigns where sendDate &le; &#63; and sent = &#63; from the database.
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeBySD_LT(Date sendDate, boolean sent)
+		throws SystemException {
+		for (Campaign campaign : findBySD_LT(sendDate, sent)) {
 			campaignPersistence.remove(campaign);
 		}
 	}
@@ -1330,6 +3495,351 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
+	 * Counts all the campaigns where campaignContentId = &#63;.
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @return the number of matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int countByCampaignContent(long campaignContentId)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { campaignContentId };
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_CAMPAIGNCONTENT,
+				finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_CAMPAIGN_WHERE);
+
+			query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(campaignContentId);
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_CAMPAIGNCONTENT,
+					finderArgs, count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Filters by the user's permissions and counts all the campaigns where campaignContentId = &#63;.
+	 *
+	 * @param campaignContentId the campaign content ID to search with
+	 * @return the number of matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int filterCountByCampaignContent(long campaignContentId)
+		throws SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return countByCampaignContent(campaignContentId);
+		}
+
+		StringBundler query = new StringBundler(2);
+
+		query.append(_FILTER_SQL_COUNT_CAMPAIGN_WHERE);
+
+		query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Campaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			q.addScalar(COUNT_COLUMN_NAME,
+				com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(campaignContentId);
+
+			Long count = (Long)q.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Counts all the campaigns where sendDate = &#63;.
+	 *
+	 * @param sendDate the send date to search with
+	 * @return the number of matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int countBySendDate(Date sendDate) throws SystemException {
+		Object[] finderArgs = new Object[] { sendDate };
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SENDDATE,
+				finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_CAMPAIGN_WHERE);
+
+			if (sendDate == null) {
+				query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+			}
+			else {
+				query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (sendDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(sendDate));
+				}
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SENDDATE,
+					finderArgs, count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Filters by the user's permissions and counts all the campaigns where sendDate = &#63;.
+	 *
+	 * @param sendDate the send date to search with
+	 * @return the number of matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int filterCountBySendDate(Date sendDate) throws SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return countBySendDate(sendDate);
+		}
+
+		StringBundler query = new StringBundler(2);
+
+		query.append(_FILTER_SQL_COUNT_CAMPAIGN_WHERE);
+
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Campaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			q.addScalar(COUNT_COLUMN_NAME,
+				com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			if (sendDate != null) {
+				qPos.add(CalendarUtil.getTimestamp(sendDate));
+			}
+
+			Long count = (Long)q.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Counts all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @return the number of matching campaigns
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int countBySD_LT(Date sendDate, boolean sent)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { sendDate, sent };
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SD_LT,
+				finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_CAMPAIGN_WHERE);
+
+			if (sendDate == null) {
+				query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+			}
+			else {
+				query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+			}
+
+			query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (sendDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(sendDate));
+				}
+
+				qPos.add(sent);
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SD_LT,
+					finderArgs, count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Filters by the user's permissions and counts all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 *
+	 * @param sendDate the send date to search with
+	 * @param sent the sent to search with
+	 * @return the number of matching campaigns that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int filterCountBySD_LT(Date sendDate, boolean sent)
+		throws SystemException {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return countBySD_LT(sendDate, sent);
+		}
+
+		StringBundler query = new StringBundler(3);
+
+		query.append(_FILTER_SQL_COUNT_CAMPAIGN_WHERE);
+
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+		}
+
+		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Campaign.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			q.addScalar(COUNT_COLUMN_NAME,
+				com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			if (sendDate != null) {
+				qPos.add(CalendarUtil.getTimestamp(sendDate));
+			}
+
+			qPos.add(sent);
+
+			Long count = (Long)q.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
 	 * Counts all the campaigns.
 	 *
 	 * @return the number of campaigns
@@ -1370,59 +3880,59 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Gets all the send campaigns associated with the campaign.
+	 * Gets all the newsletter logs associated with the campaign.
 	 *
-	 * @param pk the primary key of the campaign to get the associated send campaigns for
-	 * @return the send campaigns associated with the campaign
+	 * @param pk the primary key of the campaign to get the associated newsletter logs for
+	 * @return the newsletter logs associated with the campaign
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<com.liferay.newsletter.model.SendCampaign> getSendCampaigns(
+	public List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
 		long pk) throws SystemException {
-		return getSendCampaigns(pk, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+		return getNewsletterLogs(pk, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 	}
 
 	/**
-	 * Gets a range of all the send campaigns associated with the campaign.
+	 * Gets a range of all the newsletter logs associated with the campaign.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param pk the primary key of the campaign to get the associated send campaigns for
+	 * @param pk the primary key of the campaign to get the associated newsletter logs for
 	 * @param start the lower bound of the range of campaigns to return
 	 * @param end the upper bound of the range of campaigns to return (not inclusive)
-	 * @return the range of send campaigns associated with the campaign
+	 * @return the range of newsletter logs associated with the campaign
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<com.liferay.newsletter.model.SendCampaign> getSendCampaigns(
+	public List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
 		long pk, int start, int end) throws SystemException {
-		return getSendCampaigns(pk, start, end, null);
+		return getNewsletterLogs(pk, start, end, null);
 	}
 
-	public static final FinderPath FINDER_PATH_GET_SENDCAMPAIGNS = new FinderPath(com.liferay.newsletter.model.impl.SendCampaignModelImpl.ENTITY_CACHE_ENABLED,
-			com.liferay.newsletter.model.impl.SendCampaignModelImpl.FINDER_CACHE_ENABLED,
-			com.liferay.newsletter.service.persistence.SendCampaignPersistenceImpl.FINDER_CLASS_NAME_LIST,
-			"getSendCampaigns",
+	public static final FinderPath FINDER_PATH_GET_NEWSLETTERLOGS = new FinderPath(com.liferay.newsletter.model.impl.NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			com.liferay.newsletter.model.impl.NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			com.liferay.newsletter.service.persistence.NewsletterLogPersistenceImpl.FINDER_CLASS_NAME_LIST,
+			"getNewsletterLogs",
 			new String[] {
 				Long.class.getName(), "java.lang.Integer", "java.lang.Integer",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
 
 	/**
-	 * Gets an ordered range of all the send campaigns associated with the campaign.
+	 * Gets an ordered range of all the newsletter logs associated with the campaign.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param pk the primary key of the campaign to get the associated send campaigns for
+	 * @param pk the primary key of the campaign to get the associated newsletter logs for
 	 * @param start the lower bound of the range of campaigns to return
 	 * @param end the upper bound of the range of campaigns to return (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of send campaigns associated with the campaign
+	 * @return the ordered range of newsletter logs associated with the campaign
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<com.liferay.newsletter.model.SendCampaign> getSendCampaigns(
+	public List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
 		long pk, int start, int end, OrderByComparator orderByComparator)
 		throws SystemException {
 		Object[] finderArgs = new Object[] {
@@ -1430,7 +3940,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 				String.valueOf(orderByComparator)
 			};
 
-		List<com.liferay.newsletter.model.SendCampaign> list = (List<com.liferay.newsletter.model.SendCampaign>)FinderCacheUtil.getResult(FINDER_PATH_GET_SENDCAMPAIGNS,
+		List<com.liferay.newsletter.model.NewsletterLog> list = (List<com.liferay.newsletter.model.NewsletterLog>)FinderCacheUtil.getResult(FINDER_PATH_GET_NEWSLETTERLOGS,
 				finderArgs, this);
 
 		if (list == null) {
@@ -1442,23 +3952,23 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 				String sql = null;
 
 				if (orderByComparator != null) {
-					sql = _SQL_GETSENDCAMPAIGNS.concat(ORDER_BY_CLAUSE)
-											   .concat(orderByComparator.getOrderBy());
+					sql = _SQL_GETNEWSLETTERLOGS.concat(ORDER_BY_CLAUSE)
+												.concat(orderByComparator.getOrderBy());
 				}
 				else {
-					sql = _SQL_GETSENDCAMPAIGNS.concat(com.liferay.newsletter.model.impl.SendCampaignModelImpl.ORDER_BY_SQL);
+					sql = _SQL_GETNEWSLETTERLOGS;
 				}
 
 				SQLQuery q = session.createSQLQuery(sql);
 
-				q.addEntity("Newsletter_SendCampaign",
-					com.liferay.newsletter.model.impl.SendCampaignImpl.class);
+				q.addEntity("Newsletter_NewsletterLog",
+					com.liferay.newsletter.model.impl.NewsletterLogImpl.class);
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
 				qPos.add(pk);
 
-				list = (List<com.liferay.newsletter.model.SendCampaign>)QueryUtil.list(q,
+				list = (List<com.liferay.newsletter.model.NewsletterLog>)QueryUtil.list(q,
 						getDialect(), start, end);
 			}
 			catch (Exception e) {
@@ -1466,13 +3976,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			}
 			finally {
 				if (list == null) {
-					FinderCacheUtil.removeResult(FINDER_PATH_GET_SENDCAMPAIGNS,
+					FinderCacheUtil.removeResult(FINDER_PATH_GET_NEWSLETTERLOGS,
 						finderArgs);
 				}
 				else {
-					sendCampaignPersistence.cacheResult(list);
+					newsletterLogPersistence.cacheResult(list);
 
-					FinderCacheUtil.putResult(FINDER_PATH_GET_SENDCAMPAIGNS,
+					FinderCacheUtil.putResult(FINDER_PATH_GET_NEWSLETTERLOGS,
 						finderArgs, list);
 				}
 
@@ -1483,22 +3993,22 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		return list;
 	}
 
-	public static final FinderPath FINDER_PATH_GET_SENDCAMPAIGNS_SIZE = new FinderPath(com.liferay.newsletter.model.impl.SendCampaignModelImpl.ENTITY_CACHE_ENABLED,
-			com.liferay.newsletter.model.impl.SendCampaignModelImpl.FINDER_CACHE_ENABLED,
-			com.liferay.newsletter.service.persistence.SendCampaignPersistenceImpl.FINDER_CLASS_NAME_LIST,
-			"getSendCampaignsSize", new String[] { Long.class.getName() });
+	public static final FinderPath FINDER_PATH_GET_NEWSLETTERLOGS_SIZE = new FinderPath(com.liferay.newsletter.model.impl.NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			com.liferay.newsletter.model.impl.NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			com.liferay.newsletter.service.persistence.NewsletterLogPersistenceImpl.FINDER_CLASS_NAME_LIST,
+			"getNewsletterLogsSize", new String[] { Long.class.getName() });
 
 	/**
-	 * Gets the number of send campaigns associated with the campaign.
+	 * Gets the number of newsletter logs associated with the campaign.
 	 *
-	 * @param pk the primary key of the campaign to get the number of associated send campaigns for
-	 * @return the number of send campaigns associated with the campaign
+	 * @param pk the primary key of the campaign to get the number of associated newsletter logs for
+	 * @return the number of newsletter logs associated with the campaign
 	 * @throws SystemException if a system exception occurred
 	 */
-	public int getSendCampaignsSize(long pk) throws SystemException {
+	public int getNewsletterLogsSize(long pk) throws SystemException {
 		Object[] finderArgs = new Object[] { pk };
 
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_GET_SENDCAMPAIGNS_SIZE,
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_GET_NEWSLETTERLOGS_SIZE,
 				finderArgs, this);
 
 		if (count == null) {
@@ -1507,7 +4017,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			try {
 				session = openSession();
 
-				SQLQuery q = session.createSQLQuery(_SQL_GETSENDCAMPAIGNSSIZE);
+				SQLQuery q = session.createSQLQuery(_SQL_GETNEWSLETTERLOGSSIZE);
 
 				q.addScalar(COUNT_COLUMN_NAME,
 					com.liferay.portal.kernel.dao.orm.Type.LONG);
@@ -1526,7 +4036,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 					count = Long.valueOf(0);
 				}
 
-				FinderCacheUtil.putResult(FINDER_PATH_GET_SENDCAMPAIGNS_SIZE,
+				FinderCacheUtil.putResult(FINDER_PATH_GET_NEWSLETTERLOGS_SIZE,
 					finderArgs, count);
 
 				closeSession(session);
@@ -1536,31 +4046,31 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		return count.intValue();
 	}
 
-	public static final FinderPath FINDER_PATH_CONTAINS_SENDCAMPAIGN = new FinderPath(com.liferay.newsletter.model.impl.SendCampaignModelImpl.ENTITY_CACHE_ENABLED,
-			com.liferay.newsletter.model.impl.SendCampaignModelImpl.FINDER_CACHE_ENABLED,
-			com.liferay.newsletter.service.persistence.SendCampaignPersistenceImpl.FINDER_CLASS_NAME_LIST,
-			"containsSendCampaign",
+	public static final FinderPath FINDER_PATH_CONTAINS_NEWSLETTERLOG = new FinderPath(com.liferay.newsletter.model.impl.NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			com.liferay.newsletter.model.impl.NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			com.liferay.newsletter.service.persistence.NewsletterLogPersistenceImpl.FINDER_CLASS_NAME_LIST,
+			"containsNewsletterLog",
 			new String[] { Long.class.getName(), Long.class.getName() });
 
 	/**
-	 * Determines if the send campaign is associated with the campaign.
+	 * Determines if the newsletter log is associated with the campaign.
 	 *
 	 * @param pk the primary key of the campaign
-	 * @param sendCampaignPK the primary key of the send campaign
-	 * @return <code>true</code> if the send campaign is associated with the campaign; <code>false</code> otherwise
+	 * @param newsletterLogPK the primary key of the newsletter log
+	 * @return <code>true</code> if the newsletter log is associated with the campaign; <code>false</code> otherwise
 	 * @throws SystemException if a system exception occurred
 	 */
-	public boolean containsSendCampaign(long pk, long sendCampaignPK)
+	public boolean containsNewsletterLog(long pk, long newsletterLogPK)
 		throws SystemException {
-		Object[] finderArgs = new Object[] { pk, sendCampaignPK };
+		Object[] finderArgs = new Object[] { pk, newsletterLogPK };
 
-		Boolean value = (Boolean)FinderCacheUtil.getResult(FINDER_PATH_CONTAINS_SENDCAMPAIGN,
+		Boolean value = (Boolean)FinderCacheUtil.getResult(FINDER_PATH_CONTAINS_NEWSLETTERLOG,
 				finderArgs, this);
 
 		if (value == null) {
 			try {
-				value = Boolean.valueOf(containsSendCampaign.contains(pk,
-							sendCampaignPK));
+				value = Boolean.valueOf(containsNewsletterLog.contains(pk,
+							newsletterLogPK));
 			}
 			catch (Exception e) {
 				throw processException(e);
@@ -1570,7 +4080,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 					value = Boolean.FALSE;
 				}
 
-				FinderCacheUtil.putResult(FINDER_PATH_CONTAINS_SENDCAMPAIGN,
+				FinderCacheUtil.putResult(FINDER_PATH_CONTAINS_NEWSLETTERLOG,
 					finderArgs, value);
 			}
 		}
@@ -1579,14 +4089,14 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Determines if the campaign has any send campaigns associated with it.
+	 * Determines if the campaign has any newsletter logs associated with it.
 	 *
-	 * @param pk the primary key of the campaign to check for associations with send campaigns
-	 * @return <code>true</code> if the campaign has any send campaigns associated with it; <code>false</code> otherwise
+	 * @param pk the primary key of the campaign to check for associations with newsletter logs
+	 * @return <code>true</code> if the campaign has any newsletter logs associated with it; <code>false</code> otherwise
 	 * @throws SystemException if a system exception occurred
 	 */
-	public boolean containsSendCampaigns(long pk) throws SystemException {
-		if (getSendCampaignsSize(pk) > 0) {
+	public boolean containsNewsletterLogs(long pk) throws SystemException {
+		if (getNewsletterLogsSize(pk) > 0) {
 			return true;
 		}
 		else {
@@ -1618,7 +4128,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			}
 		}
 
-		containsSendCampaign = new ContainsSendCampaign(this);
+		containsNewsletterLog = new ContainsNewsletterLog(this);
 	}
 
 	public void destroy() {
@@ -1627,33 +4137,33 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST);
 	}
 
-	@BeanReference(type = CampaignPersistence.class)
-	protected CampaignPersistence campaignPersistence;
+	@BeanReference(type = CampaignContentPersistence.class)
+	protected CampaignContentPersistence campaignContentPersistence;
 	@BeanReference(type = ContactPersistence.class)
 	protected ContactPersistence contactPersistence;
-	@BeanReference(type = SendCampaignPersistence.class)
-	protected SendCampaignPersistence sendCampaignPersistence;
+	@BeanReference(type = CampaignPersistence.class)
+	protected CampaignPersistence campaignPersistence;
 	@BeanReference(type = NewsletterLogPersistence.class)
 	protected NewsletterLogPersistence newsletterLogPersistence;
 	@BeanReference(type = ResourcePersistence.class)
 	protected ResourcePersistence resourcePersistence;
 	@BeanReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	protected ContainsSendCampaign containsSendCampaign;
+	protected ContainsNewsletterLog containsNewsletterLog;
 
-	protected class ContainsSendCampaign {
-		protected ContainsSendCampaign(CampaignPersistenceImpl persistenceImpl) {
+	protected class ContainsNewsletterLog {
+		protected ContainsNewsletterLog(CampaignPersistenceImpl persistenceImpl) {
 			super();
 
 			_mappingSqlQuery = MappingSqlQueryFactoryUtil.getMappingSqlQuery(getDataSource(),
-					_SQL_CONTAINSSENDCAMPAIGN,
+					_SQL_CONTAINSNEWSLETTERLOG,
 					new int[] { java.sql.Types.BIGINT, java.sql.Types.BIGINT },
 					RowMapper.COUNT);
 		}
 
-		protected boolean contains(long campaignId, long sendCampaignId) {
+		protected boolean contains(long campaignId, long newsletterLogId) {
 			List<Integer> results = _mappingSqlQuery.execute(new Object[] {
-						new Long(campaignId), new Long(sendCampaignId)
+						new Long(campaignId), new Long(newsletterLogId)
 					});
 
 			if (results.size() > 0) {
@@ -1674,12 +4184,19 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	private static final String _SQL_SELECT_CAMPAIGN_WHERE = "SELECT campaign FROM Campaign campaign WHERE ";
 	private static final String _SQL_COUNT_CAMPAIGN = "SELECT COUNT(campaign) FROM Campaign campaign";
 	private static final String _SQL_COUNT_CAMPAIGN_WHERE = "SELECT COUNT(campaign) FROM Campaign campaign WHERE ";
-	private static final String _SQL_GETSENDCAMPAIGNS = "SELECT {Newsletter_SendCampaign.*} FROM Newsletter_SendCampaign INNER JOIN Newsletter_Campaign ON (Newsletter_Campaign.campaignId = Newsletter_SendCampaign.campaignId) WHERE (Newsletter_Campaign.campaignId = ?)";
-	private static final String _SQL_GETSENDCAMPAIGNSSIZE = "SELECT COUNT(*) AS COUNT_VALUE FROM Newsletter_SendCampaign WHERE campaignId = ?";
-	private static final String _SQL_CONTAINSSENDCAMPAIGN = "SELECT COUNT(*) AS COUNT_VALUE FROM Newsletter_SendCampaign WHERE campaignId = ? AND sendCampaignId = ?";
+	private static final String _SQL_GETNEWSLETTERLOGS = "SELECT {Newsletter_NewsletterLog.*} FROM Newsletter_NewsletterLog INNER JOIN Newsletter_Campaign ON (Newsletter_Campaign.campaignId = Newsletter_NewsletterLog.campaignId) WHERE (Newsletter_Campaign.campaignId = ?)";
+	private static final String _SQL_GETNEWSLETTERLOGSSIZE = "SELECT COUNT(*) AS COUNT_VALUE FROM Newsletter_NewsletterLog WHERE campaignId = ?";
+	private static final String _SQL_CONTAINSNEWSLETTERLOG = "SELECT COUNT(*) AS COUNT_VALUE FROM Newsletter_NewsletterLog WHERE campaignId = ? AND newsletterLogId = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "campaign.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "campaign.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(campaign.uuid IS NULL OR campaign.uuid = ?)";
+	private static final String _FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2 =
+		"campaign.campaignContentId = ?";
+	private static final String _FINDER_COLUMN_SENDDATE_SENDDATE_1 = "campaign.sendDate IS NULL";
+	private static final String _FINDER_COLUMN_SENDDATE_SENDDATE_2 = "campaign.sendDate = ?";
+	private static final String _FINDER_COLUMN_SD_LT_SENDDATE_1 = "campaign.sendDate <= NULL AND ";
+	private static final String _FINDER_COLUMN_SD_LT_SENDDATE_2 = "campaign.sendDate <= ? AND ";
+	private static final String _FINDER_COLUMN_SD_LT_SENT_2 = "campaign.sent = ?";
 	private static final String _FILTER_SQL_SELECT_CAMPAIGN_WHERE = "SELECT DISTINCT {campaign.*} FROM Newsletter_Campaign campaign WHERE ";
 	private static final String _FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1 =
 		"SELECT {Newsletter_Campaign.*} FROM (SELECT DISTINCT campaign.campaignId FROM Newsletter_Campaign campaign WHERE ";

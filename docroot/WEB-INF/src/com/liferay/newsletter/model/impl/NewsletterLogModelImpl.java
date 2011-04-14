@@ -57,10 +57,11 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
 			{ "newsletterLogId", Types.BIGINT },
-			{ "sendCampaignId", Types.BIGINT },
-			{ "contactId", Types.BIGINT }
+			{ "campaignId", Types.BIGINT },
+			{ "contactId", Types.BIGINT },
+			{ "sent", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Newsletter_NewsletterLog (uuid_ VARCHAR(75) null,newsletterLogId LONG not null primary key,sendCampaignId LONG,contactId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table Newsletter_NewsletterLog (uuid_ VARCHAR(75) null,newsletterLogId LONG not null primary key,campaignId LONG,contactId LONG,sent BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table Newsletter_NewsletterLog";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -119,12 +120,22 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 		_newsletterLogId = newsletterLogId;
 	}
 
-	public long getSendCampaignId() {
-		return _sendCampaignId;
+	public long getCampaignId() {
+		return _campaignId;
 	}
 
-	public void setSendCampaignId(long sendCampaignId) {
-		_sendCampaignId = sendCampaignId;
+	public void setCampaignId(long campaignId) {
+		if (!_setOriginalCampaignId) {
+			_setOriginalCampaignId = true;
+
+			_originalCampaignId = _campaignId;
+		}
+
+		_campaignId = campaignId;
+	}
+
+	public long getOriginalCampaignId() {
+		return _originalCampaignId;
 	}
 
 	public long getContactId() {
@@ -132,7 +143,29 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 	}
 
 	public void setContactId(long contactId) {
+		if (!_setOriginalContactId) {
+			_setOriginalContactId = true;
+
+			_originalContactId = _contactId;
+		}
+
 		_contactId = contactId;
+	}
+
+	public long getOriginalContactId() {
+		return _originalContactId;
+	}
+
+	public boolean getSent() {
+		return _sent;
+	}
+
+	public boolean isSent() {
+		return _sent;
+	}
+
+	public void setSent(boolean sent) {
+		_sent = sent;
 	}
 
 	public NewsletterLog toEscapedModel() {
@@ -164,8 +197,9 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 
 		newsletterLogImpl.setUuid(getUuid());
 		newsletterLogImpl.setNewsletterLogId(getNewsletterLogId());
-		newsletterLogImpl.setSendCampaignId(getSendCampaignId());
+		newsletterLogImpl.setCampaignId(getCampaignId());
 		newsletterLogImpl.setContactId(getContactId());
+		newsletterLogImpl.setSent(getSent());
 
 		newsletterLogImpl.resetOriginalValues();
 
@@ -215,26 +249,37 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 	}
 
 	public void resetOriginalValues() {
+		NewsletterLogModelImpl newsletterLogModelImpl = this;
+
+		newsletterLogModelImpl._originalCampaignId = newsletterLogModelImpl._campaignId;
+
+		newsletterLogModelImpl._setOriginalCampaignId = false;
+
+		newsletterLogModelImpl._originalContactId = newsletterLogModelImpl._contactId;
+
+		newsletterLogModelImpl._setOriginalContactId = false;
 	}
 
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
 		sb.append(", newsletterLogId=");
 		sb.append(getNewsletterLogId());
-		sb.append(", sendCampaignId=");
-		sb.append(getSendCampaignId());
+		sb.append(", campaignId=");
+		sb.append(getCampaignId());
 		sb.append(", contactId=");
 		sb.append(getContactId());
+		sb.append(", sent=");
+		sb.append(getSent());
 		sb.append("}");
 
 		return sb.toString();
 	}
 
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(16);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.newsletter.model.NewsletterLog");
@@ -249,12 +294,16 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 		sb.append(getNewsletterLogId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>sendCampaignId</column-name><column-value><![CDATA[");
-		sb.append(getSendCampaignId());
+			"<column><column-name>campaignId</column-name><column-value><![CDATA[");
+		sb.append(getCampaignId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>contactId</column-name><column-value><![CDATA[");
 		sb.append(getContactId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sent</column-name><column-value><![CDATA[");
+		sb.append(getSent());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -264,7 +313,12 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 
 	private String _uuid;
 	private long _newsletterLogId;
-	private long _sendCampaignId;
+	private long _campaignId;
+	private long _originalCampaignId;
+	private boolean _setOriginalCampaignId;
 	private long _contactId;
+	private long _originalContactId;
+	private boolean _setOriginalContactId;
+	private boolean _sent;
 	private transient ExpandoBridge _expandoBridge;
 }

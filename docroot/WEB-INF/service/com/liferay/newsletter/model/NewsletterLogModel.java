@@ -86,18 +86,18 @@ public interface NewsletterLogModel extends BaseModel<NewsletterLog> {
 	public void setNewsletterLogId(long newsletterLogId);
 
 	/**
-	 * Gets the send campaign ID of this newsletter log.
+	 * Gets the campaign ID of this newsletter log.
 	 *
-	 * @return the send campaign ID of this newsletter log
+	 * @return the campaign ID of this newsletter log
 	 */
-	public long getSendCampaignId();
+	public long getCampaignId();
 
 	/**
-	 * Sets the send campaign ID of this newsletter log.
+	 * Sets the campaign ID of this newsletter log.
 	 *
-	 * @param sendCampaignId the send campaign ID of this newsletter log
+	 * @param campaignId the campaign ID of this newsletter log
 	 */
-	public void setSendCampaignId(long sendCampaignId);
+	public void setCampaignId(long campaignId);
 
 	/**
 	 * Gets the contact ID of this newsletter log.
@@ -112,6 +112,27 @@ public interface NewsletterLogModel extends BaseModel<NewsletterLog> {
 	 * @param contactId the contact ID of this newsletter log
 	 */
 	public void setContactId(long contactId);
+
+	/**
+	 * Gets the sent of this newsletter log.
+	 *
+	 * @return the sent of this newsletter log
+	 */
+	public boolean getSent();
+
+	/**
+	 * Determines if this newsletter log is sent.
+	 *
+	 * @return <code>true</code> if this newsletter log is sent; <code>false</code> otherwise
+	 */
+	public boolean isSent();
+
+	/**
+	 * Sets whether this newsletter log is sent.
+	 *
+	 * @param sent the sent of this newsletter log
+	 */
+	public void setSent(boolean sent);
 
 	public boolean isNew();
 

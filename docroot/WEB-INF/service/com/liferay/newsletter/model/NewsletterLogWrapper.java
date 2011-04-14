@@ -91,21 +91,21 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	}
 
 	/**
-	* Gets the send campaign ID of this newsletter log.
+	* Gets the campaign ID of this newsletter log.
 	*
-	* @return the send campaign ID of this newsletter log
+	* @return the campaign ID of this newsletter log
 	*/
-	public long getSendCampaignId() {
-		return _newsletterLog.getSendCampaignId();
+	public long getCampaignId() {
+		return _newsletterLog.getCampaignId();
 	}
 
 	/**
-	* Sets the send campaign ID of this newsletter log.
+	* Sets the campaign ID of this newsletter log.
 	*
-	* @param sendCampaignId the send campaign ID of this newsletter log
+	* @param campaignId the campaign ID of this newsletter log
 	*/
-	public void setSendCampaignId(long sendCampaignId) {
-		_newsletterLog.setSendCampaignId(sendCampaignId);
+	public void setCampaignId(long campaignId) {
+		_newsletterLog.setCampaignId(campaignId);
 	}
 
 	/**
@@ -124,6 +124,33 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	*/
 	public void setContactId(long contactId) {
 		_newsletterLog.setContactId(contactId);
+	}
+
+	/**
+	* Gets the sent of this newsletter log.
+	*
+	* @return the sent of this newsletter log
+	*/
+	public boolean getSent() {
+		return _newsletterLog.getSent();
+	}
+
+	/**
+	* Determines if this newsletter log is sent.
+	*
+	* @return <code>true</code> if this newsletter log is sent; <code>false</code> otherwise
+	*/
+	public boolean isSent() {
+		return _newsletterLog.isSent();
+	}
+
+	/**
+	* Sets whether this newsletter log is sent.
+	*
+	* @param sent the sent of this newsletter log
+	*/
+	public void setSent(boolean sent) {
+		_newsletterLog.setSent(sent);
 	}
 
 	public boolean isNew() {

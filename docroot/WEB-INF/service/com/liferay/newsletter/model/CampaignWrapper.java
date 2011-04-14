@@ -91,21 +91,75 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the title of this campaign.
+	* Gets the send date of this campaign.
 	*
-	* @return the title of this campaign
+	* @return the send date of this campaign
 	*/
-	public java.lang.String getTitle() {
-		return _campaign.getTitle();
+	public java.util.Date getSendDate() {
+		return _campaign.getSendDate();
 	}
 
 	/**
-	* Sets the title of this campaign.
+	* Sets the send date of this campaign.
 	*
-	* @param title the title of this campaign
+	* @param sendDate the send date of this campaign
 	*/
-	public void setTitle(java.lang.String title) {
-		_campaign.setTitle(title);
+	public void setSendDate(java.util.Date sendDate) {
+		_campaign.setSendDate(sendDate);
+	}
+
+	/**
+	* Gets the email subject of this campaign.
+	*
+	* @return the email subject of this campaign
+	*/
+	public java.lang.String getEmailSubject() {
+		return _campaign.getEmailSubject();
+	}
+
+	/**
+	* Sets the email subject of this campaign.
+	*
+	* @param emailSubject the email subject of this campaign
+	*/
+	public void setEmailSubject(java.lang.String emailSubject) {
+		_campaign.setEmailSubject(emailSubject);
+	}
+
+	/**
+	* Gets the sender name of this campaign.
+	*
+	* @return the sender name of this campaign
+	*/
+	public java.lang.String getSenderName() {
+		return _campaign.getSenderName();
+	}
+
+	/**
+	* Sets the sender name of this campaign.
+	*
+	* @param senderName the sender name of this campaign
+	*/
+	public void setSenderName(java.lang.String senderName) {
+		_campaign.setSenderName(senderName);
+	}
+
+	/**
+	* Gets the sender email of this campaign.
+	*
+	* @return the sender email of this campaign
+	*/
+	public java.lang.String getSenderEmail() {
+		return _campaign.getSenderEmail();
+	}
+
+	/**
+	* Sets the sender email of this campaign.
+	*
+	* @param senderEmail the sender email of this campaign
+	*/
+	public void setSenderEmail(java.lang.String senderEmail) {
+		_campaign.setSenderEmail(senderEmail);
 	}
 
 	/**
@@ -124,6 +178,51 @@ public class CampaignWrapper implements Campaign {
 	*/
 	public void setContent(java.lang.String content) {
 		_campaign.setContent(content);
+	}
+
+	/**
+	* Gets the sent of this campaign.
+	*
+	* @return the sent of this campaign
+	*/
+	public boolean getSent() {
+		return _campaign.getSent();
+	}
+
+	/**
+	* Determines if this campaign is sent.
+	*
+	* @return <code>true</code> if this campaign is sent; <code>false</code> otherwise
+	*/
+	public boolean isSent() {
+		return _campaign.isSent();
+	}
+
+	/**
+	* Sets whether this campaign is sent.
+	*
+	* @param sent the sent of this campaign
+	*/
+	public void setSent(boolean sent) {
+		_campaign.setSent(sent);
+	}
+
+	/**
+	* Gets the campaign content ID of this campaign.
+	*
+	* @return the campaign content ID of this campaign
+	*/
+	public long getCampaignContentId() {
+		return _campaign.getCampaignContentId();
+	}
+
+	/**
+	* Sets the campaign content ID of this campaign.
+	*
+	* @param campaignContentId the campaign content ID of this campaign
+	*/
+	public void setCampaignContentId(long campaignContentId) {
+		_campaign.setCampaignContentId(campaignContentId);
 	}
 
 	public boolean isNew() {

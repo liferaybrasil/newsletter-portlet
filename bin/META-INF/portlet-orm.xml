@@ -7,14 +7,17 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
-	<mapped-superclass class="com.liferay.newsletter.model.impl.CampaignModelImpl">
+	<mapped-superclass class="com.liferay.newsletter.model.impl.CampaignContentModelImpl">
 		<attributes>
-			<id name="campaignId" />
+			<id name="campaignContentId" />
 			<basic name="uuid">
 				<column name="UUID_" />
 			</basic>
 			<basic name="title" />
 			<basic name="content" />
+			<basic name="createDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
 			<transient name="primaryKey" />
 		</attributes>
 	</mapped-superclass>
@@ -29,9 +32,9 @@
 			<transient name="primaryKey" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="com.liferay.newsletter.model.impl.SendCampaignModelImpl">
+	<mapped-superclass class="com.liferay.newsletter.model.impl.CampaignModelImpl">
 		<attributes>
-			<id name="sendCampaignId" />
+			<id name="campaignId" />
 			<basic name="uuid">
 				<column name="UUID_" />
 			</basic>
@@ -41,8 +44,9 @@
 			<basic name="emailSubject" />
 			<basic name="senderName" />
 			<basic name="senderEmail" />
+			<basic name="content" />
 			<basic name="sent" />
-			<basic name="campaignId" />
+			<basic name="campaignContentId" />
 			<transient name="primaryKey" />
 		</attributes>
 	</mapped-superclass>
@@ -52,21 +56,22 @@
 			<basic name="uuid">
 				<column name="UUID_" />
 			</basic>
-			<basic name="sendCampaignId" />
+			<basic name="campaignId" />
 			<basic name="contactId" />
+			<basic name="sent" />
 			<transient name="primaryKey" />
 		</attributes>
 	</mapped-superclass>
-	<entity class="com.liferay.newsletter.model.impl.CampaignImpl" name="Campaign">
-		<table name="Newsletter_Campaign" />
+	<entity class="com.liferay.newsletter.model.impl.CampaignContentImpl" name="CampaignContent">
+		<table name="Newsletter_CampaignContent" />
 		<attributes />
 	</entity>
 	<entity class="com.liferay.newsletter.model.impl.ContactImpl" name="Contact">
 		<table name="Newsletter_Contact" />
 		<attributes />
 	</entity>
-	<entity class="com.liferay.newsletter.model.impl.SendCampaignImpl" name="SendCampaign">
-		<table name="Newsletter_SendCampaign" />
+	<entity class="com.liferay.newsletter.model.impl.CampaignImpl" name="Campaign">
+		<table name="Newsletter_Campaign" />
 		<attributes />
 	</entity>
 	<entity class="com.liferay.newsletter.model.impl.NewsletterLogImpl" name="NewsletterLog">

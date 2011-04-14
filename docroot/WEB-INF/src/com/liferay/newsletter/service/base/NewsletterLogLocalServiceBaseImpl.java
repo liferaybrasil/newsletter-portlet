@@ -17,14 +17,14 @@ package com.liferay.newsletter.service.base;
 import com.liferay.counter.service.CounterLocalService;
 
 import com.liferay.newsletter.model.NewsletterLog;
+import com.liferay.newsletter.service.CampaignContentLocalService;
 import com.liferay.newsletter.service.CampaignLocalService;
 import com.liferay.newsletter.service.ContactLocalService;
 import com.liferay.newsletter.service.NewsletterLogLocalService;
-import com.liferay.newsletter.service.SendCampaignLocalService;
+import com.liferay.newsletter.service.persistence.CampaignContentPersistence;
 import com.liferay.newsletter.service.persistence.CampaignPersistence;
 import com.liferay.newsletter.service.persistence.ContactPersistence;
 import com.liferay.newsletter.service.persistence.NewsletterLogPersistence;
-import com.liferay.newsletter.service.persistence.SendCampaignPersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.bean.IdentifiableBean;
@@ -248,40 +248,41 @@ public abstract class NewsletterLogLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the campaign local service.
+	 * Gets the campaign content local service.
 	 *
-	 * @return the campaign local service
+	 * @return the campaign content local service
 	 */
-	public CampaignLocalService getCampaignLocalService() {
-		return campaignLocalService;
+	public CampaignContentLocalService getCampaignContentLocalService() {
+		return campaignContentLocalService;
 	}
 
 	/**
-	 * Sets the campaign local service.
+	 * Sets the campaign content local service.
 	 *
-	 * @param campaignLocalService the campaign local service
+	 * @param campaignContentLocalService the campaign content local service
 	 */
-	public void setCampaignLocalService(
-		CampaignLocalService campaignLocalService) {
-		this.campaignLocalService = campaignLocalService;
+	public void setCampaignContentLocalService(
+		CampaignContentLocalService campaignContentLocalService) {
+		this.campaignContentLocalService = campaignContentLocalService;
 	}
 
 	/**
-	 * Gets the campaign persistence.
+	 * Gets the campaign content persistence.
 	 *
-	 * @return the campaign persistence
+	 * @return the campaign content persistence
 	 */
-	public CampaignPersistence getCampaignPersistence() {
-		return campaignPersistence;
+	public CampaignContentPersistence getCampaignContentPersistence() {
+		return campaignContentPersistence;
 	}
 
 	/**
-	 * Sets the campaign persistence.
+	 * Sets the campaign content persistence.
 	 *
-	 * @param campaignPersistence the campaign persistence
+	 * @param campaignContentPersistence the campaign content persistence
 	 */
-	public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
-		this.campaignPersistence = campaignPersistence;
+	public void setCampaignContentPersistence(
+		CampaignContentPersistence campaignContentPersistence) {
+		this.campaignContentPersistence = campaignContentPersistence;
 	}
 
 	/**
@@ -321,41 +322,40 @@ public abstract class NewsletterLogLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the send campaign local service.
+	 * Gets the campaign local service.
 	 *
-	 * @return the send campaign local service
+	 * @return the campaign local service
 	 */
-	public SendCampaignLocalService getSendCampaignLocalService() {
-		return sendCampaignLocalService;
+	public CampaignLocalService getCampaignLocalService() {
+		return campaignLocalService;
 	}
 
 	/**
-	 * Sets the send campaign local service.
+	 * Sets the campaign local service.
 	 *
-	 * @param sendCampaignLocalService the send campaign local service
+	 * @param campaignLocalService the campaign local service
 	 */
-	public void setSendCampaignLocalService(
-		SendCampaignLocalService sendCampaignLocalService) {
-		this.sendCampaignLocalService = sendCampaignLocalService;
+	public void setCampaignLocalService(
+		CampaignLocalService campaignLocalService) {
+		this.campaignLocalService = campaignLocalService;
 	}
 
 	/**
-	 * Gets the send campaign persistence.
+	 * Gets the campaign persistence.
 	 *
-	 * @return the send campaign persistence
+	 * @return the campaign persistence
 	 */
-	public SendCampaignPersistence getSendCampaignPersistence() {
-		return sendCampaignPersistence;
+	public CampaignPersistence getCampaignPersistence() {
+		return campaignPersistence;
 	}
 
 	/**
-	 * Sets the send campaign persistence.
+	 * Sets the campaign persistence.
 	 *
-	 * @param sendCampaignPersistence the send campaign persistence
+	 * @param campaignPersistence the campaign persistence
 	 */
-	public void setSendCampaignPersistence(
-		SendCampaignPersistence sendCampaignPersistence) {
-		this.sendCampaignPersistence = sendCampaignPersistence;
+	public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
+		this.campaignPersistence = campaignPersistence;
 	}
 
 	/**
@@ -560,18 +560,18 @@ public abstract class NewsletterLogLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = CampaignLocalService.class)
-	protected CampaignLocalService campaignLocalService;
-	@BeanReference(type = CampaignPersistence.class)
-	protected CampaignPersistence campaignPersistence;
+	@BeanReference(type = CampaignContentLocalService.class)
+	protected CampaignContentLocalService campaignContentLocalService;
+	@BeanReference(type = CampaignContentPersistence.class)
+	protected CampaignContentPersistence campaignContentPersistence;
 	@BeanReference(type = ContactLocalService.class)
 	protected ContactLocalService contactLocalService;
 	@BeanReference(type = ContactPersistence.class)
 	protected ContactPersistence contactPersistence;
-	@BeanReference(type = SendCampaignLocalService.class)
-	protected SendCampaignLocalService sendCampaignLocalService;
-	@BeanReference(type = SendCampaignPersistence.class)
-	protected SendCampaignPersistence sendCampaignPersistence;
+	@BeanReference(type = CampaignLocalService.class)
+	protected CampaignLocalService campaignLocalService;
+	@BeanReference(type = CampaignPersistence.class)
+	protected CampaignPersistence campaignPersistence;
 	@BeanReference(type = NewsletterLogLocalService.class)
 	protected NewsletterLogLocalService newsletterLogLocalService;
 	@BeanReference(type = NewsletterLogPersistence.class)

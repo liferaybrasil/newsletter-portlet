@@ -66,12 +66,12 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 		_newsletterLogId = newsletterLogId;
 	}
 
-	public long getSendCampaignId() {
-		return _sendCampaignId;
+	public long getCampaignId() {
+		return _campaignId;
 	}
 
-	public void setSendCampaignId(long sendCampaignId) {
-		_sendCampaignId = sendCampaignId;
+	public void setCampaignId(long campaignId) {
+		_campaignId = campaignId;
 	}
 
 	public long getContactId() {
@@ -80,6 +80,18 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 
 	public void setContactId(long contactId) {
 		_contactId = contactId;
+	}
+
+	public boolean getSent() {
+		return _sent;
+	}
+
+	public boolean isSent() {
+		return _sent;
+	}
+
+	public void setSent(boolean sent) {
+		_sent = sent;
 	}
 
 	public NewsletterLog toEscapedModel() {
@@ -98,8 +110,9 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 
 		clone.setUuid(getUuid());
 		clone.setNewsletterLogId(getNewsletterLogId());
-		clone.setSendCampaignId(getSendCampaignId());
+		clone.setCampaignId(getCampaignId());
 		clone.setContactId(getContactId());
+		clone.setSent(getSent());
 
 		return clone;
 	}
@@ -147,23 +160,25 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 	}
 
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
 		sb.append(", newsletterLogId=");
 		sb.append(getNewsletterLogId());
-		sb.append(", sendCampaignId=");
-		sb.append(getSendCampaignId());
+		sb.append(", campaignId=");
+		sb.append(getCampaignId());
 		sb.append(", contactId=");
 		sb.append(getContactId());
+		sb.append(", sent=");
+		sb.append(getSent());
 		sb.append("}");
 
 		return sb.toString();
 	}
 
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(16);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.newsletter.model.NewsletterLog");
@@ -178,12 +193,16 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 		sb.append(getNewsletterLogId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>sendCampaignId</column-name><column-value><![CDATA[");
-		sb.append(getSendCampaignId());
+			"<column><column-name>campaignId</column-name><column-value><![CDATA[");
+		sb.append(getCampaignId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>contactId</column-name><column-value><![CDATA[");
 		sb.append(getContactId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sent</column-name><column-value><![CDATA[");
+		sb.append(getSent());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -193,6 +212,7 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 
 	private String _uuid;
 	private long _newsletterLogId;
-	private long _sendCampaignId;
+	private long _campaignId;
 	private long _contactId;
+	private boolean _sent;
 }

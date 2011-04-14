@@ -38,10 +38,10 @@
 <%@ page import="com.liferay.portal.util.PortalUtil" %>
 <%@ page import="com.liferay.newsletter.model.Campaign" %>
 <%@ page import="com.liferay.newsletter.model.Contact" %>
-<%@ page import="com.liferay.newsletter.model.SendCampaign" %>
+<%@ page import="com.liferay.newsletter.model.CampaignContent"%>
+<%@ page import="com.liferay.newsletter.service.CampaignContentLocalServiceUtil"%>
 <%@ page import="com.liferay.newsletter.service.CampaignLocalServiceUtil" %>
 <%@ page import="com.liferay.newsletter.service.ContactLocalServiceUtil" %>
-<%@ page import="com.liferay.newsletter.service.SendCampaignLocalServiceUtil" %>
 <%@ page import="com.liferay.newsletter.service.NewsletterLogLocalServiceUtil" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="com.liferay.portlet.journal.model.JournalArticleDisplay" %>

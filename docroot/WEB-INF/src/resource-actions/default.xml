@@ -21,18 +21,18 @@
 			<portlet-name>newsletter</portlet-name>
 		</portlet-ref>
 		<supports>
+			<action-key>ADD_CAMPAIGNCONTENT</action-key>
 			<action-key>ADD_CAMPAIGN</action-key>
-			<action-key>ADD_SENDCAMPAIGN</action-key>
 		</supports>
 		<community-defaults/>
 		<guest-defaults/>
 		<guest-unsupported>
+			<action-key>ADD_CAMPAIGNCONTENT</action-key>
 			<action-key>ADD_CAMPAIGN</action-key>
-			<action-key>ADD_SENDCAMPAIGN</action-key>
 		</guest-unsupported>
 	</model-resource>
 	<model-resource>
-		<model-name>com.liferay.newsletter.model.Campaign</model-name>
+		<model-name>com.liferay.newsletter.model.CampaignContent</model-name>
 		<portlet-ref>
 			<portlet-name>newsletter</portlet-name>
 		</portlet-ref>
@@ -53,7 +53,7 @@
 		</guest-unsupported>
 	</model-resource>
 	<model-resource>
-		<model-name>com.liferay.newsletter.model.SendCampaign</model-name>
+		<model-name>com.liferay.newsletter.model.Campaign</model-name>
 		<portlet-ref>
 			<portlet-name>newsletter</portlet-name>
 		</portlet-ref>

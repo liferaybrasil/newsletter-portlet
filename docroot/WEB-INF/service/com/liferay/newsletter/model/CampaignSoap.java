@@ -17,6 +17,7 @@ package com.liferay.newsletter.model;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,8 +32,13 @@ public class CampaignSoap implements Serializable {
 
 		soapModel.setUuid(model.getUuid());
 		soapModel.setCampaignId(model.getCampaignId());
-		soapModel.setTitle(model.getTitle());
+		soapModel.setSendDate(model.getSendDate());
+		soapModel.setEmailSubject(model.getEmailSubject());
+		soapModel.setSenderName(model.getSenderName());
+		soapModel.setSenderEmail(model.getSenderEmail());
 		soapModel.setContent(model.getContent());
+		soapModel.setSent(model.getSent());
+		soapModel.setCampaignContentId(model.getCampaignContentId());
 
 		return soapModel;
 	}
@@ -101,12 +107,36 @@ public class CampaignSoap implements Serializable {
 		_campaignId = campaignId;
 	}
 
-	public String getTitle() {
-		return _title;
+	public Date getSendDate() {
+		return _sendDate;
 	}
 
-	public void setTitle(String title) {
-		_title = title;
+	public void setSendDate(Date sendDate) {
+		_sendDate = sendDate;
+	}
+
+	public String getEmailSubject() {
+		return _emailSubject;
+	}
+
+	public void setEmailSubject(String emailSubject) {
+		_emailSubject = emailSubject;
+	}
+
+	public String getSenderName() {
+		return _senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		_senderName = senderName;
+	}
+
+	public String getSenderEmail() {
+		return _senderEmail;
+	}
+
+	public void setSenderEmail(String senderEmail) {
+		_senderEmail = senderEmail;
 	}
 
 	public String getContent() {
@@ -117,8 +147,33 @@ public class CampaignSoap implements Serializable {
 		_content = content;
 	}
 
+	public boolean getSent() {
+		return _sent;
+	}
+
+	public boolean isSent() {
+		return _sent;
+	}
+
+	public void setSent(boolean sent) {
+		_sent = sent;
+	}
+
+	public long getCampaignContentId() {
+		return _campaignContentId;
+	}
+
+	public void setCampaignContentId(long campaignContentId) {
+		_campaignContentId = campaignContentId;
+	}
+
 	private String _uuid;
 	private long _campaignId;
-	private String _title;
+	private Date _sendDate;
+	private String _emailSubject;
+	private String _senderName;
+	private String _senderEmail;
 	private String _content;
+	private boolean _sent;
+	private long _campaignContentId;
 }

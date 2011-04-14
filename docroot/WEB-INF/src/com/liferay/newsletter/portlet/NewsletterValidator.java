@@ -14,64 +14,64 @@
 
 package com.liferay.newsletter.portlet;
 
-import com.liferay.newsletter.model.Campaign;
-import com.liferay.newsletter.model.SendCampaign;
-import com.liferay.portal.kernel.util.Validator;
-
 import java.util.List;
+
+import com.liferay.newsletter.model.Campaign;
+import com.liferay.newsletter.model.CampaignContent;
+import com.liferay.portal.kernel.util.Validator;
 
 /**
  * @author Bruno Pinheiro
  */
 public class NewsletterValidator {
 
-	public static boolean validateCampaign(Campaign campaign, List errors) {
+	public static boolean validateCampaignContent(CampaignContent campaignContent, List errors) {
 		boolean valid = true;
 
-		if (Validator.isNull(campaign.getTitle())) {
-			errors.add("campaigntitle-required");
+		if (Validator.isNull(campaignContent.getTitle())) {
+			errors.add("campaignContenttitle-required");
 			valid = false;
 		}
 
-		if (Validator.isNull(campaign.getContent())) {
-			errors.add("campaigncontent-required");
+		if (Validator.isNull(campaignContent.getContent())) {
+			errors.add("campaignContentcontent-required");
 			valid = false;
 		}
 
 		return valid;
 	}
 
-	public static boolean validateSendCampaign(
-		SendCampaign sendCampaign, String contacts, List errors) {
+	public static boolean validateCampaign(
+		Campaign campaign, String contacts, List errors) {
 
 		boolean valid = true;
 
-		if (Validator.isNull(sendCampaign.getEmailSubject())) {
-			errors.add("sendcampaignemailsubject-required");
+		if (Validator.isNull(campaign.getEmailSubject())) {
+			errors.add("campaignemailsubject-required");
 
 			valid = false;
 		}
 
-		if (Validator.isNull(sendCampaign.getSenderEmail())) {
-			errors.add("sendcampaignsenderemail-required");
+		if (Validator.isNull(campaign.getSenderEmail())) {
+			errors.add("campaignsenderemail-required");
 
 			valid = false;
 		}
 
-		if (!Validator.isEmailAddress(sendCampaign.getSenderEmail())) {
-			errors.add("sendcampaignsenderemail-format-error");
+		if (!Validator.isEmailAddress(campaign.getSenderEmail())) {
+			errors.add("campaignsenderemail-format-error");
 
 			valid = false;
 		}
 
-		if (Validator.isNull(sendCampaign.getSenderName())) {
-			errors.add("sendcampaignsendername-required");
+		if (Validator.isNull(campaign.getSenderName())) {
+			errors.add("campaignsendername-required");
 			valid = false;
 		}
 
 		// Validar emails dos contatos
 		if (Validator.isNull(contacts)) {
-			errors.add("sendcampaigncontacts-required");
+			errors.add("campaigncontacts-required");
 			valid = false;
 		}
 

@@ -15,12 +15,15 @@
 package com.liferay.newsletter.model;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
 import java.lang.reflect.Proxy;
+
+import java.util.Date;
 
 /**
  * @author Bruno Pinheiro
@@ -65,12 +68,36 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 		_campaignId = campaignId;
 	}
 
-	public String getTitle() {
-		return _title;
+	public Date getSendDate() {
+		return _sendDate;
 	}
 
-	public void setTitle(String title) {
-		_title = title;
+	public void setSendDate(Date sendDate) {
+		_sendDate = sendDate;
+	}
+
+	public String getEmailSubject() {
+		return _emailSubject;
+	}
+
+	public void setEmailSubject(String emailSubject) {
+		_emailSubject = emailSubject;
+	}
+
+	public String getSenderName() {
+		return _senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		_senderName = senderName;
+	}
+
+	public String getSenderEmail() {
+		return _senderEmail;
+	}
+
+	public void setSenderEmail(String senderEmail) {
+		_senderEmail = senderEmail;
 	}
 
 	public String getContent() {
@@ -79,6 +106,26 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 
 	public void setContent(String content) {
 		_content = content;
+	}
+
+	public boolean getSent() {
+		return _sent;
+	}
+
+	public boolean isSent() {
+		return _sent;
+	}
+
+	public void setSent(boolean sent) {
+		_sent = sent;
+	}
+
+	public long getCampaignContentId() {
+		return _campaignContentId;
+	}
+
+	public void setCampaignContentId(long campaignContentId) {
+		_campaignContentId = campaignContentId;
 	}
 
 	public Campaign toEscapedModel() {
@@ -96,24 +143,29 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 
 		clone.setUuid(getUuid());
 		clone.setCampaignId(getCampaignId());
-		clone.setTitle(getTitle());
+		clone.setSendDate(getSendDate());
+		clone.setEmailSubject(getEmailSubject());
+		clone.setSenderName(getSenderName());
+		clone.setSenderEmail(getSenderEmail());
 		clone.setContent(getContent());
+		clone.setSent(getSent());
+		clone.setCampaignContentId(getCampaignContentId());
 
 		return clone;
 	}
 
 	public int compareTo(Campaign campaign) {
-		long pk = campaign.getPrimaryKey();
+		int value = 0;
 
-		if (getPrimaryKey() < pk) {
-			return -1;
+		value = DateUtil.compareTo(getSendDate(), campaign.getSendDate());
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
 		}
-		else if (getPrimaryKey() > pk) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
+
+		return 0;
 	}
 
 	public boolean equals(Object obj) {
@@ -145,23 +197,33 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 	}
 
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
 		sb.append(", campaignId=");
 		sb.append(getCampaignId());
-		sb.append(", title=");
-		sb.append(getTitle());
+		sb.append(", sendDate=");
+		sb.append(getSendDate());
+		sb.append(", emailSubject=");
+		sb.append(getEmailSubject());
+		sb.append(", senderName=");
+		sb.append(getSenderName());
+		sb.append(", senderEmail=");
+		sb.append(getSenderEmail());
 		sb.append(", content=");
 		sb.append(getContent());
+		sb.append(", sent=");
+		sb.append(getSent());
+		sb.append(", campaignContentId=");
+		sb.append(getCampaignContentId());
 		sb.append("}");
 
 		return sb.toString();
 	}
 
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(16);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.newsletter.model.Campaign");
@@ -176,12 +238,32 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 		sb.append(getCampaignId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>title</column-name><column-value><![CDATA[");
-		sb.append(getTitle());
+			"<column><column-name>sendDate</column-name><column-value><![CDATA[");
+		sb.append(getSendDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>emailSubject</column-name><column-value><![CDATA[");
+		sb.append(getEmailSubject());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>senderName</column-name><column-value><![CDATA[");
+		sb.append(getSenderName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>senderEmail</column-name><column-value><![CDATA[");
+		sb.append(getSenderEmail());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>content</column-name><column-value><![CDATA[");
 		sb.append(getContent());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sent</column-name><column-value><![CDATA[");
+		sb.append(getSent());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>campaignContentId</column-name><column-value><![CDATA[");
+		sb.append(getCampaignContentId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -191,6 +273,11 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 
 	private String _uuid;
 	private long _campaignId;
-	private String _title;
+	private Date _sendDate;
+	private String _emailSubject;
+	private String _senderName;
+	private String _senderEmail;
 	private String _content;
+	private boolean _sent;
+	private long _campaignContentId;
 }

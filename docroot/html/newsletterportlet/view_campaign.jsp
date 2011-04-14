@@ -37,6 +37,7 @@
 	</c:if>
 </aui:button-row>
 <liferay-ui:error key="campaign-added" message="campaign-added" />
+<liferay-ui:error key="campaignContent-resent" message="campaignContent-resent" />
 <liferay-ui:error key="campaign-deleted" message="campaign-deleted" />
 <liferay-ui:search-container emptyResultsMessage="newsletter-empty-results-message">
 	<liferay-ui:search-container-results
@@ -49,9 +50,24 @@
 		keyProperty="campaignId"
 		modelVar="campaign"
 	>
+
+		<%
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		%>
+
 		<liferay-ui:search-container-column-text
-			name="Title"
-			value="<%= campaign.getTitle() %>"
+			name="Send Date"
+			value="<%= dateFormat.format(campaign.getSendDate()) %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			name="Campaign Content"
+			value="<%= CampaignContentLocalServiceUtil.getCampaignContent(campaign.getCampaignContentId()).getTitle() %>"
+		/>
+		
+		<liferay-ui:search-container-column-text
+			name="# of emails"
+			value="<%= ""+NewsletterLogLocalServiceUtil.getContactsByCampaignCount(campaign.getCampaignContentId()) %>"
 		/>
 
 		<liferay-ui:search-container-column-jsp

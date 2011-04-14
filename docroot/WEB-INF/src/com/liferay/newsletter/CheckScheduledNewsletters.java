@@ -14,7 +14,7 @@
 
 package com.liferay.newsletter;
 
-import com.liferay.newsletter.service.SendCampaignLocalServiceUtil;
+import com.liferay.newsletter.service.CampaignLocalServiceUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Message;
 
@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.messaging.Message;
 public class CheckScheduledNewsletters extends BaseMessageListener {
 
 	protected void doReceive(Message message) throws Exception {
-			SendCampaignLocalServiceUtil.job();
+			CampaignLocalServiceUtil.job();
 	}
 
 }

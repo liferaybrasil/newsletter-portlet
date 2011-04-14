@@ -4,14 +4,15 @@
 	<author>Bruno Pinheiro</author>
 	<namespace>Newsletter</namespace>
 
-	<entity uuid="true" name="Campaign" local-service="true" remote-service="false">
+	<entity uuid="true" name="CampaignContent" local-service="true" remote-service="false">
 		
-		<column name="campaignId" type="long" primary="true" />
+		<column name="campaignContentId" type="long" primary="true" />
 
 		<column name="title" type="String" />
 		<column name="content" type="String" />
+		<column name="createDate" type="Date" />
 		
-		<column name="sendCampaigns" type="Collection" entity="SendCampaign" mapping-key="campaignId" />
+		<column name="campaigns" type="Collection" entity="Campaign" mapping-key="campaignId" />
 	</entity>
 	
 	<entity uuid="true" name="Contact" local-service="true" remote-service="false">
@@ -33,26 +34,27 @@
 
 	</entity>
 
-	<entity uuid="true" name="SendCampaign" local-service="true" remote-service="false">
+	<entity uuid="true" name="Campaign" local-service="true" remote-service="false">
 
-		<column name="sendCampaignId" type="long" primary="true" />
+		<column name="campaignId" type="long" primary="true" />
 
 		<column name="sendDate" type="Date" />
 		<column name="emailSubject" type="String" />
 		<column name="senderName" type="String" />
 		<column name="senderEmail" type="String" />
+		<column name="content" type="String" />
 		<column name="sent" type="boolean" />
 		
-		<column name="campaignId" type="long" />
+		<column name="campaignContentId" type="long" />
 		
-		<column name="newsletterLogs" type="Collection" entity="NewsletterLog" mapping-key="sendCampaignId" />
+		<column name="newsletterLogs" type="Collection" entity="NewsletterLog" mapping-key="campaignId" />
 		
 		<order by="desc">
 			<order-column name="sendDate" />
 		</order>
 		
-		<finder name="Campaign" return-type="Collection">
-			<finder-column name="campaignId" />
+		<finder name="CampaignContent" return-type="Collection">
+			<finder-column name="campaignContentId" />
 		</finder>
 		
 		<finder name="SendDate" return-type="Collection">
@@ -70,11 +72,17 @@
 
 		<column name="newsletterLogId" type="long" primary="true" />
 		
-		<column name="sendCampaignId" type="long" />
+		<column name="campaignId" type="long" />
 		<column name="contactId" type="long" />
+		<column name="sent" type="boolean" />
 		
-		<finder name="SendCampaign" return-type="Collection">
-			<finder-column name="sendCampaignId" />
+		<finder name="Campaign" return-type="Collection">
+			<finder-column name="campaignId" />
+		</finder>
+		
+		<finder name="Campaign_Contact" return-type="NewsletterLog">
+			<finder-column name="campaignId" />
+			<finder-column name="contactId" />
 		</finder>
 
 	</entity>

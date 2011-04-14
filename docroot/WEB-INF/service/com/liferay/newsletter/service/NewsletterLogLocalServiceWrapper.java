@@ -240,22 +240,30 @@ public class NewsletterLogLocalServiceWrapper
 		_newsletterLogLocalService.setBeanIdentifier(beanIdentifier);
 	}
 
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogBySendCampaign(
-		long sendCampaignId)
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogByCampaign(
+		long campaignId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _newsletterLogLocalService.getNewsletterLogBySendCampaign(sendCampaignId);
+		return _newsletterLogLocalService.getNewsletterLogByCampaign(campaignId);
 	}
 
-	public java.util.List<com.liferay.newsletter.model.Contact> getContactsBySendCampaign(
-		long sendCampaignId)
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactsByCampaign(
+		long campaignId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return _newsletterLogLocalService.getContactsBySendCampaign(sendCampaignId);
+		return _newsletterLogLocalService.getContactsByCampaign(campaignId);
 	}
 
-	public int getContactsBySendCampaignCount(long sendCampaignId)
+	public com.liferay.newsletter.model.NewsletterLog getNewsletterLogByCampaignAndContact(
+		long campaignId, long contactId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterLogLocalService.getNewsletterLogByCampaignAndContact(campaignId,
+			contactId);
+	}
+
+	public int getContactsByCampaignCount(long campaignId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _newsletterLogLocalService.getContactsBySendCampaignCount(sendCampaignId);
+		return _newsletterLogLocalService.getContactsByCampaignCount(campaignId);
 	}
 
 	public NewsletterLogLocalService getWrappedNewsletterLogLocalService() {

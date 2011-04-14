@@ -27,14 +27,26 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 %>
 
 <liferay-ui:icon-menu>
-	<c:if test="<%= permissionChecker.hasPermission(scopeGroupId, name, campaignId, ActionKeys.UPDATE) %>">
-		<portlet:renderURL var="editURL">
-			<portlet:param name="jspPage" value="/html/newsletterportlet/edit_campaign.jsp" />
+	<c:if test='<%= permissionChecker.hasPermission(scopeGroupId, name, campaignId, "RESEND") %>'>
+		<portlet:actionURL name="resendCampaign" var="resendURL">
+			<portlet:param name="cmd" value="resendCampaign" />
 			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
+			<portlet:param name="tabs1" value="Campaign" />
+		</portlet:actionURL>
+
+		<liferay-ui:icon message="resend" label="true" image="forward" url="<%=resendURL.toString() %>" />
+	</c:if>
+
+	<c:if test='<%= permissionChecker.hasPermission(scopeGroupId, name, campaignId, "DETAIL") %>'>
+		<portlet:renderURL var="detailURL">
+			<portlet:param name="jspPage" value="/html/newsletterportlet/detail_campaign.jsp" />
+			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
+			<portlet:param name="redirect" value="<%= redirect %>" />
+			<portlet:param name="tabs1" value="Campaign" />
 		</portlet:renderURL>
 
-		<liferay-ui:icon image="edit" url="<%=editURL.toString() %>" />
+	<liferay-ui:icon message="Detail" label="true" image="view" url="<%=detailURL.toString() %>" />
 	</c:if>
 
 	<c:if test="<%= permissionChecker.hasPermission(scopeGroupId, name, campaignId, ActionKeys.DELETE) %>">
@@ -42,6 +54,7 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 			<portlet:param name="cmd" value="deleteCampaign" />
 			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
+			<portlet:param name="tabs1" value="Campaign" />
 		</portlet:actionURL>
 
 		<liferay-ui:icon image="delete" url="<%=deleteURL.toString() %>" />

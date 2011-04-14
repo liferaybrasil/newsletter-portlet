@@ -31,8 +31,9 @@ public class NewsletterLogSoap implements Serializable {
 
 		soapModel.setUuid(model.getUuid());
 		soapModel.setNewsletterLogId(model.getNewsletterLogId());
-		soapModel.setSendCampaignId(model.getSendCampaignId());
+		soapModel.setCampaignId(model.getCampaignId());
 		soapModel.setContactId(model.getContactId());
+		soapModel.setSent(model.getSent());
 
 		return soapModel;
 	}
@@ -101,12 +102,12 @@ public class NewsletterLogSoap implements Serializable {
 		_newsletterLogId = newsletterLogId;
 	}
 
-	public long getSendCampaignId() {
-		return _sendCampaignId;
+	public long getCampaignId() {
+		return _campaignId;
 	}
 
-	public void setSendCampaignId(long sendCampaignId) {
-		_sendCampaignId = sendCampaignId;
+	public void setCampaignId(long campaignId) {
+		_campaignId = campaignId;
 	}
 
 	public long getContactId() {
@@ -117,8 +118,21 @@ public class NewsletterLogSoap implements Serializable {
 		_contactId = contactId;
 	}
 
+	public boolean getSent() {
+		return _sent;
+	}
+
+	public boolean isSent() {
+		return _sent;
+	}
+
+	public void setSent(boolean sent) {
+		_sent = sent;
+	}
+
 	private String _uuid;
 	private long _newsletterLogId;
-	private long _sendCampaignId;
+	private long _campaignId;
 	private long _contactId;
+	private boolean _sent;
 }

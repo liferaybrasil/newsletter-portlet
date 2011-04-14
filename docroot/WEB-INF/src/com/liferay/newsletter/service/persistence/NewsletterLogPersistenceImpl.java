@@ -89,19 +89,27 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
 			FINDER_CLASS_NAME_LIST, "countByUuid",
 			new String[] { String.class.getName() });
-	public static final FinderPath FINDER_PATH_FIND_BY_SENDCAMPAIGN = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FIND_BY_CAMPAIGN = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
-			FINDER_CLASS_NAME_LIST, "findBySendCampaign",
+			FINDER_CLASS_NAME_LIST, "findByCampaign",
 			new String[] {
 				Long.class.getName(),
 				
 			"java.lang.Integer", "java.lang.Integer",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
-	public static final FinderPath FINDER_PATH_COUNT_BY_SENDCAMPAIGN = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_COUNT_BY_CAMPAIGN = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
-			FINDER_CLASS_NAME_LIST, "countBySendCampaign",
+			FINDER_CLASS_NAME_LIST, "countByCampaign",
 			new String[] { Long.class.getName() });
+	public static final FinderPath FINDER_PATH_FETCH_BY_CAMPAIGN_CONTACT = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			FINDER_CLASS_NAME_ENTITY, "fetchByCampaign_Contact",
+			new String[] { Long.class.getName(), Long.class.getName() });
+	public static final FinderPath FINDER_PATH_COUNT_BY_CAMPAIGN_CONTACT = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
+			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST, "countByCampaign_Contact",
+			new String[] { Long.class.getName(), Long.class.getName() });
 	public static final FinderPath FINDER_PATH_FIND_ALL = new FinderPath(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
 			FINDER_CLASS_NAME_LIST, "findAll", new String[0]);
@@ -118,6 +126,12 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 		EntityCacheUtil.putResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			NewsletterLogImpl.class, newsletterLog.getPrimaryKey(),
 			newsletterLog);
+
+		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CAMPAIGN_CONTACT,
+			new Object[] {
+				Long.valueOf(newsletterLog.getCampaignId()),
+				Long.valueOf(newsletterLog.getContactId())
+			}, newsletterLog);
 
 		newsletterLog.resetOriginalValues();
 	}
@@ -165,6 +179,12 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	public void clearCache(NewsletterLog newsletterLog) {
 		EntityCacheUtil.removeResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			NewsletterLogImpl.class, newsletterLog.getPrimaryKey());
+
+		FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CAMPAIGN_CONTACT,
+			new Object[] {
+				Long.valueOf(newsletterLog.getCampaignId()),
+				Long.valueOf(newsletterLog.getContactId())
+			});
 	}
 
 	/**
@@ -272,6 +292,14 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
 
+		NewsletterLogModelImpl newsletterLogModelImpl = (NewsletterLogModelImpl)newsletterLog;
+
+		FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CAMPAIGN_CONTACT,
+			new Object[] {
+				Long.valueOf(newsletterLogModelImpl.getCampaignId()),
+				Long.valueOf(newsletterLogModelImpl.getContactId())
+			});
+
 		EntityCacheUtil.removeResult(NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			NewsletterLogImpl.class, newsletterLog.getPrimaryKey());
 
@@ -282,6 +310,10 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 		com.liferay.newsletter.model.NewsletterLog newsletterLog, boolean merge)
 		throws SystemException {
 		newsletterLog = toUnwrappedModel(newsletterLog);
+
+		boolean isNew = newsletterLog.isNew();
+
+		NewsletterLogModelImpl newsletterLogModelImpl = (NewsletterLogModelImpl)newsletterLog;
 
 		if (Validator.isNull(newsletterLog.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -311,6 +343,26 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 			NewsletterLogImpl.class, newsletterLog.getPrimaryKey(),
 			newsletterLog);
 
+		if (!isNew &&
+				((newsletterLog.getCampaignId() != newsletterLogModelImpl.getOriginalCampaignId()) ||
+				(newsletterLog.getContactId() != newsletterLogModelImpl.getOriginalContactId()))) {
+			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CAMPAIGN_CONTACT,
+				new Object[] {
+					Long.valueOf(newsletterLogModelImpl.getOriginalCampaignId()),
+					Long.valueOf(newsletterLogModelImpl.getOriginalContactId())
+				});
+		}
+
+		if (isNew ||
+				((newsletterLog.getCampaignId() != newsletterLogModelImpl.getOriginalCampaignId()) ||
+				(newsletterLog.getContactId() != newsletterLogModelImpl.getOriginalContactId()))) {
+			FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CAMPAIGN_CONTACT,
+				new Object[] {
+					Long.valueOf(newsletterLog.getCampaignId()),
+					Long.valueOf(newsletterLog.getContactId())
+				}, newsletterLog);
+		}
+
 		return newsletterLog;
 	}
 
@@ -326,8 +378,9 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 
 		newsletterLogImpl.setUuid(newsletterLog.getUuid());
 		newsletterLogImpl.setNewsletterLogId(newsletterLog.getNewsletterLogId());
-		newsletterLogImpl.setSendCampaignId(newsletterLog.getSendCampaignId());
+		newsletterLogImpl.setCampaignId(newsletterLog.getCampaignId());
 		newsletterLogImpl.setContactId(newsletterLog.getContactId());
+		newsletterLogImpl.setSent(newsletterLog.isSent());
 
 		return newsletterLogImpl;
 	}
@@ -773,61 +826,60 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	}
 
 	/**
-	 * Finds all the newsletter logs where sendCampaignId = &#63;.
+	 * Finds all the newsletter logs where campaignId = &#63;.
 	 *
-	 * @param sendCampaignId the send campaign ID to search with
+	 * @param campaignId the campaign ID to search with
 	 * @return the matching newsletter logs
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<NewsletterLog> findBySendCampaign(long sendCampaignId)
+	public List<NewsletterLog> findByCampaign(long campaignId)
 		throws SystemException {
-		return findBySendCampaign(sendCampaignId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByCampaign(campaignId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
 	}
 
 	/**
-	 * Finds a range of all the newsletter logs where sendCampaignId = &#63;.
+	 * Finds a range of all the newsletter logs where campaignId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendCampaignId the send campaign ID to search with
+	 * @param campaignId the campaign ID to search with
 	 * @param start the lower bound of the range of newsletter logs to return
 	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
 	 * @return the range of matching newsletter logs
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<NewsletterLog> findBySendCampaign(long sendCampaignId,
-		int start, int end) throws SystemException {
-		return findBySendCampaign(sendCampaignId, start, end, null);
+	public List<NewsletterLog> findByCampaign(long campaignId, int start,
+		int end) throws SystemException {
+		return findByCampaign(campaignId, start, end, null);
 	}
 
 	/**
-	 * Finds an ordered range of all the newsletter logs where sendCampaignId = &#63;.
+	 * Finds an ordered range of all the newsletter logs where campaignId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendCampaignId the send campaign ID to search with
+	 * @param campaignId the campaign ID to search with
 	 * @param start the lower bound of the range of newsletter logs to return
 	 * @param end the upper bound of the range of newsletter logs to return (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching newsletter logs
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<NewsletterLog> findBySendCampaign(long sendCampaignId,
-		int start, int end, OrderByComparator orderByComparator)
-		throws SystemException {
+	public List<NewsletterLog> findByCampaign(long campaignId, int start,
+		int end, OrderByComparator orderByComparator) throws SystemException {
 		Object[] finderArgs = new Object[] {
-				sendCampaignId,
+				campaignId,
 				
 				String.valueOf(start), String.valueOf(end),
 				String.valueOf(orderByComparator)
 			};
 
-		List<NewsletterLog> list = (List<NewsletterLog>)FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_SENDCAMPAIGN,
+		List<NewsletterLog> list = (List<NewsletterLog>)FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_CAMPAIGN,
 				finderArgs, this);
 
 		if (list == null) {
@@ -843,7 +895,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 
 			query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
 
-			query.append(_FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2);
+			query.append(_FINDER_COLUMN_CAMPAIGN_CAMPAIGNID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -861,7 +913,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(sendCampaignId);
+				qPos.add(campaignId);
 
 				list = (List<NewsletterLog>)QueryUtil.list(q, getDialect(),
 						start, end);
@@ -871,13 +923,13 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 			}
 			finally {
 				if (list == null) {
-					FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_SENDCAMPAIGN,
+					FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_CAMPAIGN,
 						finderArgs);
 				}
 				else {
 					cacheResult(list);
 
-					FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_SENDCAMPAIGN,
+					FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_CAMPAIGN,
 						finderArgs, list);
 				}
 
@@ -889,22 +941,22 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	}
 
 	/**
-	 * Finds the first newsletter log in the ordered set where sendCampaignId = &#63;.
+	 * Finds the first newsletter log in the ordered set where campaignId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendCampaignId the send campaign ID to search with
+	 * @param campaignId the campaign ID to search with
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching newsletter log
 	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public NewsletterLog findBySendCampaign_First(long sendCampaignId,
+	public NewsletterLog findByCampaign_First(long campaignId,
 		OrderByComparator orderByComparator)
 		throws NoSuchLogException, SystemException {
-		List<NewsletterLog> list = findBySendCampaign(sendCampaignId, 0, 1,
+		List<NewsletterLog> list = findByCampaign(campaignId, 0, 1,
 				orderByComparator);
 
 		if (list.isEmpty()) {
@@ -912,8 +964,8 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("sendCampaignId=");
-			msg.append(sendCampaignId);
+			msg.append("campaignId=");
+			msg.append(campaignId);
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -925,33 +977,33 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	}
 
 	/**
-	 * Finds the last newsletter log in the ordered set where sendCampaignId = &#63;.
+	 * Finds the last newsletter log in the ordered set where campaignId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendCampaignId the send campaign ID to search with
+	 * @param campaignId the campaign ID to search with
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching newsletter log
 	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public NewsletterLog findBySendCampaign_Last(long sendCampaignId,
+	public NewsletterLog findByCampaign_Last(long campaignId,
 		OrderByComparator orderByComparator)
 		throws NoSuchLogException, SystemException {
-		int count = countBySendCampaign(sendCampaignId);
+		int count = countByCampaign(campaignId);
 
-		List<NewsletterLog> list = findBySendCampaign(sendCampaignId,
-				count - 1, count, orderByComparator);
+		List<NewsletterLog> list = findByCampaign(campaignId, count - 1, count,
+				orderByComparator);
 
 		if (list.isEmpty()) {
 			StringBundler msg = new StringBundler(4);
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("sendCampaignId=");
-			msg.append(sendCampaignId);
+			msg.append("campaignId=");
+			msg.append(campaignId);
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -963,22 +1015,21 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	}
 
 	/**
-	 * Finds the newsletter logs before and after the current newsletter log in the ordered set where sendCampaignId = &#63;.
+	 * Finds the newsletter logs before and after the current newsletter log in the ordered set where campaignId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param newsletterLogId the primary key of the current newsletter log
-	 * @param sendCampaignId the send campaign ID to search with
+	 * @param campaignId the campaign ID to search with
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next newsletter log
 	 * @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public NewsletterLog[] findBySendCampaign_PrevAndNext(
-		long newsletterLogId, long sendCampaignId,
-		OrderByComparator orderByComparator)
+	public NewsletterLog[] findByCampaign_PrevAndNext(long newsletterLogId,
+		long campaignId, OrderByComparator orderByComparator)
 		throws NoSuchLogException, SystemException {
 		NewsletterLog newsletterLog = findByPrimaryKey(newsletterLogId);
 
@@ -989,13 +1040,13 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 
 			NewsletterLog[] array = new NewsletterLogImpl[3];
 
-			array[0] = getBySendCampaign_PrevAndNext(session, newsletterLog,
-					sendCampaignId, orderByComparator, true);
+			array[0] = getByCampaign_PrevAndNext(session, newsletterLog,
+					campaignId, orderByComparator, true);
 
 			array[1] = newsletterLog;
 
-			array[2] = getBySendCampaign_PrevAndNext(session, newsletterLog,
-					sendCampaignId, orderByComparator, false);
+			array[2] = getByCampaign_PrevAndNext(session, newsletterLog,
+					campaignId, orderByComparator, false);
 
 			return array;
 		}
@@ -1007,8 +1058,8 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 		}
 	}
 
-	protected NewsletterLog getBySendCampaign_PrevAndNext(Session session,
-		NewsletterLog newsletterLog, long sendCampaignId,
+	protected NewsletterLog getByCampaign_PrevAndNext(Session session,
+		NewsletterLog newsletterLog, long campaignId,
 		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -1022,7 +1073,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 
 		query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
 
-		query.append(_FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2);
+		query.append(_FINDER_COLUMN_CAMPAIGN_CAMPAIGNID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByFields = orderByComparator.getOrderByFields();
@@ -1087,7 +1138,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		qPos.add(sendCampaignId);
+		qPos.add(campaignId);
 
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByValues(newsletterLog);
@@ -1104,6 +1155,145 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 		}
 		else {
 			return null;
+		}
+	}
+
+	/**
+	 * Finds the newsletter log where campaignId = &#63; and contactId = &#63; or throws a {@link com.liferay.newsletter.NoSuchLogException} if it could not be found.
+	 *
+	 * @param campaignId the campaign ID to search with
+	 * @param contactId the contact ID to search with
+	 * @return the matching newsletter log
+	 * @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog findByCampaign_Contact(long campaignId, long contactId)
+		throws NoSuchLogException, SystemException {
+		NewsletterLog newsletterLog = fetchByCampaign_Contact(campaignId,
+				contactId);
+
+		if (newsletterLog == null) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("campaignId=");
+			msg.append(campaignId);
+
+			msg.append(", contactId=");
+			msg.append(contactId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(msg.toString());
+			}
+
+			throw new NoSuchLogException(msg.toString());
+		}
+
+		return newsletterLog;
+	}
+
+	/**
+	 * Finds the newsletter log where campaignId = &#63; and contactId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param campaignId the campaign ID to search with
+	 * @param contactId the contact ID to search with
+	 * @return the matching newsletter log, or <code>null</code> if a matching newsletter log could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog fetchByCampaign_Contact(long campaignId, long contactId)
+		throws SystemException {
+		return fetchByCampaign_Contact(campaignId, contactId, true);
+	}
+
+	/**
+	 * Finds the newsletter log where campaignId = &#63; and contactId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param campaignId the campaign ID to search with
+	 * @param contactId the contact ID to search with
+	 * @return the matching newsletter log, or <code>null</code> if a matching newsletter log could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public NewsletterLog fetchByCampaign_Contact(long campaignId,
+		long contactId, boolean retrieveFromCache) throws SystemException {
+		Object[] finderArgs = new Object[] { campaignId, contactId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_CAMPAIGN_CONTACT,
+					finderArgs, this);
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_NEWSLETTERLOG_WHERE);
+
+			query.append(_FINDER_COLUMN_CAMPAIGN_CONTACT_CAMPAIGNID_2);
+
+			query.append(_FINDER_COLUMN_CAMPAIGN_CONTACT_CONTACTID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(campaignId);
+
+				qPos.add(contactId);
+
+				List<NewsletterLog> list = q.list();
+
+				result = list;
+
+				NewsletterLog newsletterLog = null;
+
+				if (list.isEmpty()) {
+					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CAMPAIGN_CONTACT,
+						finderArgs, list);
+				}
+				else {
+					newsletterLog = list.get(0);
+
+					cacheResult(newsletterLog);
+
+					if ((newsletterLog.getCampaignId() != campaignId) ||
+							(newsletterLog.getContactId() != contactId)) {
+						FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CAMPAIGN_CONTACT,
+							finderArgs, newsletterLog);
+					}
+				}
+
+				return newsletterLog;
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (result == null) {
+					FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CAMPAIGN_CONTACT,
+						finderArgs);
+				}
+
+				closeSession(session);
+			}
+		}
+		else {
+			if (result instanceof List<?>) {
+				return null;
+			}
+			else {
+				return (NewsletterLog)result;
+			}
 		}
 	}
 
@@ -1229,16 +1419,30 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	}
 
 	/**
-	 * Removes all the newsletter logs where sendCampaignId = &#63; from the database.
+	 * Removes all the newsletter logs where campaignId = &#63; from the database.
 	 *
-	 * @param sendCampaignId the send campaign ID to search with
+	 * @param campaignId the campaign ID to search with
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void removeBySendCampaign(long sendCampaignId)
-		throws SystemException {
-		for (NewsletterLog newsletterLog : findBySendCampaign(sendCampaignId)) {
+	public void removeByCampaign(long campaignId) throws SystemException {
+		for (NewsletterLog newsletterLog : findByCampaign(campaignId)) {
 			newsletterLogPersistence.remove(newsletterLog);
 		}
+	}
+
+	/**
+	 * Removes the newsletter log where campaignId = &#63; and contactId = &#63; from the database.
+	 *
+	 * @param campaignId the campaign ID to search with
+	 * @param contactId the contact ID to search with
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeByCampaign_Contact(long campaignId, long contactId)
+		throws NoSuchLogException, SystemException {
+		NewsletterLog newsletterLog = findByCampaign_Contact(campaignId,
+				contactId);
+
+		newsletterLogPersistence.remove(newsletterLog);
 	}
 
 	/**
@@ -1318,17 +1522,16 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	}
 
 	/**
-	 * Counts all the newsletter logs where sendCampaignId = &#63;.
+	 * Counts all the newsletter logs where campaignId = &#63;.
 	 *
-	 * @param sendCampaignId the send campaign ID to search with
+	 * @param campaignId the campaign ID to search with
 	 * @return the number of matching newsletter logs
 	 * @throws SystemException if a system exception occurred
 	 */
-	public int countBySendCampaign(long sendCampaignId)
-		throws SystemException {
-		Object[] finderArgs = new Object[] { sendCampaignId };
+	public int countByCampaign(long campaignId) throws SystemException {
+		Object[] finderArgs = new Object[] { campaignId };
 
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SENDCAMPAIGN,
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_CAMPAIGN,
 				finderArgs, this);
 
 		if (count == null) {
@@ -1336,7 +1539,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 
 			query.append(_SQL_COUNT_NEWSLETTERLOG_WHERE);
 
-			query.append(_FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2);
+			query.append(_FINDER_COLUMN_CAMPAIGN_CAMPAIGNID_2);
 
 			String sql = query.toString();
 
@@ -1349,7 +1552,7 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(sendCampaignId);
+				qPos.add(campaignId);
 
 				count = (Long)q.uniqueResult();
 			}
@@ -1361,7 +1564,66 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 					count = Long.valueOf(0);
 				}
 
-				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SENDCAMPAIGN,
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_CAMPAIGN,
+					finderArgs, count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Counts all the newsletter logs where campaignId = &#63; and contactId = &#63;.
+	 *
+	 * @param campaignId the campaign ID to search with
+	 * @param contactId the contact ID to search with
+	 * @return the number of matching newsletter logs
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int countByCampaign_Contact(long campaignId, long contactId)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { campaignId, contactId };
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_CAMPAIGN_CONTACT,
+				finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_NEWSLETTERLOG_WHERE);
+
+			query.append(_FINDER_COLUMN_CAMPAIGN_CONTACT_CAMPAIGNID_2);
+
+			query.append(_FINDER_COLUMN_CAMPAIGN_CONTACT_CONTACTID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(campaignId);
+
+				qPos.add(contactId);
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_CAMPAIGN_CONTACT,
 					finderArgs, count);
 
 				closeSession(session);
@@ -1442,12 +1704,12 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST);
 	}
 
-	@BeanReference(type = CampaignPersistence.class)
-	protected CampaignPersistence campaignPersistence;
+	@BeanReference(type = CampaignContentPersistence.class)
+	protected CampaignContentPersistence campaignContentPersistence;
 	@BeanReference(type = ContactPersistence.class)
 	protected ContactPersistence contactPersistence;
-	@BeanReference(type = SendCampaignPersistence.class)
-	protected SendCampaignPersistence sendCampaignPersistence;
+	@BeanReference(type = CampaignPersistence.class)
+	protected CampaignPersistence campaignPersistence;
 	@BeanReference(type = NewsletterLogPersistence.class)
 	protected NewsletterLogPersistence newsletterLogPersistence;
 	@BeanReference(type = ResourcePersistence.class)
@@ -1461,7 +1723,9 @@ public class NewsletterLogPersistenceImpl extends BasePersistenceImpl<Newsletter
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "newsletterLog.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "newsletterLog.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(newsletterLog.uuid IS NULL OR newsletterLog.uuid = ?)";
-	private static final String _FINDER_COLUMN_SENDCAMPAIGN_SENDCAMPAIGNID_2 = "newsletterLog.sendCampaignId = ?";
+	private static final String _FINDER_COLUMN_CAMPAIGN_CAMPAIGNID_2 = "newsletterLog.campaignId = ?";
+	private static final String _FINDER_COLUMN_CAMPAIGN_CONTACT_CAMPAIGNID_2 = "newsletterLog.campaignId = ? AND ";
+	private static final String _FINDER_COLUMN_CAMPAIGN_CONTACT_CONTACTID_2 = "newsletterLog.contactId = ?";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "newsletterLog.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No NewsletterLog exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No NewsletterLog exists with the key {";

@@ -221,7 +221,33 @@ public interface CampaignLocalService {
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaigns(
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
 		com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByCampaignContent(
+		long campaignContentId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCampaignsByCampaignContentCount(long campaignContentId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByDate(
+		java.util.Date sendDate)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsBySendDateLT(
+		java.util.Date sendDate, boolean sent)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void job();
+
+	public void sendCampaign(com.liferay.newsletter.model.Campaign campaign)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException,
+			javax.mail.MessagingException, javax.mail.internet.AddressException;
 }

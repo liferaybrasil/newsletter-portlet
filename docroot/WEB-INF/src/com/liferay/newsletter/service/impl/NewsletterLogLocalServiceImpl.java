@@ -31,10 +31,10 @@ import java.util.List;
 public class NewsletterLogLocalServiceImpl
 	extends NewsletterLogLocalServiceBaseImpl {
 
-	public List<NewsletterLog> getNewsletterLogBySendCampaign(
-		long sendCampaignId) throws SystemException{
+	public List<NewsletterLog> getNewsletterLogByCampaign(
+		long campaignId) throws SystemException{
 
-		return newsletterLogPersistence.findBySendCampaign(sendCampaignId);
+		return newsletterLogPersistence.findByCampaign(campaignId);
 	}
 
 	public NewsletterLog addNewsletterLog(NewsletterLog newsletter)
@@ -48,26 +48,36 @@ public class NewsletterLogLocalServiceImpl
 		return super.addNewsletterLog(newsletter);
 	}
 
-	public List<Contact> getContactsBySendCampaign(long sendCampaignId)
+	public List<Contact> getContactsByCampaign(long campaignId)
 		throws SystemException, PortalException{
 
 		List<Contact> contacts = new ArrayList<Contact>();
 
-		List<NewsletterLog> newsletterLogBySendCampaign =
-			getNewsletterLogBySendCampaign(sendCampaignId);
+		List<NewsletterLog> newsletterLogByCampaign =
+			getNewsletterLogByCampaign(campaignId);
 
-		for (NewsletterLog newsletterLog : newsletterLogBySendCampaign) {
+		for (NewsletterLog newsletterLog : newsletterLogByCampaign) {
 			long contactId = newsletterLog.getContactId();
 			Contact contact = ContactLocalServiceUtil.getContact(contactId);
 			contacts.add(contact);
 		}
 
 		return contacts;
-		}
+	}
 
-	public int getContactsBySendCampaignCount(long sendCampaignId)
+	public NewsletterLog getNewsletterLogByCampaignAndContact(
+		long campaignId, long contactId) 
+		throws SystemException, PortalException{
+		
+		NewsletterLog newsletterLog = newsletterLogPersistence.
+			findByCampaign_Contact(campaignId, contactId);
+	
+		return newsletterLog;
+	}
+
+	public int getContactsByCampaignCount(long campaignId)
 			throws SystemException {
-		return getNewsletterLogBySendCampaign(sendCampaignId).size();
+		return getNewsletterLogByCampaign(campaignId).size();
 	}
 
 }

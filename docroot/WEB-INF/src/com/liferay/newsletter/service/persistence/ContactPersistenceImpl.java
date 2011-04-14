@@ -1507,12 +1507,12 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST);
 	}
 
-	@BeanReference(type = CampaignPersistence.class)
-	protected CampaignPersistence campaignPersistence;
+	@BeanReference(type = CampaignContentPersistence.class)
+	protected CampaignContentPersistence campaignContentPersistence;
 	@BeanReference(type = ContactPersistence.class)
 	protected ContactPersistence contactPersistence;
-	@BeanReference(type = SendCampaignPersistence.class)
-	protected SendCampaignPersistence sendCampaignPersistence;
+	@BeanReference(type = CampaignPersistence.class)
+	protected CampaignPersistence campaignPersistence;
 	@BeanReference(type = NewsletterLogPersistence.class)
 	protected NewsletterLogPersistence newsletterLogPersistence;
 	@BeanReference(type = ResourcePersistence.class)

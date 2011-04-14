@@ -78,8 +78,25 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		_setBeanIdentifierMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
 				"setBeanIdentifier", java.lang.String.class);
 
-		_getSendCampaignsMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getSendCampaigns", com.liferay.newsletter.model.Campaign.class);
+		_getNewsletterLogsMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getNewsletterLogs", com.liferay.newsletter.model.Campaign.class);
+
+		_getCampaignsByCampaignContentMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getCampaignsByCampaignContent", long.class);
+
+		_getCampaignsByCampaignContentCountMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getCampaignsByCampaignContentCount", long.class);
+
+		_getCampaignsByDateMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getCampaignsByDate", java.util.Date.class);
+
+		_getCampaignsBySendDateLTMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getCampaignsBySendDateLT", java.util.Date.class, boolean.class);
+
+		_jobMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(), "job");
+
+		_sendCampaignMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+				"sendCampaign", com.liferay.newsletter.model.Campaign.class);
 	}
 
 	public com.liferay.newsletter.model.Campaign addCampaign(
@@ -482,12 +499,12 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		}
 	}
 
-	public java.util.List<com.liferay.newsletter.model.SendCampaign> getSendCampaigns(
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
 		com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getSendCampaignsMethodKey15,
+		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsMethodKey15,
 				ClpSerializer.translateInput(campaign));
 
 		try {
@@ -507,7 +524,172 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 			}
 		}
 
-		return (java.util.List<com.liferay.newsletter.model.SendCampaign>)ClpSerializer.translateOutput(returnObj);
+		return (java.util.List<com.liferay.newsletter.model.NewsletterLog>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByCampaignContent(
+		long campaignContentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsByCampaignContentMethodKey16,
+				campaignContentId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.newsletter.model.Campaign>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public int getCampaignsByCampaignContentCount(long campaignContentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsByCampaignContentCountMethodKey17,
+				campaignContentId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByDate(
+		java.util.Date sendDate)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsByDateMethodKey18,
+				ClpSerializer.translateInput(sendDate));
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.newsletter.model.Campaign>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsBySendDateLT(
+		java.util.Date sendDate, boolean sent)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsBySendDateLTMethodKey19,
+				ClpSerializer.translateInput(sendDate), sent);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.newsletter.model.Campaign>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public void job() {
+		MethodHandler methodHandler = new MethodHandler(_jobMethodKey20);
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
+	public void sendCampaign(com.liferay.newsletter.model.Campaign campaign)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException,
+			javax.mail.MessagingException, javax.mail.internet.AddressException {
+		MethodHandler methodHandler = new MethodHandler(_sendCampaignMethodKey21,
+				ClpSerializer.translateInput(campaign));
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof javax.mail.MessagingException) {
+				throw (javax.mail.MessagingException)t;
+			}
+
+			if (t instanceof javax.mail.internet.AddressException) {
+				throw (javax.mail.internet.AddressException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
 	}
 
 	public ClassLoaderProxy getClassLoaderProxy() {
@@ -530,5 +712,11 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	private MethodKey _updateCampaignMethodKey12;
 	private MethodKey _getBeanIdentifierMethodKey13;
 	private MethodKey _setBeanIdentifierMethodKey14;
-	private MethodKey _getSendCampaignsMethodKey15;
+	private MethodKey _getNewsletterLogsMethodKey15;
+	private MethodKey _getCampaignsByCampaignContentMethodKey16;
+	private MethodKey _getCampaignsByCampaignContentCountMethodKey17;
+	private MethodKey _getCampaignsByDateMethodKey18;
+	private MethodKey _getCampaignsBySendDateLTMethodKey19;
+	private MethodKey _jobMethodKey20;
+	private MethodKey _sendCampaignMethodKey21;
 }
