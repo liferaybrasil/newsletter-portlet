@@ -29,18 +29,30 @@ import java.util.List;
 public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 	public Contact addContact(Contact contact) throws SystemException{
-		long contactId = CounterLocalServiceUtil.increment(
-			Contact.class.getName());
 
-		contact.setContactId(contactId);
+		Contact contactByEmail = getContactByEmail(contact.getEmail());
 
-		return super.addContact(contact);
+		if (contactByEmail == null) {
+			long contactId = CounterLocalServiceUtil.increment(
+				Contact.class.getName());
+
+			contact.setContactId(contactId);
+			contactByEmail = super.addContact(contact);
+		}
+
+		return contactByEmail;
 	}
 
 	public List<NewsletterLog> getNewsletterLogs(Contact contact)
 		throws SystemException{
 
 		return contactPersistence.getNewsletterLogs(contact.getContactId());
+	}
+
+	public List<Contact> getContactByEmail(String email, int start, int end)
+		throws SystemException{
+
+		return contactFinder.findByEmail(email, start, end);
 	}
 
 	public Contact getContactByEmail(String contactEmail)
@@ -56,6 +68,52 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		}
 
 		return contact;
+	}
+
+	public int getContactCountByEmail(String contactEmail)
+		throws SystemException{
+
+		return contactPersistence.countByEmail(contactEmail);
+	}
+
+	public List<Contact> getContactsByName(String contactName)
+		throws SystemException{
+
+		List<Contact> contacts;
+
+		contacts = contactPersistence.findByName(contactName);
+
+		return contacts;
+	}
+
+	public List<Contact> getContactByNameAndCampaign(
+			String contactName, long campaignId, int start, int end)
+		throws SystemException{
+
+		List<Contact> contact;
+
+		contact = contactFinder.findByNameAndCampaign(
+			contactName, campaignId, start, end);
+
+		return contact;
+	}
+
+	public int getContactCountByName(String contactName)
+		throws SystemException{
+
+		return contactPersistence.countByEmail(contactName);
+	}
+
+	public int getContactCountByCampaign(long campaignId)
+		throws SystemException{
+
+		return contactFinder.countByCampaign(campaignId);
+	}
+
+	public int getContactCountByCampaignContent(long campaignContentId)
+		throws SystemException{
+
+		return contactFinder.countByCampaignContent(campaignContentId);
 	}
 
 }

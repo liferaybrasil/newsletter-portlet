@@ -26,11 +26,12 @@ import com.liferay.newsletter.model.Campaign;
  * @author Bruno Pinheiro
  */
 public class CampaignImpl extends CampaignModelImpl implements Campaign {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a campaign model instance should use the {@link Campaign} interface instead.
 	 */
 	public CampaignImpl() {
 	}
+
 }

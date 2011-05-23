@@ -18,11 +18,15 @@ import com.liferay.counter.service.CounterLocalService;
 
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.service.CampaignContentLocalService;
+import com.liferay.newsletter.service.CampaignContentService;
 import com.liferay.newsletter.service.CampaignLocalService;
 import com.liferay.newsletter.service.ContactLocalService;
+import com.liferay.newsletter.service.ContactService;
 import com.liferay.newsletter.service.NewsletterLogLocalService;
+import com.liferay.newsletter.service.persistence.CampaignContentFinder;
 import com.liferay.newsletter.service.persistence.CampaignContentPersistence;
 import com.liferay.newsletter.service.persistence.CampaignPersistence;
+import com.liferay.newsletter.service.persistence.ContactFinder;
 import com.liferay.newsletter.service.persistence.ContactPersistence;
 import com.liferay.newsletter.service.persistence.NewsletterLogPersistence;
 
@@ -244,80 +248,6 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the campaign content local service.
-	 *
-	 * @return the campaign content local service
-	 */
-	public CampaignContentLocalService getCampaignContentLocalService() {
-		return campaignContentLocalService;
-	}
-
-	/**
-	 * Sets the campaign content local service.
-	 *
-	 * @param campaignContentLocalService the campaign content local service
-	 */
-	public void setCampaignContentLocalService(
-		CampaignContentLocalService campaignContentLocalService) {
-		this.campaignContentLocalService = campaignContentLocalService;
-	}
-
-	/**
-	 * Gets the campaign content persistence.
-	 *
-	 * @return the campaign content persistence
-	 */
-	public CampaignContentPersistence getCampaignContentPersistence() {
-		return campaignContentPersistence;
-	}
-
-	/**
-	 * Sets the campaign content persistence.
-	 *
-	 * @param campaignContentPersistence the campaign content persistence
-	 */
-	public void setCampaignContentPersistence(
-		CampaignContentPersistence campaignContentPersistence) {
-		this.campaignContentPersistence = campaignContentPersistence;
-	}
-
-	/**
-	 * Gets the contact local service.
-	 *
-	 * @return the contact local service
-	 */
-	public ContactLocalService getContactLocalService() {
-		return contactLocalService;
-	}
-
-	/**
-	 * Sets the contact local service.
-	 *
-	 * @param contactLocalService the contact local service
-	 */
-	public void setContactLocalService(ContactLocalService contactLocalService) {
-		this.contactLocalService = contactLocalService;
-	}
-
-	/**
-	 * Gets the contact persistence.
-	 *
-	 * @return the contact persistence
-	 */
-	public ContactPersistence getContactPersistence() {
-		return contactPersistence;
-	}
-
-	/**
-	 * Sets the contact persistence.
-	 *
-	 * @param contactPersistence the contact persistence
-	 */
-	public void setContactPersistence(ContactPersistence contactPersistence) {
-		this.contactPersistence = contactPersistence;
-	}
-
-	/**
 	 * Gets the campaign local service.
 	 *
 	 * @return the campaign local service
@@ -352,6 +282,154 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	 */
 	public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
 		this.campaignPersistence = campaignPersistence;
+	}
+
+	/**
+	 * Gets the campaign content local service.
+	 *
+	 * @return the campaign content local service
+	 */
+	public CampaignContentLocalService getCampaignContentLocalService() {
+		return campaignContentLocalService;
+	}
+
+	/**
+	 * Sets the campaign content local service.
+	 *
+	 * @param campaignContentLocalService the campaign content local service
+	 */
+	public void setCampaignContentLocalService(
+		CampaignContentLocalService campaignContentLocalService) {
+		this.campaignContentLocalService = campaignContentLocalService;
+	}
+
+	/**
+	 * Gets the campaign content remote service.
+	 *
+	 * @return the campaign content remote service
+	 */
+	public CampaignContentService getCampaignContentService() {
+		return campaignContentService;
+	}
+
+	/**
+	 * Sets the campaign content remote service.
+	 *
+	 * @param campaignContentService the campaign content remote service
+	 */
+	public void setCampaignContentService(
+		CampaignContentService campaignContentService) {
+		this.campaignContentService = campaignContentService;
+	}
+
+	/**
+	 * Gets the campaign content persistence.
+	 *
+	 * @return the campaign content persistence
+	 */
+	public CampaignContentPersistence getCampaignContentPersistence() {
+		return campaignContentPersistence;
+	}
+
+	/**
+	 * Sets the campaign content persistence.
+	 *
+	 * @param campaignContentPersistence the campaign content persistence
+	 */
+	public void setCampaignContentPersistence(
+		CampaignContentPersistence campaignContentPersistence) {
+		this.campaignContentPersistence = campaignContentPersistence;
+	}
+
+	/**
+	 * Gets the campaign content finder.
+	 *
+	 * @return the campaign content finder
+	 */
+	public CampaignContentFinder getCampaignContentFinder() {
+		return campaignContentFinder;
+	}
+
+	/**
+	 * Sets the campaign content finder.
+	 *
+	 * @param campaignContentFinder the campaign content finder
+	 */
+	public void setCampaignContentFinder(
+		CampaignContentFinder campaignContentFinder) {
+		this.campaignContentFinder = campaignContentFinder;
+	}
+
+	/**
+	 * Gets the contact local service.
+	 *
+	 * @return the contact local service
+	 */
+	public ContactLocalService getContactLocalService() {
+		return contactLocalService;
+	}
+
+	/**
+	 * Sets the contact local service.
+	 *
+	 * @param contactLocalService the contact local service
+	 */
+	public void setContactLocalService(ContactLocalService contactLocalService) {
+		this.contactLocalService = contactLocalService;
+	}
+
+	/**
+	 * Gets the contact remote service.
+	 *
+	 * @return the contact remote service
+	 */
+	public ContactService getContactService() {
+		return contactService;
+	}
+
+	/**
+	 * Sets the contact remote service.
+	 *
+	 * @param contactService the contact remote service
+	 */
+	public void setContactService(ContactService contactService) {
+		this.contactService = contactService;
+	}
+
+	/**
+	 * Gets the contact persistence.
+	 *
+	 * @return the contact persistence
+	 */
+	public ContactPersistence getContactPersistence() {
+		return contactPersistence;
+	}
+
+	/**
+	 * Sets the contact persistence.
+	 *
+	 * @param contactPersistence the contact persistence
+	 */
+	public void setContactPersistence(ContactPersistence contactPersistence) {
+		this.contactPersistence = contactPersistence;
+	}
+
+	/**
+	 * Gets the contact finder.
+	 *
+	 * @return the contact finder
+	 */
+	public ContactFinder getContactFinder() {
+		return contactFinder;
+	}
+
+	/**
+	 * Sets the contact finder.
+	 *
+	 * @param contactFinder the contact finder
+	 */
+	public void setContactFinder(ContactFinder contactFinder) {
+		this.contactFinder = contactFinder;
 	}
 
 	/**
@@ -556,18 +634,26 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 		}
 	}
 
-	@BeanReference(type = CampaignContentLocalService.class)
-	protected CampaignContentLocalService campaignContentLocalService;
-	@BeanReference(type = CampaignContentPersistence.class)
-	protected CampaignContentPersistence campaignContentPersistence;
-	@BeanReference(type = ContactLocalService.class)
-	protected ContactLocalService contactLocalService;
-	@BeanReference(type = ContactPersistence.class)
-	protected ContactPersistence contactPersistence;
 	@BeanReference(type = CampaignLocalService.class)
 	protected CampaignLocalService campaignLocalService;
 	@BeanReference(type = CampaignPersistence.class)
 	protected CampaignPersistence campaignPersistence;
+	@BeanReference(type = CampaignContentLocalService.class)
+	protected CampaignContentLocalService campaignContentLocalService;
+	@BeanReference(type = CampaignContentService.class)
+	protected CampaignContentService campaignContentService;
+	@BeanReference(type = CampaignContentPersistence.class)
+	protected CampaignContentPersistence campaignContentPersistence;
+	@BeanReference(type = CampaignContentFinder.class)
+	protected CampaignContentFinder campaignContentFinder;
+	@BeanReference(type = ContactLocalService.class)
+	protected ContactLocalService contactLocalService;
+	@BeanReference(type = ContactService.class)
+	protected ContactService contactService;
+	@BeanReference(type = ContactPersistence.class)
+	protected ContactPersistence contactPersistence;
+	@BeanReference(type = ContactFinder.class)
+	protected ContactFinder contactFinder;
 	@BeanReference(type = NewsletterLogLocalService.class)
 	protected NewsletterLogLocalService newsletterLogLocalService;
 	@BeanReference(type = NewsletterLogPersistence.class)

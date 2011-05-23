@@ -911,8 +911,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		Session session = null;
 
@@ -1104,8 +1103,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		SQLQuery q = session.createSQLQuery(sql);
 
@@ -1582,8 +1580,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		Session session = null;
 
@@ -1764,8 +1761,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		SQLQuery q = session.createSQLQuery(sql);
 
@@ -2255,8 +2251,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		Session session = null;
 
@@ -2444,8 +2439,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		SQLQuery q = session.createSQLQuery(sql);
 
@@ -2964,8 +2958,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		Session session = null;
 
@@ -3158,8 +3151,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		SQLQuery q = session.createSQLQuery(sql);
 
@@ -3463,8 +3455,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		Session session = null;
 
@@ -3568,8 +3559,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		Session session = null;
 
@@ -3681,8 +3671,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		Session session = null;
 
@@ -3806,8 +3795,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				Campaign.class.getName(), _FILTER_COLUMN_PK);
 
 		Session session = null;
 
@@ -4137,12 +4125,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST);
 	}
 
+	@BeanReference(type = CampaignPersistence.class)
+	protected CampaignPersistence campaignPersistence;
 	@BeanReference(type = CampaignContentPersistence.class)
 	protected CampaignContentPersistence campaignContentPersistence;
 	@BeanReference(type = ContactPersistence.class)
 	protected ContactPersistence contactPersistence;
-	@BeanReference(type = CampaignPersistence.class)
-	protected CampaignPersistence campaignPersistence;
 	@BeanReference(type = NewsletterLogPersistence.class)
 	protected NewsletterLogPersistence newsletterLogPersistence;
 	@BeanReference(type = ResourcePersistence.class)
@@ -4204,7 +4192,6 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		") TEMP_TABLE INNER JOIN Newsletter_Campaign ON TEMP_TABLE.campaignId = Newsletter_Campaign.campaignId";
 	private static final String _FILTER_SQL_COUNT_CAMPAIGN_WHERE = "SELECT COUNT(DISTINCT campaign.campaignId) AS COUNT_VALUE FROM Newsletter_Campaign campaign WHERE ";
 	private static final String _FILTER_COLUMN_PK = "campaign.campaignId";
-	private static final String _FILTER_COLUMN_USERID = null;
 	private static final String _FILTER_ENTITY_ALIAS = "campaign";
 	private static final String _FILTER_ENTITY_TABLE = "Newsletter_Campaign";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "campaign.";

@@ -44,12 +44,16 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 		return _campaignContentId;
 	}
 
-	public void setPrimaryKey(long pk) {
-		setCampaignContentId(pk);
+	public void setPrimaryKey(long primaryKey) {
+		setCampaignContentId(primaryKey);
 	}
 
 	public Serializable getPrimaryKeyObj() {
 		return new Long(_campaignContentId);
+	}
+
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
 	public String getUuid() {
@@ -92,6 +96,14 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 		_createDate = createDate;
 	}
 
+	public long getArticleId() {
+		return _articleId;
+	}
+
+	public void setArticleId(long articleId) {
+		_articleId = articleId;
+	}
+
 	public CampaignContent toEscapedModel() {
 		if (isEscapedModel()) {
 			return this;
@@ -111,17 +123,18 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 		clone.setTitle(getTitle());
 		clone.setContent(getContent());
 		clone.setCreateDate(getCreateDate());
+		clone.setArticleId(getArticleId());
 
 		return clone;
 	}
 
 	public int compareTo(CampaignContent campaignContent) {
-		long pk = campaignContent.getPrimaryKey();
+		long primaryKey = campaignContent.getPrimaryKey();
 
-		if (getPrimaryKey() < pk) {
+		if (getPrimaryKey() < primaryKey) {
 			return -1;
 		}
-		else if (getPrimaryKey() > pk) {
+		else if (getPrimaryKey() > primaryKey) {
 			return 1;
 		}
 		else {
@@ -143,9 +156,9 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 			return false;
 		}
 
-		long pk = campaignContent.getPrimaryKey();
+		long primaryKey = campaignContent.getPrimaryKey();
 
-		if (getPrimaryKey() == pk) {
+		if (getPrimaryKey() == primaryKey) {
 			return true;
 		}
 		else {
@@ -158,7 +171,7 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 	}
 
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -170,13 +183,15 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 		sb.append(getContent());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
+		sb.append(", articleId=");
+		sb.append(getArticleId());
 		sb.append("}");
 
 		return sb.toString();
 	}
 
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.newsletter.model.CampaignContent");
@@ -202,6 +217,10 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
 		sb.append(getCreateDate());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>articleId</column-name><column-value><![CDATA[");
+		sb.append(getArticleId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -213,4 +232,5 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 	private String _title;
 	private String _content;
 	private Date _createDate;
+	private long _articleId;
 }

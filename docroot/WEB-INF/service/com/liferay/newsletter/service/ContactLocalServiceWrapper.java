@@ -240,10 +240,49 @@ public class ContactLocalServiceWrapper implements ContactLocalService {
 		return _contactLocalService.getNewsletterLogs(contact);
 	}
 
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactByEmail(
+		java.lang.String email, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getContactByEmail(email, start, end);
+	}
+
 	public com.liferay.newsletter.model.Contact getContactByEmail(
 		java.lang.String contactEmail)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _contactLocalService.getContactByEmail(contactEmail);
+	}
+
+	public int getContactCountByEmail(java.lang.String contactEmail)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getContactCountByEmail(contactEmail);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactsByName(
+		java.lang.String contactName)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getContactsByName(contactName);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactByNameAndCampaign(
+		java.lang.String contactName, long campaignId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getContactByNameAndCampaign(contactName,
+			campaignId, start, end);
+	}
+
+	public int getContactCountByName(java.lang.String contactName)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getContactCountByName(contactName);
+	}
+
+	public int getContactCountByCampaign(long campaignId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getContactCountByCampaign(campaignId);
+	}
+
+	public int getContactCountByCampaignContent(long campaignContentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getContactCountByCampaignContent(campaignContentId);
 	}
 
 	public ContactLocalService getWrappedContactLocalService() {

@@ -19,7 +19,11 @@ package com.liferay.newsletter.util;
  */
 public interface NewsletterConstants {
 
+	public static final String GET_CAMPAIGN_CONTENT = "get-campaign-content";
+
 	public static final String GET_ARTICLE_CONTENT = "get-article-content";
+
+	public static final String GET_CONTACT = "get-contact";
 
 	public static final String SENDER_NAME = "sender.name";
 
@@ -44,4 +48,5 @@ public interface NewsletterConstants {
 
 	public static final String MAIL_TRANSPORT_PROTOCOL =
 		"mail.transport.protocol";
+
 }

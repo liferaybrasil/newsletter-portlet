@@ -35,6 +35,13 @@
 	title='<%= (campaign != null) ? "" : "New Campaign" %>'
 />
 
+<portlet:resourceURL var="campaignContentResourceURL">
+	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_CAMPAIGN_CONTENT %>" />
+</portlet:resourceURL>
+
+<portlet:resourceURL var="contactResourceURL">
+	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_CONTACT %>" />
+</portlet:resourceURL>
 
 <aui:model-context bean="<%= campaign %>" model="<%= Campaign.class %>" />
 
@@ -48,6 +55,10 @@
 
 		<aui:input type="hidden" name="campaignId" />
 
+		<aui:input type="hidden" name="campaignContentId" id="campaignContentId" />
+
+		<aui:input type="hidden" name="contacts" id="contacts" />
+
 		<aui:input name="emailSubject" label="Email Subject" />
 		<liferay-ui:error key="campaignemailsubject-required" message="campaignemailsubject-required" />
 
@@ -60,26 +71,103 @@
 
 		<aui:input name="sendDate" label="Send Date" />
 
-		<aui:select name="campaignContentId" label="CampaignContent" showEmptyOption="<%= false %>">
+		<span class="yui3-aui-field-content">
+			<label class="yui3-aui-field-label"> Campaign Content </label>
+			<div class="autocomplete" id="<portlet:namespace/>autocompleteCampaignContent"></div>
+		</span>
 
-	 		<%
-				for(CampaignContent campaignContent: campaignContents){
-			%>
-			<aui:option value="<%= campaignContent.getCampaignContentId() %>" selected="<%= campaign != null && campaignContent.getCampaignContentId() == campaign.getCampaignContentId() %>"><%=campaignContent.getTitle() %></aui:option>
-			<%
-				}
-			%>
+		<span class="yui3-aui-field-content">
+			<label class="yui3-aui-field-label"> Contacts </label>
+			<div class="autocomplete" id="<portlet:namespace/>autocompleteContact"></div>
+		</span>
 
-		</aui:select>
-
-		<aui:input type="textarea" name="contacts" label="Contacts" />
 		<liferay-ui:error key="campaigncontacts-required" message="campaigncontacts-required" />
+
+	<div class="lfr-dynamic-uploader">
+		<div class="lfr-upload-container" id="<portlet:namespace />fileUpload"></div>
+	</div>
 
 	</aui:fieldset>
 
 	<aui:button-row>
-		<aui:button type="submit" />
+		<aui:button onClick='<%= renderResponse.getNamespace() + "saveStructure();" %>' value='Save' />
 
 		<aui:button type="cancel"  onClick="<%= redirect %>" />
 	</aui:button-row>
 </aui:form>
+
+<aui:script use="aui-autocomplete">
+
+var dataSourceCampaignContent = new A.DataSource.IO(
+	{
+		source: '<%= campaignContentResourceURL %>&keywords='
+	}
+)
+.plug(
+	A.Plugin.DataSourceJSONSchema,
+	{
+		schema: {
+			resultListLocator: 'results',
+			resultFields: ['campaignContentId', 'title']
+		}
+	}
+);
+
+var autocompleteCampaignContent = new A.AutoComplete(
+	{
+		boundingBox: '#<portlet:namespace/>autocompleteCampaignContent',
+		dataSource: dataSourceCampaignContent,
+		matchKey: 'title',
+		on: {
+			itemSelect: function(event) {
+				document.getElementById('<portlet:namespace/>campaignContentId').value = event._resultData.campaignContentId;
+			}
+		},
+		delimChar: null,
+		typeAhead: true,
+		button: false
+	}
+)
+.render();
+
+
+var dataSourceContact = new A.DataSource.IO(
+	{
+		source: '<%= contactResourceURL %>&keywords='
+	}
+)
+.plug(
+	A.Plugin.DataSourceJSONSchema,
+	{
+		schema: {
+			resultListLocator: 'results',
+			resultFields: ['contactId', 'name', 'email']
+		}
+	}
+);
+
+var autocompleteContact = new A.AutoComplete(
+	{
+		boundingBox: '#<portlet:namespace/>autocompleteContact',
+		dataSource: dataSourceContact,
+		matchKey: 'email',
+		delimChar: ',',
+		typeAhead: true,
+		button: false
+	}
+)
+.render();
+
+Liferay.provide(
+		window,
+		'<portlet:namespace />saveStructure',
+		function() {
+
+			document.getElementById('<portlet:namespace/>contacts').value = autocompleteContact.inputNode.val();
+
+			submitForm(document.<portlet:namespace />fm);
+		},
+		['aui-base']
+	);
+
+</aui:script>

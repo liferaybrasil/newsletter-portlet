@@ -15,7 +15,8 @@ create table Newsletter_CampaignContent (
 	campaignContentId LONG not null primary key,
 	title VARCHAR(75) null,
 	content STRING null,
-	createDate DATE null
+	createDate DATE null,
+	articleId LONG
 );
 
 create table Newsletter_Campaign_Contact (

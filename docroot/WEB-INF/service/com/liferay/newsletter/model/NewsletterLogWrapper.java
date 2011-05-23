@@ -48,10 +48,10 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	/**
 	* Sets the primary key of this newsletter log
 	*
-	* @param pk the primary key of this newsletter log
+	* @param primaryKey the primary key of this newsletter log
 	*/
-	public void setPrimaryKey(long pk) {
-		_newsletterLog.setPrimaryKey(pk);
+	public void setPrimaryKey(long primaryKey) {
+		_newsletterLog.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -179,6 +179,10 @@ public class NewsletterLogWrapper implements NewsletterLog {
 
 	public java.io.Serializable getPrimaryKeyObj() {
 		return _newsletterLog.getPrimaryKeyObj();
+	}
+
+	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
+		_newsletterLog.setPrimaryKeyObj(primaryKeyObj);
 	}
 
 	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {

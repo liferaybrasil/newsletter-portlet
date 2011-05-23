@@ -48,10 +48,10 @@ public class CampaignWrapper implements Campaign {
 	/**
 	* Sets the primary key of this campaign
 	*
-	* @param pk the primary key of this campaign
+	* @param primaryKey the primary key of this campaign
 	*/
-	public void setPrimaryKey(long pk) {
-		_campaign.setPrimaryKey(pk);
+	public void setPrimaryKey(long primaryKey) {
+		_campaign.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -251,6 +251,10 @@ public class CampaignWrapper implements Campaign {
 
 	public java.io.Serializable getPrimaryKeyObj() {
 		return _campaign.getPrimaryKeyObj();
+	}
+
+	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
+		_campaign.setPrimaryKeyObj(primaryKeyObj);
 	}
 
 	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {

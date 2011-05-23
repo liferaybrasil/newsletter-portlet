@@ -100,12 +100,16 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		return _campaignId;
 	}
 
-	public void setPrimaryKey(long pk) {
-		setCampaignId(pk);
+	public void setPrimaryKey(long primaryKey) {
+		setCampaignId(primaryKey);
 	}
 
 	public Serializable getPrimaryKeyObj() {
 		return new Long(_campaignId);
+	}
+
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
 	public String getUuid() {
@@ -278,9 +282,9 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 			return false;
 		}
 
-		long pk = campaign.getPrimaryKey();
+		long primaryKey = campaign.getPrimaryKey();
 
-		if (getPrimaryKey() == pk) {
+		if (getPrimaryKey() == primaryKey) {
 			return true;
 		}
 		else {

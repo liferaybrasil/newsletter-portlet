@@ -27,11 +27,12 @@ import com.liferay.newsletter.model.CampaignContent;
  */
 public class CampaignContentImpl extends CampaignContentModelImpl
 	implements CampaignContent {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a campaign content model instance should use the {@link CampaignContent} interface instead.
 	 */
 	public CampaignContentImpl() {
 	}
+
 }

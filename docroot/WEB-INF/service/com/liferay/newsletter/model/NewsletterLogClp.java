@@ -42,12 +42,16 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 		return _newsletterLogId;
 	}
 
-	public void setPrimaryKey(long pk) {
-		setNewsletterLogId(pk);
+	public void setPrimaryKey(long primaryKey) {
+		setNewsletterLogId(primaryKey);
 	}
 
 	public Serializable getPrimaryKeyObj() {
 		return new Long(_newsletterLogId);
+	}
+
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
 	public String getUuid() {
@@ -118,12 +122,12 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 	}
 
 	public int compareTo(NewsletterLog newsletterLog) {
-		long pk = newsletterLog.getPrimaryKey();
+		long primaryKey = newsletterLog.getPrimaryKey();
 
-		if (getPrimaryKey() < pk) {
+		if (getPrimaryKey() < primaryKey) {
 			return -1;
 		}
-		else if (getPrimaryKey() > pk) {
+		else if (getPrimaryKey() > primaryKey) {
 			return 1;
 		}
 		else {
@@ -145,9 +149,9 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 			return false;
 		}
 
-		long pk = newsletterLog.getPrimaryKey();
+		long primaryKey = newsletterLog.getPrimaryKey();
 
-		if (getPrimaryKey() == pk) {
+		if (getPrimaryKey() == primaryKey) {
 			return true;
 		}
 		else {

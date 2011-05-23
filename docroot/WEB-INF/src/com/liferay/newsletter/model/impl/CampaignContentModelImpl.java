@@ -16,6 +16,7 @@ package com.liferay.newsletter.model.impl;
 
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.CampaignContentModel;
+import com.liferay.newsletter.model.CampaignContentSoap;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -33,7 +34,9 @@ import java.lang.reflect.Proxy;
 
 import java.sql.Types;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * The base model implementation for the CampaignContent service. Represents a row in the &quot;Newsletter_CampaignContent&quot; database table, with each column mapped to a property of this class.
@@ -61,9 +64,10 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 			{ "campaignContentId", Types.BIGINT },
 			{ "title", Types.VARCHAR },
 			{ "content", Types.VARCHAR },
-			{ "createDate", Types.TIMESTAMP }
+			{ "createDate", Types.TIMESTAMP },
+			{ "articleId", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Newsletter_CampaignContent (uuid_ VARCHAR(75) null,campaignContentId LONG not null primary key,title VARCHAR(75) null,content STRING null,createDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table Newsletter_CampaignContent (uuid_ VARCHAR(75) null,campaignContentId LONG not null primary key,title VARCHAR(75) null,content STRING null,createDate DATE null,articleId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table Newsletter_CampaignContent";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -74,6 +78,42 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.liferay.newsletter.model.CampaignContent"),
 			true);
+
+	/**
+	 * Converts the soap model instance into a normal model instance.
+	 *
+	 * @param soapModel the soap model instance to convert
+	 * @return the normal model instance
+	 */
+	public static CampaignContent toModel(CampaignContentSoap soapModel) {
+		CampaignContent model = new CampaignContentImpl();
+
+		model.setUuid(soapModel.getUuid());
+		model.setCampaignContentId(soapModel.getCampaignContentId());
+		model.setTitle(soapModel.getTitle());
+		model.setContent(soapModel.getContent());
+		model.setCreateDate(soapModel.getCreateDate());
+		model.setArticleId(soapModel.getArticleId());
+
+		return model;
+	}
+
+	/**
+	 * Converts the soap model instances into normal model instances.
+	 *
+	 * @param soapModels the soap model instances to convert
+	 * @return the normal model instances
+	 */
+	public static List<CampaignContent> toModels(
+		CampaignContentSoap[] soapModels) {
+		List<CampaignContent> models = new ArrayList<CampaignContent>(soapModels.length);
+
+		for (CampaignContentSoap soapModel : soapModels) {
+			models.add(toModel(soapModel));
+		}
+
+		return models;
+	}
 
 	public Class<?> getModelClass() {
 		return CampaignContent.class;
@@ -93,12 +133,16 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		return _campaignContentId;
 	}
 
-	public void setPrimaryKey(long pk) {
-		setCampaignContentId(pk);
+	public void setPrimaryKey(long primaryKey) {
+		setCampaignContentId(primaryKey);
 	}
 
 	public Serializable getPrimaryKeyObj() {
 		return new Long(_campaignContentId);
+	}
+
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
 	public String getUuid() {
@@ -156,6 +200,14 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		_createDate = createDate;
 	}
 
+	public long getArticleId() {
+		return _articleId;
+	}
+
+	public void setArticleId(long articleId) {
+		_articleId = articleId;
+	}
+
 	public CampaignContent toEscapedModel() {
 		if (isEscapedModel()) {
 			return (CampaignContent)this;
@@ -188,6 +240,7 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		campaignContentImpl.setTitle(getTitle());
 		campaignContentImpl.setContent(getContent());
 		campaignContentImpl.setCreateDate(getCreateDate());
+		campaignContentImpl.setArticleId(getArticleId());
 
 		campaignContentImpl.resetOriginalValues();
 
@@ -195,12 +248,12 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 	}
 
 	public int compareTo(CampaignContent campaignContent) {
-		long pk = campaignContent.getPrimaryKey();
+		long primaryKey = campaignContent.getPrimaryKey();
 
-		if (getPrimaryKey() < pk) {
+		if (getPrimaryKey() < primaryKey) {
 			return -1;
 		}
-		else if (getPrimaryKey() > pk) {
+		else if (getPrimaryKey() > primaryKey) {
 			return 1;
 		}
 		else {
@@ -222,9 +275,9 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 			return false;
 		}
 
-		long pk = campaignContent.getPrimaryKey();
+		long primaryKey = campaignContent.getPrimaryKey();
 
-		if (getPrimaryKey() == pk) {
+		if (getPrimaryKey() == primaryKey) {
 			return true;
 		}
 		else {
@@ -240,7 +293,7 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 	}
 
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -252,13 +305,15 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		sb.append(getContent());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
+		sb.append(", articleId=");
+		sb.append(getArticleId());
 		sb.append("}");
 
 		return sb.toString();
 	}
 
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.newsletter.model.CampaignContent");
@@ -284,6 +339,10 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
 		sb.append(getCreateDate());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>articleId</column-name><column-value><![CDATA[");
+		sb.append(getArticleId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -295,5 +354,6 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 	private String _title;
 	private String _content;
 	private Date _createDate;
+	private long _articleId;
 	private transient ExpandoBridge _expandoBridge;
 }

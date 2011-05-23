@@ -35,4 +35,5 @@ public class InvalidCampaignException extends PortalException {
 	public InvalidCampaignException(Throwable cause) {
 		super(cause);
 	}
+
 }

@@ -7,31 +7,6 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
-	<mapped-superclass class="com.liferay.newsletter.model.impl.CampaignContentModelImpl">
-		<attributes>
-			<id name="campaignContentId" />
-			<basic name="uuid">
-				<column name="UUID_" />
-			</basic>
-			<basic name="title" />
-			<basic name="content" />
-			<basic name="createDate">
-				<temporal>TIMESTAMP</temporal>
-			</basic>
-			<transient name="primaryKey" />
-		</attributes>
-	</mapped-superclass>
-	<mapped-superclass class="com.liferay.newsletter.model.impl.ContactModelImpl">
-		<attributes>
-			<id name="contactId" />
-			<basic name="uuid">
-				<column name="UUID_" />
-			</basic>
-			<basic name="email" />
-			<basic name="name" />
-			<transient name="primaryKey" />
-		</attributes>
-	</mapped-superclass>
 	<mapped-superclass class="com.liferay.newsletter.model.impl.CampaignModelImpl">
 		<attributes>
 			<id name="campaignId" />
@@ -48,6 +23,35 @@
 			<basic name="sent" />
 			<basic name="campaignContentId" />
 			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.liferay.newsletter.model.impl.CampaignContentModelImpl">
+		<attributes>
+			<id name="campaignContentId" />
+			<basic name="uuid">
+				<column name="UUID_" />
+			</basic>
+			<basic name="title" />
+			<basic name="content" />
+			<basic name="createDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="articleId" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.liferay.newsletter.model.impl.ContactModelImpl">
+		<attributes>
+			<id name="contactId" />
+			<basic name="uuid">
+				<column name="UUID_" />
+			</basic>
+			<basic name="email" />
+			<basic name="name" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
 	<mapped-superclass class="com.liferay.newsletter.model.impl.NewsletterLogModelImpl">
@@ -60,18 +64,19 @@
 			<basic name="contactId" />
 			<basic name="sent" />
 			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<entity class="com.liferay.newsletter.model.impl.CampaignImpl" name="Campaign">
+		<table name="Newsletter_Campaign" />
+		<attributes />
+	</entity>
 	<entity class="com.liferay.newsletter.model.impl.CampaignContentImpl" name="CampaignContent">
 		<table name="Newsletter_CampaignContent" />
 		<attributes />
 	</entity>
 	<entity class="com.liferay.newsletter.model.impl.ContactImpl" name="Contact">
 		<table name="Newsletter_Contact" />
-		<attributes />
-	</entity>
-	<entity class="com.liferay.newsletter.model.impl.CampaignImpl" name="Campaign">
-		<table name="Newsletter_Campaign" />
 		<attributes />
 	</entity>
 	<entity class="com.liferay.newsletter.model.impl.NewsletterLogImpl" name="NewsletterLog">

@@ -24,7 +24,7 @@
 	boolean hasAddPermission = permissionChecker.hasPermission(
 		scopeGroupId, "com.liferay.newsletter.model",
 		scopeGroupId, "ADD_CAMPAIGNCONTENT");
-	
+
 	SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 %>
 
@@ -55,17 +55,22 @@
 			name="Title"
 			value="<%= campaignContent.getTitle() %>"
 		/>
-		
+
 		<liferay-ui:search-container-column-text
 			name="Creation Date"
 			value="<%= dateFormat.format(campaignContent.getCreateDate()) %>"
 		/>
-		
+
 		<liferay-ui:search-container-column-text
 			name="# of campaigns"
-			value="<%= ""+CampaignLocalServiceUtil.getCampaignsByCampaignContentCount(campaignContent.getCampaignContentId()) %>"
+			value='<%= ""+CampaignLocalServiceUtil.getCampaignsByCampaignContentCount(campaignContent.getCampaignContentId()) %>'
 		/>
-		
+
+		<liferay-ui:search-container-column-text
+			name="# of emails"
+			value='<%= ""+ContactLocalServiceUtil.getContactCountByCampaignContent(campaignContent.getCampaignContentId()) %>'
+		/>
+
 		<liferay-ui:search-container-column-jsp
 			align="right"
 			path="/html/newsletterportlet/campaignContent_actions.jsp"

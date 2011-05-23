@@ -354,6 +354,124 @@ public class ContactUtil {
 	}
 
 	/**
+	* Finds all the contacts where name = &#63;.
+	*
+	* @param name the name to search with
+	* @return the matching contacts
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<com.liferay.newsletter.model.Contact> findByName(
+		java.lang.String name)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findByName(name);
+	}
+
+	/**
+	* Finds a range of all the contacts where name = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param name the name to search with
+	* @param start the lower bound of the range of contacts to return
+	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @return the range of matching contacts
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<com.liferay.newsletter.model.Contact> findByName(
+		java.lang.String name, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findByName(name, start, end);
+	}
+
+	/**
+	* Finds an ordered range of all the contacts where name = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param name the name to search with
+	* @param start the lower bound of the range of contacts to return
+	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching contacts
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<com.liferay.newsletter.model.Contact> findByName(
+		java.lang.String name, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findByName(name, start, end, orderByComparator);
+	}
+
+	/**
+	* Finds the first contact in the ordered set where name = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param name the name to search with
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching contact
+	* @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.liferay.newsletter.model.Contact findByName_First(
+		java.lang.String name,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.newsletter.NoSuchContactException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findByName_First(name, orderByComparator);
+	}
+
+	/**
+	* Finds the last contact in the ordered set where name = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param name the name to search with
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching contact
+	* @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.liferay.newsletter.model.Contact findByName_Last(
+		java.lang.String name,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.newsletter.NoSuchContactException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findByName_Last(name, orderByComparator);
+	}
+
+	/**
+	* Finds the contacts before and after the current contact in the ordered set where name = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param contactId the primary key of the current contact
+	* @param name the name to search with
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next contact
+	* @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.liferay.newsletter.model.Contact[] findByName_PrevAndNext(
+		long contactId, java.lang.String name,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.newsletter.NoSuchContactException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findByName_PrevAndNext(contactId, name, orderByComparator);
+	}
+
+	/**
 	* Finds all the contacts.
 	*
 	* @return the contacts
@@ -426,6 +544,17 @@ public class ContactUtil {
 	}
 
 	/**
+	* Removes all the contacts where name = &#63; from the database.
+	*
+	* @param name the name to search with
+	* @throws SystemException if a system exception occurred
+	*/
+	public static void removeByName(java.lang.String name)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getPersistence().removeByName(name);
+	}
+
+	/**
 	* Removes all the contacts from the database.
 	*
 	* @throws SystemException if a system exception occurred
@@ -457,6 +586,18 @@ public class ContactUtil {
 	public static int countByEmail(java.lang.String email)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().countByEmail(email);
+	}
+
+	/**
+	* Counts all the contacts where name = &#63;.
+	*
+	* @param name the name to search with
+	* @return the number of matching contacts
+	* @throws SystemException if a system exception occurred
+	*/
+	public static int countByName(java.lang.String name)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().countByName(name);
 	}
 
 	/**

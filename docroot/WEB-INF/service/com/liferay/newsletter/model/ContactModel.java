@@ -52,9 +52,9 @@ public interface ContactModel extends BaseModel<Contact> {
 	/**
 	 * Sets the primary key of this contact
 	 *
-	 * @param pk the primary key of this contact
+	 * @param primaryKey the primary key of this contact
 	 */
-	public void setPrimaryKey(long pk);
+	public void setPrimaryKey(long primaryKey);
 
 	/**
 	 * Gets the uuid of this contact.
@@ -128,6 +128,8 @@ public interface ContactModel extends BaseModel<Contact> {
 	public void setEscapedModel(boolean escapedModel);
 
 	public Serializable getPrimaryKeyObj();
+
+	public void setPrimaryKeyObj(Serializable primaryKeyObj);
 
 	public ExpandoBridge getExpandoBridge();
 

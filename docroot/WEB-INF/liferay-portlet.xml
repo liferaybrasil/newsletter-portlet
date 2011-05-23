@@ -10,7 +10,7 @@
 			<trigger>
 				<simple>
 					<property-key>newsletter.job.interval</property-key>
-					<time-unit>minute</time-unit>
+					<time-unit>second</time-unit>
 				</simple>
 			</trigger>
 		</scheduler-entry> 

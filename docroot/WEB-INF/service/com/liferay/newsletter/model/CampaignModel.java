@@ -54,9 +54,9 @@ public interface CampaignModel extends BaseModel<Campaign> {
 	/**
 	 * Sets the primary key of this campaign
 	 *
-	 * @param pk the primary key of this campaign
+	 * @param primaryKey the primary key of this campaign
 	 */
-	public void setPrimaryKey(long pk);
+	public void setPrimaryKey(long primaryKey);
 
 	/**
 	 * Gets the uuid of this campaign.
@@ -209,6 +209,8 @@ public interface CampaignModel extends BaseModel<Campaign> {
 	public void setEscapedModel(boolean escapedModel);
 
 	public Serializable getPrimaryKeyObj();
+
+	public void setPrimaryKeyObj(Serializable primaryKeyObj);
 
 	public ExpandoBridge getExpandoBridge();
 

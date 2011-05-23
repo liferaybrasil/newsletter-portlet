@@ -14,11 +14,13 @@
  */
 --%>
 
+<%@ include file="/html/init.jsp" %>
+
 <%
 String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
+boolean importWebContent = ParamUtil.getString(request, "import").equals("true") ? true : false;
 %>
 
-<%@ include file="/html/init.jsp" %>
 
 <liferay-portlet:renderURL varImpl="portletURL">
 	<portlet:param name="tabs1" value="Popup" />
@@ -32,8 +34,6 @@ String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 </aui:form>
 
 <div class="separator article-separator"><!-- --></div>
-
-
 
 	<liferay-ui:search-container
 	searchContainer="<%= new ArticleSearch(renderRequest, portletURL) %>"
@@ -52,7 +52,7 @@ String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 	>
 
 	<%
-	String parentFunctionURL = "javascript:" + resourceNamespace + "setParentWindowsHiddenFieldValue("+ article.getArticleId() + ",'" + article.getTitle(locale) +"');";
+	String parentFunctionURL = "javascript:" + resourceNamespace + "setParentWindowsHiddenFieldValue("+ article.getArticleId() + ",'" + article.getTitle(locale) + "'," + importWebContent + ");";
 	%>
 
 		<liferay-ui:search-container-column-text
@@ -97,11 +97,11 @@ String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 
 
 <aui:script>
-    function <portlet:namespace/>setParentWindowsHiddenFieldValue(articleId, articleTitle) {
+    function <portlet:namespace/>setParentWindowsHiddenFieldValue(articleId, articleTitle, import) {
     	var parentWindow = window.parent;
     	//var AUI = parentWindow.AUI;
 
-        parentWindow.<%= resourceNamespace %>setCampaignContentValue(articleId, articleTitle);
+        parentWindow.<%= resourceNamespace %>setCampaignContentValue(articleId, articleTitle, import);
 
         //AUI().DialogManager.closeByChild();
     }

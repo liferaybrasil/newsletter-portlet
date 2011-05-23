@@ -248,6 +248,13 @@ public class CampaignContentLocalServiceWrapper
 		return _campaignContentLocalService.getCampaigns(campaignContent);
 	}
 
+	public java.util.List<com.liferay.newsletter.model.CampaignContent> getCampaignsContentByTitle(
+		java.lang.String title, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _campaignContentLocalService.getCampaignsContentByTitle(title,
+			start, end);
+	}
+
 	public CampaignContentLocalService getWrappedCampaignContentLocalService() {
 		return _campaignContentLocalService;
 	}

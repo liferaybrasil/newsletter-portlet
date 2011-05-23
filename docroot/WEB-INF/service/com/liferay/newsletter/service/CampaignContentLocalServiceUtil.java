@@ -255,6 +255,12 @@ public class CampaignContentLocalServiceUtil {
 		return getService().getCampaigns(campaignContent);
 	}
 
+	public static java.util.List<com.liferay.newsletter.model.CampaignContent> getCampaignsContentByTitle(
+		java.lang.String title, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getCampaignsContentByTitle(title, start, end);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

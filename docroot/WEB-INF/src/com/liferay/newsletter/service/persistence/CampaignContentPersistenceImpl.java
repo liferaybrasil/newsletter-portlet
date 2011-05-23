@@ -321,6 +321,7 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 		campaignContentImpl.setTitle(campaignContent.getTitle());
 		campaignContentImpl.setContent(campaignContent.getContent());
 		campaignContentImpl.setCreateDate(campaignContent.getCreateDate());
+		campaignContentImpl.setArticleId(campaignContent.getArticleId());
 
 		return campaignContentImpl;
 	}
@@ -860,8 +861,7 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				CampaignContent.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				CampaignContent.class.getName(), _FILTER_COLUMN_PK);
 
 		Session session = null;
 
@@ -1046,8 +1046,7 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				CampaignContent.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				CampaignContent.class.getName(), _FILTER_COLUMN_PK);
 
 		SQLQuery q = session.createSQLQuery(sql);
 
@@ -1311,8 +1310,7 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				CampaignContent.class.getName(), _FILTER_COLUMN_PK,
-				_FILTER_COLUMN_USERID);
+				CampaignContent.class.getName(), _FILTER_COLUMN_PK);
 
 		Session session = null;
 
@@ -1639,12 +1637,12 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST);
 	}
 
+	@BeanReference(type = CampaignPersistence.class)
+	protected CampaignPersistence campaignPersistence;
 	@BeanReference(type = CampaignContentPersistence.class)
 	protected CampaignContentPersistence campaignContentPersistence;
 	@BeanReference(type = ContactPersistence.class)
 	protected ContactPersistence contactPersistence;
-	@BeanReference(type = CampaignPersistence.class)
-	protected CampaignPersistence campaignPersistence;
 	@BeanReference(type = NewsletterLogPersistence.class)
 	protected NewsletterLogPersistence newsletterLogPersistence;
 	@BeanReference(type = ResourcePersistence.class)
@@ -1700,7 +1698,6 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 		") TEMP_TABLE INNER JOIN Newsletter_CampaignContent ON TEMP_TABLE.campaignContentId = Newsletter_CampaignContent.campaignContentId";
 	private static final String _FILTER_SQL_COUNT_CAMPAIGNCONTENT_WHERE = "SELECT COUNT(DISTINCT campaignContent.campaignContentId) AS COUNT_VALUE FROM Newsletter_CampaignContent campaignContent WHERE ";
 	private static final String _FILTER_COLUMN_PK = "campaignContent.campaignContentId";
-	private static final String _FILTER_COLUMN_USERID = null;
 	private static final String _FILTER_ENTITY_ALIAS = "campaignContent";
 	private static final String _FILTER_ENTITY_TABLE = "Newsletter_CampaignContent";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "campaignContent.";

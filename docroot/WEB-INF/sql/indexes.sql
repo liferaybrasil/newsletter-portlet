@@ -13,6 +13,7 @@ create index IX_A956CF1C on Newsletter_Campaign_Contact (campaignId);
 create index IX_FF4A4D8E on Newsletter_Campaign_Contact (contactId);
 
 create index IX_3142AF6C on Newsletter_Contact (email);
+create index IX_BDBA079F on Newsletter_Contact (name);
 create index IX_8DBB6DD4 on Newsletter_Contact (uuid_);
 
 create index IX_4DCAD2CA on Newsletter_NewsletterLog (campaignId);

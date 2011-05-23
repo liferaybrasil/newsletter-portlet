@@ -16,6 +16,7 @@ package com.liferay.newsletter.model.impl;
 
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.ContactModel;
+import com.liferay.newsletter.model.ContactSoap;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -32,6 +33,9 @@ import java.io.Serializable;
 import java.lang.reflect.Proxy;
 
 import java.sql.Types;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The base model implementation for the Contact service. Represents a row in the &quot;Newsletter_Contact&quot; database table, with each column mapped to a property of this class.
@@ -74,6 +78,39 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 				"value.object.finder.cache.enabled.com.liferay.newsletter.model.Contact"),
 			true);
 
+	/**
+	 * Converts the soap model instance into a normal model instance.
+	 *
+	 * @param soapModel the soap model instance to convert
+	 * @return the normal model instance
+	 */
+	public static Contact toModel(ContactSoap soapModel) {
+		Contact model = new ContactImpl();
+
+		model.setUuid(soapModel.getUuid());
+		model.setContactId(soapModel.getContactId());
+		model.setEmail(soapModel.getEmail());
+		model.setName(soapModel.getName());
+
+		return model;
+	}
+
+	/**
+	 * Converts the soap model instances into normal model instances.
+	 *
+	 * @param soapModels the soap model instances to convert
+	 * @return the normal model instances
+	 */
+	public static List<Contact> toModels(ContactSoap[] soapModels) {
+		List<Contact> models = new ArrayList<Contact>(soapModels.length);
+
+		for (ContactSoap soapModel : soapModels) {
+			models.add(toModel(soapModel));
+		}
+
+		return models;
+	}
+
 	public Class<?> getModelClass() {
 		return Contact.class;
 	}
@@ -92,12 +129,16 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 		return _contactId;
 	}
 
-	public void setPrimaryKey(long pk) {
-		setContactId(pk);
+	public void setPrimaryKey(long primaryKey) {
+		setContactId(primaryKey);
 	}
 
 	public Serializable getPrimaryKeyObj() {
 		return new Long(_contactId);
+	}
+
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
 	public String getUuid() {
@@ -217,9 +258,9 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 			return false;
 		}
 
-		long pk = contact.getPrimaryKey();
+		long primaryKey = contact.getPrimaryKey();
 
-		if (getPrimaryKey() == pk) {
+		if (getPrimaryKey() == primaryKey) {
 			return true;
 		}
 		else {

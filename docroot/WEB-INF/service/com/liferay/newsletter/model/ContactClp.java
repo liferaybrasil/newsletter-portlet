@@ -41,12 +41,16 @@ public class ContactClp extends BaseModelImpl<Contact> implements Contact {
 		return _contactId;
 	}
 
-	public void setPrimaryKey(long pk) {
-		setContactId(pk);
+	public void setPrimaryKey(long primaryKey) {
+		setContactId(primaryKey);
 	}
 
 	public Serializable getPrimaryKeyObj() {
 		return new Long(_contactId);
+	}
+
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
 	public String getUuid() {
@@ -128,9 +132,9 @@ public class ContactClp extends BaseModelImpl<Contact> implements Contact {
 			return false;
 		}
 
-		long pk = contact.getPrimaryKey();
+		long primaryKey = contact.getPrimaryKey();
 
-		if (getPrimaryKey() == pk) {
+		if (getPrimaryKey() == primaryKey) {
 			return true;
 		}
 		else {

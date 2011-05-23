@@ -4,18 +4,19 @@
 	<author>Bruno Pinheiro</author>
 	<namespace>Newsletter</namespace>
 
-	<entity uuid="true" name="CampaignContent" local-service="true" remote-service="false">
+	<entity uuid="true" name="CampaignContent" local-service="true" remote-service="true">
 		
 		<column name="campaignContentId" type="long" primary="true" />
 
 		<column name="title" type="String" />
 		<column name="content" type="String" />
 		<column name="createDate" type="Date" />
+		<column name="articleId" type="long" />
 		
 		<column name="campaigns" type="Collection" entity="Campaign" mapping-key="campaignId" />
 	</entity>
 	
-	<entity uuid="true" name="Contact" local-service="true" remote-service="false">
+	<entity uuid="true" name="Contact" local-service="true" remote-service="true">
 
 		<column name="contactId" type="long" primary="true" />
 
@@ -30,6 +31,10 @@
 		
 		<finder name="Email" return-type="Contact">
 			<finder-column name="email" />
+		</finder>
+
+		<finder name="Name" return-type="Collection">
+			<finder-column name="name" />
 		</finder>
 
 	</entity>

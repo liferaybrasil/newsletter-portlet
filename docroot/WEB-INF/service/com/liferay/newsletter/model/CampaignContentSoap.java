@@ -21,9 +21,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services.
+ * This class is used by SOAP remote services, specifically {@link com.liferay.newsletter.service.http.CampaignContentServiceSoap}.
  *
  * @author    Bruno Pinheiro
+ * @see       com.liferay.newsletter.service.http.CampaignContentServiceSoap
  * @generated
  */
 public class CampaignContentSoap implements Serializable {
@@ -35,6 +36,7 @@ public class CampaignContentSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setContent(model.getContent());
 		soapModel.setCreateDate(model.getCreateDate());
+		soapModel.setArticleId(model.getArticleId());
 
 		return soapModel;
 	}
@@ -129,9 +131,18 @@ public class CampaignContentSoap implements Serializable {
 		_createDate = createDate;
 	}
 
+	public long getArticleId() {
+		return _articleId;
+	}
+
+	public void setArticleId(long articleId) {
+		_articleId = articleId;
+	}
+
 	private String _uuid;
 	private long _campaignContentId;
 	private String _title;
 	private String _content;
 	private Date _createDate;
+	private long _articleId;
 }

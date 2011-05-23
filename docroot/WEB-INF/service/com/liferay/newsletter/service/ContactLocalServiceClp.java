@@ -82,7 +82,30 @@ public class ContactLocalServiceClp implements ContactLocalService {
 				"getNewsletterLogs", com.liferay.newsletter.model.Contact.class);
 
 		_getContactByEmailMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getContactByEmail", java.lang.String.class, int.class,
+				int.class);
+
+		_getContactByEmailMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactByEmail", java.lang.String.class);
+
+		_getContactCountByEmailMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getContactCountByEmail", java.lang.String.class);
+
+		_getContactsByNameMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getContactsByName", java.lang.String.class);
+
+		_getContactByNameAndCampaignMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getContactByNameAndCampaign", java.lang.String.class,
+				long.class, int.class, int.class);
+
+		_getContactCountByNameMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getContactCountByName", java.lang.String.class);
+
+		_getContactCountByCampaignMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getContactCountByCampaign", long.class);
+
+		_getContactCountByCampaignContentMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getContactCountByCampaignContent", long.class);
 	}
 
 	public com.liferay.newsletter.model.Contact addContact(
@@ -513,12 +536,40 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		return (java.util.List<com.liferay.newsletter.model.NewsletterLog>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactByEmail(
+		java.lang.String email, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getContactByEmailMethodKey16,
+				ClpSerializer.translateInput(email), start, end);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.newsletter.model.Contact>)ClpSerializer.translateOutput(returnObj);
+	}
+
 	public com.liferay.newsletter.model.Contact getContactByEmail(
 		java.lang.String contactEmail)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactByEmailMethodKey16,
+		MethodHandler methodHandler = new MethodHandler(_getContactByEmailMethodKey17,
 				ClpSerializer.translateInput(contactEmail));
 
 		try {
@@ -539,6 +590,171 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		}
 
 		return (com.liferay.newsletter.model.Contact)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public int getContactCountByEmail(java.lang.String contactEmail)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getContactCountByEmailMethodKey18,
+				ClpSerializer.translateInput(contactEmail));
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactsByName(
+		java.lang.String contactName)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getContactsByNameMethodKey19,
+				ClpSerializer.translateInput(contactName));
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.newsletter.model.Contact>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactByNameAndCampaign(
+		java.lang.String contactName, long campaignId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getContactByNameAndCampaignMethodKey20,
+				ClpSerializer.translateInput(contactName), campaignId, start,
+				end);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.newsletter.model.Contact>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public int getContactCountByName(java.lang.String contactName)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getContactCountByNameMethodKey21,
+				ClpSerializer.translateInput(contactName));
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
+	public int getContactCountByCampaign(long campaignId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getContactCountByCampaignMethodKey22,
+				campaignId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
+	public int getContactCountByCampaignContent(long campaignContentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getContactCountByCampaignContentMethodKey23,
+				campaignContentId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
 	}
 
 	public ClassLoaderProxy getClassLoaderProxy() {
@@ -563,4 +779,11 @@ public class ContactLocalServiceClp implements ContactLocalService {
 	private MethodKey _setBeanIdentifierMethodKey14;
 	private MethodKey _getNewsletterLogsMethodKey15;
 	private MethodKey _getContactByEmailMethodKey16;
+	private MethodKey _getContactByEmailMethodKey17;
+	private MethodKey _getContactCountByEmailMethodKey18;
+	private MethodKey _getContactsByNameMethodKey19;
+	private MethodKey _getContactByNameAndCampaignMethodKey20;
+	private MethodKey _getContactCountByNameMethodKey21;
+	private MethodKey _getContactCountByCampaignMethodKey22;
+	private MethodKey _getContactCountByCampaignContentMethodKey23;
 }

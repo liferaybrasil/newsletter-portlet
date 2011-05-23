@@ -17,6 +17,7 @@
 <%@include file="/html/init.jsp" %>
 
 <%
+	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
 	long campaignId = ParamUtil.getLong(request, "campaignId");
 
 	Campaign campaign = CampaignLocalServiceUtil.getCampaign(
@@ -24,7 +25,7 @@
 
 	String redirect = ParamUtil.getString(request, "redirect");
 
-	String campaignContentTitle = CampaignContentLocalServiceUtil.getCampaignContent(campaignId).getTitle();
+	String campaignContentTitle = CampaignContentLocalServiceUtil.getCampaignContent(campaign.getCampaignContentId()).getTitle();
 %>
 
 <aui:model-context bean="<%= campaign %>" model="<%= Campaign.class %>" />
@@ -35,21 +36,65 @@
 />
 
 <aui:fieldset>
-<aui:input disabled="true" name="emailSubject" label="Email Subject" />
-
-<aui:input disabled="true" name="senderName" label="Sender Name" />
-
-<aui:input disabled="true" name="senderEmail" label="Sender Email" />
-
-<aui:input disabled="true" name="sendDate" label="Send Date" />
-
-<aui:input disabled="true" type="text" name="campaignContentTitle" label="Campaign Content"  value="<%= campaignContentTitle %>" />
+<span class="yui3-aui-field-content">
+		<label class="yui3-aui-field-label"> Email Subject </label>
+	<span class="yui3-aui-field-element ">
+		<%= campaign.getEmailSubject() %>
+	</span>
+</span>
+<span class="yui3-aui-field-content">
+		<label class="yui3-aui-field-label"> Sender Name </label>
+	<span class="yui3-aui-field-element ">
+		<%= campaign.getSenderName() %>
+	</span>
+</span>
+<span class="yui3-aui-field-content">
+		<label class="yui3-aui-field-label"> Sender Email </label>
+	<span class="yui3-aui-field-element ">
+		<%= campaign.getSenderEmail() %>
+	</span>
+</span>
+<span class="yui3-aui-field-content">
+		<label class="yui3-aui-field-label"> Send Date </label>
+	<span class="yui3-aui-field-element ">
+		<%= dateFormat.format(campaign.getSendDate()) %>
+	</span>
+</span>
+<span class="yui3-aui-field-content">
+		<label class="yui3-aui-field-label"> Campaign Content </label>
+		<b>Title:</b> <%= campaignContentTitle %>
+	<span class="yui3-aui-field-element ">
+		<%= campaign.getContent() %>
+	</span>
+</span>
 </aui:fieldset>
 <br />
-<liferay-ui:search-container emptyResultsMessage="newsletter-empty-results-message">
+<span class="yui3-aui-field-content">
+		<label class="yui3-aui-field-label"> Contacts </label>
+</span>
+
+<liferay-portlet:renderURL varImpl="portletURL">
+	<portlet:param name="jspPage" value="/html/newsletterportlet/detail_campaign.jsp" />
+			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
+			<portlet:param name="redirect" value="<%= redirect %>" />
+			<portlet:param name="tabs1" value="Campaign" />
+</liferay-portlet:renderURL>
+
+<aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
+	<liferay-ui:search-form
+		page="/html/newsletterportlet/contact_search.jsp"
+		servletContext="<%= application %>"
+	/>
+</aui:form>
+
+	<liferay-ui:search-container
+	searchContainer="<%= new ContactSearch(renderRequest, portletURL) %>"
+>
+	<%@ include file="contact_search_results.jspf" %>
+
 	<liferay-ui:search-container-results
-		results="<%= NewsletterLogLocalServiceUtil.getContactsByCampaign(campaignId) %>"
-		total="<%= NewsletterLogLocalServiceUtil.getContactsByCampaignCount(campaignId) %>"
+		results="<%= resultList %>"
+		total="<%= totalCount %>"
 	/>
 
 	<liferay-ui:search-container-row
@@ -67,10 +112,10 @@
 			name="Email"
 			value="<%= contactNewsletter.getEmail() %>"
 		/>
-		
+
 		<liferay-ui:search-container-column-text
 			name="Status"
-			value="<%= NewsletterLogLocalServiceUtil.getNewsletterLogByCampaignAndContact(campaignId, contactNewsletter.getContactId()).isSent() ? "Sent" : "Failed" %>"
+			value='<%= NewsletterLogLocalServiceUtil.getNewsletterLogByCampaignAndContact(campaignId, contactNewsletter.getContactId()).isSent() ? "Sent" : "Failed" %>'
 		/>
 	</liferay-ui:search-container-row>
 
@@ -92,7 +137,7 @@
 </portlet:actionURL>
 
 <aui:button-row>
-		<aui:button value="Resend All" onClick="<%= resendURL.toString() %>"/>
+		<aui:button value="Resend All" onClick="<%= resendURL.toString() %>" />
 
-		<aui:button value="Resend Failed" onClick="<%= resendFailedURL.toString() %>"/>
+		<aui:button value="Resend Failed" onClick="<%= resendFailedURL.toString() %>" />
 </aui:button-row>

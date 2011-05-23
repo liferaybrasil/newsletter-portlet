@@ -44,6 +44,15 @@
 <liferay-portlet:renderURL windowState="<%= LiferayWindowState.POP_UP.toString() %>" varImpl="selectContentPopupURL">
 	<portlet:param name="tabs1" value="CampaignContent" />
 	<portlet:param name="redirect" value="<%= redirect %>" />
+	<portlet:param name="import" value="false" />
+	<portlet:param name="jspPage" value="/html/newsletterportlet/popup.jsp" />
+	<portlet:param name="resourceNamespace" value="<%= renderResponse.getNamespace() %>" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL windowState="<%= LiferayWindowState.POP_UP.toString() %>" varImpl="importContentPopupURL">
+	<portlet:param name="tabs1" value="CampaignContent" />
+	<portlet:param name="redirect" value="<%= redirect %>" />
+	<portlet:param name="import" value="true" />
 	<portlet:param name="jspPage" value="/html/newsletterportlet/popup.jsp" />
 	<portlet:param name="resourceNamespace" value="<%= renderResponse.getNamespace() %>" />
 </liferay-portlet:renderURL>
@@ -57,7 +66,7 @@
 
 <aui:form action="<%= editCampaignContentURL %>" method="POST" name="fm">
 	<aui:fieldset>
-		<aui:input type="hidden" name="cmd" value="<%= campaignContent == null ? "campaignContent" : "editCampaignContent" %>" />
+		<aui:input type="hidden" name="cmd" value='<%= campaignContent == null ? "campaignContent" : "editCampaignContent" %>' />
 
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
@@ -70,21 +79,33 @@
 		<aui:input name="title" label="Title" />
 		<liferay-ui:error key="campaignContenttitle-required" message="campaignContenttitle-required" />
 
-		<liferay-ui:input-editor name="contentEditor" toolbarSet="liferay-article" width="100%" onChangeMethod='<%= renderResponse.getNamespace() + "changeContent" %>' />
-		<liferay-ui:error key="campaignContentcontent-required" message="campaignContentcontent-required" />
+		<div class="separator article-separator"><!-- --></div>
 
-
-		<%
-		String webContentPopUpURL = "javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '" + selectContentPopupURL +"'});";
-		%>
-		<div class="portlet-msg-info aui-helper-hidden"> 
+		<div class="portlet-msg-info yui3-aui-helper-hidden">
 			<span class="displaying-article-id-holder">
 				<liferay-ui:message key="displaying-content" />: <span class="displaying-article-id"> </span>
 			</span>
 		</div>
 
-		<aui:button value="Select WebContent" onClick="<%= webContentPopUpURL %>"/>
-		
+		<div class="contentEditor-div">
+			<liferay-ui:input-editor name="contentEditor" toolbarSet="liferay-article" width="100%" onChangeMethod='changeContent' />
+		</div>
+		<span class="displaying-article-content"> </span>
+
+		<liferay-ui:error key="campaignContentcontent-required" message="campaignContentcontent-required" />
+
+		<div class="separator article-separator"><!-- --></div>
+
+		<%
+		String importWebContentPopUpURL = "javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '" + importContentPopupURL +"'});";
+		%>
+		<aui:button value="Import WebContent" onClick="<%= importWebContentPopUpURL %>" />
+
+		<%
+		String webContentPopUpURL = "javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '" + selectContentPopupURL +"'});";
+		%>
+		<aui:button value="Select WebContent" onClick="<%= webContentPopUpURL %>" />
+
 
 	</aui:fieldset>
 
@@ -102,13 +123,13 @@ function <portlet:namespace />initEditor() {
 }
 
 function <portlet:namespace />changeContent() {
-	document.getElementById('<portlet:namespace/>content').value = window.frames['contentEditor'].getHTML();
+	document.getElementById('<portlet:namespace/>content').value = window.frames['<portlet:namespace/>contentEditor'].getHTML();
 }
 
 Liferay.provide(
 	window,
 	'<portlet:namespace/>setCampaignContentValue',
-	function(articleId, articleTitle) {
+	function(articleId, articleTitle, import) {
 		var A = AUI();
 		A.io.request('<%= getArticleContentURL %>',
 			{
@@ -122,8 +143,17 @@ Liferay.provide(
 
 						var data = instance.get('responseData');
 
-						window.frames['contentEditor'].setHTML(data);
-						
+						if(import){
+							A.one('.contentEditor-div').hide();
+							var displayArticleContent = A.one('.displaying-article-content');
+							displayArticleContent.set('innerHTML', data);
+							document.getElementById('<portlet:namespace/>content').value = data;
+							document.getElementById('<portlet:namespace/>articleId').value = articleId;
+						}
+						else {
+							window.frames['<portlet:namespace/>contentEditor'].setHTML(data);
+							A.one('.displaying-article-content').hide();
+						}
 						A.one('.portlet-msg-info').show();
 						var displayArticleId = A.one('.displaying-article-id');
 						displayArticleId.set('innerHTML', articleTitle);

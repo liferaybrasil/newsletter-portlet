@@ -64,10 +64,10 @@
 			name="Campaign Content"
 			value="<%= CampaignContentLocalServiceUtil.getCampaignContent(campaign.getCampaignContentId()).getTitle() %>"
 		/>
-		
+
 		<liferay-ui:search-container-column-text
 			name="# of emails"
-			value="<%= ""+NewsletterLogLocalServiceUtil.getContactsByCampaignCount(campaign.getCampaignContentId()) %>"
+			value='<%= ""+ContactLocalServiceUtil.getContactCountByCampaign(campaign.getCampaignId()) %>'
 		/>
 
 		<liferay-ui:search-container-column-jsp

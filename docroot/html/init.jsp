@@ -38,8 +38,8 @@
 <%@ page import="com.liferay.portal.util.PortalUtil" %>
 <%@ page import="com.liferay.newsletter.model.Campaign" %>
 <%@ page import="com.liferay.newsletter.model.Contact" %>
-<%@ page import="com.liferay.newsletter.model.CampaignContent"%>
-<%@ page import="com.liferay.newsletter.service.CampaignContentLocalServiceUtil"%>
+<%@ page import="com.liferay.newsletter.model.CampaignContent" %>
+<%@ page import="com.liferay.newsletter.service.CampaignContentLocalServiceUtil" %>
 <%@ page import="com.liferay.newsletter.service.CampaignLocalServiceUtil" %>
 <%@ page import="com.liferay.newsletter.service.ContactLocalServiceUtil" %>
 <%@ page import="com.liferay.newsletter.service.NewsletterLogLocalServiceUtil" %>
@@ -61,8 +61,8 @@
 <%@ page import="javax.portlet.PortletURL" %>
 <%@ page import="com.liferay.portlet.PortletURLUtil" %>
 
-<%@page import="com.liferay.portal.kernel.util.PropsKeys"%>
-<%@page import="com.liferay.util.portlet.PortletProps"%>
+<%@ page import="com.liferay.portal.kernel.util.PropsKeys" %>
+<%@ page import="com.liferay.util.portlet.PortletProps" %>
 
 <%@ page import="com.liferay.portal.kernel.util.StringPool" %>
 <%@ page import="com.liferay.portal.kernel.dao.search.RowChecker" %>
@@ -71,6 +71,10 @@
 <%@ page import="java.text.Format" %>
 <%@ page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
+
+<%@ page import="com.liferay.newsletter.search.contact.ContactDisplayTerms" %>
+<%@ page import="com.liferay.newsletter.search.contact.ContactSearchTerms" %>
+<%@ page import="com.liferay.newsletter.search.contact.ContactSearch" %>
 
 
 <liferay-theme:defineObjects />

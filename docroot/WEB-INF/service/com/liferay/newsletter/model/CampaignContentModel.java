@@ -54,9 +54,9 @@ public interface CampaignContentModel extends BaseModel<CampaignContent> {
 	/**
 	 * Sets the primary key of this campaign content
 	 *
-	 * @param pk the primary key of this campaign content
+	 * @param primaryKey the primary key of this campaign content
 	 */
-	public void setPrimaryKey(long pk);
+	public void setPrimaryKey(long primaryKey);
 
 	/**
 	 * Gets the uuid of this campaign content.
@@ -131,6 +131,20 @@ public interface CampaignContentModel extends BaseModel<CampaignContent> {
 	 */
 	public void setCreateDate(Date createDate);
 
+	/**
+	 * Gets the article ID of this campaign content.
+	 *
+	 * @return the article ID of this campaign content
+	 */
+	public long getArticleId();
+
+	/**
+	 * Sets the article ID of this campaign content.
+	 *
+	 * @param articleId the article ID of this campaign content
+	 */
+	public void setArticleId(long articleId);
+
 	public boolean isNew();
 
 	public void setNew(boolean n);
@@ -144,6 +158,8 @@ public interface CampaignContentModel extends BaseModel<CampaignContent> {
 	public void setEscapedModel(boolean escapedModel);
 
 	public Serializable getPrimaryKeyObj();
+
+	public void setPrimaryKeyObj(Serializable primaryKeyObj);
 
 	public ExpandoBridge getExpandoBridge();
 

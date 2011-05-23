@@ -14,8 +14,6 @@
 
 package com.liferay.newsletter.service.impl;
 
-import java.util.List;
-
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
@@ -25,6 +23,8 @@ import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
 import com.liferay.newsletter.service.base.CampaignContentLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.List;
 
 /**
  * The implementation of the campaign content local service.
@@ -42,8 +42,10 @@ import com.liferay.portal.kernel.exception.SystemException;
  */
 public class CampaignContentLocalServiceImpl
 	extends CampaignContentLocalServiceBaseImpl {
-	
-	public CampaignContent addCampaignContent(CampaignContent campaignContent) throws SystemException{
+
+	public CampaignContent addCampaignContent(CampaignContent campaignContent)
+		throws SystemException{
+
 		long campaignContentId = CounterLocalServiceUtil.increment(
 			CampaignContent.class.getName());
 
@@ -55,15 +57,24 @@ public class CampaignContentLocalServiceImpl
 	public List<Campaign> getCampaigns(CampaignContent campaignContent)
 		throws SystemException{
 
-		return campaignContentPersistence.getCampaigns(campaignContent.getCampaignContentId());
+		return campaignContentPersistence.getCampaigns(
+					campaignContent.getCampaignContentId());
+	}
+
+	public List<CampaignContent> getCampaignsContentByTitle(
+			String title, int start, int end)
+		throws SystemException{
+
+		return campaignContentFinder.findByTitle(title, start, end);
 	}
 
 	@Override
-	public void deleteCampaignContent(long campaignContentId) throws SystemException,
-		PortalException {
+	public void deleteCampaignContent(long campaignContentId)
+		throws SystemException,	PortalException {
 
 		List<Campaign> campaignsByCampaignContent =
-			CampaignLocalServiceUtil.getCampaignsByCampaignContent(campaignContentId);
+			CampaignLocalServiceUtil.getCampaignsByCampaignContent(
+				campaignContentId);
 
 		if (!campaignsByCampaignContent.isEmpty()) {
 			for (Campaign campaign : campaignsByCampaignContent) {
@@ -82,4 +93,5 @@ public class CampaignContentLocalServiceImpl
 
 		super.deleteCampaignContent(campaignContentId);
 	}
+
 }

@@ -2,29 +2,10 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.liferay.newsletter.model.Campaign" />
 	<import class="com.liferay.newsletter.model.CampaignContent" />
 	<import class="com.liferay.newsletter.model.Contact" />
-	<import class="com.liferay.newsletter.model.Campaign" />
 	<import class="com.liferay.newsletter.model.NewsletterLog" />
-	<class name="com.liferay.newsletter.model.impl.CampaignContentImpl" table="Newsletter_CampaignContent">
-		<cache usage="read-write" />
-		<id name="campaignContentId" type="long">
-			<generator class="assigned" />
-		</id>
-		<property name="uuid" column="uuid_" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="createDate" type="org.hibernate.type.TimestampType" />
-	</class>
-	<class name="com.liferay.newsletter.model.impl.ContactImpl" table="Newsletter_Contact">
-		<cache usage="read-write" />
-		<id name="contactId" type="long">
-			<generator class="assigned" />
-		</id>
-		<property name="uuid" column="uuid_" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-	</class>
 	<class name="com.liferay.newsletter.model.impl.CampaignImpl" table="Newsletter_Campaign">
 		<cache usage="read-write" />
 		<id name="campaignId" type="long">
@@ -38,6 +19,26 @@
 		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="sent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="campaignContentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.liferay.newsletter.model.impl.CampaignContentImpl" table="Newsletter_CampaignContent">
+		<cache usage="read-write" />
+		<id name="campaignContentId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="uuid" column="uuid_" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="articleId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.liferay.newsletter.model.impl.ContactImpl" table="Newsletter_Contact">
+		<cache usage="read-write" />
+		<id name="contactId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="uuid" column="uuid_" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.liferay.newsletter.model.impl.NewsletterLogImpl" table="Newsletter_NewsletterLog">
 		<cache usage="read-write" />

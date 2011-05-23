@@ -52,9 +52,9 @@ public interface NewsletterLogModel extends BaseModel<NewsletterLog> {
 	/**
 	 * Sets the primary key of this newsletter log
 	 *
-	 * @param pk the primary key of this newsletter log
+	 * @param primaryKey the primary key of this newsletter log
 	 */
-	public void setPrimaryKey(long pk);
+	public void setPrimaryKey(long primaryKey);
 
 	/**
 	 * Gets the uuid of this newsletter log.
@@ -147,6 +147,8 @@ public interface NewsletterLogModel extends BaseModel<NewsletterLog> {
 	public void setEscapedModel(boolean escapedModel);
 
 	public Serializable getPrimaryKeyObj();
+
+	public void setPrimaryKeyObj(Serializable primaryKeyObj);
 
 	public ExpandoBridge getExpandoBridge();
 

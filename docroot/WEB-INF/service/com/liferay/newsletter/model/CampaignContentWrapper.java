@@ -48,10 +48,10 @@ public class CampaignContentWrapper implements CampaignContent {
 	/**
 	* Sets the primary key of this campaign content
 	*
-	* @param pk the primary key of this campaign content
+	* @param primaryKey the primary key of this campaign content
 	*/
-	public void setPrimaryKey(long pk) {
-		_campaignContent.setPrimaryKey(pk);
+	public void setPrimaryKey(long primaryKey) {
+		_campaignContent.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -144,6 +144,24 @@ public class CampaignContentWrapper implements CampaignContent {
 		_campaignContent.setCreateDate(createDate);
 	}
 
+	/**
+	* Gets the article ID of this campaign content.
+	*
+	* @return the article ID of this campaign content
+	*/
+	public long getArticleId() {
+		return _campaignContent.getArticleId();
+	}
+
+	/**
+	* Sets the article ID of this campaign content.
+	*
+	* @param articleId the article ID of this campaign content
+	*/
+	public void setArticleId(long articleId) {
+		_campaignContent.setArticleId(articleId);
+	}
+
 	public boolean isNew() {
 		return _campaignContent.isNew();
 	}
@@ -170,6 +188,10 @@ public class CampaignContentWrapper implements CampaignContent {
 
 	public java.io.Serializable getPrimaryKeyObj() {
 		return _campaignContent.getPrimaryKeyObj();
+	}
+
+	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
+		_campaignContent.setPrimaryKeyObj(primaryKeyObj);
 	}
 
 	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {

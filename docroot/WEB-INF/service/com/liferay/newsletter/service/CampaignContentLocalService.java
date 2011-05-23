@@ -228,4 +228,9 @@ public interface CampaignContentLocalService {
 	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaigns(
 		com.liferay.newsletter.model.CampaignContent campaignContent)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.newsletter.model.CampaignContent> getCampaignsContentByTitle(
+		java.lang.String title, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }
