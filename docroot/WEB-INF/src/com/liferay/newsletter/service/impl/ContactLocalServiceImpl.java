@@ -43,10 +43,26 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		return contactByEmail;
 	}
 
-	public List<NewsletterLog> getNewsletterLogs(Contact contact)
+	public List<Contact> getContactsByName(String contactName)
 		throws SystemException{
 
-		return contactPersistence.getNewsletterLogs(contact.getContactId());
+		List<Contact> contacts;
+
+		contacts = contactPersistence.findByName(contactName);
+
+		return contacts;
+	}
+
+	public List<Contact> getContactByNameAndCampaign(
+			String contactName, long campaignId, int start, int end)
+		throws SystemException{
+
+		List<Contact> contact;
+
+		contact = contactFinder.findByNameAndCampaign(
+			contactName, campaignId, start, end);
+
+		return contact;
 	}
 
 	public List<Contact> getContactByEmail(String email, int start, int end)
@@ -70,40 +86,6 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		return contact;
 	}
 
-	public int getContactCountByEmail(String contactEmail)
-		throws SystemException{
-
-		return contactPersistence.countByEmail(contactEmail);
-	}
-
-	public List<Contact> getContactsByName(String contactName)
-		throws SystemException{
-
-		List<Contact> contacts;
-
-		contacts = contactPersistence.findByName(contactName);
-
-		return contacts;
-	}
-
-	public List<Contact> getContactByNameAndCampaign(
-			String contactName, long campaignId, int start, int end)
-		throws SystemException{
-
-		List<Contact> contact;
-
-		contact = contactFinder.findByNameAndCampaign(
-			contactName, campaignId, start, end);
-
-		return contact;
-	}
-
-	public int getContactCountByName(String contactName)
-		throws SystemException{
-
-		return contactPersistence.countByEmail(contactName);
-	}
-
 	public int getContactCountByCampaign(long campaignId)
 		throws SystemException{
 
@@ -114,6 +96,24 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		throws SystemException{
 
 		return contactFinder.countByCampaignContent(campaignContentId);
+	}
+
+	public int getContactCountByEmail(String contactEmail)
+		throws SystemException{
+
+		return contactPersistence.countByEmail(contactEmail);
+	}
+
+	public int getContactCountByName(String contactName)
+		throws SystemException{
+
+		return contactPersistence.countByEmail(contactName);
+	}
+
+	public List<NewsletterLog> getNewsletterLogs(Contact contact)
+		throws SystemException{
+
+		return contactPersistence.getNewsletterLogs(contact.getContactId());
 	}
 
 }

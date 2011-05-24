@@ -54,20 +54,6 @@ public class CampaignContentLocalServiceImpl
 		return super.addCampaignContent(campaignContent);
 	}
 
-	public List<Campaign> getCampaigns(CampaignContent campaignContent)
-		throws SystemException{
-
-		return campaignContentPersistence.getCampaigns(
-					campaignContent.getCampaignContentId());
-	}
-
-	public List<CampaignContent> getCampaignsContentByTitle(
-			String title, int start, int end)
-		throws SystemException{
-
-		return campaignContentFinder.findByTitle(title, start, end);
-	}
-
 	@Override
 	public void deleteCampaignContent(long campaignContentId)
 		throws SystemException,	PortalException {
@@ -92,6 +78,20 @@ public class CampaignContentLocalServiceImpl
 		}
 
 		super.deleteCampaignContent(campaignContentId);
+	}
+
+	public List<Campaign> getCampaigns(CampaignContent campaignContent)
+		throws SystemException{
+
+		return campaignContentPersistence.getCampaigns(
+					campaignContent.getCampaignContentId());
+	}
+
+	public List<CampaignContent> getCampaignsContentByTitle(
+			String title, int start, int end)
+		throws SystemException{
+
+		return campaignContentFinder.findByTitle(title, start, end);
 	}
 
 }

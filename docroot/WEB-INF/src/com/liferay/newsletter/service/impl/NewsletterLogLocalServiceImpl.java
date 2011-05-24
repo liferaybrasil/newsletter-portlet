@@ -31,12 +31,6 @@ import java.util.List;
 public class NewsletterLogLocalServiceImpl
 	extends NewsletterLogLocalServiceBaseImpl {
 
-	public List<NewsletterLog> getNewsletterLogByCampaign(long campaignId)
-		throws SystemException{
-
-		return newsletterLogPersistence.findByCampaign(campaignId);
-	}
-
 	public NewsletterLog addNewsletterLog(NewsletterLog newsletter)
 		throws SystemException{
 
@@ -65,6 +59,18 @@ public class NewsletterLogLocalServiceImpl
 		return contacts;
 	}
 
+	public int getContactsByCampaignCount(long campaignId)
+		throws SystemException {
+
+		return getNewsletterLogByCampaign(campaignId).size();
+	}
+
+	public List<NewsletterLog> getNewsletterLogByCampaign(long campaignId)
+		throws SystemException{
+
+		return newsletterLogPersistence.findByCampaign(campaignId);
+	}
+
 	public NewsletterLog getNewsletterLogByCampaignAndContact(
 			long campaignId, long contactId)
 		throws SystemException, PortalException{
@@ -73,12 +79,6 @@ public class NewsletterLogLocalServiceImpl
 			findByCampaign_Contact(campaignId, contactId);
 
 		return newsletterLog;
-	}
-
-	public int getContactsByCampaignCount(long campaignId)
-		throws SystemException {
-
-		return getNewsletterLogByCampaign(campaignId).size();
 	}
 
 }

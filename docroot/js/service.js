@@ -1,0 +1,1 @@
+Liferay.Service.register("Liferay.Service.Newsletter", "com.liferay.newsletter.service", "newsletter-portlet");

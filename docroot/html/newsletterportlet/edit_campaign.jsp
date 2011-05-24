@@ -90,7 +90,7 @@
 	</aui:fieldset>
 
 	<aui:button-row>
-		<aui:button onClick='<%= renderResponse.getNamespace() + "saveStructure();" %>' value='Save' />
+		<aui:button onClick='<%= renderResponse.getNamespace() + "saveCampaign();" %>' value='Save' />
 
 		<aui:button type="cancel"  onClick="<%= redirect %>" />
 	</aui:button-row>
@@ -160,7 +160,7 @@ var autocompleteContact = new A.AutoComplete(
 
 Liferay.provide(
 		window,
-		'<portlet:namespace />saveStructure',
+		'<portlet:namespace />saveCampaign',
 		function() {
 
 			document.getElementById('<portlet:namespace/>contacts').value = autocompleteContact.inputNode.val();

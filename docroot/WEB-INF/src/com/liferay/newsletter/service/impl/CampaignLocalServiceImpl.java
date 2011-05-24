@@ -29,6 +29,9 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.model.PortletPreferences;
+import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
+import com.liferay.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.util.portlet.PortletProps;
 
 import java.util.Date;
@@ -60,19 +63,30 @@ import javax.mail.internet.MimeMessage;
  */
 public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 
-	public List<NewsletterLog> getNewsletterLogs(Campaign campaign)
-		throws SystemException{
-
-		return campaignPersistence.getNewsletterLogs(campaign.getCampaignId());
-	}
-
 	public Campaign addCampaign(Campaign campaign) throws SystemException{
 		long campaignId = CounterLocalServiceUtil.increment(
-			Campaign.class.getName());
+				Campaign.class.getName());
 
 		campaign.setCampaignId(campaignId);
 
 		return super.addCampaign(campaign);
+	}
+
+	public void deleteCampaign(long campaignId)
+		throws PortalException, SystemException {
+
+		List<NewsletterLog> newsletterLogByCampaign =
+			NewsletterLogLocalServiceUtil.getNewsletterLogByCampaign(
+				campaignId);
+
+		if (!newsletterLogByCampaign.isEmpty()) {
+			for (NewsletterLog newsletterLog : newsletterLogByCampaign) {
+				NewsletterLogLocalServiceUtil.deleteNewsletterLog(
+					newsletterLog);
+			}
+		}
+
+		super.deleteCampaign(campaignId);
 	}
 
 	public List<Campaign> getCampaignsByCampaignContent(long campaignContentId)
@@ -85,7 +99,7 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		throws SystemException{
 
 		return campaignPersistence.findByCampaignContent(
-			campaignContentId).size();
+				campaignContentId).size();
 	}
 
 	public List<Campaign> getCampaignsByDate(Date sendDate)
@@ -98,6 +112,12 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		throws SystemException{
 
 		return campaignPersistence.findBySD_LT(sendDate, sent);
+	}
+
+	public List<NewsletterLog> getNewsletterLogs(Campaign campaign)
+		throws SystemException{
+
+		return campaignPersistence.getNewsletterLogs(campaign.getCampaignId());
 	}
 
 	public void job() {
@@ -153,8 +173,11 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 
 	private void _sendEmail(
 			CampaignContent campaignContent, Campaign campaign, Contact contact)
-		throws AddressException, MessagingException {
+		throws AddressException, MessagingException, SystemException {
 
+		PortletPreferences portletPreferences = PortletPreferencesLocalServiceUtil.getPortletPreferences(0, "newsletter_WAR_newsletterportlet").get(0);
+		String preferences = portletPreferences.getPreferences();
+		
 		String passwordString = PortletProps.get(
 			PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD);
 		String userString = PortletProps.get(
@@ -213,23 +236,6 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		msg.setContent(content, "text/html");
 
 		Transport.send(msg);
-	}
-
-	public void deleteCampaign(long campaignId)
-		throws PortalException, SystemException {
-
-		List<NewsletterLog> newsletterLogByCampaign =
-			NewsletterLogLocalServiceUtil.getNewsletterLogByCampaign(
-				campaignId);
-
-		if (!newsletterLogByCampaign.isEmpty()) {
-			for (NewsletterLog newsletterLog : newsletterLogByCampaign) {
-				NewsletterLogLocalServiceUtil.deleteNewsletterLog(
-					newsletterLog);
-			}
-		}
-
-		super.deleteCampaign(campaignId);
 	}
 
 }

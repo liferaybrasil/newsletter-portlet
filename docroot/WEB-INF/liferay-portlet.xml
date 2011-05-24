@@ -14,6 +14,7 @@
 				</simple>
 			</trigger>
 		</scheduler-entry> 
+		<preferences-company-wide>true</preferences-company-wide>
 		<instanceable>true</instanceable>
 		<header-portlet-css>/css/portlet.css</header-portlet-css>
 		<footer-portlet-javascript>
