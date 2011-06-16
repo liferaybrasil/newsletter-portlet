@@ -227,10 +227,12 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	 *
 	 * @param campaignContent the campaign content to update
 	 * @return the campaign content that was updated
+	 * @throws PortalException
 	 * @throws SystemException if a system exception occurred
 	 */
 	public CampaignContent updateCampaignContent(
-		CampaignContent campaignContent) throws SystemException {
+		CampaignContent campaignContent)
+		throws PortalException, SystemException {
 		campaignContent.setNew(false);
 
 		return campaignContentPersistence.update(campaignContent, true);
@@ -242,11 +244,12 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	 * @param campaignContent the campaign content to update
 	 * @param merge whether to merge the campaign content with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
 	 * @return the campaign content that was updated
+	 * @throws PortalException
 	 * @throws SystemException if a system exception occurred
 	 */
 	public CampaignContent updateCampaignContent(
 		CampaignContent campaignContent, boolean merge)
-		throws SystemException {
+		throws PortalException, SystemException {
 		campaignContent.setNew(false);
 
 		return campaignContentPersistence.update(campaignContent, merge);

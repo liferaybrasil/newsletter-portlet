@@ -14,24 +14,6 @@
 
 package com.liferay.newsletter.portlet;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
-import javax.portlet.ReadOnlyException;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.portlet.ValidatorException;
-
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.Contact;
@@ -44,12 +26,11 @@ import com.liferay.newsletter.service.CampaignContentLocalServiceUtil;
 import com.liferay.newsletter.service.CampaignLocalServiceUtil;
 import com.liferay.newsletter.service.ContactLocalServiceUtil;
 import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
-import com.liferay.newsletter.service.http.CampaignContentJSONSerializer;
-import com.liferay.newsletter.service.http.ContactJSONSerializer;
 import com.liferay.newsletter.util.NewsletterConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -67,6 +48,26 @@ import com.liferay.portlet.journal.model.JournalArticleDisplay;
 import com.liferay.portlet.journalcontent.util.JournalContentUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.liferay.util.portlet.PortletProps;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequest;
+import javax.portlet.ReadOnlyException;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.portlet.ValidatorException;
 
 /**
  * @author Bruno Pinheiro
@@ -350,7 +351,7 @@ public class NewsletterPortlet extends MVCPortlet {
 
 	protected void getCampaignContents(
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-		throws SystemException, IOException {
+		throws SystemException, IOException, JSONException {
 
 		String keywords = ParamUtil.getString(resourceRequest, "keywords");
 
@@ -361,8 +362,8 @@ public class NewsletterPortlet extends MVCPortlet {
 				CampaignContentLocalServiceUtil.getCampaignsContentByTitle(
 					keywords, 0, 5);
 
-			JSONArray jsonArr =
-				CampaignContentJSONSerializer.toJSONArray(campaignContents);
+			JSONArray jsonArr = JSONFactoryUtil.createJSONArray(
+					JSONFactoryUtil.looseSerialize(campaignContents));
 
 			JSONObject o = JSONFactoryUtil.createJSONObject();
 
@@ -374,7 +375,7 @@ public class NewsletterPortlet extends MVCPortlet {
 
 	protected void getContacts(
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-		throws SystemException, IOException {
+		throws SystemException, IOException, JSONException {
 
 		String keywords = ParamUtil.getString(resourceRequest, "keywords");
 
@@ -384,8 +385,8 @@ public class NewsletterPortlet extends MVCPortlet {
 			List<Contact> contacts =
 				ContactLocalServiceUtil.getContactByEmail(keywords, 0, 5);
 
-			JSONArray jsonArr =
-				ContactJSONSerializer.toJSONArray(contacts);
+			JSONArray jsonArr = JSONFactoryUtil.createJSONArray(
+					JSONFactoryUtil.looseSerialize(contacts));
 
 			JSONObject o = JSONFactoryUtil.createJSONObject();
 
@@ -439,7 +440,7 @@ public class NewsletterPortlet extends MVCPortlet {
 					actionRequest, "smtpPassword"));
 
 		preferences.store();
-		
+
 		PortletProps.set(NewsletterConstants.ROWS_PER_PAGE, ParamUtil.getString(
 			actionRequest, "rowsPerPage"));
 		PortletProps.set(NewsletterConstants.SENDER_EMAIL, ParamUtil.getString(
@@ -458,7 +459,7 @@ public class NewsletterPortlet extends MVCPortlet {
 		PortletProps.set(
 			PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD, ParamUtil.getString(
 			actionRequest, "smtpPassword"));
-		
+
 		SessionMessages.add(actionRequest, "preferences-added");
 
 		sendRedirect(actionRequest, actionResponse);

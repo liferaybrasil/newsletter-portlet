@@ -71,13 +71,13 @@
 
 		<aui:input name="sendDate" label="Send Date" />
 
-		<span class="yui3-aui-field-content">
-			<label class="yui3-aui-field-label"> Campaign Content </label>
+		<span class="aui-field-content">
+			<label class="aui-field-label"> Campaign Content </label>
 			<div class="autocomplete" id="<portlet:namespace/>autocompleteCampaignContent"></div>
 		</span>
 
-		<span class="yui3-aui-field-content">
-			<label class="yui3-aui-field-label"> Contacts </label>
+		<span class="aui-field-content">
+			<label class="aui-field-label"> Contacts </label>
 			<div class="autocomplete" id="<portlet:namespace/>autocompleteContact"></div>
 		</span>
 

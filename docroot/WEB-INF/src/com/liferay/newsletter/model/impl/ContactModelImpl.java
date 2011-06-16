@@ -19,6 +19,7 @@ import com.liferay.newsletter.model.ContactModel;
 import com.liferay.newsletter.model.ContactSoap;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -50,6 +51,7 @@ import java.util.List;
  * @see com.liferay.newsletter.model.ContactModel
  * @generated
  */
+@JSON(strict = true)
 public class ContactModelImpl extends BaseModelImpl<Contact>
 	implements ContactModel {
 	/*
@@ -141,6 +143,7 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
+	@JSON
 	public String getUuid() {
 		if (_uuid == null) {
 			return StringPool.BLANK;
@@ -154,6 +157,7 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 		_uuid = uuid;
 	}
 
+	@JSON
 	public long getContactId() {
 		return _contactId;
 	}
@@ -162,6 +166,7 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 		_contactId = contactId;
 	}
 
+	@JSON
 	public String getEmail() {
 		if (_email == null) {
 			return StringPool.BLANK;
@@ -183,6 +188,7 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 		return GetterUtil.getString(_originalEmail);
 	}
 
+	@JSON
 	public String getName() {
 		if (_name == null) {
 			return StringPool.BLANK;

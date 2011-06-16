@@ -191,11 +191,13 @@ public interface CampaignContentLocalService {
 	*
 	* @param campaignContent the campaign content to update
 	* @return the campaign content that was updated
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.CampaignContent updateCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Updates the campaign content in the database. Also notifies the appropriate model listeners.
@@ -203,12 +205,14 @@ public interface CampaignContentLocalService {
 	* @param campaignContent the campaign content to update
 	* @param merge whether to merge the campaign content with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
 	* @return the campaign content that was updated
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.CampaignContent updateCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent,
 		boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Gets the Spring bean ID for this bean.

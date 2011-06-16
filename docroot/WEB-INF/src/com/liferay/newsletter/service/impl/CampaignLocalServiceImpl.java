@@ -24,14 +24,12 @@ import com.liferay.newsletter.service.CampaignLocalServiceUtil;
 import com.liferay.newsletter.service.ContactLocalServiceUtil;
 import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
 import com.liferay.newsletter.service.base.CampaignLocalServiceBaseImpl;
+import com.liferay.newsletter.util.MailAuthenticator;
 import com.liferay.newsletter.util.NewsletterConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.model.PortletPreferences;
-import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
-import com.liferay.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.util.portlet.PortletProps;
 
 import java.util.Date;
@@ -40,7 +38,6 @@ import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
@@ -130,19 +127,10 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 				sendCampaign(campaign);
 			}
 		}
-		catch (AddressException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (PortalException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SystemException e) {
-			// TODO Auto-generated catch block
+		catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public void sendCampaign(Campaign campaign)
@@ -175,9 +163,6 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 			CampaignContent campaignContent, Campaign campaign, Contact contact)
 		throws AddressException, MessagingException, SystemException {
 
-		PortletPreferences portletPreferences = PortletPreferencesLocalServiceUtil.getPortletPreferences(0, "newsletter_WAR_newsletterportlet").get(0);
-		String preferences = portletPreferences.getPreferences();
-		
 		String passwordString = PortletProps.get(
 			PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD);
 		String userString = PortletProps.get(
@@ -211,15 +196,9 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		props.put(NewsletterConstants.MAIL_SMTP_STARTTLS_ENABLE, "true");
 		props.put(NewsletterConstants.MAIL_SMTP_AUTH, "true");
 
-		final String user = userString;
-		final String password = passwordString;
-
-		Session session = Session.getDefaultInstance(
-			props, new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(user, password);
-					}
-				});
+		MailAuthenticator mailAuthenticator = new MailAuthenticator(
+			userString, passwordString);
+		Session session = Session.getInstance(props, mailAuthenticator);
 
 		String senderEmail = campaign.getSenderEmail();
 		String emailSubject = campaign.getEmailSubject();

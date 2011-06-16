@@ -19,12 +19,22 @@
 <%
 	CampaignContent campaignContent = null;
 	String content = "";
+	String contentEditorClass = "contentEditor-div";
+	String displayingArticleContentClass = "displaying-article-content";
 
 	long campaignContentId = ParamUtil.getLong(request, "campaignContentId");
 
 	if (campaignContentId > 0) {
 		campaignContent = CampaignContentLocalServiceUtil.getCampaignContent(campaignContentId);
 		content = campaignContent.getContent();
+
+		if(campaignContent.getArticleId()>0){
+			contentEditorClass = contentEditorClass + " yui3-aui-helper-hidden";
+		}
+		else{
+			displayingArticleContentClass = displayingArticleContentClass + " yui3-aui-helper-hidden";
+		}
+
 	}
 
 
@@ -80,17 +90,16 @@
 		<liferay-ui:error key="campaignContenttitle-required" message="campaignContenttitle-required" />
 
 		<div class="separator article-separator"><!-- --></div>
-
-		<div class="portlet-msg-info yui3-aui-helper-hidden">
+		<% String classMsgInfo = "portlet-msg-info " + (campaignContent == null ? "yui3-aui-helper-hidden" : "") ; %>
+		<div class="<%= classMsgInfo %>">
 			<span class="displaying-article-id-holder">
 				<liferay-ui:message key="displaying-content" />: <span class="displaying-article-id"> </span>
 			</span>
 		</div>
-
-		<div class="contentEditor-div">
+		<div class="<%= contentEditorClass %>">
 			<liferay-ui:input-editor name="contentEditor" toolbarSet="liferay-article" width="100%" onChangeMethod='changeContent' />
 		</div>
-		<span class="displaying-article-content"> </span>
+		<span class="<%=displayingArticleContentClass %>">  <%= content %> </span>
 
 		<liferay-ui:error key="campaignContentcontent-required" message="campaignContentcontent-required" />
 
@@ -140,20 +149,23 @@ Liferay.provide(
 				on: {
 					success: function() {
 						var instance = this;
-
 						var data = instance.get('responseData');
-
+						var displayArticleContent = A.one('.displaying-article-content');
+						var fckeditor = A.one('.contentEditor-div');
 						if(import){
-							A.one('.contentEditor-div').hide();
-							var displayArticleContent = A.one('.displaying-article-content');
+							fckeditor.hide();
 							displayArticleContent.set('innerHTML', data);
 							document.getElementById('<portlet:namespace/>content').value = data;
 							document.getElementById('<portlet:namespace/>articleId').value = articleId;
+							displayArticleContent.show();
 						}
 						else {
+							displayArticleContent.hide();
 							window.frames['<portlet:namespace/>contentEditor'].setHTML(data);
-							A.one('.displaying-article-content').hide();
+							document.getElementById('<portlet:namespace/>articleId').value = 0;
+							fckeditor.show();
 						}
+
 						A.one('.portlet-msg-info').show();
 						var displayArticleId = A.one('.displaying-article-id');
 						displayArticleId.set('innerHTML', articleTitle);

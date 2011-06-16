@@ -221,8 +221,13 @@ public interface ContactLocalService {
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
-		com.liferay.newsletter.model.Contact contact)
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactsByName(
+		java.lang.String contactName)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactByNameAndCampaign(
+		java.lang.String contactName, long campaignId, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -236,17 +241,15 @@ public interface ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getContactCountByCampaign(long campaignId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getContactCountByCampaignContent(long campaignContentId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getContactCountByEmail(java.lang.String contactEmail)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.newsletter.model.Contact> getContactsByName(
-		java.lang.String contactName)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.newsletter.model.Contact> getContactByNameAndCampaign(
-		java.lang.String contactName, long campaignId, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -254,10 +257,7 @@ public interface ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getContactCountByCampaign(long campaignId)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getContactCountByCampaignContent(long campaignContentId)
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
+		com.liferay.newsletter.model.Contact contact)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

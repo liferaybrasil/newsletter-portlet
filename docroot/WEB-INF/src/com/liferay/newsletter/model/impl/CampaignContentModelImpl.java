@@ -19,6 +19,7 @@ import com.liferay.newsletter.model.CampaignContentModel;
 import com.liferay.newsletter.model.CampaignContentSoap;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -51,6 +52,7 @@ import java.util.List;
  * @see com.liferay.newsletter.model.CampaignContentModel
  * @generated
  */
+@JSON(strict = true)
 public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 	implements CampaignContentModel {
 	/*
@@ -145,6 +147,7 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
+	@JSON
 	public String getUuid() {
 		if (_uuid == null) {
 			return StringPool.BLANK;
@@ -158,6 +161,7 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		_uuid = uuid;
 	}
 
+	@JSON
 	public long getCampaignContentId() {
 		return _campaignContentId;
 	}
@@ -166,6 +170,7 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		_campaignContentId = campaignContentId;
 	}
 
+	@JSON
 	public String getTitle() {
 		if (_title == null) {
 			return StringPool.BLANK;
@@ -179,6 +184,7 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		_title = title;
 	}
 
+	@JSON
 	public String getContent() {
 		if (_content == null) {
 			return StringPool.BLANK;
@@ -192,6 +198,7 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		_content = content;
 	}
 
+	@JSON
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -200,6 +207,7 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		_createDate = createDate;
 	}
 
+	@JSON
 	public long getArticleId() {
 		return _articleId;
 	}

@@ -234,10 +234,17 @@ public class ContactLocalServiceWrapper implements ContactLocalService {
 		_contactLocalService.setBeanIdentifier(beanIdentifier);
 	}
 
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
-		com.liferay.newsletter.model.Contact contact)
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactsByName(
+		java.lang.String contactName)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _contactLocalService.getNewsletterLogs(contact);
+		return _contactLocalService.getContactsByName(contactName);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.Contact> getContactByNameAndCampaign(
+		java.lang.String contactName, long campaignId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getContactByNameAndCampaign(contactName,
+			campaignId, start, end);
 	}
 
 	public java.util.List<com.liferay.newsletter.model.Contact> getContactByEmail(
@@ -252,29 +259,6 @@ public class ContactLocalServiceWrapper implements ContactLocalService {
 		return _contactLocalService.getContactByEmail(contactEmail);
 	}
 
-	public int getContactCountByEmail(java.lang.String contactEmail)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _contactLocalService.getContactCountByEmail(contactEmail);
-	}
-
-	public java.util.List<com.liferay.newsletter.model.Contact> getContactsByName(
-		java.lang.String contactName)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _contactLocalService.getContactsByName(contactName);
-	}
-
-	public java.util.List<com.liferay.newsletter.model.Contact> getContactByNameAndCampaign(
-		java.lang.String contactName, long campaignId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _contactLocalService.getContactByNameAndCampaign(contactName,
-			campaignId, start, end);
-	}
-
-	public int getContactCountByName(java.lang.String contactName)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _contactLocalService.getContactCountByName(contactName);
-	}
-
 	public int getContactCountByCampaign(long campaignId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _contactLocalService.getContactCountByCampaign(campaignId);
@@ -283,6 +267,22 @@ public class ContactLocalServiceWrapper implements ContactLocalService {
 	public int getContactCountByCampaignContent(long campaignContentId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _contactLocalService.getContactCountByCampaignContent(campaignContentId);
+	}
+
+	public int getContactCountByEmail(java.lang.String contactEmail)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getContactCountByEmail(contactEmail);
+	}
+
+	public int getContactCountByName(java.lang.String contactName)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getContactCountByName(contactName);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
+		com.liferay.newsletter.model.Contact contact)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _contactLocalService.getNewsletterLogs(contact);
 	}
 
 	public ContactLocalService getWrappedContactLocalService() {

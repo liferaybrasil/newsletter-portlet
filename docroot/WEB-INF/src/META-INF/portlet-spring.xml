@@ -1,34 +1,89 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-	<bean id="com.liferay.newsletter.service.CampaignLocalService" class="com.liferay.newsletter.service.impl.CampaignLocalServiceImpl" />
+
+
+
+
+
+
+
+
+ 	<bean id="com.liferay.newsletter.service.CampaignLocalService" class="com.liferay.newsletter.service.impl.CampaignLocalServiceImpl" />
+
+	
 	<bean id="com.liferay.newsletter.service.CampaignLocalServiceUtil" class="com.liferay.newsletter.service.CampaignLocalServiceUtil">
+		
 		<property name="service" ref="com.liferay.newsletter.service.CampaignLocalService" />
+	
 	</bean>
+
+
+			
 	<bean id="com.liferay.newsletter.service.persistence.CampaignPersistence" class="com.liferay.newsletter.service.persistence.CampaignPersistenceImpl" parent="basePersistence" />
-	<bean id="com.liferay.newsletter.service.CampaignContentLocalService" class="com.liferay.newsletter.service.impl.CampaignContentLocalServiceImpl" />
+
+
+ 	<bean id="com.liferay.newsletter.service.CampaignContentLocalService" class="com.liferay.newsletter.service.impl.CampaignContentLocalServiceImpl" />
+
+	
 	<bean id="com.liferay.newsletter.service.CampaignContentLocalServiceUtil" class="com.liferay.newsletter.service.CampaignContentLocalServiceUtil">
+		
 		<property name="service" ref="com.liferay.newsletter.service.CampaignContentLocalService" />
+	
 	</bean>
-	<bean id="com.liferay.newsletter.service.CampaignContentService" class="com.liferay.newsletter.service.impl.CampaignContentServiceImpl" />
+
+
+ 	<bean id="com.liferay.newsletter.service.CampaignContentService" class="com.liferay.newsletter.service.impl.CampaignContentServiceImpl" />
+
+	
 	<bean id="com.liferay.newsletter.service.CampaignContentServiceUtil" class="com.liferay.newsletter.service.CampaignContentServiceUtil">
+		
 		<property name="service" ref="com.liferay.newsletter.service.CampaignContentService" />
+	
 	</bean>
+
+			
 	<bean id="com.liferay.newsletter.service.persistence.CampaignContentPersistence" class="com.liferay.newsletter.service.persistence.CampaignContentPersistenceImpl" parent="basePersistence" />
+
+			
 	<bean id="com.liferay.newsletter.service.persistence.CampaignContentFinder" class="com.liferay.newsletter.service.persistence.CampaignContentFinderImpl" parent="basePersistence" />
-	<bean id="com.liferay.newsletter.service.ContactLocalService" class="com.liferay.newsletter.service.impl.ContactLocalServiceImpl" />
+
+ 	<bean id="com.liferay.newsletter.service.ContactLocalService" class="com.liferay.newsletter.service.impl.ContactLocalServiceImpl" />
+
+	
 	<bean id="com.liferay.newsletter.service.ContactLocalServiceUtil" class="com.liferay.newsletter.service.ContactLocalServiceUtil">
+		
 		<property name="service" ref="com.liferay.newsletter.service.ContactLocalService" />
+	
 	</bean>
-	<bean id="com.liferay.newsletter.service.ContactService" class="com.liferay.newsletter.service.impl.ContactServiceImpl" />
+
+
+ 	<bean id="com.liferay.newsletter.service.ContactService" class="com.liferay.newsletter.service.impl.ContactServiceImpl" />
+
+	
 	<bean id="com.liferay.newsletter.service.ContactServiceUtil" class="com.liferay.newsletter.service.ContactServiceUtil">
+		
 		<property name="service" ref="com.liferay.newsletter.service.ContactService" />
+	
 	</bean>
+
+			
 	<bean id="com.liferay.newsletter.service.persistence.ContactPersistence" class="com.liferay.newsletter.service.persistence.ContactPersistenceImpl" parent="basePersistence" />
+
+			
 	<bean id="com.liferay.newsletter.service.persistence.ContactFinder" class="com.liferay.newsletter.service.persistence.ContactFinderImpl" parent="basePersistence" />
-	<bean id="com.liferay.newsletter.service.NewsletterLogLocalService" class="com.liferay.newsletter.service.impl.NewsletterLogLocalServiceImpl" />
+
+ 	<bean id="com.liferay.newsletter.service.NewsletterLogLocalService" class="com.liferay.newsletter.service.impl.NewsletterLogLocalServiceImpl" />
+
+	
 	<bean id="com.liferay.newsletter.service.NewsletterLogLocalServiceUtil" class="com.liferay.newsletter.service.NewsletterLogLocalServiceUtil">
+		
 		<property name="service" ref="com.liferay.newsletter.service.NewsletterLogLocalService" />
+	
 	</bean>
+
+
+			
 	<bean id="com.liferay.newsletter.service.persistence.NewsletterLogPersistence" class="com.liferay.newsletter.service.persistence.NewsletterLogPersistenceImpl" parent="basePersistence" />
+
 </beans>

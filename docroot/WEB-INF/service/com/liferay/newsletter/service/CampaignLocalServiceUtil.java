@@ -248,12 +248,6 @@ public class CampaignLocalServiceUtil {
 		getService().setBeanIdentifier(beanIdentifier);
 	}
 
-	public static java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
-		com.liferay.newsletter.model.Campaign campaign)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getNewsletterLogs(campaign);
-	}
-
 	public static java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByCampaignContent(
 		long campaignContentId)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -275,6 +269,12 @@ public class CampaignLocalServiceUtil {
 		java.util.Date sendDate, boolean sent)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getCampaignsBySendDateLT(sendDate, sent);
+	}
+
+	public static java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
+		com.liferay.newsletter.model.Campaign campaign)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getNewsletterLogs(campaign);
 	}
 
 	public static void job() {

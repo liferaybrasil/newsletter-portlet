@@ -235,12 +235,6 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 		_campaignLocalService.setBeanIdentifier(beanIdentifier);
 	}
 
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
-		com.liferay.newsletter.model.Campaign campaign)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _campaignLocalService.getNewsletterLogs(campaign);
-	}
-
 	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByCampaignContent(
 		long campaignContentId)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -262,6 +256,12 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 		java.util.Date sendDate, boolean sent)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _campaignLocalService.getCampaignsBySendDateLT(sendDate, sent);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
+		com.liferay.newsletter.model.Campaign campaign)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _campaignLocalService.getNewsletterLogs(campaign);
 	}
 
 	public void job() {
