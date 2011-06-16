@@ -14,8 +14,9 @@
 
 package com.liferay.newsletter.service.base;
 
-import com.liferay.counter.service.CounterLocalService;
+import javax.sql.DataSource;
 
+import com.liferay.counter.service.CounterLocalService;
 import com.liferay.newsletter.service.CampaignContentLocalService;
 import com.liferay.newsletter.service.CampaignContentService;
 import com.liferay.newsletter.service.CampaignLocalService;
@@ -28,7 +29,6 @@ import com.liferay.newsletter.service.persistence.CampaignPersistence;
 import com.liferay.newsletter.service.persistence.ContactFinder;
 import com.liferay.newsletter.service.persistence.ContactPersistence;
 import com.liferay.newsletter.service.persistence.NewsletterLogPersistence;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.bean.IdentifiableBean;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
@@ -41,8 +41,6 @@ import com.liferay.portal.service.UserService;
 import com.liferay.portal.service.base.PrincipalBean;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
-
-import javax.sql.DataSource;
 
 /**
  * The base implementation of the contact remote service.

@@ -14,14 +14,14 @@
 
 package com.liferay.newsletter.service.impl;
 
+import java.util.List;
+
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.NoSuchContactException;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.service.base.ContactLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.SystemException;
-
-import java.util.List;
 
 /**
  * @author Bruno Pinheiro

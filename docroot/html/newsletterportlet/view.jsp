@@ -22,8 +22,8 @@
 String tabs1 = ParamUtil.getString(request, "tabs1", "Campaign Content");
 
 String tabNames = "Campaign Content,Campaign";
-
 %>
+
 <portlet:renderURL var="renderURL">
 		<portlet:param name="tabs1" value="<%= tabs1 %>" />
 </portlet:renderURL>

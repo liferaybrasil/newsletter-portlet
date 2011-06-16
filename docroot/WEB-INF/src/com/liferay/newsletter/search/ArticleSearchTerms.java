@@ -14,13 +14,13 @@
 
 package com.liferay.newsletter.search;
 
-import com.liferay.portal.kernel.dao.search.DAOParamUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import java.util.Date;
 
 import javax.portlet.PortletRequest;
+
+import com.liferay.portal.kernel.dao.search.DAOParamUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 /**
  * @author Brian Wing Shun Chan

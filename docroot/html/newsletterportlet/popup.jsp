@@ -21,7 +21,6 @@ String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 boolean importWebContent = ParamUtil.getString(request, "import").equals("true") ? true : false;
 %>
 
-
 <liferay-portlet:renderURL varImpl="portletURL">
 	<portlet:param name="tabs1" value="Popup" />
 </liferay-portlet:renderURL>
@@ -94,7 +93,6 @@ boolean importWebContent = ParamUtil.getString(request, "import").equals("true")
 
 	<liferay-ui:search-iterator />
 </liferay-ui:search-container>
-
 
 <aui:script>
     function <portlet:namespace/>setParentWindowsHiddenFieldValue(articleId, articleTitle, import) {

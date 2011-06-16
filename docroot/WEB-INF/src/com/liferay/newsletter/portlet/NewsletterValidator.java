@@ -14,11 +14,11 @@
 
 package com.liferay.newsletter.portlet;
 
+import java.util.List;
+
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.portal.kernel.util.Validator;
-
-import java.util.List;
 
 /**
  * @author Bruno Pinheiro
@@ -71,7 +71,6 @@ public class NewsletterValidator {
 			valid = false;
 		}
 
-		// Validar emails dos contatos
 		if (Validator.isNull(contacts)) {
 			errors.add("campaigncontacts-required");
 			valid = false;

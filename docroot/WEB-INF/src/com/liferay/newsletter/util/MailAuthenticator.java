@@ -16,18 +16,23 @@ package com.liferay.newsletter.util;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
+
+/**
+ * @author Bruno Pinheiro
+ */
+
 public class MailAuthenticator extends Authenticator {
-	String user;
-	String password;
 
 	public MailAuthenticator (String username, String password) {
 		super();
-		this.user = username;
-		this.password = password;
+		this._user = username;
+		this._password = password;
 	}
 
 	public PasswordAuthentication getPasswordAuthentication() {
-		return new PasswordAuthentication(user, password);
+		return new PasswordAuthentication(_user, _password);
 	}
 
+	private String _user;
+	private String _password;
 }

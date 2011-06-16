@@ -17,17 +17,17 @@
 <%@ include file="/html/init.jsp" %>
 
 <%
-	Campaign campaign = null;
+Campaign campaign = null;
 
-	long campaignId = ParamUtil.getLong(request, "campaignId");
+long campaignId = ParamUtil.getLong(request, "campaignId");
 
-	if (campaignId > 0) {
-		campaign = CampaignLocalServiceUtil.getCampaign(campaignId);
-	}
+if (campaignId > 0) {
+	campaign = CampaignLocalServiceUtil.getCampaign(campaignId);
+}
 
-	List<CampaignContent> campaignContents = CampaignContentLocalServiceUtil.getCampaignContents(0,CampaignContentLocalServiceUtil.getCampaignContentsCount());
+List<CampaignContent> campaignContents = CampaignContentLocalServiceUtil.getCampaignContents(0,CampaignContentLocalServiceUtil.getCampaignContentsCount());
 
-	String redirect = ParamUtil.getString(request, "redirect");
+String redirect = ParamUtil.getString(request, "redirect");
 %>
 
 <liferay-ui:header

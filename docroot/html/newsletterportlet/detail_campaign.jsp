@@ -20,8 +20,7 @@
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
 	long campaignId = ParamUtil.getLong(request, "campaignId");
 
-	Campaign campaign = CampaignLocalServiceUtil.getCampaign(
-		campaignId);
+	Campaign campaign = CampaignLocalServiceUtil.getCampaign(campaignId);
 
 	String redirect = ParamUtil.getString(request, "redirect");
 
@@ -36,41 +35,41 @@
 />
 
 <aui:fieldset>
-<span class="yui3-aui-field-content">
-		<label class="yui3-aui-field-label"> Email Subject </label>
-	<span class="yui3-aui-field-element ">
+<span class="aui-field-content">
+		<label class="aui-field-label"> Email Subject </label>
+	<span class="aui-field-element ">
 		<%= campaign.getEmailSubject() %>
 	</span>
 </span>
-<span class="yui3-aui-field-content">
-		<label class="yui3-aui-field-label"> Sender Name </label>
-	<span class="yui3-aui-field-element ">
+<span class="aui-field-content">
+		<label class="aui-field-label"> Sender Name </label>
+	<span class="aui-field-element ">
 		<%= campaign.getSenderName() %>
 	</span>
 </span>
-<span class="yui3-aui-field-content">
-		<label class="yui3-aui-field-label"> Sender Email </label>
-	<span class="yui3-aui-field-element ">
+<span class="aui-field-content">
+		<label class="aui-field-label"> Sender Email </label>
+	<span class="aui-field-element ">
 		<%= campaign.getSenderEmail() %>
 	</span>
 </span>
-<span class="yui3-aui-field-content">
-		<label class="yui3-aui-field-label"> Send Date </label>
-	<span class="yui3-aui-field-element ">
+<span class="aui-field-content">
+		<label class="aui-field-label"> Send Date </label>
+	<span class="aui-field-element ">
 		<%= dateFormat.format(campaign.getSendDate()) %>
 	</span>
 </span>
-<span class="yui3-aui-field-content">
-		<label class="yui3-aui-field-label"> Campaign Content </label>
+<span class="aui-field-content">
+		<label class="aui-field-label"> Campaign Content </label>
 		<b>Title:</b> <%= campaignContentTitle %>
-	<span class="yui3-aui-field-element ">
+	<span class="aui-field-element ">
 		<%= campaign.getContent() %>
 	</span>
 </span>
 </aui:fieldset>
 <br />
-<span class="yui3-aui-field-content">
-		<label class="yui3-aui-field-label"> Contacts </label>
+<span class="aui-field-content">
+		<label class="aui-field-label"> Contacts </label>
 </span>
 
 <liferay-portlet:renderURL varImpl="portletURL">

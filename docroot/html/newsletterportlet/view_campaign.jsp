@@ -19,11 +19,9 @@
 <%@ include file="/html/init.jsp" %>
 
 <%
-	String redirect = PortalUtil.getCurrentURL(renderRequest);
+String redirect = PortalUtil.getCurrentURL(renderRequest);
 
-	boolean hasAddPermission = permissionChecker.hasPermission(
-		scopeGroupId, "com.liferay.newsletter.model",
-		scopeGroupId, "ADD_CAMPAIGN");
+boolean hasAddPermission = permissionChecker.hasPermission(scopeGroupId, "com.liferay.newsletter.model", scopeGroupId, "ADD_CAMPAIGN");
 %>
 
 <aui:button-row>

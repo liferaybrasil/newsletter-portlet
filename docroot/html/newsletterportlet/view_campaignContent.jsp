@@ -19,13 +19,11 @@
 <%@ include file="/html/init.jsp" %>
 
 <%
-	String redirect = PortalUtil.getCurrentURL(renderRequest);
+String redirect = PortalUtil.getCurrentURL(renderRequest);
 
-	boolean hasAddPermission = permissionChecker.hasPermission(
-		scopeGroupId, "com.liferay.newsletter.model",
-		scopeGroupId, "ADD_CAMPAIGNCONTENT");
+boolean hasAddPermission = permissionChecker.hasPermission(scopeGroupId, "com.liferay.newsletter.model", scopeGroupId, "ADD_CAMPAIGNCONTENT");
 
-	SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 %>
 
 <aui:button-row>

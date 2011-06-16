@@ -14,6 +14,8 @@
 
 package com.liferay.newsletter.service.persistence;
 
+import java.util.List;
+
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.impl.CampaignContentImpl;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
@@ -23,8 +25,6 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
-
-import java.util.List;
 public class CampaignContentFinderImpl
 	extends BasePersistenceImpl<CampaignContent>
 	implements CampaignContentFinder{

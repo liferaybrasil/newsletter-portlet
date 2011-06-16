@@ -15,20 +15,20 @@
 --%>
 <%@ include file="/html/init.jsp" %>
 <%
-		JournalArticleSearchTerms searchTerms = (JournalArticleSearchTerms)searchContainer.getSearchTerms();
+JournalArticleSearchTerms searchTerms = (JournalArticleSearchTerms)searchContainer.getSearchTerms();
 
-		List<JournalArticle> resultsEvents = null;
+List<JournalArticle> resultsEvents = null;
 
-		int totalEvents = 0;
+int totalEvents = 0;
 
-		searchContainer.setEmptyResultsMessage("there-are-no-events");
+searchContainer.setEmptyResultsMessage("there-are-no-events");
 
-		if (searchTerms.isAdvancedSearch()){
-			resultsEvents = JournalArticleLocalServiceUtil.search(company.getCompanyId(), scopeGroupId, searchTerms.getArticleId(), searchTerms.getVersion(), searchTerms.getTitle(), searchTerms.getDescription(), searchTerms.getContent(),searchTerms.getType(), searchTerms.getStructureId(), searchTerms.getTemplateId(), null, null, status, null, searchTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
-			totalEvents = JournalArticleLocalServiceUtil.searchCount(company.getCompanyId(), scopeGroupId, searchTerms.getArticleId(), searchTerms.getVersion(), searchTerms.getTitle(), searchTerms.getDescription(), searchTerms.getContent(),searchTerms.getType(), searchTerms.getStructureId(), searchTerms.getTemplateId(), null, null, status, null, searchTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
-		}
-		else {
-			resultsEvents = JournalArticleLocalServiceUtil.search(company.getCompanyId(), scopeGroupId, searchTerms.getKeywords(), searchTerms.getVersion(), searchTerms.getType(), searchTerms.getStructureId(), searchTerms.getTemplateId(), null, null, status, null, searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
-			totalEvents = JournalArticleLocalServiceUtil.searchCount(company.getCompanyId(), scopeGroupId, searchTerms.getKeywords(), searchTerms.getVersion(), searchTerms.getType(), searchTerms.getStructureId(), searchTerms.getTemplateId(), null, null, status, null, searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
-		}
+if (searchTerms.isAdvancedSearch()){
+	resultsEvents = JournalArticleLocalServiceUtil.search(company.getCompanyId(), scopeGroupId, searchTerms.getArticleId(), searchTerms.getVersion(), searchTerms.getTitle(), searchTerms.getDescription(), searchTerms.getContent(),searchTerms.getType(), searchTerms.getStructureId(), searchTerms.getTemplateId(), null, null, status, null, searchTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+	totalEvents = JournalArticleLocalServiceUtil.searchCount(company.getCompanyId(), scopeGroupId, searchTerms.getArticleId(), searchTerms.getVersion(), searchTerms.getTitle(), searchTerms.getDescription(), searchTerms.getContent(),searchTerms.getType(), searchTerms.getStructureId(), searchTerms.getTemplateId(), null, null, status, null, searchTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+}
+else {
+	resultsEvents = JournalArticleLocalServiceUtil.search(company.getCompanyId(), scopeGroupId, searchTerms.getKeywords(), searchTerms.getVersion(), searchTerms.getType(), searchTerms.getStructureId(), searchTerms.getTemplateId(), null, null, status, null, searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+	totalEvents = JournalArticleLocalServiceUtil.searchCount(company.getCompanyId(), scopeGroupId, searchTerms.getKeywords(), searchTerms.getVersion(), searchTerms.getType(), searchTerms.getStructureId(), searchTerms.getTemplateId(), null, null, status, null, searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+}
 %>

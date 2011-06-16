@@ -14,10 +14,13 @@
 
 package com.liferay.newsletter.search.contact;
 
+import javax.portlet.PortletRequest;
 import com.liferay.portal.kernel.dao.search.DAOParamUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 
-import javax.portlet.PortletRequest;
+/**
+ * @author Bruno Pinheiro
+ */
 public class ContactSearchTerms extends ContactDisplayTerms {
 
 	public ContactSearchTerms(PortletRequest portletRequest) {

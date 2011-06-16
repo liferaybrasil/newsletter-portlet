@@ -20,7 +20,6 @@ ContactSearchTerms searchTerms = (ContactSearchTerms)searchContainer.getSearchTe
 int totalCount = 0;
 List resultList = new ArrayList<Contact>();
 
-
 if (searchTerms.isAdvancedSearch()) {
 	resultList.add(ContactLocalServiceUtil.getContactByEmail(searchTerms.getEmail()));
 	totalCount = ContactLocalServiceUtil.getContactCountByEmail(searchTerms.getEmail());
@@ -29,6 +28,4 @@ else {
 	resultList = NewsletterLogLocalServiceUtil.getContactsByCampaign(campaignId);
 	totalCount = NewsletterLogLocalServiceUtil.getContactsByCampaignCount(campaignId);
 }
-
-
 %>

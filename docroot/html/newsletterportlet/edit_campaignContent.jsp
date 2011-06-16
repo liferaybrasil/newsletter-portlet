@@ -17,35 +17,32 @@
 <%@include file="/html/init.jsp" %>
 
 <%
-	CampaignContent campaignContent = null;
-	String content = "";
-	String contentEditorClass = "contentEditor-div";
-	String displayingArticleContentClass = "displaying-article-content";
+CampaignContent campaignContent = null;
+String content = "";
+String contentEditorClass = "contentEditor-div";
+String displayingArticleContentClass = "displaying-article-content";
 
-	long campaignContentId = ParamUtil.getLong(request, "campaignContentId");
+long campaignContentId = ParamUtil.getLong(request, "campaignContentId");
 
-	if (campaignContentId > 0) {
-		campaignContent = CampaignContentLocalServiceUtil.getCampaignContent(campaignContentId);
-		content = campaignContent.getContent();
+if (campaignContentId > 0) {
+	campaignContent = CampaignContentLocalServiceUtil.getCampaignContent(campaignContentId);
+	content = campaignContent.getContent();
 
-		if(campaignContent.getArticleId()>0){
-			contentEditorClass = contentEditorClass + " yui3-aui-helper-hidden";
-		}
-		else{
-			displayingArticleContentClass = displayingArticleContentClass + " yui3-aui-helper-hidden";
-		}
-
+	if(campaignContent.getArticleId()>0){
+		contentEditorClass = contentEditorClass + " yui3-aui-helper-hidden";
 	}
+	else{
+		displayingArticleContentClass = displayingArticleContentClass + " yui3-aui-helper-hidden";
+	}
+}
 
-
-	String redirect = ParamUtil.getString(request, "redirect");
+String redirect = ParamUtil.getString(request, "redirect");
 %>
 
 <liferay-ui:header
 	backURL="<%= redirect %>"
 	title='<%= (campaignContent != null) ? campaignContent.getTitle() : "New Campaign Content" %>'
 />
-
 
 <aui:model-context bean="<%= campaignContent %>" model="<%= CampaignContent.class %>" />
 
@@ -66,7 +63,6 @@
 	<portlet:param name="jspPage" value="/html/newsletterportlet/popup.jsp" />
 	<portlet:param name="resourceNamespace" value="<%= renderResponse.getNamespace() %>" />
 </liferay-portlet:renderURL>
-
 
 <liferay-portlet:resourceURL varImpl="getArticleContentURL">
 	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_ARTICLE_CONTENT %>" />
@@ -114,7 +110,6 @@
 		String webContentPopUpURL = "javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '" + selectContentPopupURL +"'});";
 		%>
 		<aui:button value="Select WebContent" onClick="<%= webContentPopUpURL %>" />
-
 
 	</aui:fieldset>
 
