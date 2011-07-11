@@ -1,49 +1,45 @@
+<!-- TODO: LIKE '%?%' parece estar incorreto, não vi nenhum sql no portal que tenha isso, todos são LIKE ?, ver como faz para colocar %% no código -->
+
 <?xml version="1.0"?>
 
 <custom-sql>
-	<sql id="com.liferay.newsletter.service.persistence.ContactFinder.findByNameAndCampaign">
+	<sql id="com.liferay.newsletter.service.persistence.CampaignContentFinder.findByTitle">
 		<![CDATA[
-		SELECT 
-			{Newsletter_Contact.*} 
-		FROM 
-			Newsletter_Contact
-		INNER JOIN 
-			Newsletter_NewsletterLog ON 
-				(Newsletter_Contact.contactId = Newsletter_NewsletterLog.contactId)
-		WHERE
-			Newsletter_Contact.name LIKE '%?%' AND 
-			Newsletter_NewsletterLog.campaignId = ?
-		ORDER BY
-			Newsletter_Contact.name ASC 
+			SELECT
+				Newsletter_CampaignContent.*
+			FROM
+				Newsletter_CampaignContent
+			WHERE
+				(title LIKE ?)
 		]]>
 	</sql>
 	<sql id="com.liferay.newsletter.service.persistence.ContactFinder.countByCampaign">
 		<![CDATA[
-		SELECT
-			COUNT(*) AS COUNT_VALUE
-		FROM
-			Newsletter_Contact
-		INNER JOIN
-			Newsletter_NewsletterLog ON
-				Newsletter_Contact.contactId = Newsletter_NewsletterLog.contactId 
-		WHERE
-			Newsletter_NewsletterLog.campaignId = ?
+			SELECT
+				COUNT(*) AS COUNT_VALUE
+			FROM
+				Newsletter_Contact
+			INNER JOIN
+				Newsletter_NewsletterLog ON
+					(Newsletter_Contact.contactId = Newsletter_NewsletterLog.contactId) 
+			WHERE
+				(Newsletter_NewsletterLog.campaignId = ?)
 		]]>
 	</sql>
 	<sql id="com.liferay.newsletter.service.persistence.ContactFinder.countByCampaignContent">
 		<![CDATA[
-		SELECT
-			COUNT(*) AS COUNT_VALUE
-		FROM
-			Newsletter_Contact
-		INNER JOIN
-			Newsletter_NewsletterLog ON
-				Newsletter_Contact.contactId = Newsletter_NewsletterLog.contactId 
-		INNER JOIN
-			Newsletter_Campaign ON
-				Newsletter_Campaign.campaignId = Newsletter_NewsletterLog.campaignId 
-		WHERE
-			Newsletter_Campaign.campaignContentId = ?
+			SELECT
+				COUNT(*) AS COUNT_VALUE
+			FROM
+				Newsletter_Contact
+			INNER JOIN
+				Newsletter_NewsletterLog ON
+					(Newsletter_Contact.contactId = Newsletter_NewsletterLog.contactId) 
+			INNER JOIN
+				Newsletter_Campaign ON
+					(Newsletter_Campaign.campaignId = Newsletter_NewsletterLog.campaignId) 
+			WHERE
+				(Newsletter_Campaign.campaignContentId = ?)
 		]]>
 	</sql>
 	<sql id="com.liferay.newsletter.service.persistence.ContactFinder.findByEmail">
@@ -56,14 +52,20 @@
 				(email LIKE ?)
 		]]>
 	</sql>
-	<sql id="com.liferay.newsletter.service.persistence.CampaignContentFinder.findByTitle">
+	<sql id="com.liferay.newsletter.service.persistence.ContactFinder.findByNameAndCampaign">
 		<![CDATA[
-			SELECT
-				Newsletter_CampaignContent.*
-			FROM
-				Newsletter_CampaignContent
+			SELECT 
+				{Newsletter_Contact.*} 
+			FROM 
+				Newsletter_Contact
+			INNER JOIN 
+				Newsletter_NewsletterLog ON 
+					(Newsletter_Contact.contactId = Newsletter_NewsletterLog.contactId)
 			WHERE
-				(title LIKE ?)
+				(Newsletter_Contact.name LIKE '%?%') AND 
+				(Newsletter_NewsletterLog.campaignId = ?)
+			ORDER BY
+				Newsletter_Contact.name ASC 
 		]]>
 	</sql>
 </custom-sql>
