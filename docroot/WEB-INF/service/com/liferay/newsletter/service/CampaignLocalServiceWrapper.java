@@ -235,6 +235,21 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 		_campaignLocalService.setBeanIdentifier(beanIdentifier);
 	}
 
+	public com.liferay.newsletter.model.Campaign addCampaign(
+		long campaignContentId, java.lang.String senderEmail,
+		java.lang.String senderName, java.lang.String emailSubject,
+		int sendDateMonth, int sendDateDay, int sendDateYear)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _campaignLocalService.addCampaign(campaignContentId,
+			senderEmail, senderName, emailSubject, sendDateMonth, sendDateDay,
+			sendDateYear);
+	}
+
+	public void checkCampaigns() {
+		_campaignLocalService.checkCampaigns();
+	}
+
 	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByCampaignContent(
 		long campaignContentId)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -262,10 +277,6 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 		com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _campaignLocalService.getNewsletterLogs(campaign);
-	}
-
-	public void checkCampaigns() {
-		_campaignLocalService.checkCampaigns();
 	}
 
 	public void sendCampaign(com.liferay.newsletter.model.Campaign campaign)

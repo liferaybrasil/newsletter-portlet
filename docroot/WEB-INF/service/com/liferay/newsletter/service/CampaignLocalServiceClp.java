@@ -78,25 +78,30 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		_setBeanIdentifierMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
 				"setBeanIdentifier", java.lang.String.class);
 
-		_getCampaignsByCampaignContentMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getCampaignsByCampaignContent", long.class);
+		_addCampaignMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+				"addCampaign", long.class, java.lang.String.class,
+				java.lang.String.class, java.lang.String.class, int.class,
+				int.class, int.class);
 
-		_getCampaignsByCampaignContentCountMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getCampaignsByCampaignContentCount", long.class);
-
-		_getCampaignsByDateMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getCampaignsByDate", java.util.Date.class);
-
-		_getCampaignsBySendDateLTMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getCampaignsBySendDateLT", java.util.Date.class, boolean.class);
-
-		_getNewsletterLogsMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getNewsletterLogs", com.liferay.newsletter.model.Campaign.class);
-
-		_checkCampaignsMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
+		_checkCampaignsMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
 				"checkCampaigns");
 
-		_sendCampaignMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getCampaignsByCampaignContentMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getCampaignsByCampaignContent", long.class);
+
+		_getCampaignsByCampaignContentCountMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getCampaignsByCampaignContentCount", long.class);
+
+		_getCampaignsByDateMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getCampaignsByDate", java.util.Date.class);
+
+		_getCampaignsBySendDateLTMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getCampaignsBySendDateLT", java.util.Date.class, boolean.class);
+
+		_getNewsletterLogsMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getNewsletterLogs", com.liferay.newsletter.model.Campaign.class);
+
+		_sendCampaignMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
 				"sendCampaign", com.liferay.newsletter.model.Campaign.class);
 	}
 
@@ -500,12 +505,67 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		}
 	}
 
+	public com.liferay.newsletter.model.Campaign addCampaign(
+		long campaignContentId, java.lang.String senderEmail,
+		java.lang.String senderName, java.lang.String emailSubject,
+		int sendDateMonth, int sendDateDay, int sendDateYear)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_addCampaignMethodKey15,
+				campaignContentId, ClpSerializer.translateInput(senderEmail),
+				ClpSerializer.translateInput(senderName),
+				ClpSerializer.translateInput(emailSubject), sendDateMonth,
+				sendDateDay, sendDateYear);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.newsletter.model.Campaign)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public void checkCampaigns() {
+		MethodHandler methodHandler = new MethodHandler(_checkCampaignsMethodKey16);
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByCampaignContent(
 		long campaignContentId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsByCampaignContentMethodKey15,
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsByCampaignContentMethodKey17,
 				campaignContentId);
 
 		try {
@@ -532,7 +592,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsByCampaignContentCountMethodKey16,
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsByCampaignContentCountMethodKey18,
 				campaignContentId);
 
 		try {
@@ -560,7 +620,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsByDateMethodKey17,
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsByDateMethodKey19,
 				ClpSerializer.translateInput(sendDate));
 
 		try {
@@ -588,7 +648,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsBySendDateLTMethodKey18,
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsBySendDateLTMethodKey20,
 				ClpSerializer.translateInput(sendDate), sent);
 
 		try {
@@ -616,7 +676,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsMethodKey19,
+		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsMethodKey21,
 				ClpSerializer.translateInput(campaign));
 
 		try {
@@ -639,28 +699,11 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		return (java.util.List<com.liferay.newsletter.model.NewsletterLog>)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public void checkCampaigns() {
-		MethodHandler methodHandler = new MethodHandler(_checkCampaignsMethodKey20);
-
-		try {
-			_classLoaderProxy.invoke(methodHandler);
-		}
-		catch (Throwable t) {
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-	}
-
 	public void sendCampaign(com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException,
 			javax.mail.MessagingException, javax.mail.internet.AddressException {
-		MethodHandler methodHandler = new MethodHandler(_sendCampaignMethodKey21,
+		MethodHandler methodHandler = new MethodHandler(_sendCampaignMethodKey22,
 				ClpSerializer.translateInput(campaign));
 
 		try {
@@ -713,11 +756,12 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	private MethodKey _updateCampaignMethodKey12;
 	private MethodKey _getBeanIdentifierMethodKey13;
 	private MethodKey _setBeanIdentifierMethodKey14;
-	private MethodKey _getCampaignsByCampaignContentMethodKey15;
-	private MethodKey _getCampaignsByCampaignContentCountMethodKey16;
-	private MethodKey _getCampaignsByDateMethodKey17;
-	private MethodKey _getCampaignsBySendDateLTMethodKey18;
-	private MethodKey _getNewsletterLogsMethodKey19;
-	private MethodKey _checkCampaignsMethodKey20;
-	private MethodKey _sendCampaignMethodKey21;
+	private MethodKey _addCampaignMethodKey15;
+	private MethodKey _checkCampaignsMethodKey16;
+	private MethodKey _getCampaignsByCampaignContentMethodKey17;
+	private MethodKey _getCampaignsByCampaignContentCountMethodKey18;
+	private MethodKey _getCampaignsByDateMethodKey19;
+	private MethodKey _getCampaignsBySendDateLTMethodKey20;
+	private MethodKey _getNewsletterLogsMethodKey21;
+	private MethodKey _sendCampaignMethodKey22;
 }
