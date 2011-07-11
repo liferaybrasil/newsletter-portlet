@@ -14,18 +14,6 @@
 
 package com.liferay.newsletter.service.impl;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
@@ -40,23 +28,26 @@ import com.liferay.newsletter.util.MailAuthenticator;
 import com.liferay.newsletter.util.NewsletterConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.util.portlet.PortletProps;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 /**
- * The implementation of the campaign local service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.liferay.newsletter.service.CampaignLocalService} interface.
- *
- * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
- * </p>
- *
  * @author Bruno Pinheiro
- * @see com.liferay.newsletter.service.base.CampaignLocalServiceBaseImpl
- * @see com.liferay.newsletter.service.CampaignLocalServiceUtil
  */
 public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 
@@ -67,6 +58,22 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		campaign.setCampaignId(campaignId);
 
 		return super.addCampaign(campaign);
+	}
+
+	public void checkCampaigns() {
+		try {
+			Date currentDate = new Date();
+
+			List<Campaign> campaigns = getCampaignsBySendDateLT(
+				currentDate, false);
+
+			for (Campaign campaign : campaigns) {
+				sendCampaign(campaign);
+			}
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
 	}
 
 	public void deleteCampaign(long campaignId)
@@ -115,22 +122,6 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		throws SystemException{
 
 		return campaignPersistence.getNewsletterLogs(campaign.getCampaignId());
-	}
-
-	public void checkCampaigns() {
-		try {
-			Date currentDate = new Date();
-
-			List<Campaign> campaigns = getCampaignsBySendDateLT(
-				currentDate, false);
-
-			for (Campaign campaign : campaigns) {
-				sendCampaign(campaign);
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void sendCampaign(Campaign campaign)
@@ -216,5 +207,8 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 
 		Transport.send(msg);
 	}
+	
+	private static Log _log = LogFactoryUtil.getLog(
+		CampaignLocalServiceImpl.class);
 
 }

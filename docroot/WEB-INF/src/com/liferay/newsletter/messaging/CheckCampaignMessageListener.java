@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.messaging.Message;
 public class CheckCampaignMessageListener extends BaseMessageListener {
 
 	protected void doReceive(Message message) throws Exception {
-		CampaignLocalServiceUtil.job();
+		CampaignLocalServiceUtil.checkCampaigns();
 	}
 
 }
