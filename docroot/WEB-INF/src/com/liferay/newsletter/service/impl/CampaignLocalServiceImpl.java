@@ -14,7 +14,6 @@
 
 package com.liferay.newsletter.service.impl;
 
-import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.Contact;
@@ -32,6 +31,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.portlet.PortletProps;
 
 import java.util.Date;
@@ -51,13 +51,34 @@ import javax.mail.internet.MimeMessage;
  */
 public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 
-	public Campaign addCampaign(Campaign campaign) throws SystemException{
-		long campaignId = CounterLocalServiceUtil.increment(
-				Campaign.class.getName());
+	public Campaign addCampaign(
+			long campaignContentId, String senderEmail, String senderName,
+			String emailSubject, int sendDateMonth, int sendDateDay,
+			int sendDateYear) 
+		throws PortalException, SystemException {
 
+		Date sendDate = PortalUtil.getDate(
+			sendDateMonth, sendDateDay,sendDateYear);
+
+		CampaignContent campaignContent = 
+			campaignContentLocalService.getCampaignContent(campaignContentId);
+
+		long campaignId = counterLocalService.increment();
+
+		Campaign campaign = campaignPersistence.create(campaignId);
+
+		campaign.setSendDate(sendDate);
+		campaign.setCampaignContentId(campaignContentId);
+		campaign.setSenderEmail(senderEmail);
+		campaign.setSenderName(senderName);
+		campaign.setEmailSubject(emailSubject);
+		campaign.setSent(false);
+		campaign.setContent(campaignContent.getContent());
 		campaign.setCampaignId(campaignId);
 
-		return super.addCampaign(campaign);
+		campaignPersistence.update(campaign, false);
+
+		return campaign;
 	}
 
 	public void checkCampaigns() {
