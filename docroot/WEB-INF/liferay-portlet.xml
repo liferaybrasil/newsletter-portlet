@@ -6,7 +6,7 @@
 		<portlet-name>newsletter</portlet-name>
 		<icon>/icon.png</icon>
 		<scheduler-entry>
-			<scheduler-event-listener-class>com.liferay.newsletter.CheckScheduledNewsletters</scheduler-event-listener-class>
+			<scheduler-event-listener-class>com.liferay.newsletter.messaging.CheckCampaignMessageListener</scheduler-event-listener-class>
 			<trigger>
 				<simple>
 					<property-key>newsletter.job.interval</property-key>

@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.newsletter;
+package com.liferay.newsletter.messaging;
 
 import com.liferay.newsletter.service.CampaignLocalServiceUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
@@ -21,10 +21,10 @@ import com.liferay.portal.kernel.messaging.Message;
 /**
  * @author Bruno Pinheiro
  */
-public class CheckScheduledNewsletters extends BaseMessageListener {
+public class CheckCampaignMessageListener extends BaseMessageListener {
 
 	protected void doReceive(Message message) throws Exception {
-			CampaignLocalServiceUtil.job();
+		CampaignLocalServiceUtil.job();
 	}
 
 }

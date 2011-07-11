@@ -117,9 +117,10 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		return campaignPersistence.getNewsletterLogs(campaign.getCampaignId());
 	}
 
-	public void job() {
+	public void checkCampaigns() {
 		try {
 			Date currentDate = new Date();
+
 			List<Campaign> campaigns = getCampaignsBySendDateLT(
 				currentDate, false);
 
@@ -130,7 +131,6 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void sendCampaign(Campaign campaign)
