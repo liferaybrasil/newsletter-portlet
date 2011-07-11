@@ -14,15 +14,11 @@
 
 package com.liferay.newsletter.service.persistence;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.liferay.newsletter.NoSuchCampaignContentException;
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.impl.CampaignContentImpl;
 import com.liferay.newsletter.model.impl.CampaignContentModelImpl;
+
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
@@ -56,6 +52,12 @@ import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
+
+import java.io.Serializable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The persistence implementation for the campaign content service.
@@ -824,12 +826,7 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 			query = new StringBundler(2);
 		}
 
-		if (getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGNCONTENT_WHERE);
-		}
-		else {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGNCONTENT_NO_INLINE_DISTINCT_WHERE_1);
-		}
+		query.append(_FILTER_SQL_SELECT_CAMPAIGNCONTENT_WHERE);
 
 		if (uuid == null) {
 			query.append(_FINDER_COLUMN_UUID_UUID_1);
@@ -843,9 +840,7 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 			}
 		}
 
-		if (!getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGNCONTENT_NO_INLINE_DISTINCT_WHERE_2);
-		}
+		appendGroupByComparator(query, _FILTER_COLUMN_PK);
 
 		if (orderByComparator != null) {
 			if (getDB().isSupportsInlineDistinct()) {
@@ -954,12 +949,7 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 			query = new StringBundler(3);
 		}
 
-		if (getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGNCONTENT_WHERE);
-		}
-		else {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGNCONTENT_NO_INLINE_DISTINCT_WHERE_1);
-		}
+		query.append(_FILTER_SQL_SELECT_CAMPAIGNCONTENT_WHERE);
 
 		if (uuid == null) {
 			query.append(_FINDER_COLUMN_UUID_UUID_1);
@@ -973,9 +963,7 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 			}
 		}
 
-		if (!getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGNCONTENT_NO_INLINE_DISTINCT_WHERE_2);
-		}
+		appendGroupByComparator(query, _FILTER_COLUMN_PK);
 
 		if (orderByComparator != null) {
 			String[] orderByFields = orderByComparator.getOrderByFields();
@@ -1689,11 +1677,7 @@ public class CampaignContentPersistenceImpl extends BasePersistenceImpl<Campaign
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "campaignContent.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "campaignContent.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(campaignContent.uuid IS NULL OR campaignContent.uuid = ?)";
-	private static final String _FILTER_SQL_SELECT_CAMPAIGNCONTENT_WHERE = "SELECT DISTINCT {campaignContent.*} FROM Newsletter_CampaignContent campaignContent WHERE ";
-	private static final String _FILTER_SQL_SELECT_CAMPAIGNCONTENT_NO_INLINE_DISTINCT_WHERE_1 =
-		"SELECT {Newsletter_CampaignContent.*} FROM (SELECT DISTINCT campaignContent.campaignContentId FROM Newsletter_CampaignContent campaignContent WHERE ";
-	private static final String _FILTER_SQL_SELECT_CAMPAIGNCONTENT_NO_INLINE_DISTINCT_WHERE_2 =
-		") TEMP_TABLE INNER JOIN Newsletter_CampaignContent ON TEMP_TABLE.campaignContentId = Newsletter_CampaignContent.campaignContentId";
+	private static final String _FILTER_SQL_SELECT_CAMPAIGNCONTENT_WHERE = "SELECT {campaignContent.*} FROM Newsletter_CampaignContent campaignContent WHERE ";
 	private static final String _FILTER_SQL_COUNT_CAMPAIGNCONTENT_WHERE = "SELECT COUNT(DISTINCT campaignContent.campaignContentId) AS COUNT_VALUE FROM Newsletter_CampaignContent campaignContent WHERE ";
 	private static final String _FILTER_COLUMN_PK = "campaignContent.campaignContentId";
 	private static final String _FILTER_ENTITY_ALIAS = "campaignContent";

@@ -14,8 +14,6 @@
 
 package com.liferay.newsletter.service.http;
 
-import com.liferay.portal.service.http.ContactServiceHttp;
-
 /**
  * <p>
  * This class provides a SOAP utility for the

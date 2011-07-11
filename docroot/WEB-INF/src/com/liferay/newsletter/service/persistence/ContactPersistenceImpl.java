@@ -14,15 +14,11 @@
 
 package com.liferay.newsletter.service.persistence;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.liferay.newsletter.NoSuchContactException;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.impl.ContactImpl;
 import com.liferay.newsletter.model.impl.ContactModelImpl;
+
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
@@ -55,6 +51,12 @@ import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
+
+import java.io.Serializable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The persistence implementation for the contact service.

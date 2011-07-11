@@ -277,8 +277,8 @@ public class CampaignLocalServiceUtil {
 		return getService().getNewsletterLogs(campaign);
 	}
 
-	public static void job() {
-		getService().job();
+	public static void checkCampaigns() {
+		getService().checkCampaigns();
 	}
 
 	public static void sendCampaign(

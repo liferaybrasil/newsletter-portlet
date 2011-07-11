@@ -14,16 +14,11 @@
 
 package com.liferay.newsletter.service.persistence;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import com.liferay.newsletter.NoSuchCampaignException;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.impl.CampaignImpl;
 import com.liferay.newsletter.model.impl.CampaignModelImpl;
+
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
@@ -58,6 +53,13 @@ import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
+
+import java.io.Serializable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * The persistence implementation for the campaign service.
@@ -865,12 +867,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		if (getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
-		}
-		else {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
-		}
+		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
 
 		if (uuid == null) {
 			query.append(_FINDER_COLUMN_UUID_UUID_1);
@@ -884,9 +881,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			}
 		}
 
-		if (!getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
-		}
+		appendGroupByComparator(query, _FILTER_COLUMN_PK);
 
 		if (orderByComparator != null) {
 			if (getDB().isSupportsInlineDistinct()) {
@@ -1002,12 +997,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		if (getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
-		}
-		else {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
-		}
+		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
 
 		if (uuid == null) {
 			query.append(_FINDER_COLUMN_UUID_UUID_1);
@@ -1021,9 +1011,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			}
 		}
 
-		if (!getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
-		}
+		appendGroupByComparator(query, _FILTER_COLUMN_PK);
 
 		if (orderByComparator != null) {
 			String[] orderByFields = orderByComparator.getOrderByFields();
@@ -1544,18 +1532,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		if (getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
-		}
-		else {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
-		}
+		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
 
 		query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
 
-		if (!getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
-		}
+		appendGroupByComparator(query, _FILTER_COLUMN_PK);
 
 		if (orderByComparator != null) {
 			if (getDB().isSupportsInlineDistinct()) {
@@ -1670,18 +1651,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		if (getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
-		}
-		else {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
-		}
+		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
 
 		query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
 
-		if (!getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
-		}
+		appendGroupByComparator(query, _FILTER_COLUMN_PK);
 
 		if (orderByComparator != null) {
 			String[] orderByFields = orderByComparator.getOrderByFields();
@@ -2210,12 +2184,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		if (getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
-		}
-		else {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
-		}
+		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
 
 		if (sendDate == null) {
 			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
@@ -2224,9 +2193,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
 		}
 
-		if (!getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
-		}
+		appendGroupByComparator(query, _FILTER_COLUMN_PK);
 
 		if (orderByComparator != null) {
 			if (getDB().isSupportsInlineDistinct()) {
@@ -2343,12 +2310,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		if (getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
-		}
-		else {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
-		}
+		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
 
 		if (sendDate == null) {
 			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
@@ -2357,9 +2319,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
 		}
 
-		if (!getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
-		}
+		appendGroupByComparator(query, _FILTER_COLUMN_PK);
 
 		if (orderByComparator != null) {
 			String[] orderByFields = orderByComparator.getOrderByFields();
@@ -2915,12 +2875,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(4);
 		}
 
-		if (getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
-		}
-		else {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
-		}
+		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
 
 		if (sendDate == null) {
 			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
@@ -2931,9 +2886,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
 
-		if (!getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
-		}
+		appendGroupByComparator(query, _FILTER_COLUMN_PK);
 
 		if (orderByComparator != null) {
 			if (getDB().isSupportsInlineDistinct()) {
@@ -3053,12 +3006,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		if (getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
-		}
-		else {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
-		}
+		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
 
 		if (sendDate == null) {
 			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
@@ -3069,9 +3017,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
 
-		if (!getDB().isSupportsInlineDistinct()) {
-			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
-		}
+		appendGroupByComparator(query, _FILTER_COLUMN_PK);
 
 		if (orderByComparator != null) {
 			String[] orderByFields = orderByComparator.getOrderByFields();
@@ -4183,11 +4129,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	private static final String _FINDER_COLUMN_SD_LT_SENDDATE_1 = "campaign.sendDate <= NULL AND ";
 	private static final String _FINDER_COLUMN_SD_LT_SENDDATE_2 = "campaign.sendDate <= ? AND ";
 	private static final String _FINDER_COLUMN_SD_LT_SENT_2 = "campaign.sent = ?";
-	private static final String _FILTER_SQL_SELECT_CAMPAIGN_WHERE = "SELECT DISTINCT {campaign.*} FROM Newsletter_Campaign campaign WHERE ";
-	private static final String _FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1 =
-		"SELECT {Newsletter_Campaign.*} FROM (SELECT DISTINCT campaign.campaignId FROM Newsletter_Campaign campaign WHERE ";
-	private static final String _FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2 =
-		") TEMP_TABLE INNER JOIN Newsletter_Campaign ON TEMP_TABLE.campaignId = Newsletter_Campaign.campaignId";
+	private static final String _FILTER_SQL_SELECT_CAMPAIGN_WHERE = "SELECT {campaign.*} FROM Newsletter_Campaign campaign WHERE ";
 	private static final String _FILTER_SQL_COUNT_CAMPAIGN_WHERE = "SELECT COUNT(DISTINCT campaign.campaignId) AS COUNT_VALUE FROM Newsletter_Campaign campaign WHERE ";
 	private static final String _FILTER_COLUMN_PK = "campaign.campaignId";
 	private static final String _FILTER_ENTITY_ALIAS = "campaign";

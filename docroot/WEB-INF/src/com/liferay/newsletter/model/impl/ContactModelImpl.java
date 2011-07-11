@@ -14,15 +14,10 @@
 
 package com.liferay.newsletter.model.impl;
 
-import java.io.Serializable;
-import java.lang.reflect.Proxy;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.ContactModel;
 import com.liferay.newsletter.model.ContactSoap;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -30,8 +25,18 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
+
 import com.liferay.portlet.expando.model.ExpandoBridge;
 import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
+
+import java.io.Serializable;
+
+import java.lang.reflect.Proxy;
+
+import java.sql.Types;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The base model implementation for the Contact service. Represents a row in the &quot;Newsletter_Contact&quot; database table, with each column mapped to a property of this class.

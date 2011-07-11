@@ -93,7 +93,8 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		_getNewsletterLogsMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getNewsletterLogs", com.liferay.newsletter.model.Campaign.class);
 
-		_jobMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(), "job");
+		_checkCampaignsMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
+				"checkCampaigns");
 
 		_sendCampaignMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
 				"sendCampaign", com.liferay.newsletter.model.Campaign.class);
@@ -638,8 +639,8 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		return (java.util.List<com.liferay.newsletter.model.NewsletterLog>)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public void job() {
-		MethodHandler methodHandler = new MethodHandler(_jobMethodKey20);
+	public void checkCampaigns() {
+		MethodHandler methodHandler = new MethodHandler(_checkCampaignsMethodKey20);
 
 		try {
 			_classLoaderProxy.invoke(methodHandler);
@@ -717,6 +718,6 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	private MethodKey _getCampaignsByDateMethodKey17;
 	private MethodKey _getCampaignsBySendDateLTMethodKey18;
 	private MethodKey _getNewsletterLogsMethodKey19;
-	private MethodKey _jobMethodKey20;
+	private MethodKey _checkCampaignsMethodKey20;
 	private MethodKey _sendCampaignMethodKey21;
 }

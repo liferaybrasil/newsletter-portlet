@@ -244,7 +244,7 @@ public interface CampaignLocalService {
 		com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public void job();
+	public void checkCampaigns();
 
 	public void sendCampaign(com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.PortalException,

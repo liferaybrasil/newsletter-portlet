@@ -264,8 +264,8 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 		return _campaignLocalService.getNewsletterLogs(campaign);
 	}
 
-	public void job() {
-		_campaignLocalService.job();
+	public void checkCampaigns() {
+		_campaignLocalService.checkCampaigns();
 	}
 
 	public void sendCampaign(com.liferay.newsletter.model.Campaign campaign)
