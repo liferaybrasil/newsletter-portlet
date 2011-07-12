@@ -101,8 +101,7 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		throws PortalException, SystemException {
 
 		List<NewsletterLog> newsletterLogByCampaign =
-			NewsletterLogLocalServiceUtil.getNewsletterLogByCampaign(
-				campaignId);
+			newsletterLogLocalService.getNewsletterLogByCampaign(campaignId);
 
 		if (!newsletterLogByCampaign.isEmpty()) {
 			for (NewsletterLog newsletterLog : newsletterLogByCampaign) {
