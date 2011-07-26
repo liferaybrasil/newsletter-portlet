@@ -19,7 +19,7 @@ package com.liferay.newsletter.service;
  * This class is a wrapper for {@link CampaignLocalService}.
  * </p>
  *
- * @author    Bruno Pinheiro
+ * @author    Brian Wing Shun Chan
  * @see       CampaignLocalService
  * @generated
  */
@@ -242,6 +242,22 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 		_campaignLocalService.setBeanIdentifier(beanIdentifier);
 	}
 
+	public com.liferay.newsletter.model.Campaign addCampaign(
+		long campaignContentId, java.lang.String senderEmail,
+		java.lang.String senderName, java.lang.String emailSubject,
+		int sendDateMonth, int sendDateDay, int sendDateYear,
+		java.lang.String contacts)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _campaignLocalService.addCampaign(campaignContentId,
+			senderEmail, senderName, emailSubject, sendDateMonth, sendDateDay,
+			sendDateYear, contacts);
+	}
+
+	public void checkCampaigns() {
+		_campaignLocalService.checkCampaigns();
+	}
+
 	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByCampaignContent(
 		long campaignContentId)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -269,10 +285,6 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 		com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _campaignLocalService.getNewsletterLogs(campaign);
-	}
-
-	public void job() {
-		_campaignLocalService.job();
 	}
 
 	public void sendCampaign(com.liferay.newsletter.model.Campaign campaign)

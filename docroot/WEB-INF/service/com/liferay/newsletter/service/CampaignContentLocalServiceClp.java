@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class CampaignContentLocalServiceClp
 	implements CampaignContentLocalService {
@@ -93,11 +93,15 @@ public class CampaignContentLocalServiceClp
 		_getCampaignsContentByTitleMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getCampaignsContentByTitle", java.lang.String.class,
 				int.class, int.class);
+
+		_validateMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
+				"validate", java.lang.String.class, java.lang.String.class);
 	}
 
 	public com.liferay.newsletter.model.CampaignContent addCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_addCampaignContentMethodKey0,
@@ -107,6 +111,10 @@ public class CampaignContentLocalServiceClp
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
 			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
 				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
@@ -588,6 +596,30 @@ public class CampaignContentLocalServiceClp
 		return (java.util.List<com.liferay.newsletter.model.CampaignContent>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public void validate(java.lang.String title, java.lang.String content)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		MethodHandler methodHandler = new MethodHandler(_validateMethodKey18,
+				ClpSerializer.translateInput(title),
+				ClpSerializer.translateInput(content));
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	public ClassLoaderProxy getClassLoaderProxy() {
 		return _classLoaderProxy;
 	}
@@ -611,4 +643,5 @@ public class CampaignContentLocalServiceClp
 	private MethodKey _setBeanIdentifierMethodKey15;
 	private MethodKey _getCampaignsMethodKey16;
 	private MethodKey _getCampaignsContentByTitleMethodKey17;
+	private MethodKey _validateMethodKey18;
 }

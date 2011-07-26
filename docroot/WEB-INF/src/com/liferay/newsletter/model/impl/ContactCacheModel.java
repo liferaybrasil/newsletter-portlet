@@ -23,7 +23,7 @@ import com.liferay.portal.model.CacheModel;
 /**
  * The cache model class for representing Contact in entity cache.
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see Contact
  * @generated
  */

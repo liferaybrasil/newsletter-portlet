@@ -19,7 +19,7 @@ package com.liferay.newsletter.service;
  * This class is a wrapper for {@link CampaignContentLocalService}.
  * </p>
  *
- * @author    Bruno Pinheiro
+ * @author    Brian Wing Shun Chan
  * @see       CampaignContentLocalService
  * @generated
  */
@@ -35,11 +35,13 @@ public class CampaignContentLocalServiceWrapper
 	*
 	* @param campaignContent the campaign content
 	* @return the campaign content that was added
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.CampaignContent addCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		return _campaignContentLocalService.addCampaignContent(campaignContent);
 	}
 
@@ -260,6 +262,11 @@ public class CampaignContentLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _campaignContentLocalService.getCampaignsContentByTitle(title,
 			start, end);
+	}
+
+	public void validate(java.lang.String title, java.lang.String content)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_campaignContentLocalService.validate(title, content);
 	}
 
 	public CampaignContentLocalService getWrappedCampaignContentLocalService() {

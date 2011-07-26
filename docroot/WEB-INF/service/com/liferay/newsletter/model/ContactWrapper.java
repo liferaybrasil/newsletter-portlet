@@ -19,7 +19,7 @@ package com.liferay.newsletter.model;
  * This class is a wrapper for {@link Contact}.
  * </p>
  *
- * @author    Bruno Pinheiro
+ * @author    Brian Wing Shun Chan
  * @see       Contact
  * @generated
  */

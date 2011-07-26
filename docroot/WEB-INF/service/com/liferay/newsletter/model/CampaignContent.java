@@ -19,7 +19,7 @@ import com.liferay.portal.model.PersistedModel;
 /**
  * The extended model interface for the CampaignContent service. Represents a row in the &quot;Newsletter_CampaignContent&quot; database table, with each column mapped to a property of this class.
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see CampaignContentModel
  * @see com.liferay.newsletter.model.impl.CampaignContentImpl
  * @see com.liferay.newsletter.model.impl.CampaignContentModelImpl

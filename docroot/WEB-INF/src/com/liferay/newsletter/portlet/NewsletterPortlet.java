@@ -14,30 +14,18 @@
 
 package com.liferay.newsletter.portlet;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
-import javax.portlet.ReadOnlyException;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.portlet.ValidatorException;
-
+import com.liferay.newsletter.exception.ContactsException;
+import com.liferay.newsletter.exception.ContentException;
+import com.liferay.newsletter.exception.EmailSubjectException;
+import com.liferay.newsletter.exception.IdNotFoundException;
+import com.liferay.newsletter.exception.SenderEmailException;
+import com.liferay.newsletter.exception.SenderNameException;
+import com.liferay.newsletter.exception.TitleException;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.model.impl.CampaignContentImpl;
-import com.liferay.newsletter.model.impl.CampaignImpl;
 import com.liferay.newsletter.model.impl.ContactImpl;
 import com.liferay.newsletter.model.impl.NewsletterLogImpl;
 import com.liferay.newsletter.service.CampaignContentLocalServiceUtil;
@@ -67,6 +55,22 @@ import com.liferay.portlet.journalcontent.util.JournalContentUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.liferay.util.portlet.PortletProps;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequest;
+import javax.portlet.ReadOnlyException;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.portlet.ValidatorException;
+
 /**
  * @author Bruno Pinheiro
  */
@@ -75,30 +79,27 @@ public class NewsletterPortlet extends MVCPortlet {
 	public void addCampaign(ActionRequest request, ActionResponse response)
 		throws Exception {
 
-		Campaign campaign = _campaignFromRequest(request);
+		int sendDateMonth = ParamUtil.getInteger(request, "sendDateMonth");
+		int sendDateDay = ParamUtil.getInteger(request, "sendDateDay");
+		int sendDateYear = ParamUtil.getInteger(request, "sendDateYear");
 
-		ArrayList<String> errors = new ArrayList<String>();
+		long campaignContentId = ParamUtil.getLong(
+			request, "campaignContentId");
+
+		String senderEmail = ParamUtil.getString(request, "senderEmail");
+		String senderName = ParamUtil.getString(request, "senderName");
+		String emailSubject = ParamUtil.getString(request, "emailSubject");
 
 		String contacts = ParamUtil.getString(request, "contacts");
 
-		if (NewsletterValidator.validateCampaign(campaign, contacts, errors)) {
-		campaign = CampaignLocalServiceUtil.addCampaign(campaign);
+		Campaign campaign =	CampaignLocalServiceUtil.addCampaign(
+			campaignContentId, senderEmail, senderName, emailSubject,
+			sendDateMonth, sendDateDay, sendDateYear, contacts);
 
 		_registerLog(campaign, contacts, request);
 
-		sendRedirect(request, response);
 		SessionMessages.add(request, "campaign-added");
-		}
-		else {
-			for (String error : errors) {
-				SessionErrors.add(request, error);
-			}
-
-			PortalUtil.copyRequestParameters(request, response);
-
-			response.setRenderParameter(
-				"jspPage", "/html/newsletterportlet/edit_campaign.jsp");
-		}
+		sendRedirect(request, response);
 	}
 
 	public void addCampaignContent(
@@ -108,29 +109,13 @@ public class NewsletterPortlet extends MVCPortlet {
 		CampaignContent campaignContent = _campaignContentFromRequest(request);
 		campaignContent.setCreateDate(new Date());
 
-		ArrayList<String> errors = new ArrayList<String>();
+		campaignContent =
+			CampaignContentLocalServiceUtil.addCampaignContent(
+				campaignContent);
 
-		if (NewsletterValidator.validateCampaignContent(
-				campaignContent, errors)) {
+		SessionMessages.add(request, "campaignContent-added");
 
-			campaignContent =
-				CampaignContentLocalServiceUtil.addCampaignContent(
-					campaignContent);
-
-			SessionMessages.add(request, "campaignContent-added");
-
-			sendRedirect(request, response);
-		}
-		else {
-			for (String error : errors) {
-				SessionErrors.add(request, error);
-			}
-
-			PortalUtil.copyRequestParameters(request, response);
-
-			response.setRenderParameter(
-				"jspPage", "/html/newsletterportlet/edit_campaignContent.jsp");
-		}
+		sendRedirect(request, response);
 	}
 
 	public void deleteCampaign(ActionRequest request, ActionResponse response)
@@ -138,20 +123,20 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		long campaignId = ParamUtil.getLong(request, "campaignId");
 
-		if (Validator.isNotNull(campaignId)) {
+//		if (Validator.isNotNull(campaignId)) {
 			CampaignLocalServiceUtil.deleteCampaign(campaignId);
 
 			SessionMessages.add(request, "campaign-deleted");
 
 			sendRedirect(request, response);
-		}
-		else {
+//		}
+/**		else {
 			SessionErrors.add(request, "campaign-cannot-be-removed");
 			PortalUtil.copyRequestParameters(request, response);
 
 			response.setRenderParameter(
 				"jspPage", "/html/newsletterportlet/view_campaign.jsp");
-		}
+		}**/
 	}
 
 	public void deleteCampaignContent(
@@ -161,19 +146,21 @@ public class NewsletterPortlet extends MVCPortlet {
 		long campaignContentId = ParamUtil.getLong(
 			request, "campaignContentId");
 
-		if (Validator.isNotNull(campaignContentId)) {
+//		if (Validator.isNotNull(campaignContentId)) {
 			CampaignContentLocalServiceUtil.deleteCampaignContent(
 				campaignContentId);
 			SessionMessages.add(request, "campaignContent-deleted");
 			sendRedirect(request, response);
-		}
+
+/**		}
 		else {
 			SessionErrors.add(request, "campaignContent-cannot-be-removed");
 			PortalUtil.copyRequestParameters(request, response);
 
 			response.setRenderParameter(
 				"jspPage", "/html/newsletterportlet/view_campaignContent.jsp");
-		}
+		} **/
+
 	}
 
 	public void processAction(
@@ -209,7 +196,28 @@ public class NewsletterPortlet extends MVCPortlet {
 			}
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			PortalUtil.copyRequestParameters(actionRequest, actionResponse);
+			String page = "/html/newsletterportlet/view_campaignContent.jsp";
+
+			if (e instanceof ContactsException ||
+				e instanceof EmailSubjectException ||
+				e instanceof SenderNameException ||
+				e instanceof SenderEmailException) {
+
+				page = "/html/newsletterportlet/edit_campaign.jsp";
+			}
+			else if (e instanceof ContentException ||
+					 e instanceof TitleException) {
+
+				page = "/html/newsletterportlet/edit_campaignContent.jsp";
+			}
+			else if (e instanceof IdNotFoundException) {
+
+				page = "/html/newsletterportlet/view_campaign.jsp";
+			}
+
+			SessionErrors.add(actionRequest, e.getClass().getName(), e);
+			actionResponse.setRenderParameter("jspPage", page);
 		}
 	}
 
@@ -235,7 +243,8 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+// Colocar mensagens no JSP
+			SessionErrors.add(actionRequest, e.getClass().getName());
 		}
 	}
 
@@ -267,10 +276,10 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		CampaignContent campaignContent = _campaignContentFromRequest(request);
 
-		ArrayList<String> errors = new ArrayList<String>();
+/**		ArrayList<String> errors = new ArrayList<String>();
 
 		if (NewsletterValidator.validateCampaignContent(
-				campaignContent, errors)) {
+				campaignContent, errors)) {**/
 
 			campaignContent =
 				CampaignContentLocalServiceUtil.updateCampaignContent(
@@ -279,7 +288,8 @@ public class NewsletterPortlet extends MVCPortlet {
 			SessionMessages.add(request, "campaignContent-updated");
 
 			sendRedirect(request, response);
-		}
+
+/**		}
 		else {
 			for (String error : errors) {
 				SessionErrors.add(request, error);
@@ -289,7 +299,7 @@ public class NewsletterPortlet extends MVCPortlet {
 
 			response.setRenderParameter(
 				"jspPage", "/html/newsletterportlet/edit_campaignContent.jsp");
-		}
+		}**/
 	}
 
 	protected void getArticleContent(
@@ -483,37 +493,6 @@ public class NewsletterPortlet extends MVCPortlet {
 			}
 
 		return contact;
-	}
-
-	private Campaign _campaignFromRequest(ActionRequest request)
-		throws PortalException, SystemException {
-
-		int sendDateMonth = ParamUtil.getInteger(request, "sendDateMonth");
-		int sendDateDay = ParamUtil.getInteger(request, "sendDateDay");
-		int sendDateYear = ParamUtil.getInteger(request, "sendDateYear");
-
-		Date sendDate = PortalUtil.getDate(
-			sendDateMonth, sendDateDay,sendDateYear);
-		long campaignContentId = ParamUtil.getLong(
-			request, "campaignContentId");
-		CampaignContent campaignContent = CampaignContentLocalServiceUtil.
-			getCampaignContent(campaignContentId);
-
-		CampaignImpl campaign = new CampaignImpl();
-
-		campaign.setCampaignId(
-			ParamUtil.getLong(request, "campaignId"));
-		campaign.setSendDate(sendDate);
-		campaign.setCampaignContentId(campaignContentId);
-		campaign.setSenderEmail(
-			ParamUtil.getString(request, "senderEmail"));
-		campaign.setSenderName(ParamUtil.getString(request, "senderName"));
-		campaign.setEmailSubject(
-			ParamUtil.getString(request, "emailSubject"));
-		campaign.setSent(false);
-		campaign.setContent(campaignContent.getContent());
-
-		return campaign;
 	}
 
 	private CampaignContent _campaignContentFromRequest(

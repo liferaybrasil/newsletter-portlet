@@ -12,19 +12,29 @@
  * details.
  */
 
-package com.liferay.newsletter;
+package com.liferay.newsletter.exception;
 
-import com.liferay.newsletter.service.CampaignLocalServiceUtil;
-import com.liferay.portal.kernel.messaging.BaseMessageListener;
-import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * @author Bruno Pinheiro
  */
-public class CheckScheduledNewsletters extends BaseMessageListener {
+public class EmailSubjectException extends PortalException {
 
-	protected void doReceive(Message message) throws Exception {
-			CampaignLocalServiceUtil.job();
+	public EmailSubjectException() {
+		super();
+	}
+
+	public EmailSubjectException(String msg) {
+		super(msg);
+	}
+
+	public EmailSubjectException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
+
+	public EmailSubjectException(Throwable cause) {
+		super(cause);
 	}
 
 }

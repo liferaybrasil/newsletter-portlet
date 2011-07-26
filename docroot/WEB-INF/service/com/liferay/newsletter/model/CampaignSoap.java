@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * This class is used by SOAP remote services.
  *
- * @author    Bruno Pinheiro
+ * @author    Brian Wing Shun Chan
  * @generated
  */
 public class CampaignSoap implements Serializable {

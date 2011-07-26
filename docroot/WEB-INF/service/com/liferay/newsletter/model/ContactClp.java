@@ -26,7 +26,7 @@ import java.io.Serializable;
 import java.lang.reflect.Proxy;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class ContactClp extends BaseModelImpl<Contact> implements Contact {
 	public ContactClp() {

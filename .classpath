@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <classpath>
 	<classpathentry excluding="**/.svn/**|.svn/" kind="src" path="docroot/WEB-INF/service"/>
 	<classpathentry excluding="**/.svn/**|.svn/" kind="src" path="docroot/WEB-INF/src"/>
-	<classpathentry kind="src" path="/portal-trunk"/>
+	<classpathentry exported="true" kind="src" path="/portal-trunk"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/portal-trunk/lib/development/activation.jar"/>
 	<classpathentry kind="lib" path="/portal-trunk/lib/development/annotations.jar"/>
@@ -19,5 +18,5 @@
 	<classpathentry kind="lib" path="/portal-trunk/util-bridges/util-bridges.jar"/>
 	<classpathentry kind="lib" path="/portal-trunk/util-java/util-java.jar"/>
 	<classpathentry kind="lib" path="/portal-trunk/util-taglib/util-taglib.jar"/>
-	classpathentry kind="output" path="bin" />
+	<classpathentry kind="output" path="bin"/>
 </classpath>

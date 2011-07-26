@@ -29,7 +29,7 @@ import java.lang.reflect.Proxy;
 import java.util.Date;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 	public CampaignClp() {

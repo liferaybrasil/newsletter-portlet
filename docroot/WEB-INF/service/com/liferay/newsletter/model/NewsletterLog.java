@@ -19,7 +19,7 @@ import com.liferay.portal.model.PersistedModel;
 /**
  * The extended model interface for the NewsletterLog service. Represents a row in the &quot;Newsletter_NewsletterLog&quot; database table, with each column mapped to a property of this class.
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see NewsletterLogModel
  * @see com.liferay.newsletter.model.impl.NewsletterLogImpl
  * @see com.liferay.newsletter.model.impl.NewsletterLogModelImpl

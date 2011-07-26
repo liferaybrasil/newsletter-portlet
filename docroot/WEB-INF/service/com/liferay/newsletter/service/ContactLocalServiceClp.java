@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class ContactLocalServiceClp implements ContactLocalService {
 	public ContactLocalServiceClp(ClassLoaderProxy classLoaderProxy) {

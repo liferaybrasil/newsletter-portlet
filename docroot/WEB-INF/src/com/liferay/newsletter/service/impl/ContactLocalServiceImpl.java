@@ -14,14 +14,13 @@
 
 package com.liferay.newsletter.service.impl;
 
-import java.util.List;
-
-import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.NoSuchContactException;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.service.base.ContactLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.List;
 
 /**
  * @author Bruno Pinheiro
@@ -33,11 +32,10 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		Contact contactByEmail = getContactByEmail(contact.getEmail());
 
 		if (contactByEmail == null) {
-			long contactId = CounterLocalServiceUtil.increment(
-				Contact.class.getName());
+			long contactId = counterLocalService.increment();
 
 			contact.setContactId(contactId);
-			contactByEmail = super.addContact(contact);
+			contactByEmail = contactPersistence.update(contact, false);
 		}
 
 		return contactByEmail;
@@ -46,23 +44,15 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	public List<Contact> getContactsByName(String contactName)
 		throws SystemException{
 
-		List<Contact> contacts;
-
-		contacts = contactPersistence.findByName(contactName);
-
-		return contacts;
+		return contactPersistence.findByName(contactName);
 	}
 
 	public List<Contact> getContactByNameAndCampaign(
 			String contactName, long campaignId, int start, int end)
 		throws SystemException{
 
-		List<Contact> contact;
-
-		contact = contactFinder.findByNameAndCampaign(
-			contactName, campaignId, start, end);
-
-		return contact;
+		return contactFinder.findByNameAndCampaign(
+				contactName, campaignId, start, end);
 	}
 
 	public List<Contact> getContactByEmail(String email, int start, int end)

@@ -14,8 +14,6 @@
 
 package com.liferay.newsletter.model.impl;
 
-import com.liferay.newsletter.model.Contact;
-
 /**
  * @author Bruno Pinheiro
  */

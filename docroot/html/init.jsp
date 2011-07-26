@@ -76,6 +76,16 @@
 <%@ page import="com.liferay.newsletter.search.contact.ContactSearchTerms" %>
 <%@ page import="com.liferay.newsletter.search.contact.ContactSearch" %>
 
+<%@ page import="com.liferay.newsletter.exception.EmailSubjectException" %>
+<%@ page import="com.liferay.newsletter.exception.SenderEmailException" %>
+<%@ page import="com.liferay.newsletter.exception.SenderNameException" %>
+<%@ page import="com.liferay.newsletter.exception.ContactsException" %>
+<%@ page import="com.liferay.newsletter.exception.TitleException" %>
+<%@ page import="com.liferay.newsletter.exception.ContentException" %>
+<%@ page import="com.liferay.newsletter.exception.IdNotFoundException" %>
+
+
+
 
 <liferay-theme:defineObjects />
 

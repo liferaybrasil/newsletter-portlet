@@ -18,16 +18,9 @@ import com.liferay.portal.kernel.bean.PortletBeanLocatorUtil;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class ContactFinderUtil {
-	public static java.util.List<com.liferay.newsletter.model.Contact> findByNameAndCampaign(
-		java.lang.String contactName, long campaignId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getFinder()
-				   .findByNameAndCampaign(contactName, campaignId, start, end);
-	}
-
 	public static int countByCampaign(long campaignId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder().countByCampaign(campaignId);
@@ -42,6 +35,13 @@ public class ContactFinderUtil {
 		java.lang.String email, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder().findByEmail(email, start, end);
+	}
+
+	public static java.util.List<com.liferay.newsletter.model.Contact> findByNameAndCampaign(
+		java.lang.String contactName, long campaignId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .findByNameAndCampaign(contactName, campaignId, start, end);
 	}
 
 	public static ContactFinder getFinder() {

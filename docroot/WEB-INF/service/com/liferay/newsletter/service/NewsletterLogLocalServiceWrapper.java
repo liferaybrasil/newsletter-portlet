@@ -19,7 +19,7 @@ package com.liferay.newsletter.service;
  * This class is a wrapper for {@link NewsletterLogLocalService}.
  * </p>
  *
- * @author    Bruno Pinheiro
+ * @author    Brian Wing Shun Chan
  * @see       NewsletterLogLocalService
  * @generated
  */

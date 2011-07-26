@@ -23,7 +23,7 @@ import com.liferay.portal.model.CacheModel;
 /**
  * The cache model class for representing NewsletterLog in entity cache.
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see NewsletterLog
  * @generated
  */

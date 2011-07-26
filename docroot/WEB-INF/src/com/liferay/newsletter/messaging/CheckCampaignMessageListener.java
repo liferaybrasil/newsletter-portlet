@@ -12,28 +12,19 @@
  * details.
  */
 
-package com.liferay.newsletter.util;
+package com.liferay.newsletter.messaging;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
+import com.liferay.newsletter.service.CampaignLocalServiceUtil;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
+import com.liferay.portal.kernel.messaging.Message;
 
 /**
  * @author Bruno Pinheiro
  */
+public class CheckCampaignMessageListener extends BaseMessageListener {
 
-public class MailAuthenticator extends Authenticator {
-
-	public MailAuthenticator (String username, String password) {
-		super();
-		this._user = username;
-		this._password = password;
+	protected void doReceive(Message message) throws Exception {
+		CampaignLocalServiceUtil.checkCampaigns();
 	}
-
-	public PasswordAuthentication getPasswordAuthentication() {
-		return new PasswordAuthentication(_user, _password);
-	}
-
-	private String _user;
-	private String _password;
 
 }

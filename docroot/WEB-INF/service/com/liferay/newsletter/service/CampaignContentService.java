@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
  * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
  * </p>
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see CampaignContentServiceUtil
  * @see com.liferay.newsletter.service.base.CampaignContentServiceBaseImpl
  * @see com.liferay.newsletter.service.impl.CampaignContentServiceImpl

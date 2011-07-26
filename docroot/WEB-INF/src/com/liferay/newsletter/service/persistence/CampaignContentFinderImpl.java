@@ -14,8 +14,6 @@
 
 package com.liferay.newsletter.service.persistence;
 
-import java.util.List;
-
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.impl.CampaignContentImpl;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
@@ -25,9 +23,15 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
+
+import java.util.List;
+
+/**
+ * @author Bruno Pinheiro
+ */
 public class CampaignContentFinderImpl
 	extends BasePersistenceImpl<CampaignContent>
-	implements CampaignContentFinder{
+	implements CampaignContentFinder {
 
 	public static String FIND_BY_TITLE =
 		CampaignContentFinder.class.getName() + ".findByTitle";
@@ -48,11 +52,11 @@ public class CampaignContentFinderImpl
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
+			// TODO: mesma coisa aqui, t� com cara de errado
 			qPos.add("%"+title+"%");
 
-			List<CampaignContent> list = (List<CampaignContent>)QueryUtil.list(
-					q, getDialect(), start, end);
-			return list;
+			return (List<CampaignContent>)QueryUtil.list(
+				q, getDialect(), start, end);
 		}
 		catch (Exception e) {
 			throw new SystemException(e);

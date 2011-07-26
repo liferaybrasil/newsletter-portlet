@@ -17,7 +17,7 @@ package com.liferay.newsletter.service;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class CampaignContentServiceClp implements CampaignContentService {
 	public CampaignContentServiceClp(ClassLoaderProxy classLoaderProxy) {

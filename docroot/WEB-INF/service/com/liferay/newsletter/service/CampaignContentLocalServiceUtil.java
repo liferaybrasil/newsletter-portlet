@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see CampaignContentLocalService
  * @see com.liferay.newsletter.service.base.CampaignContentLocalServiceBaseImpl
  * @see com.liferay.newsletter.service.impl.CampaignContentLocalServiceImpl
@@ -44,11 +44,13 @@ public class CampaignContentLocalServiceUtil {
 	*
 	* @param campaignContent the campaign content
 	* @return the campaign content that was added
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.newsletter.model.CampaignContent addCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		return getService().addCampaignContent(campaignContent);
 	}
 
@@ -266,6 +268,11 @@ public class CampaignContentLocalServiceUtil {
 		java.lang.String title, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getCampaignsContentByTitle(title, start, end);
+	}
+
+	public static void validate(java.lang.String title, java.lang.String content)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().validate(title, content);
 	}
 
 	public static void clearService() {

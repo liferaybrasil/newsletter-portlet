@@ -14,9 +14,6 @@
 
 package com.liferay.newsletter.service.persistence;
 
-import java.util.Iterator;
-import java.util.List;
-
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.impl.ContactImpl;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
@@ -27,11 +24,15 @@ import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
-public class ContactFinderImpl
-	extends BasePersistenceImpl<Contact> implements ContactFinder{
 
-	public static String FIND_BY_NAME_CAMPAIGN =
-		ContactFinder.class.getName() + ".findByNameAndCampaign";
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * @author Bruno Pinheiro
+ */
+public class ContactFinderImpl
+	extends BasePersistenceImpl<Contact> implements ContactFinder {
 
 	public static String COUNT_BY_CAMPAIGN =
 		ContactFinder.class.getName() + ".countByCampaign";
@@ -42,38 +43,10 @@ public class ContactFinderImpl
 	public static String FIND_BY_EMAIL =
 		ContactFinder.class.getName() + ".findByEmail";
 
-	public List<Contact> findByNameAndCampaign(
-		String contactName, long campaignId, int start, int end)
-		throws SystemException {
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			String sql = CustomSQLUtil.get(FIND_BY_NAME_CAMPAIGN);
-
-			SQLQuery q = session.createSQLQuery(sql);
-
-			q.addEntity("Contact", Contact.class);
-
-			QueryPos qPos = QueryPos.getInstance(q);
-
-			qPos.add(contactName);
-			qPos.add(campaignId);
-
-			return (List<Contact>)QueryUtil.list(q, getDialect(), start, end);
-		}
-		catch (Exception e) {
-			throw new SystemException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
+	public static String FIND_BY_NAME_CAMPAIGN =
+		ContactFinder.class.getName() + ".findByNameAndCampaign";
 
 	public int countByCampaign(long campaignId)	throws SystemException {
-
 		Session session = null;
 
 		try {
@@ -163,11 +136,11 @@ public class ContactFinderImpl
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
+			// TODO: Cheque se isso est� correto (%email%), eu acho que n�o �
+			// assim que se faz
 			qPos.add("%"+email+"%");
 
-			List<Contact> list = (List<Contact>)QueryUtil.list(
-					q, getDialect(), start, end);
-			return list;
+			return (List<Contact>)QueryUtil.list(q, getDialect(), start, end);
 		}
 		catch (Exception e) {
 			throw new SystemException(e);
@@ -175,6 +148,36 @@ public class ContactFinderImpl
 		finally {
 			closeSession(session);
 		}
-}
+	}
+
+	public List<Contact> findByNameAndCampaign(
+			String contactName, long campaignId, int start, int end)
+		throws SystemException {
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			String sql = CustomSQLUtil.get(FIND_BY_NAME_CAMPAIGN);
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			q.addEntity("Contact", Contact.class);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(contactName);
+			qPos.add(campaignId);
+
+			return (List<Contact>)QueryUtil.list(q, getDialect(), start, end);
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
 
 }

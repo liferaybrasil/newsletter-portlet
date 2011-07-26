@@ -12,28 +12,29 @@
  * details.
  */
 
-package com.liferay.newsletter.util;
+package com.liferay.newsletter.exception;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * @author Bruno Pinheiro
  */
+public class TitleException extends PortalException {
 
-public class MailAuthenticator extends Authenticator {
-
-	public MailAuthenticator (String username, String password) {
+	public TitleException() {
 		super();
-		this._user = username;
-		this._password = password;
 	}
 
-	public PasswordAuthentication getPasswordAuthentication() {
-		return new PasswordAuthentication(_user, _password);
+	public TitleException(String msg) {
+		super(msg);
 	}
 
-	private String _user;
-	private String _password;
+	public TitleException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
+
+	public TitleException(Throwable cause) {
+		super(cause);
+	}
 
 }

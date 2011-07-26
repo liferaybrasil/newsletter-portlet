@@ -15,13 +15,9 @@
 package com.liferay.newsletter.service.persistence;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public interface ContactFinder {
-	public java.util.List<com.liferay.newsletter.model.Contact> findByNameAndCampaign(
-		java.lang.String contactName, long campaignId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
 	public int countByCampaign(long campaignId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -30,5 +26,9 @@ public interface ContactFinder {
 
 	public java.util.List<com.liferay.newsletter.model.Contact> findByEmail(
 		java.lang.String email, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<com.liferay.newsletter.model.Contact> findByNameAndCampaign(
+		java.lang.String contactName, long campaignId, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

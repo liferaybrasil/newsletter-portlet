@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * The cache model class for representing CampaignContent in entity cache.
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see CampaignContent
  * @generated
  */

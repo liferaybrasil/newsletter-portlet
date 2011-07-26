@@ -19,7 +19,7 @@ package com.liferay.newsletter.model;
  * This class is a wrapper for {@link NewsletterLog}.
  * </p>
  *
- * @author    Bruno Pinheiro
+ * @author    Brian Wing Shun Chan
  * @see       NewsletterLog
  * @generated
  */

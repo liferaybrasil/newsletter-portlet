@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see CampaignLocalService
  * @see com.liferay.newsletter.service.base.CampaignLocalServiceBaseImpl
  * @see com.liferay.newsletter.service.impl.CampaignLocalServiceImpl
@@ -255,6 +255,22 @@ public class CampaignLocalServiceUtil {
 		getService().setBeanIdentifier(beanIdentifier);
 	}
 
+	public static com.liferay.newsletter.model.Campaign addCampaign(
+		long campaignContentId, java.lang.String senderEmail,
+		java.lang.String senderName, java.lang.String emailSubject,
+		int sendDateMonth, int sendDateDay, int sendDateYear,
+		java.lang.String contacts)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addCampaign(campaignContentId, senderEmail, senderName,
+			emailSubject, sendDateMonth, sendDateDay, sendDateYear, contacts);
+	}
+
+	public static void checkCampaigns() {
+		getService().checkCampaigns();
+	}
+
 	public static java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByCampaignContent(
 		long campaignContentId)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -282,10 +298,6 @@ public class CampaignLocalServiceUtil {
 		com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getNewsletterLogs(campaign);
-	}
-
-	public static void job() {
-		getService().job();
 	}
 
 	public static void sendCampaign(

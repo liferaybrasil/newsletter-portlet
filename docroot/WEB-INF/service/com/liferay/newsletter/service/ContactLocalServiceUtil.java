@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see ContactLocalService
  * @see com.liferay.newsletter.service.base.ContactLocalServiceBaseImpl
  * @see com.liferay.newsletter.service.impl.ContactLocalServiceImpl
