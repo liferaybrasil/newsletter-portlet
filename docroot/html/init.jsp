@@ -76,13 +76,13 @@
 <%@ page import="com.liferay.newsletter.search.contact.ContactSearchTerms" %>
 <%@ page import="com.liferay.newsletter.search.contact.ContactSearch" %>
 
-<%@ page import="com.liferay.newsletter.exception.EmailSubjectException" %>
-<%@ page import="com.liferay.newsletter.exception.SenderEmailException" %>
-<%@ page import="com.liferay.newsletter.exception.SenderNameException" %>
-<%@ page import="com.liferay.newsletter.exception.ContactsException" %>
-<%@ page import="com.liferay.newsletter.exception.TitleException" %>
-<%@ page import="com.liferay.newsletter.exception.ContentException" %>
-<%@ page import="com.liferay.newsletter.exception.IdNotFoundException" %>
+<%@ page import="com.liferay.newsletter.EmailSubjectException" %>
+<%@ page import="com.liferay.newsletter.SenderEmailException" %>
+<%@ page import="com.liferay.newsletter.SenderNameException" %>
+<%@ page import="com.liferay.newsletter.ContactsException" %>
+<%@ page import="com.liferay.newsletter.TitleException" %>
+<%@ page import="com.liferay.newsletter.ContentException" %>
+<%@ page import="com.liferay.newsletter.IDNotFoundException" %>
 
 
 
