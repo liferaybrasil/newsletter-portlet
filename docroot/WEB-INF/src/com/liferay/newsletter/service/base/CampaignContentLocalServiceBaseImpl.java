@@ -83,11 +83,10 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	 *
 	 * @param campaignContent the campaign content
 	 * @return the campaign content that was added
-	 * @throws PortalException
 	 * @throws SystemException if a system exception occurred
 	 */
 	public CampaignContent addCampaignContent(CampaignContent campaignContent)
-		throws PortalException, SystemException {
+		throws SystemException {
 		campaignContent.setNew(true);
 
 		campaignContent = campaignContentPersistence.update(campaignContent,
@@ -148,10 +147,11 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	 * Deletes the campaign content from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param campaignContent the campaign content
+	 * @throws PortalException
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void deleteCampaignContent(CampaignContent campaignContent)
-		throws SystemException {
+		throws PortalException, SystemException {
 		campaignContentPersistence.remove(campaignContent);
 
 		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());

@@ -187,7 +187,8 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	}
 
 	public void deleteCampaign(com.liferay.newsletter.model.Campaign campaign)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deleteCampaignMethodKey3,
 				ClpSerializer.translateInput(campaign));
 
@@ -195,6 +196,10 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
 			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
 				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}

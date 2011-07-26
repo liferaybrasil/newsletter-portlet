@@ -20,10 +20,4 @@ import com.liferay.newsletter.service.base.CampaignContentServiceBaseImpl;
  * @author Bruno Pinheiro
  */
 public class CampaignContentServiceImpl extends CampaignContentServiceBaseImpl {
-	/**
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this interface directly. Always use {@link com.liferay.newsletter.service.CampaignContentServiceUtil} to access the campaign content remote service.
-	 */
-
 }

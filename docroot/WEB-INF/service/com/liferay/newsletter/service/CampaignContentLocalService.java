@@ -48,13 +48,11 @@ public interface CampaignContentLocalService extends PersistedModelLocalService 
 	*
 	* @param campaignContent the campaign content
 	* @return the campaign content that was added
-	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.CampaignContent addCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Creates a new campaign content with the primary key. Does not add the campaign content to the database.
@@ -80,11 +78,13 @@ public interface CampaignContentLocalService extends PersistedModelLocalService 
 	* Deletes the campaign content from the database. Also notifies the appropriate model listeners.
 	*
 	* @param campaignContent the campaign content
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
@@ -233,9 +233,15 @@ public interface CampaignContentLocalService extends PersistedModelLocalService 
 	*/
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
+	public com.liferay.newsletter.model.CampaignContent addCampaignContent(
+		long articleId, java.lang.String title, java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaigns(
-		com.liferay.newsletter.model.CampaignContent campaignContent)
+		long campaignContentId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

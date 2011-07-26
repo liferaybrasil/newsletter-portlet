@@ -69,10 +69,12 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService {
 	* Deletes the campaign from the database. Also notifies the appropriate model listeners.
 	*
 	* @param campaign the campaign
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteCampaign(com.liferay.newsletter.model.Campaign campaign)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		_campaignLocalService.deleteCampaign(campaign);
 	}
 

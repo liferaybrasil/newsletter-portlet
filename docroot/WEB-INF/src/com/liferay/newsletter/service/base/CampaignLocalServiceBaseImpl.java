@@ -145,9 +145,11 @@ public abstract class CampaignLocalServiceBaseImpl
 	 * Deletes the campaign from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param campaign the campaign
+	 * @throws PortalException
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void deleteCampaign(Campaign campaign) throws SystemException {
+	public void deleteCampaign(Campaign campaign)
+		throws PortalException, SystemException {
 		campaignPersistence.remove(campaign);
 
 		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());

@@ -15,15 +15,14 @@
 package com.liferay.newsletter.service.impl;
 
 import com.liferay.newsletter.ContentException;
-import com.liferay.newsletter.IDNotFoundException;
 import com.liferay.newsletter.TitleException;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
-import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.service.base.CampaignContentLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.service.ServiceContext;
 
 import java.util.List;
 
@@ -33,58 +32,60 @@ import java.util.List;
 public class CampaignContentLocalServiceImpl
 	extends CampaignContentLocalServiceBaseImpl {
 
-	public CampaignContent addCampaignContent(CampaignContent campaignContent)
-		throws SystemException, PortalException{
+	public CampaignContent addCampaignContent(
+			long articleId, String title, String content,
+			ServiceContext serviceContext)
+		throws SystemException, PortalException {
 
-		validate(campaignContent.getTitle(), campaignContent.getContent());
+		validate(title, content);
 
 		long campaignContentId = counterLocalService.increment();
 
-		campaignContent.setCampaignContentId(campaignContentId);
+		CampaignContent campaignContent =
+			campaignContentPersistence.create(campaignContentId);
+
+		campaignContent.setUuid(serviceContext.getUuid());
+		campaignContent.setTitle(title);
+		campaignContent.setContent(content);
 
 		return campaignContentPersistence.update(campaignContent, false);
 	}
 
-	@Override
-	public void deleteCampaignContent(long campaignContentId)
-		throws SystemException,	PortalException {
+	public void deleteCampaignContent(CampaignContent campaignContent)
+		throws PortalException, SystemException {
 
-		if (Validator.isNotNull(campaignContentId)) {
-			List<Campaign> campaignsByCampaignContent =
-				campaignLocalService.getCampaignsByCampaignContent(
-					campaignContentId);
+		// Campaign Content
 
-			if (!campaignsByCampaignContent.isEmpty()) {
-				for (Campaign campaign : campaignsByCampaignContent) {
-					List<NewsletterLog> newsletterLogList =
-						newsletterLogLocalService.getNewsletterLogByCampaign(
-							campaign.getCampaignId());
+		campaignContentPersistence.remove(campaignContent);
 
-					for (NewsletterLog newsletterLog : newsletterLogList) {
-						newsletterLogLocalService.deleteNewsletterLog(
-							newsletterLog);
-					}
-					campaignLocalService.deleteCampaign(campaign);
-				}
-			}
+		// Campaigns
 
-			campaignContentPersistence.remove(campaignContentId);
-			}
-		else {
-			throw new IDNotFoundException();
+		List<Campaign> campaigns =
+			campaignLocalService.getCampaignsByCampaignContent(
+				campaignContent.getCampaignContentId());
+
+		for (Campaign campaign : campaigns) {
+			campaignLocalService.deleteCampaign(campaign);
 		}
 	}
 
-	public List<Campaign> getCampaigns(CampaignContent campaignContent)
+	public void deleteCampaignContent(long campaignContentId)
+		throws SystemException,	PortalException {
+
+		CampaignContent campaignContent =
+			campaignContentPersistence.findByPrimaryKey(campaignContentId);
+
+		deleteCampaignContent(campaignContent);
+	}
+
+	public List<Campaign> getCampaigns(long campaignContentId)
 		throws SystemException{
 
-		return campaignContentPersistence.getCampaigns(
-					campaignContent.getCampaignContentId());
+		return campaignContentPersistence.getCampaigns(campaignContentId);
 	}
 
 	public List<CampaignContent> getCampaignsContentByTitle(
-			String title, int start, int end)
-		throws SystemException{
+		String title, int start, int end) throws SystemException{
 
 		return campaignContentFinder.findByTitle(title, start, end);
 	}

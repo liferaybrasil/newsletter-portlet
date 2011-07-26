@@ -99,6 +99,20 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		}
 	}
 
+	public void deleteCampaign(Campaign campaign)
+		throws PortalException, SystemException {
+
+		List<NewsletterLog> newsletterLogs =
+			newsletterLogLocalService.getNewsletterLogByCampaign(
+				campaign.getCampaignId());
+
+		for (NewsletterLog newsletterLog : newsletterLogs) {
+			newsletterLogLocalService.deleteNewsletterLog(newsletterLog);
+		}
+
+		campaignPersistence.remove(campaign);
+	}
+
 	public void deleteCampaign(long campaignId)
 		throws PortalException, SystemException {
 

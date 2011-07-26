@@ -44,13 +44,11 @@ public class CampaignContentLocalServiceUtil {
 	*
 	* @param campaignContent the campaign content
 	* @return the campaign content that was added
-	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.newsletter.model.CampaignContent addCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().addCampaignContent(campaignContent);
 	}
 
@@ -82,11 +80,13 @@ public class CampaignContentLocalServiceUtil {
 	* Deletes the campaign content from the database. Also notifies the appropriate model listeners.
 	*
 	* @param campaignContent the campaign content
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		getService().deleteCampaignContent(campaignContent);
 	}
 
@@ -258,10 +258,19 @@ public class CampaignContentLocalServiceUtil {
 		getService().setBeanIdentifier(beanIdentifier);
 	}
 
+	public static com.liferay.newsletter.model.CampaignContent addCampaignContent(
+		long articleId, java.lang.String title, java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addCampaignContent(articleId, title, content, serviceContext);
+	}
+
 	public static java.util.List<com.liferay.newsletter.model.Campaign> getCampaigns(
-		com.liferay.newsletter.model.CampaignContent campaignContent)
+		long campaignContentId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getCampaigns(campaignContent);
+		return getService().getCampaigns(campaignContentId);
 	}
 
 	public static java.util.List<com.liferay.newsletter.model.CampaignContent> getCampaignsContentByTitle(
