@@ -20,13 +20,11 @@ import javax.mail.PasswordAuthentication;
 /**
  * @author Bruno Pinheiro
  */
-
 public class MailAuthenticator extends Authenticator {
 
-	public MailAuthenticator (String username, String password) {
-		super();
-		this._user = username;
-		this._password = password;
+	public MailAuthenticator(String username, String password) {
+		_user = username;
+		_password = password;
 	}
 
 	public PasswordAuthentication getPasswordAuthentication() {

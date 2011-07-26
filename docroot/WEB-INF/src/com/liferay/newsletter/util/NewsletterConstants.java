@@ -19,34 +19,34 @@ package com.liferay.newsletter.util;
  */
 public interface NewsletterConstants {
 
-	public static final String GET_CAMPAIGN_CONTENT = "get-campaign-content";
+	public static final String GET_CAMPAIGN_CONTENT = "get_campaign_content";
 
-	public static final String GET_ARTICLE_CONTENT = "get-article-content";
+	public static final String GET_ARTICLE_CONTENT = "get_article_content";
 
-	public static final String GET_CONTACT = "get-contact";
+	public static final String GET_CONTACT = "get_contact";
 
-	public static final String SENDER_NAME = "sender.name";
+	public static final String MAIL_SMTP_AUTH = "mail_smtp_auth";
 
-	public static final String SENDER_EMAIL = "sender.email";
+	public static final String MAIL_SMTP_HOST = "mail_smtp_host";
 
-	public static final String ROWS_PER_PAGE = "rowsPerPage";
+	public static final String MAIL_SMTP_PORT = "mail_smtp_port";
 
-	public static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
+	public static final String MAIL_SMTP_SOCKET_FACTORY_PORT =
+		"mail_smtp_socket_factory_port";
 
-	public static final String MAIL_SMTP_HOST = "mail.smtp.host";
-
-	public static final String MAIL_SMTP_PORT = "mail.smtp.port";
-
-	public static final String MAIL_SMTP_SOCKETFACTORY_PORT =
-		"mail.smtp.socketFactory.port";
-
-	public static final String MAIL_SMTP_SOCKETFACTORY_FALLBACK =
-		"mail.smtp.socketFactory.fallback";
+	public static final String MAIL_SMTP_SOCKET_FACTORY_FALLBACK =
+		"mail.smtp.socket_factory_fallback";
 
 	public static final String MAIL_SMTP_STARTTLS_ENABLE =
-		"mail.smtp.starttls.enable";
+		"mail_smtp_starttls_enable";
 
 	public static final String MAIL_TRANSPORT_PROTOCOL =
-		"mail.transport.protocol";
+		"mail_transport_protocol";
+
+	public static final String ROWS_PER_PAGE = "rows_per_page";
+	
+	public static final String SENDER_EMAIL = "sender_email";
+	
+	public static final String SENDER_NAME = "sender_name";
 
 }

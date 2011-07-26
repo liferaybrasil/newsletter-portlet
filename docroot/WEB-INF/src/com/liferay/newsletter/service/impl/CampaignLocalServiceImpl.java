@@ -208,10 +208,10 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		Properties props = new Properties();
 		props.put(NewsletterConstants.MAIL_TRANSPORT_PROTOCOL, "smtp");
 		props.put(NewsletterConstants.MAIL_SMTP_HOST, host);
-		props.put(NewsletterConstants.MAIL_SMTP_SOCKETFACTORY_PORT, port);
+		props.put(NewsletterConstants.MAIL_SMTP_SOCKET_FACTORY_PORT, port);
 		props.put(NewsletterConstants.MAIL_SMTP_PORT, port);
 		props.put(
-			NewsletterConstants.MAIL_SMTP_SOCKETFACTORY_FALLBACK, "false");
+			NewsletterConstants.MAIL_SMTP_SOCKET_FACTORY_FALLBACK, "false");
 		props.put(NewsletterConstants.MAIL_SMTP_STARTTLS_ENABLE, "true");
 		props.put(NewsletterConstants.MAIL_SMTP_AUTH, "true");
 
