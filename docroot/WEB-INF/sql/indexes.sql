@@ -4,6 +4,8 @@ create index IX_4F61540E on Newsletter_Campaign (groupId);
 create index IX_53DAD9E6 on Newsletter_Campaign (sendDate);
 create index IX_A4C8EAF2 on Newsletter_Campaign (sendDate, sent);
 create index IX_6EEBB6F0 on Newsletter_Campaign (senderName);
+create index IX_A23E8DF6 on Newsletter_Campaign (sentDate);
+create index IX_8CF95302 on Newsletter_Campaign (sentDate, sent);
 create index IX_EA76EB6C on Newsletter_Campaign (title);
 create index IX_33389218 on Newsletter_Campaign (uuid_);
 

@@ -232,12 +232,14 @@ public interface CampaignLocalService extends PersistedModelLocalService {
 	public com.liferay.newsletter.model.Campaign addCampaign(
 		long campaignContentId, java.lang.String senderEmail,
 		java.lang.String senderName, java.lang.String emailSubject,
-		int sendDateMonth, int sendDateDay, int sendDateYear,
+		int sentDateMonth, int sentDateDay, int sentDateYear,
 		java.lang.String contacts)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
-	public void checkCampaigns();
+	public void checkCampaigns()
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaignsByCampaignContent(
@@ -266,5 +268,5 @@ public interface CampaignLocalService extends PersistedModelLocalService {
 	public void sendCampaign(com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException,
-			javax.mail.MessagingException, javax.mail.internet.AddressException;
+			java.io.IOException;
 }

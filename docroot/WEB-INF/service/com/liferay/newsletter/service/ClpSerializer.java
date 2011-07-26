@@ -163,10 +163,10 @@ public class ClpSerializer {
 
 				method1.invoke(newModel, value1);
 
-				Method method2 = newModelClass.getMethod("setSendDate",
+				Method method2 = newModelClass.getMethod("setSentDate",
 						new Class[] { Date.class });
 
-				Date value2 = oldCplModel.getSendDate();
+				Date value2 = oldCplModel.getSentDate();
 
 				method2.invoke(newModel, value2);
 
@@ -177,17 +177,17 @@ public class ClpSerializer {
 
 				method3.invoke(newModel, value3);
 
-				Method method4 = newModelClass.getMethod("setSenderName",
+				Method method4 = newModelClass.getMethod("setSenderEmail",
 						new Class[] { String.class });
 
-				String value4 = oldCplModel.getSenderName();
+				String value4 = oldCplModel.getSenderEmail();
 
 				method4.invoke(newModel, value4);
 
-				Method method5 = newModelClass.getMethod("setSenderEmail",
+				Method method5 = newModelClass.getMethod("setSenderName",
 						new Class[] { String.class });
 
-				String value5 = oldCplModel.getSenderEmail();
+				String value5 = oldCplModel.getSenderName();
 
 				method5.invoke(newModel, value5);
 
@@ -506,11 +506,11 @@ public class ClpSerializer {
 
 				newModel.setCampaignId(value1);
 
-				Method method2 = oldModelClass.getMethod("getSendDate");
+				Method method2 = oldModelClass.getMethod("getSentDate");
 
 				Date value2 = (Date)method2.invoke(oldModel, (Object[])null);
 
-				newModel.setSendDate(value2);
+				newModel.setSentDate(value2);
 
 				Method method3 = oldModelClass.getMethod("getEmailSubject");
 
@@ -518,17 +518,17 @@ public class ClpSerializer {
 
 				newModel.setEmailSubject(value3);
 
-				Method method4 = oldModelClass.getMethod("getSenderName");
+				Method method4 = oldModelClass.getMethod("getSenderEmail");
 
 				String value4 = (String)method4.invoke(oldModel, (Object[])null);
 
-				newModel.setSenderName(value4);
+				newModel.setSenderEmail(value4);
 
-				Method method5 = oldModelClass.getMethod("getSenderEmail");
+				Method method5 = oldModelClass.getMethod("getSenderName");
 
 				String value5 = (String)method5.invoke(oldModel, (Object[])null);
 
-				newModel.setSenderEmail(value5);
+				newModel.setSenderName(value5);
 
 				Method method6 = oldModelClass.getMethod("getContent");
 

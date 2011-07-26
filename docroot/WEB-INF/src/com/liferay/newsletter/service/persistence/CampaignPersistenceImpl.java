@@ -110,18 +110,18 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			CampaignModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST, "countByCampaignContent",
 			new String[] { Long.class.getName() });
-	public static final FinderPath FINDER_PATH_FIND_BY_SENDDATE = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FIND_BY_SENTDATE = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignModelImpl.FINDER_CACHE_ENABLED, CampaignImpl.class,
-			FINDER_CLASS_NAME_LIST, "findBySendDate",
+			FINDER_CLASS_NAME_LIST, "findBySentDate",
 			new String[] {
 				Date.class.getName(),
 				
 			"java.lang.Integer", "java.lang.Integer",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
-	public static final FinderPath FINDER_PATH_COUNT_BY_SENDDATE = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_COUNT_BY_SENTDATE = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST, "countBySendDate",
+			FINDER_CLASS_NAME_LIST, "countBySentDate",
 			new String[] { Date.class.getName() });
 	public static final FinderPath FINDER_PATH_FIND_BY_SD_LT = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignModelImpl.FINDER_CACHE_ENABLED, CampaignImpl.class,
@@ -359,10 +359,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		campaignImpl.setUuid(campaign.getUuid());
 		campaignImpl.setCampaignId(campaign.getCampaignId());
-		campaignImpl.setSendDate(campaign.getSendDate());
+		campaignImpl.setSentDate(campaign.getSentDate());
 		campaignImpl.setEmailSubject(campaign.getEmailSubject());
-		campaignImpl.setSenderName(campaign.getSenderName());
 		campaignImpl.setSenderEmail(campaign.getSenderEmail());
+		campaignImpl.setSenderName(campaign.getSenderName());
 		campaignImpl.setContent(campaign.getContent());
 		campaignImpl.setSent(campaign.isSent());
 		campaignImpl.setCampaignContentId(campaign.getCampaignContentId());
@@ -1814,60 +1814,60 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns all the campaigns where sendDate = &#63;.
+	 * Returns all the campaigns where sentDate = &#63;.
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @return the matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> findBySendDate(Date sendDate)
+	public List<Campaign> findBySentDate(Date sentDate)
 		throws SystemException {
-		return findBySendDate(sendDate, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+		return findBySentDate(sentDate, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			null);
 	}
 
 	/**
-	 * Returns a range of all the campaigns where sendDate = &#63;.
+	 * Returns a range of all the campaigns where sentDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param start the lower bound of the range of campaigns
 	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> findBySendDate(Date sendDate, int start, int end)
+	public List<Campaign> findBySentDate(Date sentDate, int start, int end)
 		throws SystemException {
-		return findBySendDate(sendDate, start, end, null);
+		return findBySentDate(sentDate, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the campaigns where sendDate = &#63;.
+	 * Returns an ordered range of all the campaigns where sentDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param start the lower bound of the range of campaigns
 	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> findBySendDate(Date sendDate, int start, int end,
+	public List<Campaign> findBySentDate(Date sentDate, int start, int end,
 		OrderByComparator orderByComparator) throws SystemException {
 		Object[] finderArgs = new Object[] {
-				sendDate,
+				sentDate,
 				
 				String.valueOf(start), String.valueOf(end),
 				String.valueOf(orderByComparator)
 			};
 
-		List<Campaign> list = (List<Campaign>)FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_SENDDATE,
+		List<Campaign> list = (List<Campaign>)FinderCacheUtil.getResult(FINDER_PATH_FIND_BY_SENTDATE,
 				finderArgs, this);
 
 		if (list == null) {
@@ -1883,11 +1883,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			query.append(_SQL_SELECT_CAMPAIGN_WHERE);
 
-			if (sendDate == null) {
-				query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+			if (sentDate == null) {
+				query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_1);
 			}
 			else {
-				query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+				query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_2);
 			}
 
 			if (orderByComparator != null) {
@@ -1910,8 +1910,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (sendDate != null) {
-					qPos.add(CalendarUtil.getTimestamp(sendDate));
+				if (sentDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(sentDate));
 				}
 
 				list = (List<Campaign>)QueryUtil.list(q, getDialect(), start,
@@ -1922,13 +1922,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			}
 			finally {
 				if (list == null) {
-					FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_SENDDATE,
+					FinderCacheUtil.removeResult(FINDER_PATH_FIND_BY_SENTDATE,
 						finderArgs);
 				}
 				else {
 					cacheResult(list);
 
-					FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_SENDDATE,
+					FinderCacheUtil.putResult(FINDER_PATH_FIND_BY_SENTDATE,
 						finderArgs, list);
 				}
 
@@ -1940,30 +1940,30 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the first campaign in the ordered set where sendDate = &#63;.
+	 * Returns the first campaign in the ordered set where sentDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Campaign findBySendDate_First(Date sendDate,
+	public Campaign findBySentDate_First(Date sentDate,
 		OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
-		List<Campaign> list = findBySendDate(sendDate, 0, 1, orderByComparator);
+		List<Campaign> list = findBySentDate(sentDate, 0, 1, orderByComparator);
 
 		if (list.isEmpty()) {
 			StringBundler msg = new StringBundler(4);
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("sendDate=");
-			msg.append(sendDate);
+			msg.append("sentDate=");
+			msg.append(sentDate);
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -1975,24 +1975,24 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the last campaign in the ordered set where sendDate = &#63;.
+	 * Returns the last campaign in the ordered set where sentDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Campaign findBySendDate_Last(Date sendDate,
+	public Campaign findBySentDate_Last(Date sentDate,
 		OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
-		int count = countBySendDate(sendDate);
+		int count = countBySentDate(sentDate);
 
-		List<Campaign> list = findBySendDate(sendDate, count - 1, count,
+		List<Campaign> list = findBySentDate(sentDate, count - 1, count,
 				orderByComparator);
 
 		if (list.isEmpty()) {
@@ -2000,8 +2000,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("sendDate=");
-			msg.append(sendDate);
+			msg.append("sentDate=");
+			msg.append(sentDate);
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -2013,21 +2013,21 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the campaigns before and after the current campaign in the ordered set where sendDate = &#63;.
+	 * Returns the campaigns before and after the current campaign in the ordered set where sentDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Campaign[] findBySendDate_PrevAndNext(long campaignId,
-		Date sendDate, OrderByComparator orderByComparator)
+	public Campaign[] findBySentDate_PrevAndNext(long campaignId,
+		Date sentDate, OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
 		Campaign campaign = findByPrimaryKey(campaignId);
 
@@ -2038,12 +2038,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			Campaign[] array = new CampaignImpl[3];
 
-			array[0] = getBySendDate_PrevAndNext(session, campaign, sendDate,
+			array[0] = getBySentDate_PrevAndNext(session, campaign, sentDate,
 					orderByComparator, true);
 
 			array[1] = campaign;
 
-			array[2] = getBySendDate_PrevAndNext(session, campaign, sendDate,
+			array[2] = getBySentDate_PrevAndNext(session, campaign, sentDate,
 					orderByComparator, false);
 
 			return array;
@@ -2056,8 +2056,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 	}
 
-	protected Campaign getBySendDate_PrevAndNext(Session session,
-		Campaign campaign, Date sendDate, OrderByComparator orderByComparator,
+	protected Campaign getBySentDate_PrevAndNext(Session session,
+		Campaign campaign, Date sentDate, OrderByComparator orderByComparator,
 		boolean previous) {
 		StringBundler query = null;
 
@@ -2071,11 +2071,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		query.append(_SQL_SELECT_CAMPAIGN_WHERE);
 
-		if (sendDate == null) {
-			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+		if (sentDate == null) {
+			query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_1);
 		}
 		else {
-			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+			query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_2);
 		}
 
 		if (orderByComparator != null) {
@@ -2145,8 +2145,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		if (sendDate != null) {
-			qPos.add(CalendarUtil.getTimestamp(sendDate));
+		if (sentDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sentDate));
 		}
 
 		if (orderByComparator != null) {
@@ -2168,54 +2168,54 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns all the campaigns that the user has permission to view where sendDate = &#63;.
+	 * Returns all the campaigns that the user has permission to view where sentDate = &#63;.
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @return the matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> filterFindBySendDate(Date sendDate)
+	public List<Campaign> filterFindBySentDate(Date sentDate)
 		throws SystemException {
-		return filterFindBySendDate(sendDate, QueryUtil.ALL_POS,
+		return filterFindBySentDate(sentDate, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the campaigns that the user has permission to view where sendDate = &#63;.
+	 * Returns a range of all the campaigns that the user has permission to view where sentDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param start the lower bound of the range of campaigns
 	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> filterFindBySendDate(Date sendDate, int start, int end)
+	public List<Campaign> filterFindBySentDate(Date sentDate, int start, int end)
 		throws SystemException {
-		return filterFindBySendDate(sendDate, start, end, null);
+		return filterFindBySentDate(sentDate, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the campaigns that the user has permissions to view where sendDate = &#63;.
+	 * Returns an ordered range of all the campaigns that the user has permissions to view where sentDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param start the lower bound of the range of campaigns
 	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> filterFindBySendDate(Date sendDate, int start,
+	public List<Campaign> filterFindBySentDate(Date sentDate, int start,
 		int end, OrderByComparator orderByComparator) throws SystemException {
 		if (!InlineSQLHelperUtil.isEnabled()) {
-			return findBySendDate(sendDate, start, end, orderByComparator);
+			return findBySentDate(sentDate, start, end, orderByComparator);
 		}
 
 		StringBundler query = null;
@@ -2235,11 +2235,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		if (sendDate == null) {
-			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+		if (sentDate == null) {
+			query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_1);
 		}
 		else {
-			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+			query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_2);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -2285,8 +2285,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
-			if (sendDate != null) {
-				qPos.add(CalendarUtil.getTimestamp(sendDate));
+			if (sentDate != null) {
+				qPos.add(CalendarUtil.getTimestamp(sentDate));
 			}
 
 			return (List<Campaign>)QueryUtil.list(q, getDialect(), start, end);
@@ -2300,20 +2300,20 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where sendDate = &#63;.
+	 * Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where sentDate = &#63;.
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Campaign[] filterFindBySendDate_PrevAndNext(long campaignId,
-		Date sendDate, OrderByComparator orderByComparator)
+	public Campaign[] filterFindBySentDate_PrevAndNext(long campaignId,
+		Date sentDate, OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
 		if (!InlineSQLHelperUtil.isEnabled()) {
-			return findBySendDate_PrevAndNext(campaignId, sendDate,
+			return findBySentDate_PrevAndNext(campaignId, sentDate,
 				orderByComparator);
 		}
 
@@ -2326,13 +2326,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			Campaign[] array = new CampaignImpl[3];
 
-			array[0] = filterGetBySendDate_PrevAndNext(session, campaign,
-					sendDate, orderByComparator, true);
+			array[0] = filterGetBySentDate_PrevAndNext(session, campaign,
+					sentDate, orderByComparator, true);
 
 			array[1] = campaign;
 
-			array[2] = filterGetBySendDate_PrevAndNext(session, campaign,
-					sendDate, orderByComparator, false);
+			array[2] = filterGetBySentDate_PrevAndNext(session, campaign,
+					sentDate, orderByComparator, false);
 
 			return array;
 		}
@@ -2344,8 +2344,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 	}
 
-	protected Campaign filterGetBySendDate_PrevAndNext(Session session,
-		Campaign campaign, Date sendDate, OrderByComparator orderByComparator,
+	protected Campaign filterGetBySentDate_PrevAndNext(Session session,
+		Campaign campaign, Date sentDate, OrderByComparator orderByComparator,
 		boolean previous) {
 		StringBundler query = null;
 
@@ -2364,11 +2364,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		if (sendDate == null) {
-			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+		if (sentDate == null) {
+			query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_1);
 		}
 		else {
-			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+			query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_2);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -2467,8 +2467,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		if (sendDate != null) {
-			qPos.add(CalendarUtil.getTimestamp(sendDate));
+		if (sentDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sentDate));
 		}
 
 		if (orderByComparator != null) {
@@ -2490,46 +2490,46 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns all the campaigns where sentDate &le; &#63; and sent = &#63;.
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @return the matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> findBySD_LT(Date sendDate, boolean sent)
+	public List<Campaign> findBySD_LT(Date sentDate, boolean sent)
 		throws SystemException {
-		return findBySD_LT(sendDate, sent, QueryUtil.ALL_POS,
+		return findBySD_LT(sentDate, sent, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns a range of all the campaigns where sentDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @param start the lower bound of the range of campaigns
 	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> findBySD_LT(Date sendDate, boolean sent, int start,
+	public List<Campaign> findBySD_LT(Date sentDate, boolean sent, int start,
 		int end) throws SystemException {
-		return findBySD_LT(sendDate, sent, start, end, null);
+		return findBySD_LT(sentDate, sent, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns an ordered range of all the campaigns where sentDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @param start the lower bound of the range of campaigns
 	 * @param end the upper bound of the range of campaigns (not inclusive)
@@ -2537,10 +2537,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * @return the ordered range of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> findBySD_LT(Date sendDate, boolean sent, int start,
+	public List<Campaign> findBySD_LT(Date sentDate, boolean sent, int start,
 		int end, OrderByComparator orderByComparator) throws SystemException {
 		Object[] finderArgs = new Object[] {
-				sendDate, sent,
+				sentDate, sent,
 				
 				String.valueOf(start), String.valueOf(end),
 				String.valueOf(orderByComparator)
@@ -2562,11 +2562,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			query.append(_SQL_SELECT_CAMPAIGN_WHERE);
 
-			if (sendDate == null) {
-				query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+			if (sentDate == null) {
+				query.append(_FINDER_COLUMN_SD_LT_SENTDATE_1);
 			}
 			else {
-				query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+				query.append(_FINDER_COLUMN_SD_LT_SENTDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_SD_LT_SENT_2);
@@ -2591,8 +2591,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (sendDate != null) {
-					qPos.add(CalendarUtil.getTimestamp(sendDate));
+				if (sentDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(sentDate));
 				}
 
 				qPos.add(sent);
@@ -2623,23 +2623,23 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the first campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the first campaign in the ordered set where sentDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Campaign findBySD_LT_First(Date sendDate, boolean sent,
+	public Campaign findBySD_LT_First(Date sentDate, boolean sent,
 		OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
-		List<Campaign> list = findBySD_LT(sendDate, sent, 0, 1,
+		List<Campaign> list = findBySD_LT(sentDate, sent, 0, 1,
 				orderByComparator);
 
 		if (list.isEmpty()) {
@@ -2647,8 +2647,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("sendDate=");
-			msg.append(sendDate);
+			msg.append("sentDate=");
+			msg.append(sentDate);
 
 			msg.append(", sent=");
 			msg.append(sent);
@@ -2663,25 +2663,25 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the last campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the last campaign in the ordered set where sentDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Campaign findBySD_LT_Last(Date sendDate, boolean sent,
+	public Campaign findBySD_LT_Last(Date sentDate, boolean sent,
 		OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
-		int count = countBySD_LT(sendDate, sent);
+		int count = countBySD_LT(sentDate, sent);
 
-		List<Campaign> list = findBySD_LT(sendDate, sent, count - 1, count,
+		List<Campaign> list = findBySD_LT(sentDate, sent, count - 1, count,
 				orderByComparator);
 
 		if (list.isEmpty()) {
@@ -2689,8 +2689,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("sendDate=");
-			msg.append(sendDate);
+			msg.append("sentDate=");
+			msg.append(sentDate);
 
 			msg.append(", sent=");
 			msg.append(sent);
@@ -2705,21 +2705,21 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the campaigns before and after the current campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the campaigns before and after the current campaign in the ordered set where sentDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Campaign[] findBySD_LT_PrevAndNext(long campaignId, Date sendDate,
+	public Campaign[] findBySD_LT_PrevAndNext(long campaignId, Date sentDate,
 		boolean sent, OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
 		Campaign campaign = findByPrimaryKey(campaignId);
@@ -2731,12 +2731,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			Campaign[] array = new CampaignImpl[3];
 
-			array[0] = getBySD_LT_PrevAndNext(session, campaign, sendDate,
+			array[0] = getBySD_LT_PrevAndNext(session, campaign, sentDate,
 					sent, orderByComparator, true);
 
 			array[1] = campaign;
 
-			array[2] = getBySD_LT_PrevAndNext(session, campaign, sendDate,
+			array[2] = getBySD_LT_PrevAndNext(session, campaign, sentDate,
 					sent, orderByComparator, false);
 
 			return array;
@@ -2750,7 +2750,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	protected Campaign getBySD_LT_PrevAndNext(Session session,
-		Campaign campaign, Date sendDate, boolean sent,
+		Campaign campaign, Date sentDate, boolean sent,
 		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -2764,11 +2764,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		query.append(_SQL_SELECT_CAMPAIGN_WHERE);
 
-		if (sendDate == null) {
-			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+		if (sentDate == null) {
+			query.append(_FINDER_COLUMN_SD_LT_SENTDATE_1);
 		}
 		else {
-			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+			query.append(_FINDER_COLUMN_SD_LT_SENTDATE_2);
 		}
 
 		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
@@ -2840,8 +2840,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		if (sendDate != null) {
-			qPos.add(CalendarUtil.getTimestamp(sendDate));
+		if (sentDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sentDate));
 		}
 
 		qPos.add(sent);
@@ -2865,46 +2865,46 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns all the campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
+	 * Returns all the campaigns that the user has permission to view where sentDate &le; &#63; and sent = &#63;.
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @return the matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> filterFindBySD_LT(Date sendDate, boolean sent)
+	public List<Campaign> filterFindBySD_LT(Date sentDate, boolean sent)
 		throws SystemException {
-		return filterFindBySD_LT(sendDate, sent, QueryUtil.ALL_POS,
+		return filterFindBySD_LT(sentDate, sent, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
+	 * Returns a range of all the campaigns that the user has permission to view where sentDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @param start the lower bound of the range of campaigns
 	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> filterFindBySD_LT(Date sendDate, boolean sent,
+	public List<Campaign> filterFindBySD_LT(Date sentDate, boolean sent,
 		int start, int end) throws SystemException {
-		return filterFindBySD_LT(sendDate, sent, start, end, null);
+		return filterFindBySD_LT(sentDate, sent, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the campaigns that the user has permissions to view where sendDate &le; &#63; and sent = &#63;.
+	 * Returns an ordered range of all the campaigns that the user has permissions to view where sentDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @param start the lower bound of the range of campaigns
 	 * @param end the upper bound of the range of campaigns (not inclusive)
@@ -2912,11 +2912,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * @return the ordered range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<Campaign> filterFindBySD_LT(Date sendDate, boolean sent,
+	public List<Campaign> filterFindBySD_LT(Date sentDate, boolean sent,
 		int start, int end, OrderByComparator orderByComparator)
 		throws SystemException {
 		if (!InlineSQLHelperUtil.isEnabled()) {
-			return findBySD_LT(sendDate, sent, start, end, orderByComparator);
+			return findBySD_LT(sentDate, sent, start, end, orderByComparator);
 		}
 
 		StringBundler query = null;
@@ -2936,11 +2936,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		if (sendDate == null) {
-			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+		if (sentDate == null) {
+			query.append(_FINDER_COLUMN_SD_LT_SENTDATE_1);
 		}
 		else {
-			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+			query.append(_FINDER_COLUMN_SD_LT_SENTDATE_2);
 		}
 
 		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
@@ -2988,8 +2988,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
-			if (sendDate != null) {
-				qPos.add(CalendarUtil.getTimestamp(sendDate));
+			if (sentDate != null) {
+				qPos.add(CalendarUtil.getTimestamp(sentDate));
 			}
 
 			qPos.add(sent);
@@ -3005,10 +3005,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where sentDate &le; &#63; and sent = &#63;.
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
@@ -3016,10 +3016,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * @throws SystemException if a system exception occurred
 	 */
 	public Campaign[] filterFindBySD_LT_PrevAndNext(long campaignId,
-		Date sendDate, boolean sent, OrderByComparator orderByComparator)
+		Date sentDate, boolean sent, OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
 		if (!InlineSQLHelperUtil.isEnabled()) {
-			return findBySD_LT_PrevAndNext(campaignId, sendDate, sent,
+			return findBySD_LT_PrevAndNext(campaignId, sentDate, sent,
 				orderByComparator);
 		}
 
@@ -3033,12 +3033,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			Campaign[] array = new CampaignImpl[3];
 
 			array[0] = filterGetBySD_LT_PrevAndNext(session, campaign,
-					sendDate, sent, orderByComparator, true);
+					sentDate, sent, orderByComparator, true);
 
 			array[1] = campaign;
 
 			array[2] = filterGetBySD_LT_PrevAndNext(session, campaign,
-					sendDate, sent, orderByComparator, false);
+					sentDate, sent, orderByComparator, false);
 
 			return array;
 		}
@@ -3051,7 +3051,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	protected Campaign filterGetBySD_LT_PrevAndNext(Session session,
-		Campaign campaign, Date sendDate, boolean sent,
+		Campaign campaign, Date sentDate, boolean sent,
 		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -3070,11 +3070,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		if (sendDate == null) {
-			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+		if (sentDate == null) {
+			query.append(_FINDER_COLUMN_SD_LT_SENTDATE_1);
 		}
 		else {
-			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+			query.append(_FINDER_COLUMN_SD_LT_SENTDATE_2);
 		}
 
 		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
@@ -3175,8 +3175,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		if (sendDate != null) {
-			qPos.add(CalendarUtil.getTimestamp(sendDate));
+		if (sentDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sentDate));
 		}
 
 		qPos.add(sent);
@@ -3333,27 +3333,27 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Removes all the campaigns where sendDate = &#63; from the database.
+	 * Removes all the campaigns where sentDate = &#63; from the database.
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void removeBySendDate(Date sendDate) throws SystemException {
-		for (Campaign campaign : findBySendDate(sendDate)) {
+	public void removeBySentDate(Date sentDate) throws SystemException {
+		for (Campaign campaign : findBySentDate(sentDate)) {
 			campaignPersistence.remove(campaign);
 		}
 	}
 
 	/**
-	 * Removes all the campaigns where sendDate &le; &#63; and sent = &#63; from the database.
+	 * Removes all the campaigns where sentDate &le; &#63; and sent = &#63; from the database.
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void removeBySD_LT(Date sendDate, boolean sent)
+	public void removeBySD_LT(Date sentDate, boolean sent)
 		throws SystemException {
-		for (Campaign campaign : findBySD_LT(sendDate, sent)) {
+		for (Campaign campaign : findBySD_LT(sentDate, sent)) {
 			campaignPersistence.remove(campaign);
 		}
 	}
@@ -3596,16 +3596,16 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the number of campaigns where sendDate = &#63;.
+	 * Returns the number of campaigns where sentDate = &#63;.
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @return the number of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public int countBySendDate(Date sendDate) throws SystemException {
-		Object[] finderArgs = new Object[] { sendDate };
+	public int countBySentDate(Date sentDate) throws SystemException {
+		Object[] finderArgs = new Object[] { sentDate };
 
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SENDDATE,
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SENTDATE,
 				finderArgs, this);
 
 		if (count == null) {
@@ -3613,11 +3613,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			query.append(_SQL_COUNT_CAMPAIGN_WHERE);
 
-			if (sendDate == null) {
-				query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+			if (sentDate == null) {
+				query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_1);
 			}
 			else {
-				query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+				query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_2);
 			}
 
 			String sql = query.toString();
@@ -3631,8 +3631,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (sendDate != null) {
-					qPos.add(CalendarUtil.getTimestamp(sendDate));
+				if (sentDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(sentDate));
 				}
 
 				count = (Long)q.uniqueResult();
@@ -3645,7 +3645,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 					count = Long.valueOf(0);
 				}
 
-				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SENDDATE,
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SENTDATE,
 					finderArgs, count);
 
 				closeSession(session);
@@ -3656,26 +3656,26 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the number of campaigns that the user has permission to view where sendDate = &#63;.
+	 * Returns the number of campaigns that the user has permission to view where sentDate = &#63;.
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @return the number of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
-	public int filterCountBySendDate(Date sendDate) throws SystemException {
+	public int filterCountBySentDate(Date sentDate) throws SystemException {
 		if (!InlineSQLHelperUtil.isEnabled()) {
-			return countBySendDate(sendDate);
+			return countBySentDate(sentDate);
 		}
 
 		StringBundler query = new StringBundler(2);
 
 		query.append(_FILTER_SQL_COUNT_CAMPAIGN_WHERE);
 
-		if (sendDate == null) {
-			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
+		if (sentDate == null) {
+			query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_1);
 		}
 		else {
-			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
+			query.append(_FINDER_COLUMN_SENTDATE_SENTDATE_2);
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
@@ -3693,8 +3693,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
-			if (sendDate != null) {
-				qPos.add(CalendarUtil.getTimestamp(sendDate));
+			if (sentDate != null) {
+				qPos.add(CalendarUtil.getTimestamp(sentDate));
 			}
 
 			Long count = (Long)q.uniqueResult();
@@ -3710,16 +3710,16 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the number of campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the number of campaigns where sentDate &le; &#63; and sent = &#63;.
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @return the number of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public int countBySD_LT(Date sendDate, boolean sent)
+	public int countBySD_LT(Date sentDate, boolean sent)
 		throws SystemException {
-		Object[] finderArgs = new Object[] { sendDate, sent };
+		Object[] finderArgs = new Object[] { sentDate, sent };
 
 		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SD_LT,
 				finderArgs, this);
@@ -3729,11 +3729,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			query.append(_SQL_COUNT_CAMPAIGN_WHERE);
 
-			if (sendDate == null) {
-				query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+			if (sentDate == null) {
+				query.append(_FINDER_COLUMN_SD_LT_SENTDATE_1);
 			}
 			else {
-				query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+				query.append(_FINDER_COLUMN_SD_LT_SENTDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_SD_LT_SENT_2);
@@ -3749,8 +3749,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (sendDate != null) {
-					qPos.add(CalendarUtil.getTimestamp(sendDate));
+				if (sentDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(sentDate));
 				}
 
 				qPos.add(sent);
@@ -3776,28 +3776,28 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Returns the number of campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the number of campaigns that the user has permission to view where sentDate &le; &#63; and sent = &#63;.
 	 *
-	 * @param sendDate the send date
+	 * @param sentDate the sent date
 	 * @param sent the sent
 	 * @return the number of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
-	public int filterCountBySD_LT(Date sendDate, boolean sent)
+	public int filterCountBySD_LT(Date sentDate, boolean sent)
 		throws SystemException {
 		if (!InlineSQLHelperUtil.isEnabled()) {
-			return countBySD_LT(sendDate, sent);
+			return countBySD_LT(sentDate, sent);
 		}
 
 		StringBundler query = new StringBundler(3);
 
 		query.append(_FILTER_SQL_COUNT_CAMPAIGN_WHERE);
 
-		if (sendDate == null) {
-			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
+		if (sentDate == null) {
+			query.append(_FINDER_COLUMN_SD_LT_SENTDATE_1);
 		}
 		else {
-			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_2);
+			query.append(_FINDER_COLUMN_SD_LT_SENTDATE_2);
 		}
 
 		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
@@ -3817,8 +3817,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
-			if (sendDate != null) {
-				qPos.add(CalendarUtil.getTimestamp(sendDate));
+			if (sentDate != null) {
+				qPos.add(CalendarUtil.getTimestamp(sentDate));
 			}
 
 			qPos.add(sent);
@@ -4191,10 +4191,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(campaign.uuid IS NULL OR campaign.uuid = ?)";
 	private static final String _FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2 =
 		"campaign.campaignContentId = ?";
-	private static final String _FINDER_COLUMN_SENDDATE_SENDDATE_1 = "campaign.sendDate IS NULL";
-	private static final String _FINDER_COLUMN_SENDDATE_SENDDATE_2 = "campaign.sendDate = ?";
-	private static final String _FINDER_COLUMN_SD_LT_SENDDATE_1 = "campaign.sendDate <= NULL AND ";
-	private static final String _FINDER_COLUMN_SD_LT_SENDDATE_2 = "campaign.sendDate <= ? AND ";
+	private static final String _FINDER_COLUMN_SENTDATE_SENTDATE_1 = "campaign.sentDate IS NULL";
+	private static final String _FINDER_COLUMN_SENTDATE_SENTDATE_2 = "campaign.sentDate = ?";
+	private static final String _FINDER_COLUMN_SD_LT_SENTDATE_1 = "campaign.sentDate <= NULL AND ";
+	private static final String _FINDER_COLUMN_SD_LT_SENTDATE_2 = "campaign.sentDate <= ? AND ";
 	private static final String _FINDER_COLUMN_SD_LT_SENT_2 = "campaign.sent = ?";
 	private static final String _FILTER_SQL_SELECT_CAMPAIGN_WHERE = "SELECT DISTINCT {campaign.*} FROM Newsletter_Campaign campaign WHERE ";
 	private static final String _FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1 =

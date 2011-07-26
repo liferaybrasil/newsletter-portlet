@@ -1,10 +1,10 @@
 create table Newsletter_Campaign (
 	uuid_ VARCHAR(75) null,
 	campaignId LONG not null primary key,
-	sendDate DATE null,
+	sentDate DATE null,
 	emailSubject VARCHAR(75) null,
-	senderName VARCHAR(75) null,
 	senderEmail VARCHAR(75) null,
+	senderName VARCHAR(75) null,
 	content STRING null,
 	sent BOOLEAN,
 	campaignContentId LONG

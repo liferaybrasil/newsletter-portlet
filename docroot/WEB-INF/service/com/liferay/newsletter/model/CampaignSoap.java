@@ -32,10 +32,10 @@ public class CampaignSoap implements Serializable {
 
 		soapModel.setUuid(model.getUuid());
 		soapModel.setCampaignId(model.getCampaignId());
-		soapModel.setSendDate(model.getSendDate());
+		soapModel.setSentDate(model.getSentDate());
 		soapModel.setEmailSubject(model.getEmailSubject());
-		soapModel.setSenderName(model.getSenderName());
 		soapModel.setSenderEmail(model.getSenderEmail());
+		soapModel.setSenderName(model.getSenderName());
 		soapModel.setContent(model.getContent());
 		soapModel.setSent(model.getSent());
 		soapModel.setCampaignContentId(model.getCampaignContentId());
@@ -107,12 +107,12 @@ public class CampaignSoap implements Serializable {
 		_campaignId = campaignId;
 	}
 
-	public Date getSendDate() {
-		return _sendDate;
+	public Date getSentDate() {
+		return _sentDate;
 	}
 
-	public void setSendDate(Date sendDate) {
-		_sendDate = sendDate;
+	public void setSentDate(Date sentDate) {
+		_sentDate = sentDate;
 	}
 
 	public String getEmailSubject() {
@@ -123,20 +123,20 @@ public class CampaignSoap implements Serializable {
 		_emailSubject = emailSubject;
 	}
 
-	public String getSenderName() {
-		return _senderName;
-	}
-
-	public void setSenderName(String senderName) {
-		_senderName = senderName;
-	}
-
 	public String getSenderEmail() {
 		return _senderEmail;
 	}
 
 	public void setSenderEmail(String senderEmail) {
 		_senderEmail = senderEmail;
+	}
+
+	public String getSenderName() {
+		return _senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		_senderName = senderName;
 	}
 
 	public String getContent() {
@@ -169,10 +169,10 @@ public class CampaignSoap implements Serializable {
 
 	private String _uuid;
 	private long _campaignId;
-	private Date _sendDate;
+	private Date _sentDate;
 	private String _emailSubject;
-	private String _senderName;
 	private String _senderEmail;
+	private String _senderName;
 	private String _content;
 	private boolean _sent;
 	private long _campaignContentId;

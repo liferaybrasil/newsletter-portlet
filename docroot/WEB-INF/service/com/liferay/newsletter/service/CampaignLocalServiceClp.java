@@ -549,7 +549,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	public com.liferay.newsletter.model.Campaign addCampaign(
 		long campaignContentId, java.lang.String senderEmail,
 		java.lang.String senderName, java.lang.String emailSubject,
-		int sendDateMonth, int sendDateDay, int sendDateYear,
+		int sentDateMonth, int sentDateDay, int sentDateYear,
 		java.lang.String contacts)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
@@ -558,8 +558,8 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		MethodHandler methodHandler = new MethodHandler(_addCampaignMethodKey16,
 				campaignContentId, ClpSerializer.translateInput(senderEmail),
 				ClpSerializer.translateInput(senderName),
-				ClpSerializer.translateInput(emailSubject), sendDateMonth,
-				sendDateDay, sendDateYear,
+				ClpSerializer.translateInput(emailSubject), sentDateMonth,
+				sentDateDay, sentDateYear,
 				ClpSerializer.translateInput(contacts));
 
 		try {
@@ -586,13 +586,23 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		return (com.liferay.newsletter.model.Campaign)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public void checkCampaigns() {
+	public void checkCampaigns()
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		MethodHandler methodHandler = new MethodHandler(_checkCampaignsMethodKey17);
 
 		try {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
 			if (t instanceof RuntimeException) {
 				throw (RuntimeException)t;
 			}
@@ -745,7 +755,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	public void sendCampaign(com.liferay.newsletter.model.Campaign campaign)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException,
-			javax.mail.MessagingException, javax.mail.internet.AddressException {
+			java.io.IOException {
 		MethodHandler methodHandler = new MethodHandler(_sendCampaignMethodKey23,
 				ClpSerializer.translateInput(campaign));
 
@@ -761,12 +771,8 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
-			if (t instanceof javax.mail.MessagingException) {
-				throw (javax.mail.MessagingException)t;
-			}
-
-			if (t instanceof javax.mail.internet.AddressException) {
-				throw (javax.mail.internet.AddressException)t;
+			if (t instanceof java.io.IOException) {
+				throw (java.io.IOException)t;
 			}
 
 			if (t instanceof RuntimeException) {

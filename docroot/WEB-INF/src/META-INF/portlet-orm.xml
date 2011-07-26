@@ -13,12 +13,12 @@
 			<basic name="uuid">
 				<column name="UUID_" />
 			</basic>
-			<basic name="sendDate">
+			<basic name="sentDate">
 				<temporal>TIMESTAMP</temporal>
 			</basic>
 			<basic name="emailSubject" />
-			<basic name="senderName" />
 			<basic name="senderEmail" />
+			<basic name="senderName" />
 			<basic name="content" />
 			<basic name="sent" />
 			<basic name="campaignContentId" />

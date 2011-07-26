@@ -64,10 +64,10 @@
 
 		<!-- Other fields -->
 
-		<column name="sendDate" type="Date" />
+		<column name="sentDate" type="Date" />
 		<column name="emailSubject" type="String" />
-		<column name="senderName" type="String" />
 		<column name="senderEmail" type="String" />
+		<column name="senderName" type="String" />
 		<column name="content" type="String" />
 		<column name="sent" type="boolean" />
 		<column name="campaignContentId" type="long" />
@@ -79,7 +79,7 @@
 		<!-- Order -->
 
 		<order by="desc">
-			<order-column name="sendDate" />
+			<order-column name="sentDate" />
 		</order>
 
 		<!-- Finder methods -->
@@ -87,11 +87,11 @@
 		<finder name="CampaignContent" return-type="Collection">
 			<finder-column name="campaignContentId" />
 		</finder>
-		<finder name="SendDate" return-type="Collection">
-			<finder-column name="sendDate" />
+		<finder name="SentDate" return-type="Collection">
+			<finder-column name="sentDate" />
 		</finder>
 		<finder name="SD_LT" return-type="Collection">
-			<finder-column name="sendDate" comparator="&lt;=" />
+			<finder-column name="sentDate" comparator="&lt;=" />
 			<finder-column name="sent" />
 		</finder>
 	</entity>

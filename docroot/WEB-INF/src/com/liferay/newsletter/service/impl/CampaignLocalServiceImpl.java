@@ -16,7 +16,6 @@ package com.liferay.newsletter.service.impl;
 
 import com.liferay.newsletter.ContactsException;
 import com.liferay.newsletter.EmailSubjectException;
-import com.liferay.newsletter.IDNotFoundException;
 import com.liferay.newsletter.SenderEmailException;
 import com.liferay.newsletter.SenderNameException;
 import com.liferay.newsletter.model.Campaign;
@@ -36,15 +35,15 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.portlet.PortletProps;
 
+import java.io.IOException;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -55,47 +54,47 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 
 	public Campaign addCampaign(
 			long campaignContentId, String senderEmail, String senderName,
-			String emailSubject, int sendDateMonth, int sendDateDay,
-			int sendDateYear, String contacts)
+			String emailSubject, int sentDateMonth, int sentDateDay,
+			int sentDateYear, String contacts)
 		throws PortalException, SystemException {
-
-		Date sendDate = PortalUtil.getDate(
-			sendDateMonth, sendDateDay,sendDateYear);
 
 		validate(emailSubject, senderEmail, senderName, contacts);
 
-		CampaignContent campaignContent =
-			campaignContentLocalService.getCampaignContent(campaignContentId);
+		Date sentDate = PortalUtil.getDate(
+			sentDateMonth, sentDateDay,sentDateYear);
 
 		long campaignId = counterLocalService.increment();
 
 		Campaign campaign = campaignPersistence.create(campaignId);
 
-		campaign.setSendDate(sendDate);
-		campaign.setCampaignContentId(campaignContentId);
+		campaign.setSentDate(sentDate);
+		campaign.setEmailSubject(emailSubject);
 		campaign.setSenderEmail(senderEmail);
 		campaign.setSenderName(senderName);
-		campaign.setEmailSubject(emailSubject);
 		campaign.setSent(false);
+
+		CampaignContent campaignContent =
+			campaignContentLocalService.getCampaignContent(campaignContentId);
+
 		campaign.setContent(campaignContent.getContent());
-		campaign.setCampaignId(campaignId);
+		campaign.setCampaignContentId(campaignContentId);
 
 		return campaignPersistence.update(campaign, false);
 	}
 
-	public void checkCampaigns() {
-		try {
-			Date currentDate = new Date();
+	public void checkCampaigns() throws PortalException, SystemException {
+		Date currentDate = new Date();
 
-			List<Campaign> campaigns = getCampaignsBySendDateLT(
-				currentDate, false);
+		List<Campaign> campaigns = getCampaignsBySendDateLT(
+			currentDate, false);
 
-			for (Campaign campaign : campaigns) {
+		for (Campaign campaign : campaigns) {
+			try {
 				sendCampaign(campaign);
 			}
-		}
-		catch (Exception e) {
-			_log.error(e, e);
+			catch (IOException ioe) {
+				throw new SystemException(ioe);
+			}
 		}
 	}
 
@@ -116,23 +115,15 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 	public void deleteCampaign(long campaignId)
 		throws PortalException, SystemException {
 
-		if (Validator.isNotNull(campaignId)) {
-			List<NewsletterLog> newsletterLogList =
-				newsletterLogLocalService.getNewsletterLogByCampaign(
-					campaignId);
+		Campaign campaign = campaignPersistence.findByPrimaryKey(campaignId);
 
-			if (!newsletterLogList.isEmpty()) {
-				for (NewsletterLog newsletterLog : newsletterLogList) {
-					newsletterLogLocalService.deleteNewsletterLog(
-						newsletterLog);
-				}
-			}
+		deleteCampaign(campaign);
+	}
 
-			campaignPersistence.remove(campaignId);
-		}
-		else {
-			throw new IDNotFoundException();
-		}
+	public Campaign getCampaign(long campaignId)
+		throws PortalException, SystemException {
+
+		return campaignPersistence.findByPrimaryKey(campaignId);
 	}
 
 	public List<Campaign> getCampaignsByCampaignContent(long campaignContentId)
@@ -151,7 +142,7 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 	public List<Campaign> getCampaignsByDate(Date sendDate)
 		throws SystemException{
 
-		return campaignPersistence.findBySendDate(sendDate);
+		return campaignPersistence.findBySentDate(sendDate);
 	}
 
 	public List<Campaign> getCampaignsBySendDateLT(Date sendDate, boolean sent)
@@ -167,34 +158,28 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 	}
 
 	public void sendCampaign(Campaign campaign)
-		throws SystemException, PortalException, AddressException,
-		MessagingException{
+		throws SystemException, PortalException, IOException {
 
-		List<NewsletterLog> newsletterLogs = newsletterLogLocalService.
-			getNewsletterLogByCampaign(campaign.getCampaignId());
-
-		long campaignContentId = campaign.getCampaignContentId();
-
-		CampaignContent campaignContent = campaignContentLocalService.
-			getCampaignContent(campaignContentId);
+		List<NewsletterLog> newsletterLogs =
+			newsletterLogLocalService.getNewsletterLogByCampaign(
+				campaign.getCampaignId());
 
 		for (NewsletterLog newsletterLog : newsletterLogs) {
-			long contactId = newsletterLog.getContactId();
+			sendEmail(newsletterLog.getContactId(), campaign);
 
-			Contact contact = contactLocalService.getContact(contactId);
-
-			_sendEmail(campaignContent, campaign, contact);
 			newsletterLog.setSent(true);
+
 			newsletterLogLocalService.updateNewsletterLog(newsletterLog);
-			//Thread.sleep(5000);
 		}
+
 		campaign.setSent(true);
+
 		campaignLocalService.updateCampaign(campaign);
 	}
 
-	protected void _sendEmail(
-			CampaignContent campaignContent, Campaign campaign, Contact contact)
-		throws AddressException, MessagingException, SystemException {
+	protected void sendEmail(
+			long contactId, Campaign campaign)
+		throws IOException, PortalException, SystemException {
 
 		String passwordString = PortletProps.get(
 			PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD);
@@ -209,45 +194,59 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 			passwordString = PropsUtil.get(
 				PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
 		}
+
 		if (userString.isEmpty()) {
 			userString = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
 		}
+
 		if (host.isEmpty()) {
 			host = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
 		}
+
 		if (port.isEmpty()) {
 			port = PropsUtil.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST);
 		}
 
-		Properties props = new Properties();
-		props.put(NewsletterConstants.MAIL_TRANSPORT_PROTOCOL, "smtp");
-		props.put(NewsletterConstants.MAIL_SMTP_HOST, host);
-		props.put(NewsletterConstants.MAIL_SMTP_SOCKET_FACTORY_PORT, port);
-		props.put(NewsletterConstants.MAIL_SMTP_PORT, port);
-		props.put(
+		Properties properties = new Properties();
+
+		properties.put(NewsletterConstants.MAIL_TRANSPORT_PROTOCOL, "smtp");
+		properties.put(NewsletterConstants.MAIL_SMTP_HOST, host);
+		properties.put(NewsletterConstants.MAIL_SMTP_SOCKET_FACTORY_PORT, port);
+		properties.put(NewsletterConstants.MAIL_SMTP_PORT, port);
+		properties.put(
 			NewsletterConstants.MAIL_SMTP_SOCKET_FACTORY_FALLBACK, "false");
-		props.put(NewsletterConstants.MAIL_SMTP_STARTTLS_ENABLE, "true");
-		props.put(NewsletterConstants.MAIL_SMTP_AUTH, "true");
+		properties.put(NewsletterConstants.MAIL_SMTP_STARTTLS_ENABLE, "true");
+		properties.put(NewsletterConstants.MAIL_SMTP_AUTH, "true");
 
 		MailAuthenticator mailAuthenticator = new MailAuthenticator(
 			userString, passwordString);
-		Session session = Session.getInstance(props, mailAuthenticator);
+
+		Session session = Session.getInstance(properties, mailAuthenticator);
 
 		String senderEmail = campaign.getSenderEmail();
 		String emailSubject = campaign.getEmailSubject();
-		String content = campaignContent.getContent();
+		String content = campaign.getContent();
 		String senderName = campaign.getSenderName();
 		String from = "\""+senderName+"\" <"+senderEmail+">";
 
-		MimeMessage msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(from));
-		msg.setRecipient(Message.RecipientType.TO, new InternetAddress(
-				contact.getEmail()));
-		msg.setSentDate(new Date());
-		msg.setSubject(emailSubject);
-		msg.setContent(content, "text/html");
+		Contact contact = contactPersistence.findByPrimaryKey(contactId);
 
-		Transport.send(msg);
+		try {
+			MimeMessage message = new MimeMessage(session);
+
+			message.setFrom(new InternetAddress(from));
+			message.setRecipient(
+				Message.RecipientType.TO,
+				new InternetAddress(contact.getEmail()));
+			message.setSentDate(new Date());
+			message.setSubject(emailSubject);
+			message.setContent(content, "text/html");
+
+			Transport.send(message);
+		}
+		catch (Exception e) {
+			_log.error(e);
+		}
 	}
 
 	protected void validate(String emailSubject, String senderEmail,

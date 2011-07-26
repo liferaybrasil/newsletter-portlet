@@ -12,10 +12,10 @@
 			<generator class="assigned" />
 		</id>
 		<property name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" column="uuid_" />
-		<property name="sendDate" type="org.hibernate.type.TimestampType" />
+		<property name="sentDate" type="org.hibernate.type.TimestampType" />
 		<property name="emailSubject" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="senderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="senderEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="senderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="sent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="campaignContentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

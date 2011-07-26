@@ -38,14 +38,14 @@ public class CampaignCacheModel implements CacheModel<Campaign> {
 		sb.append(uuid);
 		sb.append(", campaignId=");
 		sb.append(campaignId);
-		sb.append(", sendDate=");
-		sb.append(sendDate);
+		sb.append(", sentDate=");
+		sb.append(sentDate);
 		sb.append(", emailSubject=");
 		sb.append(emailSubject);
-		sb.append(", senderName=");
-		sb.append(senderName);
 		sb.append(", senderEmail=");
 		sb.append(senderEmail);
+		sb.append(", senderName=");
+		sb.append(senderName);
 		sb.append(", content=");
 		sb.append(content);
 		sb.append(", sent=");
@@ -69,11 +69,11 @@ public class CampaignCacheModel implements CacheModel<Campaign> {
 
 		campaignImpl.setCampaignId(campaignId);
 
-		if (sendDate == Long.MIN_VALUE) {
-			campaignImpl.setSendDate(null);
+		if (sentDate == Long.MIN_VALUE) {
+			campaignImpl.setSentDate(null);
 		}
 		else {
-			campaignImpl.setSendDate(new Date(sendDate));
+			campaignImpl.setSentDate(new Date(sentDate));
 		}
 
 		if (emailSubject == null) {
@@ -83,18 +83,18 @@ public class CampaignCacheModel implements CacheModel<Campaign> {
 			campaignImpl.setEmailSubject(emailSubject);
 		}
 
-		if (senderName == null) {
-			campaignImpl.setSenderName(StringPool.BLANK);
-		}
-		else {
-			campaignImpl.setSenderName(senderName);
-		}
-
 		if (senderEmail == null) {
 			campaignImpl.setSenderEmail(StringPool.BLANK);
 		}
 		else {
 			campaignImpl.setSenderEmail(senderEmail);
+		}
+
+		if (senderName == null) {
+			campaignImpl.setSenderName(StringPool.BLANK);
+		}
+		else {
+			campaignImpl.setSenderName(senderName);
 		}
 
 		if (content == null) {
@@ -114,10 +114,10 @@ public class CampaignCacheModel implements CacheModel<Campaign> {
 
 	public String uuid;
 	public long campaignId;
-	public long sendDate;
+	public long sentDate;
 	public String emailSubject;
-	public String senderName;
 	public String senderEmail;
+	public String senderName;
 	public String content;
 	public boolean sent;
 	public long campaignContentId;

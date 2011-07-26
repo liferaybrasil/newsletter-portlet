@@ -4,10 +4,10 @@
 	<model name="com.liferay.newsletter.model.Campaign">
 		<field name="uuid" type="String" />
 		<field name="campaignId" type="long" />
-		<field name="sendDate" type="Date" />
+		<field name="sentDate" type="Date" />
 		<field name="emailSubject" type="String" />
-		<field name="senderName" type="String" />
 		<field name="senderEmail" type="String" />
+		<field name="senderName" type="String" />
 		<field name="content" type="String">
 			<hint-collection name="TEXTAREA" />
 		</field>

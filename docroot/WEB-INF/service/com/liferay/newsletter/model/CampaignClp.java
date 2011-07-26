@@ -75,12 +75,12 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 		_campaignId = campaignId;
 	}
 
-	public Date getSendDate() {
-		return _sendDate;
+	public Date getSentDate() {
+		return _sentDate;
 	}
 
-	public void setSendDate(Date sendDate) {
-		_sendDate = sendDate;
+	public void setSentDate(Date sentDate) {
+		_sentDate = sentDate;
 	}
 
 	public String getEmailSubject() {
@@ -91,20 +91,20 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 		_emailSubject = emailSubject;
 	}
 
-	public String getSenderName() {
-		return _senderName;
-	}
-
-	public void setSenderName(String senderName) {
-		_senderName = senderName;
-	}
-
 	public String getSenderEmail() {
 		return _senderEmail;
 	}
 
 	public void setSenderEmail(String senderEmail) {
 		_senderEmail = senderEmail;
+	}
+
+	public String getSenderName() {
+		return _senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		_senderName = senderName;
 	}
 
 	public String getContent() {
@@ -135,6 +135,10 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 		_campaignContentId = campaignContentId;
 	}
 
+	public com.liferay.newsletter.model.CampaignContent getCampaignContent() {
+		throw new UnsupportedOperationException();
+	}
+
 	public void persist() throws SystemException {
 		CampaignLocalServiceUtil.updateCampaign(this);
 	}
@@ -156,10 +160,10 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 
 		clone.setUuid(getUuid());
 		clone.setCampaignId(getCampaignId());
-		clone.setSendDate(getSendDate());
+		clone.setSentDate(getSentDate());
 		clone.setEmailSubject(getEmailSubject());
-		clone.setSenderName(getSenderName());
 		clone.setSenderEmail(getSenderEmail());
+		clone.setSenderName(getSenderName());
 		clone.setContent(getContent());
 		clone.setSent(getSent());
 		clone.setCampaignContentId(getCampaignContentId());
@@ -170,7 +174,7 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 	public int compareTo(Campaign campaign) {
 		int value = 0;
 
-		value = DateUtil.compareTo(getSendDate(), campaign.getSendDate());
+		value = DateUtil.compareTo(getSentDate(), campaign.getSentDate());
 
 		value = value * -1;
 
@@ -219,14 +223,14 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 		sb.append(getUuid());
 		sb.append(", campaignId=");
 		sb.append(getCampaignId());
-		sb.append(", sendDate=");
-		sb.append(getSendDate());
+		sb.append(", sentDate=");
+		sb.append(getSentDate());
 		sb.append(", emailSubject=");
 		sb.append(getEmailSubject());
-		sb.append(", senderName=");
-		sb.append(getSenderName());
 		sb.append(", senderEmail=");
 		sb.append(getSenderEmail());
+		sb.append(", senderName=");
+		sb.append(getSenderName());
 		sb.append(", content=");
 		sb.append(getContent());
 		sb.append(", sent=");
@@ -254,20 +258,20 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 		sb.append(getCampaignId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>sendDate</column-name><column-value><![CDATA[");
-		sb.append(getSendDate());
+			"<column><column-name>sentDate</column-name><column-value><![CDATA[");
+		sb.append(getSentDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>emailSubject</column-name><column-value><![CDATA[");
 		sb.append(getEmailSubject());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>senderName</column-name><column-value><![CDATA[");
-		sb.append(getSenderName());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>senderEmail</column-name><column-value><![CDATA[");
 		sb.append(getSenderEmail());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>senderName</column-name><column-value><![CDATA[");
+		sb.append(getSenderName());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>content</column-name><column-value><![CDATA[");
@@ -289,10 +293,10 @@ public class CampaignClp extends BaseModelImpl<Campaign> implements Campaign {
 
 	private String _uuid;
 	private long _campaignId;
-	private Date _sendDate;
+	private Date _sentDate;
 	private String _emailSubject;
-	private String _senderName;
 	private String _senderEmail;
+	private String _senderName;
 	private String _content;
 	private boolean _sent;
 	private long _campaignContentId;

@@ -91,21 +91,21 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Returns the send date of this campaign.
+	* Returns the sent date of this campaign.
 	*
-	* @return the send date of this campaign
+	* @return the sent date of this campaign
 	*/
-	public java.util.Date getSendDate() {
-		return _campaign.getSendDate();
+	public java.util.Date getSentDate() {
+		return _campaign.getSentDate();
 	}
 
 	/**
-	* Sets the send date of this campaign.
+	* Sets the sent date of this campaign.
 	*
-	* @param sendDate the send date of this campaign
+	* @param sentDate the sent date of this campaign
 	*/
-	public void setSendDate(java.util.Date sendDate) {
-		_campaign.setSendDate(sendDate);
+	public void setSentDate(java.util.Date sentDate) {
+		_campaign.setSentDate(sentDate);
 	}
 
 	/**
@@ -127,24 +127,6 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Returns the sender name of this campaign.
-	*
-	* @return the sender name of this campaign
-	*/
-	public java.lang.String getSenderName() {
-		return _campaign.getSenderName();
-	}
-
-	/**
-	* Sets the sender name of this campaign.
-	*
-	* @param senderName the sender name of this campaign
-	*/
-	public void setSenderName(java.lang.String senderName) {
-		_campaign.setSenderName(senderName);
-	}
-
-	/**
 	* Returns the sender email of this campaign.
 	*
 	* @return the sender email of this campaign
@@ -160,6 +142,24 @@ public class CampaignWrapper implements Campaign {
 	*/
 	public void setSenderEmail(java.lang.String senderEmail) {
 		_campaign.setSenderEmail(senderEmail);
+	}
+
+	/**
+	* Returns the sender name of this campaign.
+	*
+	* @return the sender name of this campaign
+	*/
+	public java.lang.String getSenderName() {
+		return _campaign.getSenderName();
+	}
+
+	/**
+	* Sets the sender name of this campaign.
+	*
+	* @param senderName the sender name of this campaign
+	*/
+	public void setSenderName(java.lang.String senderName) {
+		_campaign.setSenderName(senderName);
 	}
 
 	/**
@@ -300,6 +300,12 @@ public class CampaignWrapper implements Campaign {
 	public void persist()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		_campaign.persist();
+	}
+
+	public com.liferay.newsletter.model.CampaignContent getCampaignContent()
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _campaign.getCampaignContent();
 	}
 
 	public Campaign getWrappedCampaign() {

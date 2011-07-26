@@ -20,10 +20,4 @@ import com.liferay.newsletter.service.base.ContactServiceBaseImpl;
  * @author Bruno Pinheiro
  */
 public class ContactServiceImpl extends ContactServiceBaseImpl {
-	/**
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this interface directly. Always use {@link com.liferay.newsletter.service.ContactServiceUtil} to access the contact remote service.
-	 */
-
 }

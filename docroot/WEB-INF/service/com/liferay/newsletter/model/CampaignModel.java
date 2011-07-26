@@ -89,18 +89,18 @@ public interface CampaignModel extends BaseModel<Campaign> {
 	public void setCampaignId(long campaignId);
 
 	/**
-	 * Returns the send date of this campaign.
+	 * Returns the sent date of this campaign.
 	 *
-	 * @return the send date of this campaign
+	 * @return the sent date of this campaign
 	 */
-	public Date getSendDate();
+	public Date getSentDate();
 
 	/**
-	 * Sets the send date of this campaign.
+	 * Sets the sent date of this campaign.
 	 *
-	 * @param sendDate the send date of this campaign
+	 * @param sentDate the sent date of this campaign
 	 */
-	public void setSendDate(Date sendDate);
+	public void setSentDate(Date sentDate);
 
 	/**
 	 * Returns the email subject of this campaign.
@@ -118,21 +118,6 @@ public interface CampaignModel extends BaseModel<Campaign> {
 	public void setEmailSubject(String emailSubject);
 
 	/**
-	 * Returns the sender name of this campaign.
-	 *
-	 * @return the sender name of this campaign
-	 */
-	@AutoEscape
-	public String getSenderName();
-
-	/**
-	 * Sets the sender name of this campaign.
-	 *
-	 * @param senderName the sender name of this campaign
-	 */
-	public void setSenderName(String senderName);
-
-	/**
 	 * Returns the sender email of this campaign.
 	 *
 	 * @return the sender email of this campaign
@@ -146,6 +131,21 @@ public interface CampaignModel extends BaseModel<Campaign> {
 	 * @param senderEmail the sender email of this campaign
 	 */
 	public void setSenderEmail(String senderEmail);
+
+	/**
+	 * Returns the sender name of this campaign.
+	 *
+	 * @return the sender name of this campaign
+	 */
+	@AutoEscape
+	public String getSenderName();
+
+	/**
+	 * Sets the sender name of this campaign.
+	 *
+	 * @param senderName the sender name of this campaign
+	 */
+	public void setSenderName(String senderName);
 
 	/**
 	 * Returns the content of this campaign.

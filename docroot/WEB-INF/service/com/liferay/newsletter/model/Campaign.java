@@ -31,4 +31,7 @@ public interface Campaign extends CampaignModel, PersistedModel {
 	 *
 	 * Never modify this interface directly. Add methods to {@link com.liferay.newsletter.model.impl.CampaignImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public com.liferay.newsletter.model.CampaignContent getCampaignContent()
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 }

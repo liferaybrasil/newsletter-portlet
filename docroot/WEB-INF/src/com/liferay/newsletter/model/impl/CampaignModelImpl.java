@@ -61,18 +61,18 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
 			{ "campaignId", Types.BIGINT },
-			{ "sendDate", Types.TIMESTAMP },
+			{ "sentDate", Types.TIMESTAMP },
 			{ "emailSubject", Types.VARCHAR },
-			{ "senderName", Types.VARCHAR },
 			{ "senderEmail", Types.VARCHAR },
+			{ "senderName", Types.VARCHAR },
 			{ "content", Types.VARCHAR },
 			{ "sent", Types.BOOLEAN },
 			{ "campaignContentId", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Newsletter_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,sendDate DATE null,emailSubject VARCHAR(75) null,senderName VARCHAR(75) null,senderEmail VARCHAR(75) null,content STRING null,sent BOOLEAN,campaignContentId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table Newsletter_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,sentDate DATE null,emailSubject VARCHAR(75) null,senderEmail VARCHAR(75) null,senderName VARCHAR(75) null,content STRING null,sent BOOLEAN,campaignContentId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table Newsletter_Campaign";
-	public static final String ORDER_BY_JPQL = " ORDER BY campaign.sendDate DESC";
-	public static final String ORDER_BY_SQL = " ORDER BY Newsletter_Campaign.sendDate DESC";
+	public static final String ORDER_BY_JPQL = " ORDER BY campaign.sentDate DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY Newsletter_Campaign.sentDate DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -134,12 +134,12 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		_campaignId = campaignId;
 	}
 
-	public Date getSendDate() {
-		return _sendDate;
+	public Date getSentDate() {
+		return _sentDate;
 	}
 
-	public void setSendDate(Date sendDate) {
-		_sendDate = sendDate;
+	public void setSentDate(Date sentDate) {
+		_sentDate = sentDate;
 	}
 
 	public String getEmailSubject() {
@@ -155,19 +155,6 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		_emailSubject = emailSubject;
 	}
 
-	public String getSenderName() {
-		if (_senderName == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _senderName;
-		}
-	}
-
-	public void setSenderName(String senderName) {
-		_senderName = senderName;
-	}
-
 	public String getSenderEmail() {
 		if (_senderEmail == null) {
 			return StringPool.BLANK;
@@ -179,6 +166,19 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 
 	public void setSenderEmail(String senderEmail) {
 		_senderEmail = senderEmail;
+	}
+
+	public String getSenderName() {
+		if (_senderName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _senderName;
+		}
+	}
+
+	public void setSenderName(String senderName) {
+		_senderName = senderName;
 	}
 
 	public String getContent() {
@@ -251,10 +251,10 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 
 		campaignImpl.setUuid(getUuid());
 		campaignImpl.setCampaignId(getCampaignId());
-		campaignImpl.setSendDate(getSendDate());
+		campaignImpl.setSentDate(getSentDate());
 		campaignImpl.setEmailSubject(getEmailSubject());
-		campaignImpl.setSenderName(getSenderName());
 		campaignImpl.setSenderEmail(getSenderEmail());
+		campaignImpl.setSenderName(getSenderName());
 		campaignImpl.setContent(getContent());
 		campaignImpl.setSent(getSent());
 		campaignImpl.setCampaignContentId(getCampaignContentId());
@@ -267,7 +267,7 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 	public int compareTo(Campaign campaign) {
 		int value = 0;
 
-		value = DateUtil.compareTo(getSendDate(), campaign.getSendDate());
+		value = DateUtil.compareTo(getSentDate(), campaign.getSentDate());
 
 		value = value * -1;
 
@@ -326,13 +326,13 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 
 		campaignCacheModel.campaignId = getCampaignId();
 
-		Date sendDate = getSendDate();
+		Date sentDate = getSentDate();
 
-		if (sendDate != null) {
-			campaignCacheModel.sendDate = sendDate.getTime();
+		if (sentDate != null) {
+			campaignCacheModel.sentDate = sentDate.getTime();
 		}
 		else {
-			campaignCacheModel.sendDate = Long.MIN_VALUE;
+			campaignCacheModel.sentDate = Long.MIN_VALUE;
 		}
 
 		campaignCacheModel.emailSubject = getEmailSubject();
@@ -343,20 +343,20 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 			campaignCacheModel.emailSubject = null;
 		}
 
-		campaignCacheModel.senderName = getSenderName();
-
-		String senderName = campaignCacheModel.senderName;
-
-		if ((senderName != null) && (senderName.length() == 0)) {
-			campaignCacheModel.senderName = null;
-		}
-
 		campaignCacheModel.senderEmail = getSenderEmail();
 
 		String senderEmail = campaignCacheModel.senderEmail;
 
 		if ((senderEmail != null) && (senderEmail.length() == 0)) {
 			campaignCacheModel.senderEmail = null;
+		}
+
+		campaignCacheModel.senderName = getSenderName();
+
+		String senderName = campaignCacheModel.senderName;
+
+		if ((senderName != null) && (senderName.length() == 0)) {
+			campaignCacheModel.senderName = null;
 		}
 
 		campaignCacheModel.content = getContent();
@@ -382,14 +382,14 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		sb.append(getUuid());
 		sb.append(", campaignId=");
 		sb.append(getCampaignId());
-		sb.append(", sendDate=");
-		sb.append(getSendDate());
+		sb.append(", sentDate=");
+		sb.append(getSentDate());
 		sb.append(", emailSubject=");
 		sb.append(getEmailSubject());
-		sb.append(", senderName=");
-		sb.append(getSenderName());
 		sb.append(", senderEmail=");
 		sb.append(getSenderEmail());
+		sb.append(", senderName=");
+		sb.append(getSenderName());
 		sb.append(", content=");
 		sb.append(getContent());
 		sb.append(", sent=");
@@ -417,20 +417,20 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		sb.append(getCampaignId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>sendDate</column-name><column-value><![CDATA[");
-		sb.append(getSendDate());
+			"<column><column-name>sentDate</column-name><column-value><![CDATA[");
+		sb.append(getSentDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>emailSubject</column-name><column-value><![CDATA[");
 		sb.append(getEmailSubject());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>senderName</column-name><column-value><![CDATA[");
-		sb.append(getSenderName());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>senderEmail</column-name><column-value><![CDATA[");
 		sb.append(getSenderEmail());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>senderName</column-name><column-value><![CDATA[");
+		sb.append(getSenderName());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>content</column-name><column-value><![CDATA[");
@@ -456,10 +456,10 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		};
 	private String _uuid;
 	private long _campaignId;
-	private Date _sendDate;
+	private Date _sentDate;
 	private String _emailSubject;
-	private String _senderName;
 	private String _senderEmail;
+	private String _senderName;
 	private String _content;
 	private boolean _sent;
 	private long _campaignContentId;

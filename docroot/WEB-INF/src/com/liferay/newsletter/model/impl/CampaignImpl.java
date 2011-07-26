@@ -14,22 +14,22 @@
 
 package com.liferay.newsletter.model.impl;
 
+import com.liferay.newsletter.model.CampaignContent;
+import com.liferay.newsletter.service.CampaignContentLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+
 /**
- * The model implementation for the Campaign service. Represents a row in the &quot;Newsletter_Campaign&quot; database table, with each column mapped to a property of this class.
- *
- * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.liferay.newsletter.model.Campaign} interface.
- * </p>
- *
  * @author Bruno Pinheiro
+ * @author Marcellus Tavares
  */
 public class CampaignImpl extends CampaignBaseImpl {
-	/**
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. All methods that expect a campaign model instance should use the {@link Campaign} interface instead.
-	 */
-	public CampaignImpl() {
+
+	public CampaignContent getCampaignContent()
+		throws PortalException, SystemException {
+
+		return CampaignContentLocalServiceUtil.getCampaignContent(
+			getCampaignContentId());
 	}
 
 }
