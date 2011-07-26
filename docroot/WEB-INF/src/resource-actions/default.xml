@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource-action-mapping>
 	<portlet-resource>
-		<portlet-name>newsletter</portlet-name>
+		<portlet-name>1</portlet-name>
 		<supports>
 			<action-key>ADD_TO_PAGE</action-key>
 			<action-key>CONFIGURATION</action-key>
@@ -18,7 +18,7 @@
 	<model-resource>
 		<model-name>com.liferay.newsletter.model</model-name>
 		<portlet-ref>
-			<portlet-name>newsletter</portlet-name>
+			<portlet-name>1</portlet-name>
 		</portlet-ref>
 		<supports>
 			<action-key>ADD_CAMPAIGNCONTENT</action-key>
@@ -34,7 +34,7 @@
 	<model-resource>
 		<model-name>com.liferay.newsletter.model.CampaignContent</model-name>
 		<portlet-ref>
-			<portlet-name>newsletter</portlet-name>
+			<portlet-name>1</portlet-name>
 		</portlet-ref>
 		<supports>
 			<action-key>DELETE</action-key>
@@ -55,7 +55,7 @@
 	<model-resource>
 		<model-name>com.liferay.newsletter.model.Campaign</model-name>
 		<portlet-ref>
-			<portlet-name>newsletter</portlet-name>
+			<portlet-name>1</portlet-name>
 		</portlet-ref>
 		<supports>
 			<action-key>DELETE</action-key>

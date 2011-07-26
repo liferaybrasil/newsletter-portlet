@@ -36,8 +36,8 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		<aui:button value="Add Campaign Content" onClick="<%= addCampaignContentURL.toString() %>" />
 	</c:if>
 </aui:button-row>
-<liferay-ui:error key="campaignContent-added" message="campaignContent-added" />
-<liferay-ui:error key="campaignContent-deleted" message="campaignContent-deleted" />
+<liferay-ui:error key="campaign-content-added" message="campaign-content-added" />
+<liferay-ui:error key="campaign-content-deleted" message="campaign-content-deleted" />
 <liferay-ui:search-container emptyResultsMessage="newsletter-empty-results-message">
 	<liferay-ui:search-container-results
 		results="<%= CampaignContentLocalServiceUtil.getCampaignContents(searchContainer.getStart(), searchContainer.getEnd()) %>"

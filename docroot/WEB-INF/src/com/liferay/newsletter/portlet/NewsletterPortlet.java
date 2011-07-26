@@ -113,7 +113,7 @@ public class NewsletterPortlet extends MVCPortlet {
 			CampaignContentLocalServiceUtil.addCampaignContent(
 				campaignContent);
 
-		SessionMessages.add(request, "campaignContent-added");
+		SessionMessages.add(request, "campaign-content-added");
 
 		sendRedirect(request, response);
 	}
@@ -149,12 +149,12 @@ public class NewsletterPortlet extends MVCPortlet {
 //		if (Validator.isNotNull(campaignContentId)) {
 			CampaignContentLocalServiceUtil.deleteCampaignContent(
 				campaignContentId);
-			SessionMessages.add(request, "campaignContent-deleted");
+			SessionMessages.add(request, "campaign-content-deleted");
 			sendRedirect(request, response);
 
 /**		}
 		else {
-			SessionErrors.add(request, "campaignContent-cannot-be-removed");
+			SessionErrors.add(request, "campaign-content-cannot-be-removed");
 			PortalUtil.copyRequestParameters(request, response);
 
 			response.setRenderParameter(
@@ -285,7 +285,7 @@ public class NewsletterPortlet extends MVCPortlet {
 				CampaignContentLocalServiceUtil.updateCampaignContent(
 					campaignContent);
 
-			SessionMessages.add(request, "campaignContent-updated");
+			SessionMessages.add(request, "campaign-content-updated");
 
 			sendRedirect(request, response);
 

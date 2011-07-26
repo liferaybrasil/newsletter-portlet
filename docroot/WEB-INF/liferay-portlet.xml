@@ -3,7 +3,7 @@
 
 <liferay-portlet-app>
 	<portlet>
-		<portlet-name>newsletter</portlet-name>
+		<portlet-name>1</portlet-name>
 		<icon>/icon.png</icon>
 		<scheduler-entry>
 			<scheduler-event-listener-class>com.liferay.newsletter.messaging.CheckCampaignMessageListener</scheduler-event-listener-class>
@@ -17,9 +17,7 @@
 		<preferences-company-wide>true</preferences-company-wide>
 		<instanceable>true</instanceable>
 		<header-portlet-css>/css/portlet.css</header-portlet-css>
-		<footer-portlet-javascript>
-			/js/javascript.js
-		</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/javascript.js</footer-portlet-javascript>
 		<css-class-wrapper>newsletterportlet-portlet</css-class-wrapper>
 	</portlet>
 	<role-mapper>

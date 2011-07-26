@@ -62,7 +62,7 @@
 				Newsletter_NewsletterLog ON 
 					(Newsletter_Contact.contactId = Newsletter_NewsletterLog.contactId)
 			WHERE
-				(Newsletter_Contact.name LIKE '%?%') AND 
+				(Newsletter_Contact.name LIKE ?) AND 
 				(Newsletter_NewsletterLog.campaignId = ?)
 			ORDER BY
 				Newsletter_Contact.name ASC 

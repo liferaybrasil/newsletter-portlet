@@ -35,7 +35,7 @@ boolean hasAddPermission = permissionChecker.hasPermission(scopeGroupId, "com.li
 	</c:if>
 </aui:button-row>
 <liferay-ui:error key="campaign-added" message="campaign-added" />
-<liferay-ui:error key="campaignContent-resent" message="campaignContent-resent" />
+<liferay-ui:error key="campaign-content-resent" message="campaign-content-resent" />
 <liferay-ui:error key="campaign-deleted" message="campaign-deleted" />
 <liferay-ui:search-container emptyResultsMessage="newsletter-empty-results-message">
 	<liferay-ui:search-container-results

@@ -3,7 +3,6 @@
 
 <display>
 	<category name="category.news">
-		<portlet id="@portlet.name@" />
-		<portlet id="newsletter"></portlet>
+		<portlet id="1" />
 	</category>
 </display>
