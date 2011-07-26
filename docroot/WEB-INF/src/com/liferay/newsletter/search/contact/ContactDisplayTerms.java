@@ -24,46 +24,34 @@ import javax.portlet.PortletRequest;
  */
 public class ContactDisplayTerms extends DisplayTerms {
 
-	public static final String STATUS = "status";
+	public static final String EMAIL = "email";
 
 	public static final String NAME = "name";
 
-	public static final String EMAIL = "email";
+	public static final String STATUS = "status";
 
 	public ContactDisplayTerms(PortletRequest portletRequest) {
 		super(portletRequest);
 
-		status = ParamUtil.getString(portletRequest, STATUS);
-		name = ParamUtil.getString(portletRequest, NAME);
 		email = ParamUtil.getString(portletRequest, EMAIL);
-	}
-
-	public String getName() {
-		return name;
+		name = ParamUtil.getString(portletRequest, NAME);
+		status = ParamUtil.getString(portletRequest, STATUS);
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	protected String name;
 	protected String email;
+	protected String name;
 	protected String status;
 
 }

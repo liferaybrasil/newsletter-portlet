@@ -27,21 +27,13 @@ public class ContactSearchTerms extends ContactDisplayTerms {
 	public ContactSearchTerms(PortletRequest portletRequest) {
 		super(portletRequest);
 
-		status = ParamUtil.getString(portletRequest, STATUS);
-		name = DAOParamUtil.getString(portletRequest, NAME);
 		email = DAOParamUtil.getString(portletRequest, EMAIL);
+		name = DAOParamUtil.getString(portletRequest, NAME);
+		status = ParamUtil.getString(portletRequest, STATUS);
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public String getEmail(String email) {
+		return this.email;
 	}
 
 	public String getName(String name) {
@@ -52,8 +44,16 @@ public class ContactSearchTerms extends ContactDisplayTerms {
 		return this.status;
 	}
 
-	public String getEmail(String email) {
-		return this.email;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

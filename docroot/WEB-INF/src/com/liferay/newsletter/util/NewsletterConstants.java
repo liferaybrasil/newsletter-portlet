@@ -44,9 +44,9 @@ public interface NewsletterConstants {
 		"mail_transport_protocol";
 
 	public static final String ROWS_PER_PAGE = "rows_per_page";
-	
+
 	public static final String SENDER_EMAIL = "sender_email";
-	
+
 	public static final String SENDER_NAME = "sender_name";
 
 }

@@ -16,8 +16,6 @@ package com.liferay.newsletter.search.contact;
 
 import com.liferay.newsletter.model.Contact;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,15 +58,13 @@ public class ContactSearch extends SearchContainer<Contact> {
 			(ContactDisplayTerms)getDisplayTerms();
 
 		iteratorURL.setParameter(
-			ContactDisplayTerms.NAME, displayTerms.getName());
-		iteratorURL.setParameter(
 			ContactDisplayTerms.EMAIL, displayTerms.getEmail());
+		iteratorURL.setParameter(
+			ContactDisplayTerms.NAME, displayTerms.getName());
 		iteratorURL.setParameter(
 			ContactDisplayTerms.STATUS, displayTerms.getStatus());
 
 		setOrderableHeaders(orderableHeaders);
 	}
-
-	private static Log _log = LogFactoryUtil.getLog(ContactSearch.class);
 
 }
