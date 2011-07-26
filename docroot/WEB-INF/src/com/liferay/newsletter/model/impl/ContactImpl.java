@@ -14,12 +14,10 @@
 
 package com.liferay.newsletter.model.impl;
 
-import com.liferay.newsletter.model.Contact;
-
 /**
  * @author Bruno Pinheiro
  */
-public class ContactImpl extends ContactModelImpl implements Contact {
+public class ContactImpl extends ContactBaseImpl {
 
 	public ContactImpl() {
 	}

@@ -14,16 +14,14 @@
 
 package com.liferay.newsletter.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
-import com.liferay.newsletter.service.ContactLocalServiceUtil;
 import com.liferay.newsletter.service.base.NewsletterLogLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Bruno Pinheiro
@@ -34,12 +32,11 @@ public class NewsletterLogLocalServiceImpl
 	public NewsletterLog addNewsletterLog(NewsletterLog newsletter)
 		throws SystemException{
 
-		long newsletterLogId = CounterLocalServiceUtil.increment(
-			NewsletterLog.class.getName());
+		long newsletterLogId = counterLocalService.increment();
 
 		newsletter.setNewsletterLogId(newsletterLogId);
 
-		return super.addNewsletterLog(newsletter);
+		return newsletterLogPersistence.update(newsletter, false);
 	}
 
 	public List<Contact> getContactsByCampaign(long campaignId)
@@ -52,7 +49,7 @@ public class NewsletterLogLocalServiceImpl
 
 		for (NewsletterLog newsletterLog : newsletterLogByCampaign) {
 			long contactId = newsletterLog.getContactId();
-			Contact contact = ContactLocalServiceUtil.getContact(contactId);
+			Contact contact = contactLocalService.getContact(contactId);
 			contacts.add(contact);
 		}
 
@@ -75,10 +72,8 @@ public class NewsletterLogLocalServiceImpl
 			long campaignId, long contactId)
 		throws SystemException, PortalException{
 
-		NewsletterLog newsletterLog = newsletterLogPersistence.
-			findByCampaign_Contact(campaignId, contactId);
-
-		return newsletterLog;
+		return newsletterLogPersistence.
+				findByCampaign_Contact(campaignId, contactId);
 	}
 
 }

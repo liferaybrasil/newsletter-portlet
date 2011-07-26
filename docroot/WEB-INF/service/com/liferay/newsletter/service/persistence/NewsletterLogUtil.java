@@ -32,7 +32,7 @@ import java.util.List;
  * Caching information and settings can be found in <code>portal.properties</code>
  * </p>
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see NewsletterLogPersistence
  * @see NewsletterLogPersistenceImpl
  * @generated
@@ -121,7 +121,7 @@ public class NewsletterLogUtil {
 	/**
 	* Caches the newsletter log in the entity cache if it is enabled.
 	*
-	* @param newsletterLog the newsletter log to cache
+	* @param newsletterLog the newsletter log
 	*/
 	public static void cacheResult(
 		com.liferay.newsletter.model.NewsletterLog newsletterLog) {
@@ -131,7 +131,7 @@ public class NewsletterLogUtil {
 	/**
 	* Caches the newsletter logs in the entity cache if it is enabled.
 	*
-	* @param newsletterLogs the newsletter logs to cache
+	* @param newsletterLogs the newsletter logs
 	*/
 	public static void cacheResult(
 		java.util.List<com.liferay.newsletter.model.NewsletterLog> newsletterLogs) {
@@ -152,7 +152,7 @@ public class NewsletterLogUtil {
 	/**
 	* Removes the newsletter log with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param newsletterLogId the primary key of the newsletter log to remove
+	* @param newsletterLogId the primary key of the newsletter log
 	* @return the newsletter log that was removed
 	* @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -171,9 +171,9 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the newsletter log with the primary key or throws a {@link com.liferay.newsletter.NoSuchLogException} if it could not be found.
+	* Returns the newsletter log with the primary key or throws a {@link com.liferay.newsletter.NoSuchLogException} if it could not be found.
 	*
-	* @param newsletterLogId the primary key of the newsletter log to find
+	* @param newsletterLogId the primary key of the newsletter log
 	* @return the newsletter log
 	* @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -186,9 +186,9 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the newsletter log with the primary key or returns <code>null</code> if it could not be found.
+	* Returns the newsletter log with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param newsletterLogId the primary key of the newsletter log to find
+	* @param newsletterLogId the primary key of the newsletter log
 	* @return the newsletter log, or <code>null</code> if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -199,9 +199,9 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds all the newsletter logs where uuid = &#63;.
+	* Returns all the newsletter logs where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
@@ -212,15 +212,15 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds a range of all the newsletter logs where uuid = &#63;.
+	* Returns a range of all the newsletter logs where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of newsletter logs to return
-	* @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of newsletter logs
+	* @param end the upper bound of the range of newsletter logs (not inclusive)
 	* @return the range of matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
@@ -231,15 +231,15 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds an ordered range of all the newsletter logs where uuid = &#63;.
+	* Returns an ordered range of all the newsletter logs where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of newsletter logs to return
-	* @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of newsletter logs
+	* @param end the upper bound of the range of newsletter logs (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching newsletter logs
 	* @throws SystemException if a system exception occurred
@@ -252,13 +252,13 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the first newsletter log in the ordered set where uuid = &#63;.
+	* Returns the first newsletter log in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching newsletter log
 	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
@@ -273,13 +273,13 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the last newsletter log in the ordered set where uuid = &#63;.
+	* Returns the last newsletter log in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching newsletter log
 	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
@@ -294,14 +294,14 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the newsletter logs before and after the current newsletter log in the ordered set where uuid = &#63;.
+	* Returns the newsletter logs before and after the current newsletter log in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param newsletterLogId the primary key of the current newsletter log
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next newsletter log
 	* @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
@@ -318,9 +318,9 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds all the newsletter logs where campaignId = &#63;.
+	* Returns all the newsletter logs where campaignId = &#63;.
 	*
-	* @param campaignId the campaign ID to search with
+	* @param campaignId the campaign ID
 	* @return the matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
@@ -331,15 +331,15 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds a range of all the newsletter logs where campaignId = &#63;.
+	* Returns a range of all the newsletter logs where campaignId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param campaignId the campaign ID to search with
-	* @param start the lower bound of the range of newsletter logs to return
-	* @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	* @param campaignId the campaign ID
+	* @param start the lower bound of the range of newsletter logs
+	* @param end the upper bound of the range of newsletter logs (not inclusive)
 	* @return the range of matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
@@ -350,15 +350,15 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds an ordered range of all the newsletter logs where campaignId = &#63;.
+	* Returns an ordered range of all the newsletter logs where campaignId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param campaignId the campaign ID to search with
-	* @param start the lower bound of the range of newsletter logs to return
-	* @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	* @param campaignId the campaign ID
+	* @param start the lower bound of the range of newsletter logs
+	* @param end the upper bound of the range of newsletter logs (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching newsletter logs
 	* @throws SystemException if a system exception occurred
@@ -372,13 +372,13 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the first newsletter log in the ordered set where campaignId = &#63;.
+	* Returns the first newsletter log in the ordered set where campaignId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param campaignId the campaign ID to search with
+	* @param campaignId the campaign ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching newsletter log
 	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
@@ -394,13 +394,13 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the last newsletter log in the ordered set where campaignId = &#63;.
+	* Returns the last newsletter log in the ordered set where campaignId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param campaignId the campaign ID to search with
+	* @param campaignId the campaign ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching newsletter log
 	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
@@ -416,14 +416,14 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the newsletter logs before and after the current newsletter log in the ordered set where campaignId = &#63;.
+	* Returns the newsletter logs before and after the current newsletter log in the ordered set where campaignId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param newsletterLogId the primary key of the current newsletter log
-	* @param campaignId the campaign ID to search with
+	* @param campaignId the campaign ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next newsletter log
 	* @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
@@ -440,10 +440,10 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the newsletter log where campaignId = &#63; and contactId = &#63; or throws a {@link com.liferay.newsletter.NoSuchLogException} if it could not be found.
+	* Returns the newsletter log where campaignId = &#63; and contactId = &#63; or throws a {@link com.liferay.newsletter.NoSuchLogException} if it could not be found.
 	*
-	* @param campaignId the campaign ID to search with
-	* @param contactId the contact ID to search with
+	* @param campaignId the campaign ID
+	* @param contactId the contact ID
 	* @return the matching newsletter log
 	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
 	* @throws SystemException if a system exception occurred
@@ -456,10 +456,10 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the newsletter log where campaignId = &#63; and contactId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	* Returns the newsletter log where campaignId = &#63; and contactId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
-	* @param campaignId the campaign ID to search with
-	* @param contactId the contact ID to search with
+	* @param campaignId the campaign ID
+	* @param contactId the contact ID
 	* @return the matching newsletter log, or <code>null</code> if a matching newsletter log could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -470,10 +470,11 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds the newsletter log where campaignId = &#63; and contactId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	* Returns the newsletter log where campaignId = &#63; and contactId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
-	* @param campaignId the campaign ID to search with
-	* @param contactId the contact ID to search with
+	* @param campaignId the campaign ID
+	* @param contactId the contact ID
+	* @param retrieveFromCache whether to use the finder cache
 	* @return the matching newsletter log, or <code>null</code> if a matching newsletter log could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -486,7 +487,7 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds all the newsletter logs.
+	* Returns all the newsletter logs.
 	*
 	* @return the newsletter logs
 	* @throws SystemException if a system exception occurred
@@ -497,14 +498,14 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds a range of all the newsletter logs.
+	* Returns a range of all the newsletter logs.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of newsletter logs to return
-	* @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	* @param start the lower bound of the range of newsletter logs
+	* @param end the upper bound of the range of newsletter logs (not inclusive)
 	* @return the range of newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
@@ -515,14 +516,14 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Finds an ordered range of all the newsletter logs.
+	* Returns an ordered range of all the newsletter logs.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of newsletter logs to return
-	* @param end the upper bound of the range of newsletter logs to return (not inclusive)
+	* @param start the lower bound of the range of newsletter logs
+	* @param end the upper bound of the range of newsletter logs (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of newsletter logs
 	* @throws SystemException if a system exception occurred
@@ -537,7 +538,7 @@ public class NewsletterLogUtil {
 	/**
 	* Removes all the newsletter logs where uuid = &#63; from the database.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeByUuid(java.lang.String uuid)
@@ -548,7 +549,7 @@ public class NewsletterLogUtil {
 	/**
 	* Removes all the newsletter logs where campaignId = &#63; from the database.
 	*
-	* @param campaignId the campaign ID to search with
+	* @param campaignId the campaign ID
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeByCampaign(long campaignId)
@@ -559,8 +560,8 @@ public class NewsletterLogUtil {
 	/**
 	* Removes the newsletter log where campaignId = &#63; and contactId = &#63; from the database.
 	*
-	* @param campaignId the campaign ID to search with
-	* @param contactId the contact ID to search with
+	* @param campaignId the campaign ID
+	* @param contactId the contact ID
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeByCampaign_Contact(long campaignId, long contactId)
@@ -580,9 +581,9 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Counts all the newsletter logs where uuid = &#63;.
+	* Returns the number of newsletter logs where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the number of matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
@@ -592,9 +593,9 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Counts all the newsletter logs where campaignId = &#63;.
+	* Returns the number of newsletter logs where campaignId = &#63;.
 	*
-	* @param campaignId the campaign ID to search with
+	* @param campaignId the campaign ID
 	* @return the number of matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
@@ -604,10 +605,10 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Counts all the newsletter logs where campaignId = &#63; and contactId = &#63;.
+	* Returns the number of newsletter logs where campaignId = &#63; and contactId = &#63;.
 	*
-	* @param campaignId the campaign ID to search with
-	* @param contactId the contact ID to search with
+	* @param campaignId the campaign ID
+	* @param contactId the contact ID
 	* @return the number of matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
@@ -617,7 +618,7 @@ public class NewsletterLogUtil {
 	}
 
 	/**
-	* Counts all the newsletter logs.
+	* Returns the number of newsletter logs.
 	*
 	* @return the number of newsletter logs
 	* @throws SystemException if a system exception occurred

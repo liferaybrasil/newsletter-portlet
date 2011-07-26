@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see ContactLocalService
  * @see com.liferay.newsletter.service.base.ContactLocalServiceBaseImpl
  * @see com.liferay.newsletter.service.impl.ContactLocalServiceImpl
@@ -42,7 +42,7 @@ public class ContactLocalServiceUtil {
 	/**
 	* Adds the contact to the database. Also notifies the appropriate model listeners.
 	*
-	* @param contact the contact to add
+	* @param contact the contact
 	* @return the contact that was added
 	* @throws SystemException if a system exception occurred
 	*/
@@ -66,7 +66,7 @@ public class ContactLocalServiceUtil {
 	/**
 	* Deletes the contact with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param contactId the primary key of the contact to delete
+	* @param contactId the primary key of the contact
 	* @throws PortalException if a contact with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -79,7 +79,7 @@ public class ContactLocalServiceUtil {
 	/**
 	* Deletes the contact from the database. Also notifies the appropriate model listeners.
 	*
-	* @param contact the contact to delete
+	* @param contact the contact
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteContact(
@@ -91,7 +91,7 @@ public class ContactLocalServiceUtil {
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
 	*
-	* @param dynamicQuery the dynamic query to search with
+	* @param dynamicQuery the dynamic query
 	* @return the matching rows
 	* @throws SystemException if a system exception occurred
 	*/
@@ -109,9 +109,9 @@ public class ContactLocalServiceUtil {
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param dynamicQuery the dynamic query to search with
-	* @param start the lower bound of the range of model instances to return
-	* @param end the upper bound of the range of model instances to return (not inclusive)
+	* @param dynamicQuery the dynamic query
+	* @param start the lower bound of the range of model instances
+	* @param end the upper bound of the range of model instances (not inclusive)
 	* @return the range of matching rows
 	* @throws SystemException if a system exception occurred
 	*/
@@ -129,9 +129,9 @@ public class ContactLocalServiceUtil {
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param dynamicQuery the dynamic query to search with
-	* @param start the lower bound of the range of model instances to return
-	* @param end the upper bound of the range of model instances to return (not inclusive)
+	* @param dynamicQuery the dynamic query
+	* @param start the lower bound of the range of model instances
+	* @param end the upper bound of the range of model instances (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching rows
 	* @throws SystemException if a system exception occurred
@@ -147,9 +147,9 @@ public class ContactLocalServiceUtil {
 	}
 
 	/**
-	* Counts the number of rows that match the dynamic query.
+	* Returns the number of rows that match the dynamic query.
 	*
-	* @param dynamicQuery the dynamic query to search with
+	* @param dynamicQuery the dynamic query
 	* @return the number of rows that match the dynamic query
 	* @throws SystemException if a system exception occurred
 	*/
@@ -160,9 +160,9 @@ public class ContactLocalServiceUtil {
 	}
 
 	/**
-	* Gets the contact with the primary key.
+	* Returns the contact with the primary key.
 	*
-	* @param contactId the primary key of the contact to get
+	* @param contactId the primary key of the contact
 	* @return the contact
 	* @throws PortalException if a contact with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -174,15 +174,22 @@ public class ContactLocalServiceUtil {
 		return getService().getContact(contactId);
 	}
 
+	public static com.liferay.portal.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getPersistedModel(primaryKeyObj);
+	}
+
 	/**
-	* Gets a range of all the contacts.
+	* Returns a range of all the contacts.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of contacts to return
-	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @param start the lower bound of the range of contacts
+	* @param end the upper bound of the range of contacts (not inclusive)
 	* @return the range of contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -193,7 +200,7 @@ public class ContactLocalServiceUtil {
 	}
 
 	/**
-	* Gets the number of contacts.
+	* Returns the number of contacts.
 	*
 	* @return the number of contacts
 	* @throws SystemException if a system exception occurred
@@ -204,9 +211,9 @@ public class ContactLocalServiceUtil {
 	}
 
 	/**
-	* Updates the contact in the database. Also notifies the appropriate model listeners.
+	* Updates the contact in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
-	* @param contact the contact to update
+	* @param contact the contact
 	* @return the contact that was updated
 	* @throws SystemException if a system exception occurred
 	*/
@@ -217,9 +224,9 @@ public class ContactLocalServiceUtil {
 	}
 
 	/**
-	* Updates the contact in the database. Also notifies the appropriate model listeners.
+	* Updates the contact in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
-	* @param contact the contact to update
+	* @param contact the contact
 	* @param merge whether to merge the contact with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
 	* @return the contact that was updated
 	* @throws SystemException if a system exception occurred
@@ -231,7 +238,7 @@ public class ContactLocalServiceUtil {
 	}
 
 	/**
-	* Gets the Spring bean ID for this bean.
+	* Returns the Spring bean ID for this bean.
 	*
 	* @return the Spring bean ID for this bean
 	*/

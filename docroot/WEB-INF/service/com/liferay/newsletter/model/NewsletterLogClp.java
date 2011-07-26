@@ -14,7 +14,10 @@
 
 package com.liferay.newsletter.model;
 
+import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
@@ -23,7 +26,7 @@ import java.io.Serializable;
 import java.lang.reflect.Proxy;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 	implements NewsletterLog {
@@ -98,6 +101,11 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 		_sent = sent;
 	}
 
+	public void persist() throws SystemException {
+		NewsletterLogLocalServiceUtil.updateNewsletterLog(this);
+	}
+
+	@Override
 	public NewsletterLog toEscapedModel() {
 		if (isEscapedModel()) {
 			return this;
@@ -109,6 +117,7 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 		}
 	}
 
+	@Override
 	public Object clone() {
 		NewsletterLogClp clone = new NewsletterLogClp();
 
@@ -135,6 +144,7 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 		}
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
@@ -159,10 +169,12 @@ public class NewsletterLogClp extends BaseModelImpl<NewsletterLog>
 		}
 	}
 
+	@Override
 	public int hashCode() {
 		return (int)getPrimaryKey();
 	}
 
+	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(11);
 

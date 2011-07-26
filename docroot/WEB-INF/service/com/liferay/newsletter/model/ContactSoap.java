@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * This class is used by SOAP remote services, specifically {@link com.liferay.newsletter.service.http.ContactServiceSoap}.
  *
- * @author    Bruno Pinheiro
+ * @author    Brian Wing Shun Chan
  * @see       com.liferay.newsletter.service.http.ContactServiceSoap
  * @generated
  */

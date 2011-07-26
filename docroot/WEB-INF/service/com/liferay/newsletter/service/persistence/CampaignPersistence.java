@@ -26,7 +26,7 @@ import com.liferay.portal.service.persistence.BasePersistence;
  * Caching information and settings can be found in <code>portal.properties</code>
  * </p>
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see CampaignPersistenceImpl
  * @see CampaignUtil
  * @generated
@@ -41,14 +41,14 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 	/**
 	* Caches the campaign in the entity cache if it is enabled.
 	*
-	* @param campaign the campaign to cache
+	* @param campaign the campaign
 	*/
 	public void cacheResult(com.liferay.newsletter.model.Campaign campaign);
 
 	/**
 	* Caches the campaigns in the entity cache if it is enabled.
 	*
-	* @param campaigns the campaigns to cache
+	* @param campaigns the campaigns
 	*/
 	public void cacheResult(
 		java.util.List<com.liferay.newsletter.model.Campaign> campaigns);
@@ -64,7 +64,7 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 	/**
 	* Removes the campaign with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param campaignId the primary key of the campaign to remove
+	* @param campaignId the primary key of the campaign
 	* @return the campaign that was removed
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -78,9 +78,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the campaign with the primary key or throws a {@link com.liferay.newsletter.NoSuchCampaignException} if it could not be found.
+	* Returns the campaign with the primary key or throws a {@link com.liferay.newsletter.NoSuchCampaignException} if it could not be found.
 	*
-	* @param campaignId the primary key of the campaign to find
+	* @param campaignId the primary key of the campaign
 	* @return the campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -91,9 +91,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the campaign with the primary key or returns <code>null</code> if it could not be found.
+	* Returns the campaign with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param campaignId the primary key of the campaign to find
+	* @param campaignId the primary key of the campaign
 	* @return the campaign, or <code>null</code> if a campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -102,9 +102,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds all the campaigns where uuid = &#63;.
+	* Returns all the campaigns where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -113,15 +113,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds a range of all the campaigns where uuid = &#63;.
+	* Returns a range of all the campaigns where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -130,15 +130,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds an ordered range of all the campaigns where uuid = &#63;.
+	* Returns an ordered range of all the campaigns where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaigns
 	* @throws SystemException if a system exception occurred
@@ -149,13 +149,13 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the first campaign in the ordered set where uuid = &#63;.
+	* Returns the first campaign in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -168,13 +168,13 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the last campaign in the ordered set where uuid = &#63;.
+	* Returns the last campaign in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -187,14 +187,14 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the campaigns before and after the current campaign in the ordered set where uuid = &#63;.
+	* Returns the campaigns before and after the current campaign in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param campaignId the primary key of the current campaign
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -207,9 +207,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds all the campaigns where uuid = &#63;.
+	* Returns all the campaigns that the user has permission to view where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -218,15 +218,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds a range of all the campaigns where uuid = &#63;.
+	* Returns a range of all the campaigns that the user has permission to view where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -235,15 +235,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds an ordered range of all the campaigns where uuid = &#63;.
+	* Returns an ordered range of all the campaigns that the user has permissions to view where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
@@ -254,14 +254,10 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters the campaigns before and after the current campaign in the ordered set where uuid = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where uuid = &#63;.
 	*
 	* @param campaignId the primary key of the current campaign
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -274,9 +270,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds all the campaigns where campaignContentId = &#63;.
+	* Returns all the campaigns where campaignContentId = &#63;.
 	*
-	* @param campaignContentId the campaign content ID to search with
+	* @param campaignContentId the campaign content ID
 	* @return the matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -285,15 +281,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds a range of all the campaigns where campaignContentId = &#63;.
+	* Returns a range of all the campaigns where campaignContentId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param campaignContentId the campaign content ID to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param campaignContentId the campaign content ID
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -302,15 +298,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds an ordered range of all the campaigns where campaignContentId = &#63;.
+	* Returns an ordered range of all the campaigns where campaignContentId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param campaignContentId the campaign content ID to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param campaignContentId the campaign content ID
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaigns
 	* @throws SystemException if a system exception occurred
@@ -321,13 +317,13 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the first campaign in the ordered set where campaignContentId = &#63;.
+	* Returns the first campaign in the ordered set where campaignContentId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param campaignContentId the campaign content ID to search with
+	* @param campaignContentId the campaign content ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -340,13 +336,13 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the last campaign in the ordered set where campaignContentId = &#63;.
+	* Returns the last campaign in the ordered set where campaignContentId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param campaignContentId the campaign content ID to search with
+	* @param campaignContentId the campaign content ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -359,14 +355,14 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the campaigns before and after the current campaign in the ordered set where campaignContentId = &#63;.
+	* Returns the campaigns before and after the current campaign in the ordered set where campaignContentId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param campaignId the primary key of the current campaign
-	* @param campaignContentId the campaign content ID to search with
+	* @param campaignContentId the campaign content ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -379,9 +375,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds all the campaigns where campaignContentId = &#63;.
+	* Returns all the campaigns that the user has permission to view where campaignContentId = &#63;.
 	*
-	* @param campaignContentId the campaign content ID to search with
+	* @param campaignContentId the campaign content ID
 	* @return the matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -390,15 +386,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds a range of all the campaigns where campaignContentId = &#63;.
+	* Returns a range of all the campaigns that the user has permission to view where campaignContentId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param campaignContentId the campaign content ID to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param campaignContentId the campaign content ID
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -407,15 +403,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds an ordered range of all the campaigns where campaignContentId = &#63;.
+	* Returns an ordered range of all the campaigns that the user has permissions to view where campaignContentId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param campaignContentId the campaign content ID to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param campaignContentId the campaign content ID
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
@@ -426,14 +422,10 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters the campaigns before and after the current campaign in the ordered set where campaignContentId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where campaignContentId = &#63;.
 	*
 	* @param campaignId the primary key of the current campaign
-	* @param campaignContentId the campaign content ID to search with
+	* @param campaignContentId the campaign content ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -446,9 +438,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds all the campaigns where sendDate = &#63;.
+	* Returns all the campaigns where sendDate = &#63;.
 	*
-	* @param sendDate the send date to search with
+	* @param sendDate the send date
 	* @return the matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -457,15 +449,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds a range of all the campaigns where sendDate = &#63;.
+	* Returns a range of all the campaigns where sendDate = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param sendDate the send date
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -474,15 +466,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds an ordered range of all the campaigns where sendDate = &#63;.
+	* Returns an ordered range of all the campaigns where sendDate = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param sendDate the send date
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaigns
 	* @throws SystemException if a system exception occurred
@@ -493,13 +485,13 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the first campaign in the ordered set where sendDate = &#63;.
+	* Returns the first campaign in the ordered set where sendDate = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
+	* @param sendDate the send date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -512,13 +504,13 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the last campaign in the ordered set where sendDate = &#63;.
+	* Returns the last campaign in the ordered set where sendDate = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
+	* @param sendDate the send date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -531,14 +523,14 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the campaigns before and after the current campaign in the ordered set where sendDate = &#63;.
+	* Returns the campaigns before and after the current campaign in the ordered set where sendDate = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param campaignId the primary key of the current campaign
-	* @param sendDate the send date to search with
+	* @param sendDate the send date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -551,9 +543,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds all the campaigns where sendDate = &#63;.
+	* Returns all the campaigns that the user has permission to view where sendDate = &#63;.
 	*
-	* @param sendDate the send date to search with
+	* @param sendDate the send date
 	* @return the matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -562,15 +554,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds a range of all the campaigns where sendDate = &#63;.
+	* Returns a range of all the campaigns that the user has permission to view where sendDate = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param sendDate the send date
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -579,15 +571,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds an ordered range of all the campaigns where sendDate = &#63;.
+	* Returns an ordered range of all the campaigns that the user has permissions to view where sendDate = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param sendDate the send date
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
@@ -598,14 +590,10 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters the campaigns before and after the current campaign in the ordered set where sendDate = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where sendDate = &#63;.
 	*
 	* @param campaignId the primary key of the current campaign
-	* @param sendDate the send date to search with
+	* @param sendDate the send date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -618,10 +606,10 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	* Returns all the campaigns where sendDate &le; &#63; and sent = &#63;.
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
+	* @param sendDate the send date
+	* @param sent the sent
 	* @return the matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -630,16 +618,16 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds a range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	* Returns a range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param sendDate the send date
+	* @param sent the sent
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -648,16 +636,16 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds an ordered range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	* Returns an ordered range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param sendDate the send date
+	* @param sent the sent
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaigns
 	* @throws SystemException if a system exception occurred
@@ -668,14 +656,14 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the first campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	* Returns the first campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
+	* @param sendDate the send date
+	* @param sent the sent
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -688,14 +676,14 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the last campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	* Returns the last campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
+	* @param sendDate the send date
+	* @param sent the sent
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -708,15 +696,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds the campaigns before and after the current campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	* Returns the campaigns before and after the current campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param campaignId the primary key of the current campaign
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
+	* @param sendDate the send date
+	* @param sent the sent
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -729,10 +717,10 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	* Returns all the campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
+	* @param sendDate the send date
+	* @param sent the sent
 	* @return the matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -741,16 +729,16 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds a range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	* Returns a range of all the campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param sendDate the send date
+	* @param sent the sent
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -759,16 +747,16 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and finds an ordered range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	* Returns an ordered range of all the campaigns that the user has permissions to view where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param sendDate the send date
+	* @param sent the sent
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
@@ -779,15 +767,11 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters the campaigns before and after the current campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
 	*
 	* @param campaignId the primary key of the current campaign
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
+	* @param sendDate the send date
+	* @param sent the sent
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign
 	* @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -800,7 +784,7 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds all the campaigns.
+	* Returns all the campaigns.
 	*
 	* @return the campaigns
 	* @throws SystemException if a system exception occurred
@@ -809,14 +793,14 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds a range of all the campaigns.
+	* Returns a range of all the campaigns.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -825,14 +809,14 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Finds an ordered range of all the campaigns.
+	* Returns an ordered range of all the campaigns.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of campaigns
 	* @throws SystemException if a system exception occurred
@@ -845,7 +829,7 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 	/**
 	* Removes all the campaigns where uuid = &#63; from the database.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeByUuid(java.lang.String uuid)
@@ -854,7 +838,7 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 	/**
 	* Removes all the campaigns where campaignContentId = &#63; from the database.
 	*
-	* @param campaignContentId the campaign content ID to search with
+	* @param campaignContentId the campaign content ID
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeByCampaignContent(long campaignContentId)
@@ -863,7 +847,7 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 	/**
 	* Removes all the campaigns where sendDate = &#63; from the database.
 	*
-	* @param sendDate the send date to search with
+	* @param sendDate the send date
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeBySendDate(java.util.Date sendDate)
@@ -872,8 +856,8 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 	/**
 	* Removes all the campaigns where sendDate &le; &#63; and sent = &#63; from the database.
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
+	* @param sendDate the send date
+	* @param sent the sent
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeBySD_LT(java.util.Date sendDate, boolean sent)
@@ -888,9 +872,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Counts all the campaigns where uuid = &#63;.
+	* Returns the number of campaigns where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the number of matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -898,9 +882,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and counts all the campaigns where uuid = &#63;.
+	* Returns the number of campaigns that the user has permission to view where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the number of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -908,9 +892,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Counts all the campaigns where campaignContentId = &#63;.
+	* Returns the number of campaigns where campaignContentId = &#63;.
 	*
-	* @param campaignContentId the campaign content ID to search with
+	* @param campaignContentId the campaign content ID
 	* @return the number of matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -918,9 +902,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and counts all the campaigns where campaignContentId = &#63;.
+	* Returns the number of campaigns that the user has permission to view where campaignContentId = &#63;.
 	*
-	* @param campaignContentId the campaign content ID to search with
+	* @param campaignContentId the campaign content ID
 	* @return the number of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -928,9 +912,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Counts all the campaigns where sendDate = &#63;.
+	* Returns the number of campaigns where sendDate = &#63;.
 	*
-	* @param sendDate the send date to search with
+	* @param sendDate the send date
 	* @return the number of matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -938,9 +922,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and counts all the campaigns where sendDate = &#63;.
+	* Returns the number of campaigns that the user has permission to view where sendDate = &#63;.
 	*
-	* @param sendDate the send date to search with
+	* @param sendDate the send date
 	* @return the number of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -948,10 +932,10 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Counts all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	* Returns the number of campaigns where sendDate &le; &#63; and sent = &#63;.
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
+	* @param sendDate the send date
+	* @param sent the sent
 	* @return the number of matching campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -959,10 +943,10 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Filters by the user's permissions and counts all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	* Returns the number of campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
 	*
-	* @param sendDate the send date to search with
-	* @param sent the sent to search with
+	* @param sendDate the send date
+	* @param sent the sent
 	* @return the number of matching campaigns that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -970,7 +954,7 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Counts all the campaigns.
+	* Returns the number of campaigns.
 	*
 	* @return the number of campaigns
 	* @throws SystemException if a system exception occurred
@@ -979,9 +963,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Gets all the newsletter logs associated with the campaign.
+	* Returns all the newsletter logs associated with the campaign.
 	*
-	* @param pk the primary key of the campaign to get the associated newsletter logs for
+	* @param pk the primary key of the campaign
 	* @return the newsletter logs associated with the campaign
 	* @throws SystemException if a system exception occurred
 	*/
@@ -989,15 +973,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		long pk) throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Gets a range of all the newsletter logs associated with the campaign.
+	* Returns a range of all the newsletter logs associated with the campaign.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param pk the primary key of the campaign to get the associated newsletter logs for
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param pk the primary key of the campaign
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of newsletter logs associated with the campaign
 	* @throws SystemException if a system exception occurred
 	*/
@@ -1006,15 +990,15 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Gets an ordered range of all the newsletter logs associated with the campaign.
+	* Returns an ordered range of all the newsletter logs associated with the campaign.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param pk the primary key of the campaign to get the associated newsletter logs for
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param pk the primary key of the campaign
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of newsletter logs associated with the campaign
 	* @throws SystemException if a system exception occurred
@@ -1025,9 +1009,9 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Gets the number of newsletter logs associated with the campaign.
+	* Returns the number of newsletter logs associated with the campaign.
 	*
-	* @param pk the primary key of the campaign to get the number of associated newsletter logs for
+	* @param pk the primary key of the campaign
 	* @return the number of newsletter logs associated with the campaign
 	* @throws SystemException if a system exception occurred
 	*/
@@ -1035,7 +1019,7 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Determines if the newsletter log is associated with the campaign.
+	* Returns <code>true</code> if the newsletter log is associated with the campaign.
 	*
 	* @param pk the primary key of the campaign
 	* @param newsletterLogPK the primary key of the newsletter log
@@ -1046,7 +1030,7 @@ public interface CampaignPersistence extends BasePersistence<Campaign> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Determines if the campaign has any newsletter logs associated with it.
+	* Returns <code>true</code> if the campaign has any newsletter logs associated with it.
 	*
 	* @param pk the primary key of the campaign to check for associations with newsletter logs
 	* @return <code>true</code> if the campaign has any newsletter logs associated with it; <code>false</code> otherwise

@@ -83,7 +83,15 @@ String redirect = ParamUtil.getString(request, "redirect");
 		<aui:input type="hidden" name="content" id="content" value="<%= content %>" />
 
 		<aui:input name="title" label="Title" />
-		<liferay-ui:error key="campaignContenttitle-required" message="campaignContenttitle-required" />
+
+		<liferay-ui:error exception="<%= TitleException.class %>">
+
+			<%
+			String title = "Campaign Content Title";
+			%>
+
+			<liferay-ui:message arguments="<%= title %>" key="x-is-required" />
+		</liferay-ui:error>
 
 		<div class="separator article-separator"><!-- --></div>
 		<% String classMsgInfo = "portlet-msg-info " + (campaignContent == null ? "yui3-aui-helper-hidden" : "") ; %>
@@ -97,7 +105,14 @@ String redirect = ParamUtil.getString(request, "redirect");
 		</div>
 		<span class="<%=displayingArticleContentClass %>">  <%= content %> </span>
 
-		<liferay-ui:error key="campaignContentcontent-required" message="campaignContentcontent-required" />
+		<liferay-ui:error exception="<%= ContentException.class %>">
+
+			<%
+			String argument = "Content";
+			%>
+
+			<liferay-ui:message arguments="<%= argument %>" key="x-is-required" />
+		</liferay-ui:error>
 
 		<div class="separator article-separator"><!-- --></div>
 

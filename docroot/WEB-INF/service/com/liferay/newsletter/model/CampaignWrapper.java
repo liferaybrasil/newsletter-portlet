@@ -19,7 +19,7 @@ package com.liferay.newsletter.model;
  * This class is a wrapper for {@link Campaign}.
  * </p>
  *
- * @author    Bruno Pinheiro
+ * @author    Brian Wing Shun Chan
  * @see       Campaign
  * @generated
  */
@@ -37,7 +37,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the primary key of this campaign.
+	* Returns the primary key of this campaign.
 	*
 	* @return the primary key of this campaign
 	*/
@@ -46,7 +46,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Sets the primary key of this campaign
+	* Sets the primary key of this campaign.
 	*
 	* @param primaryKey the primary key of this campaign
 	*/
@@ -55,7 +55,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the uuid of this campaign.
+	* Returns the uuid of this campaign.
 	*
 	* @return the uuid of this campaign
 	*/
@@ -73,7 +73,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the campaign ID of this campaign.
+	* Returns the campaign ID of this campaign.
 	*
 	* @return the campaign ID of this campaign
 	*/
@@ -91,7 +91,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the send date of this campaign.
+	* Returns the send date of this campaign.
 	*
 	* @return the send date of this campaign
 	*/
@@ -109,7 +109,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the email subject of this campaign.
+	* Returns the email subject of this campaign.
 	*
 	* @return the email subject of this campaign
 	*/
@@ -127,7 +127,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the sender name of this campaign.
+	* Returns the sender name of this campaign.
 	*
 	* @return the sender name of this campaign
 	*/
@@ -145,7 +145,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the sender email of this campaign.
+	* Returns the sender email of this campaign.
 	*
 	* @return the sender email of this campaign
 	*/
@@ -163,7 +163,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the content of this campaign.
+	* Returns the content of this campaign.
 	*
 	* @return the content of this campaign
 	*/
@@ -181,7 +181,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the sent of this campaign.
+	* Returns the sent of this campaign.
 	*
 	* @return the sent of this campaign
 	*/
@@ -190,7 +190,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Determines if this campaign is sent.
+	* Returns <code>true</code> if this campaign is sent.
 	*
 	* @return <code>true</code> if this campaign is sent; <code>false</code> otherwise
 	*/
@@ -208,7 +208,7 @@ public class CampaignWrapper implements Campaign {
 	}
 
 	/**
-	* Gets the campaign content ID of this campaign.
+	* Returns the campaign content ID of this campaign.
 	*
 	* @return the campaign content ID of this campaign
 	*/
@@ -266,6 +266,7 @@ public class CampaignWrapper implements Campaign {
 		_campaign.setExpandoBridgeAttributes(serviceContext);
 	}
 
+	@Override
 	public java.lang.Object clone() {
 		return new CampaignWrapper((Campaign)_campaign.clone());
 	}
@@ -274,20 +275,31 @@ public class CampaignWrapper implements Campaign {
 		return _campaign.compareTo(campaign);
 	}
 
+	@Override
 	public int hashCode() {
 		return _campaign.hashCode();
+	}
+
+	public com.liferay.portal.model.CacheModel<com.liferay.newsletter.model.Campaign> toCacheModel() {
+		return _campaign.toCacheModel();
 	}
 
 	public com.liferay.newsletter.model.Campaign toEscapedModel() {
 		return new CampaignWrapper(_campaign.toEscapedModel());
 	}
 
+	@Override
 	public java.lang.String toString() {
 		return _campaign.toString();
 	}
 
 	public java.lang.String toXmlString() {
 		return _campaign.toXmlString();
+	}
+
+	public void persist()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_campaign.persist();
 	}
 
 	public Campaign getWrappedCampaign() {

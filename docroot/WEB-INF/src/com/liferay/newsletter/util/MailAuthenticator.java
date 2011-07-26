@@ -35,4 +35,5 @@ public class MailAuthenticator extends Authenticator {
 
 	private String _user;
 	private String _password;
+
 }

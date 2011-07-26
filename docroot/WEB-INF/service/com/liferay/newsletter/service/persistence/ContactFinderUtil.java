@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.bean.PortletBeanLocatorUtil;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class ContactFinderUtil {
 	public static int countByCampaign(long campaignId)

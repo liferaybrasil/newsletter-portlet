@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 	public NewsletterLogLocalServiceClp(ClassLoaderProxy classLoaderProxy) {
@@ -61,36 +61,39 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 		_getNewsletterLogMethodKey8 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getNewsletterLog", long.class);
 
-		_getNewsletterLogsMethodKey9 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getPersistedModelMethodKey9 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getPersistedModel", java.io.Serializable.class);
+
+		_getNewsletterLogsMethodKey10 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getNewsletterLogs", int.class, int.class);
 
-		_getNewsletterLogsCountMethodKey10 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getNewsletterLogsCountMethodKey11 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getNewsletterLogsCount");
-
-		_updateNewsletterLogMethodKey11 = new MethodKey(_classLoaderProxy.getClassName(),
-				"updateNewsletterLog",
-				com.liferay.newsletter.model.NewsletterLog.class);
 
 		_updateNewsletterLogMethodKey12 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateNewsletterLog",
+				com.liferay.newsletter.model.NewsletterLog.class);
+
+		_updateNewsletterLogMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+				"updateNewsletterLog",
 				com.liferay.newsletter.model.NewsletterLog.class, boolean.class);
 
-		_getBeanIdentifierMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getBeanIdentifierMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getBeanIdentifier");
 
-		_setBeanIdentifierMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+		_setBeanIdentifierMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"setBeanIdentifier", java.lang.String.class);
 
-		_getContactsByCampaignMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactsByCampaignMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactsByCampaign", long.class);
 
-		_getContactsByCampaignCountMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactsByCampaignCountMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactsByCampaignCount", long.class);
 
-		_getNewsletterLogByCampaignMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getNewsletterLogByCampaignMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getNewsletterLogByCampaign", long.class);
 
-		_getNewsletterLogByCampaignAndContactMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getNewsletterLogByCampaignAndContactMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getNewsletterLogByCampaignAndContact", long.class, long.class);
 	}
 
@@ -348,12 +351,45 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 		return (com.liferay.newsletter.model.NewsletterLog)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public com.liferay.portal.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getPersistedModelMethodKey9,
+				ClpSerializer.translateInput(primaryKeyObj));
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.portal.model.PersistedModel)ClpSerializer.translateOutput(returnObj);
+	}
+
 	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogs(
 		int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsMethodKey9,
+		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsMethodKey10,
 				start, end);
 
 		try {
@@ -380,7 +416,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsCountMethodKey10);
+		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsCountMethodKey11);
 
 		try {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
@@ -407,7 +443,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_updateNewsletterLogMethodKey11,
+		MethodHandler methodHandler = new MethodHandler(_updateNewsletterLogMethodKey12,
 				ClpSerializer.translateInput(newsletterLog));
 
 		try {
@@ -435,7 +471,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_updateNewsletterLogMethodKey12,
+		MethodHandler methodHandler = new MethodHandler(_updateNewsletterLogMethodKey13,
 				ClpSerializer.translateInput(newsletterLog), merge);
 
 		try {
@@ -461,7 +497,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 	public java.lang.String getBeanIdentifier() {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey13);
+		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey14);
 
 		try {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
@@ -480,7 +516,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 	}
 
 	public void setBeanIdentifier(java.lang.String beanIdentifier) {
-		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey14,
+		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey15,
 				ClpSerializer.translateInput(beanIdentifier));
 
 		try {
@@ -503,7 +539,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactsByCampaignMethodKey15,
+		MethodHandler methodHandler = new MethodHandler(_getContactsByCampaignMethodKey16,
 				campaignId);
 
 		try {
@@ -534,7 +570,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactsByCampaignCountMethodKey16,
+		MethodHandler methodHandler = new MethodHandler(_getContactsByCampaignCountMethodKey17,
 				campaignId);
 
 		try {
@@ -562,7 +598,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogByCampaignMethodKey17,
+		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogByCampaignMethodKey18,
 				campaignId);
 
 		try {
@@ -591,7 +627,7 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogByCampaignAndContactMethodKey18,
+		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogByCampaignAndContactMethodKey19,
 				campaignId, contactId);
 
 		try {
@@ -632,14 +668,15 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 	private MethodKey _dynamicQueryMethodKey6;
 	private MethodKey _dynamicQueryCountMethodKey7;
 	private MethodKey _getNewsletterLogMethodKey8;
-	private MethodKey _getNewsletterLogsMethodKey9;
-	private MethodKey _getNewsletterLogsCountMethodKey10;
-	private MethodKey _updateNewsletterLogMethodKey11;
+	private MethodKey _getPersistedModelMethodKey9;
+	private MethodKey _getNewsletterLogsMethodKey10;
+	private MethodKey _getNewsletterLogsCountMethodKey11;
 	private MethodKey _updateNewsletterLogMethodKey12;
-	private MethodKey _getBeanIdentifierMethodKey13;
-	private MethodKey _setBeanIdentifierMethodKey14;
-	private MethodKey _getContactsByCampaignMethodKey15;
-	private MethodKey _getContactsByCampaignCountMethodKey16;
-	private MethodKey _getNewsletterLogByCampaignMethodKey17;
-	private MethodKey _getNewsletterLogByCampaignAndContactMethodKey18;
+	private MethodKey _updateNewsletterLogMethodKey13;
+	private MethodKey _getBeanIdentifierMethodKey14;
+	private MethodKey _setBeanIdentifierMethodKey15;
+	private MethodKey _getContactsByCampaignMethodKey16;
+	private MethodKey _getContactsByCampaignCountMethodKey17;
+	private MethodKey _getNewsletterLogByCampaignMethodKey18;
+	private MethodKey _getNewsletterLogByCampaignAndContactMethodKey19;
 }

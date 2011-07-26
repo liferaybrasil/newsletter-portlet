@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class CampaignLocalServiceClp implements CampaignLocalService {
 	public CampaignLocalServiceClp(ClassLoaderProxy classLoaderProxy) {
@@ -59,49 +59,52 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		_getCampaignMethodKey8 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getCampaign", long.class);
 
-		_getCampaignsMethodKey9 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getPersistedModelMethodKey9 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getPersistedModel", java.io.Serializable.class);
+
+		_getCampaignsMethodKey10 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getCampaigns", int.class, int.class);
 
-		_getCampaignsCountMethodKey10 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getCampaignsCountMethodKey11 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getCampaignsCount");
 
-		_updateCampaignMethodKey11 = new MethodKey(_classLoaderProxy.getClassName(),
+		_updateCampaignMethodKey12 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateCampaign", com.liferay.newsletter.model.Campaign.class);
 
-		_updateCampaignMethodKey12 = new MethodKey(_classLoaderProxy.getClassName(),
+		_updateCampaignMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateCampaign", com.liferay.newsletter.model.Campaign.class,
 				boolean.class);
 
-		_getBeanIdentifierMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getBeanIdentifierMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getBeanIdentifier");
 
-		_setBeanIdentifierMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+		_setBeanIdentifierMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"setBeanIdentifier", java.lang.String.class);
 
-		_addCampaignMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+		_addCampaignMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
 				"addCampaign", long.class, java.lang.String.class,
 				java.lang.String.class, java.lang.String.class, int.class,
-				int.class, int.class);
+				int.class, int.class, java.lang.String.class);
 
-		_checkCampaignsMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
+		_checkCampaignsMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
 				"checkCampaigns");
 
-		_getCampaignsByCampaignContentMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getCampaignsByCampaignContentMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getCampaignsByCampaignContent", long.class);
 
-		_getCampaignsByCampaignContentCountMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getCampaignsByCampaignContentCountMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getCampaignsByCampaignContentCount", long.class);
 
-		_getCampaignsByDateMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getCampaignsByDateMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getCampaignsByDate", java.util.Date.class);
 
-		_getCampaignsBySendDateLTMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getCampaignsBySendDateLTMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getCampaignsBySendDateLT", java.util.Date.class, boolean.class);
 
-		_getNewsletterLogsMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getNewsletterLogsMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getNewsletterLogs", com.liferay.newsletter.model.Campaign.class);
 
-		_sendCampaignMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
+		_sendCampaignMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
 				"sendCampaign", com.liferay.newsletter.model.Campaign.class);
 	}
 
@@ -356,12 +359,45 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		return (com.liferay.newsletter.model.Campaign)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public com.liferay.portal.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getPersistedModelMethodKey9,
+				ClpSerializer.translateInput(primaryKeyObj));
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.portal.model.PersistedModel)ClpSerializer.translateOutput(returnObj);
+	}
+
 	public java.util.List<com.liferay.newsletter.model.Campaign> getCampaigns(
 		int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsMethodKey9,
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsMethodKey10,
 				start, end);
 
 		try {
@@ -388,7 +424,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsCountMethodKey10);
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsCountMethodKey11);
 
 		try {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
@@ -415,7 +451,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_updateCampaignMethodKey11,
+		MethodHandler methodHandler = new MethodHandler(_updateCampaignMethodKey12,
 				ClpSerializer.translateInput(campaign));
 
 		try {
@@ -443,7 +479,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_updateCampaignMethodKey12,
+		MethodHandler methodHandler = new MethodHandler(_updateCampaignMethodKey13,
 				ClpSerializer.translateInput(campaign), merge);
 
 		try {
@@ -469,7 +505,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	public java.lang.String getBeanIdentifier() {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey13);
+		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey14);
 
 		try {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
@@ -488,7 +524,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	}
 
 	public void setBeanIdentifier(java.lang.String beanIdentifier) {
-		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey14,
+		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey15,
 				ClpSerializer.translateInput(beanIdentifier));
 
 		try {
@@ -508,16 +544,18 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	public com.liferay.newsletter.model.Campaign addCampaign(
 		long campaignContentId, java.lang.String senderEmail,
 		java.lang.String senderName, java.lang.String emailSubject,
-		int sendDateMonth, int sendDateDay, int sendDateYear)
+		int sendDateMonth, int sendDateDay, int sendDateYear,
+		java.lang.String contacts)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_addCampaignMethodKey15,
+		MethodHandler methodHandler = new MethodHandler(_addCampaignMethodKey16,
 				campaignContentId, ClpSerializer.translateInput(senderEmail),
 				ClpSerializer.translateInput(senderName),
 				ClpSerializer.translateInput(emailSubject), sendDateMonth,
-				sendDateDay, sendDateYear);
+				sendDateDay, sendDateYear,
+				ClpSerializer.translateInput(contacts));
 
 		try {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
@@ -544,7 +582,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	}
 
 	public void checkCampaigns() {
-		MethodHandler methodHandler = new MethodHandler(_checkCampaignsMethodKey16);
+		MethodHandler methodHandler = new MethodHandler(_checkCampaignsMethodKey17);
 
 		try {
 			_classLoaderProxy.invoke(methodHandler);
@@ -565,7 +603,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsByCampaignContentMethodKey17,
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsByCampaignContentMethodKey18,
 				campaignContentId);
 
 		try {
@@ -592,7 +630,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsByCampaignContentCountMethodKey18,
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsByCampaignContentCountMethodKey19,
 				campaignContentId);
 
 		try {
@@ -620,7 +658,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsByDateMethodKey19,
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsByDateMethodKey20,
 				ClpSerializer.translateInput(sendDate));
 
 		try {
@@ -648,7 +686,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsBySendDateLTMethodKey20,
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsBySendDateLTMethodKey21,
 				ClpSerializer.translateInput(sendDate), sent);
 
 		try {
@@ -676,7 +714,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsMethodKey21,
+		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsMethodKey22,
 				ClpSerializer.translateInput(campaign));
 
 		try {
@@ -703,7 +741,7 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException,
 			javax.mail.MessagingException, javax.mail.internet.AddressException {
-		MethodHandler methodHandler = new MethodHandler(_sendCampaignMethodKey22,
+		MethodHandler methodHandler = new MethodHandler(_sendCampaignMethodKey23,
 				ClpSerializer.translateInput(campaign));
 
 		try {
@@ -750,18 +788,19 @@ public class CampaignLocalServiceClp implements CampaignLocalService {
 	private MethodKey _dynamicQueryMethodKey6;
 	private MethodKey _dynamicQueryCountMethodKey7;
 	private MethodKey _getCampaignMethodKey8;
-	private MethodKey _getCampaignsMethodKey9;
-	private MethodKey _getCampaignsCountMethodKey10;
-	private MethodKey _updateCampaignMethodKey11;
+	private MethodKey _getPersistedModelMethodKey9;
+	private MethodKey _getCampaignsMethodKey10;
+	private MethodKey _getCampaignsCountMethodKey11;
 	private MethodKey _updateCampaignMethodKey12;
-	private MethodKey _getBeanIdentifierMethodKey13;
-	private MethodKey _setBeanIdentifierMethodKey14;
-	private MethodKey _addCampaignMethodKey15;
-	private MethodKey _checkCampaignsMethodKey16;
-	private MethodKey _getCampaignsByCampaignContentMethodKey17;
-	private MethodKey _getCampaignsByCampaignContentCountMethodKey18;
-	private MethodKey _getCampaignsByDateMethodKey19;
-	private MethodKey _getCampaignsBySendDateLTMethodKey20;
-	private MethodKey _getNewsletterLogsMethodKey21;
-	private MethodKey _sendCampaignMethodKey22;
+	private MethodKey _updateCampaignMethodKey13;
+	private MethodKey _getBeanIdentifierMethodKey14;
+	private MethodKey _setBeanIdentifierMethodKey15;
+	private MethodKey _addCampaignMethodKey16;
+	private MethodKey _checkCampaignsMethodKey17;
+	private MethodKey _getCampaignsByCampaignContentMethodKey18;
+	private MethodKey _getCampaignsByCampaignContentCountMethodKey19;
+	private MethodKey _getCampaignsByDateMethodKey20;
+	private MethodKey _getCampaignsBySendDateLTMethodKey21;
+	private MethodKey _getNewsletterLogsMethodKey22;
+	private MethodKey _sendCampaignMethodKey23;
 }

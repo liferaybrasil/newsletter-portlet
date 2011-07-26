@@ -17,7 +17,7 @@ package com.liferay.newsletter.service;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class ContactServiceClp implements ContactService {
 	public ContactServiceClp(ClassLoaderProxy classLoaderProxy) {

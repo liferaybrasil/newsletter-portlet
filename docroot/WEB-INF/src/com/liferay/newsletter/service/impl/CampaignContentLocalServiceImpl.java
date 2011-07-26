@@ -14,87 +14,65 @@
 
 package com.liferay.newsletter.service.impl;
 
-import java.util.List;
-
-import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.newsletter.exception.ContentException;
+import com.liferay.newsletter.exception.IdNotFoundException;
+import com.liferay.newsletter.exception.TitleException;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.NewsletterLog;
-import com.liferay.newsletter.service.CampaignLocalServiceUtil;
-import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
 import com.liferay.newsletter.service.base.CampaignContentLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.Validator;
+
+import java.util.List;
 
 /**
- * The implementation of the campaign content local service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are
- * added, rerun ServiceBuilder to copy their definitions into the
- * {@link com.liferay.newsletter.service.CampaignContentLocalService} interface.
- *
- * <p>
- * This is a local service. Methods of this service will not have security
- * checks based on the propagated JAAS credentials because this service can
- * only be accessed from within the same VM.
- * </p>
- *
  * @author Bruno Pinheiro
- * @see com.liferay.newsletter.service.base.CampaignContentLocalServiceBaseImpl
- * @see com.liferay.newsletter.service.CampaignContentLocalServiceUtil
  */
 public class CampaignContentLocalServiceImpl
 	extends CampaignContentLocalServiceBaseImpl {
 
 	public CampaignContent addCampaignContent(CampaignContent campaignContent)
-		throws SystemException{
+		throws SystemException, PortalException{
 
-		long campaignContentId = CounterLocalServiceUtil.increment(
-			CampaignContent.class.getName());
+		validate(campaignContent.getTitle(), campaignContent.getContent());
+
+		long campaignContentId = counterLocalService.increment();
 
 		campaignContent.setCampaignContentId(campaignContentId);
 
-		return super.addCampaignContent(campaignContent);
-	}
-
-	@Override
-	public CampaignContent updateCampaignContent(
-			CampaignContent campaignContent)
-		throws SystemException, PortalException {
-
-		CampaignContent getCampaignContent = getCampaignContent(
-				campaignContent.getCampaignContentId());
-		campaignContent.setCreateDate(getCampaignContent.getCreateDate());
-		CampaignContent updateCampaignContent = super.updateCampaignContent(
-			campaignContent);
-		return updateCampaignContent;
+		return campaignContentPersistence.update(campaignContent, false);
 	}
 
 	@Override
 	public void deleteCampaignContent(long campaignContentId)
 		throws SystemException,	PortalException {
 
-		List<Campaign> campaignsByCampaignContent =
-			CampaignLocalServiceUtil.getCampaignsByCampaignContent(
-				campaignContentId);
+		if (Validator.isNotNull(campaignContentId)) {
+			List<Campaign> campaignsByCampaignContent =
+				campaignLocalService.getCampaignsByCampaignContent(
+					campaignContentId);
 
-		if (!campaignsByCampaignContent.isEmpty()) {
-			for (Campaign campaign : campaignsByCampaignContent) {
-				List<NewsletterLog> newsletterLogByCampaign =
-					NewsletterLogLocalServiceUtil.
-						getNewsletterLogByCampaign(
-								campaign.getCampaignId());
+			if (!campaignsByCampaignContent.isEmpty()) {
+				for (Campaign campaign : campaignsByCampaignContent) {
+					List<NewsletterLog> newsletterLogList =
+						newsletterLogLocalService.getNewsletterLogByCampaign(
+							campaign.getCampaignId());
 
-				for (NewsletterLog newsletterLog : newsletterLogByCampaign) {
-					NewsletterLogLocalServiceUtil.deleteNewsletterLog(
-						newsletterLog);
+					for (NewsletterLog newsletterLog : newsletterLogList) {
+						newsletterLogLocalService.deleteNewsletterLog(
+							newsletterLog);
+					}
+					campaignLocalService.deleteCampaign(campaign);
 				}
-				CampaignLocalServiceUtil.deleteCampaign(campaign);
 			}
-		}
 
-		super.deleteCampaignContent(campaignContentId);
+			campaignContentPersistence.remove(campaignContentId);
+			}
+		else {
+			throw new IdNotFoundException();
+		}
 	}
 
 	public List<Campaign> getCampaigns(CampaignContent campaignContent)
@@ -109,6 +87,15 @@ public class CampaignContentLocalServiceImpl
 		throws SystemException{
 
 		return campaignContentFinder.findByTitle(title, start, end);
+	}
+
+	public void validate(String title, String content) throws PortalException {
+		if (Validator.isNull(title)) {
+			throw new TitleException();
+		}
+		else if (Validator.isNull(content)) {
+			throw new ContentException();
+		}
 	}
 
 }

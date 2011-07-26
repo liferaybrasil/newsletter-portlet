@@ -14,6 +14,8 @@
  */
 --%>
 
+<%@ page import="com.liferay.newsletter.exception.ContactsException" %>
+<%@ page import="com.liferay.newsletter.exception.SenderEmailException" %>
 <%@ include file="/html/init.jsp" %>
 
 <%
@@ -60,14 +62,36 @@ String redirect = ParamUtil.getString(request, "redirect");
 		<aui:input type="hidden" name="contacts" id="contacts" />
 
 		<aui:input name="emailSubject" label="Email Subject" />
-		<liferay-ui:error key="campaignemailsubject-required" message="campaignemailsubject-required" />
+		<liferay-ui:error exception="<%= EmailSubjectException.class %>">
+
+			<%
+			String argument = "Email Subject";
+			%>
+
+			<liferay-ui:message arguments="<%= argument %>" key="x-is-required" />
+		</liferay-ui:error>
 
 		<aui:input name="senderName" label="Sender Name" value='<%= prefs.getValue(NewsletterConstants.SENDER_NAME,"") %>'/>
-		<liferay-ui:error key="campaignsendername-required" message="campaignsendername-required" />
+		<liferay-ui:error exception="<%= SenderNameException.class %>">
+
+			<%
+			String argument = "Sender Name";
+			%>
+
+			<liferay-ui:message arguments="<%= argument %>" key="x-is-required" />
+		</liferay-ui:error>
 
 		<aui:input name="senderEmail" label="Sender Email" value='<%= prefs.getValue(NewsletterConstants.SENDER_EMAIL,"") %>'/>
-		<liferay-ui:error key="campaignsenderemail-format-error" message="campaignsenderemail-format-error" />
-		<liferay-ui:error key="campaignsenderemail-required" message="campaignsenderemail-required" />
+		<liferay-ui:error exception="<%= SenderEmailException.class %>">
+
+			<%
+			SenderEmailException see = (SenderEmailException)errorException;
+			String key = see.getMessage();
+			String argument = "Sender email";
+			%>
+
+			<liferay-ui:message arguments="<%= argument %>" key="<%= key %>" />
+		</liferay-ui:error>
 
 		<aui:input name="sendDate" label="Send Date" />
 
@@ -81,7 +105,14 @@ String redirect = ParamUtil.getString(request, "redirect");
 			<div class="autocomplete" id="<portlet:namespace/>autocompleteContact"></div>
 		</span>
 
-		<liferay-ui:error key="campaigncontacts-required" message="campaigncontacts-required" />
+		<liferay-ui:error exception="<%= ContactsException.class %>">
+
+			<%
+			String argument = "Contacts";
+			%>
+
+			<liferay-ui:message arguments="<%= argument %>" key="x-is-required" />
+		</liferay-ui:error>
 
 	<div class="lfr-dynamic-uploader">
 		<div class="lfr-upload-container" id="<portlet:namespace />fileUpload"></div>

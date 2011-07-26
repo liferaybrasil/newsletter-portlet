@@ -11,7 +11,7 @@
 		<id name="campaignId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="uuid" column="uuid_" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" column="uuid_" />
 		<property name="sendDate" type="org.hibernate.type.TimestampType" />
 		<property name="emailSubject" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="senderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -25,7 +25,7 @@
 		<id name="campaignContentId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="uuid" column="uuid_" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" column="uuid_" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
@@ -36,7 +36,7 @@
 		<id name="contactId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="uuid" column="uuid_" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" column="uuid_" />
 		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
@@ -45,7 +45,7 @@
 		<id name="newsletterLogId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="uuid" column="uuid_" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" column="uuid_" />
 		<property name="campaignId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="contactId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="sent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />

@@ -7,6 +7,7 @@ create index IX_6EEBB6F0 on Newsletter_Campaign (senderName);
 create index IX_EA76EB6C on Newsletter_Campaign (title);
 create index IX_33389218 on Newsletter_Campaign (uuid_);
 
+create index IX_8FD90A1F on Newsletter_CampaignContent (title);
 create index IX_D89AB0CB on Newsletter_CampaignContent (uuid_);
 
 create index IX_A956CF1C on Newsletter_Campaign_Contact (campaignId);

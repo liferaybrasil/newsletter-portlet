@@ -14,9 +14,6 @@
 
 package com.liferay.newsletter.service.persistence;
 
-import java.util.Iterator;
-import java.util.List;
-
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.impl.ContactImpl;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
@@ -27,6 +24,9 @@ import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Bruno Pinheiro
@@ -136,7 +136,7 @@ public class ContactFinderImpl
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
-			// TODO: Cheque se isso est‡ correto (%email%), eu acho que n‹o Ž 
+			// TODO: Cheque se isso estï¿½ correto (%email%), eu acho que nï¿½o ï¿½
 			// assim que se faz
 			qPos.add("%"+email+"%");
 
@@ -153,23 +153,23 @@ public class ContactFinderImpl
 	public List<Contact> findByNameAndCampaign(
 			String contactName, long campaignId, int start, int end)
 		throws SystemException {
-	
+
 		Session session = null;
-	
+
 		try {
 			session = openSession();
-	
+
 			String sql = CustomSQLUtil.get(FIND_BY_NAME_CAMPAIGN);
-	
+
 			SQLQuery q = session.createSQLQuery(sql);
-	
+
 			q.addEntity("Contact", Contact.class);
-	
+
 			QueryPos qPos = QueryPos.getInstance(q);
-	
+
 			qPos.add(contactName);
 			qPos.add(campaignId);
-	
+
 			return (List<Contact>)QueryUtil.list(q, getDialect(), start, end);
 		}
 		catch (Exception e) {

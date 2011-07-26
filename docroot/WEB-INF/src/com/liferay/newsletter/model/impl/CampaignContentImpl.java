@@ -14,8 +14,6 @@
 
 package com.liferay.newsletter.model.impl;
 
-import com.liferay.newsletter.model.CampaignContent;
-
 /**
  * The model implementation for the CampaignContent service. Represents a row in the &quot;Newsletter_CampaignContent&quot; database table, with each column mapped to a property of this class.
  *
@@ -25,8 +23,7 @@ import com.liferay.newsletter.model.CampaignContent;
  *
  * @author Bruno Pinheiro
  */
-public class CampaignContentImpl extends CampaignContentModelImpl
-	implements CampaignContent {
+public class CampaignContentImpl extends CampaignContentBaseImpl {
 	/**
 	 * NOTE FOR DEVELOPERS:
 	 *

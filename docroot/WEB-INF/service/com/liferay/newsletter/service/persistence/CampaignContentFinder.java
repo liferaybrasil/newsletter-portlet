@@ -15,7 +15,7 @@
 package com.liferay.newsletter.service.persistence;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public interface CampaignContentFinder {
 	public java.util.List<com.liferay.newsletter.model.CampaignContent> findByTitle(

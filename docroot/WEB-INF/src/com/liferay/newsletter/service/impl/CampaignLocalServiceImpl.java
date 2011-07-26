@@ -14,14 +14,15 @@
 
 package com.liferay.newsletter.service.impl;
 
+import com.liferay.newsletter.exception.ContactsException;
+import com.liferay.newsletter.exception.EmailSubjectException;
+import com.liferay.newsletter.exception.IdNotFoundException;
+import com.liferay.newsletter.exception.SenderEmailException;
+import com.liferay.newsletter.exception.SenderNameException;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
-import com.liferay.newsletter.service.CampaignContentLocalServiceUtil;
-import com.liferay.newsletter.service.CampaignLocalServiceUtil;
-import com.liferay.newsletter.service.ContactLocalServiceUtil;
-import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
 import com.liferay.newsletter.service.base.CampaignLocalServiceBaseImpl;
 import com.liferay.newsletter.util.MailAuthenticator;
 import com.liferay.newsletter.util.NewsletterConstants;
@@ -31,6 +32,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.portlet.PortletProps;
 
@@ -54,13 +56,15 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 	public Campaign addCampaign(
 			long campaignContentId, String senderEmail, String senderName,
 			String emailSubject, int sendDateMonth, int sendDateDay,
-			int sendDateYear) 
+			int sendDateYear, String contacts)
 		throws PortalException, SystemException {
 
 		Date sendDate = PortalUtil.getDate(
 			sendDateMonth, sendDateDay,sendDateYear);
 
-		CampaignContent campaignContent = 
+		validate(emailSubject, senderEmail, senderName, contacts);
+
+		CampaignContent campaignContent =
 			campaignContentLocalService.getCampaignContent(campaignContentId);
 
 		long campaignId = counterLocalService.increment();
@@ -76,9 +80,7 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		campaign.setContent(campaignContent.getContent());
 		campaign.setCampaignId(campaignId);
 
-		campaignPersistence.update(campaign, false);
-
-		return campaign;
+		return campaignPersistence.update(campaign, false);
 	}
 
 	public void checkCampaigns() {
@@ -100,17 +102,23 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 	public void deleteCampaign(long campaignId)
 		throws PortalException, SystemException {
 
-		List<NewsletterLog> newsletterLogByCampaign =
-			newsletterLogLocalService.getNewsletterLogByCampaign(campaignId);
+		if (Validator.isNotNull(campaignId)) {
+			List<NewsletterLog> newsletterLogList =
+				newsletterLogLocalService.getNewsletterLogByCampaign(
+					campaignId);
 
-		if (!newsletterLogByCampaign.isEmpty()) {
-			for (NewsletterLog newsletterLog : newsletterLogByCampaign) {
-				NewsletterLogLocalServiceUtil.deleteNewsletterLog(
-					newsletterLog);
+			if (!newsletterLogList.isEmpty()) {
+				for (NewsletterLog newsletterLog : newsletterLogList) {
+					newsletterLogLocalService.deleteNewsletterLog(
+						newsletterLog);
+				}
 			}
-		}
 
-		super.deleteCampaign(campaignId);
+			campaignPersistence.remove(campaignId);
+		}
+		else {
+			throw new IdNotFoundException();
+		}
 	}
 
 	public List<Campaign> getCampaignsByCampaignContent(long campaignContentId)
@@ -148,29 +156,29 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 		throws SystemException, PortalException, AddressException,
 		MessagingException{
 
-		List<NewsletterLog> newsletterLogs = NewsletterLogLocalServiceUtil.
+		List<NewsletterLog> newsletterLogs = newsletterLogLocalService.
 			getNewsletterLogByCampaign(campaign.getCampaignId());
 
 		long campaignContentId = campaign.getCampaignContentId();
 
-		CampaignContent campaignContent = CampaignContentLocalServiceUtil.
+		CampaignContent campaignContent = campaignContentLocalService.
 			getCampaignContent(campaignContentId);
 
 		for (NewsletterLog newsletterLog : newsletterLogs) {
 			long contactId = newsletterLog.getContactId();
 
-			Contact contact = ContactLocalServiceUtil.getContact(contactId);
+			Contact contact = contactLocalService.getContact(contactId);
 
 			_sendEmail(campaignContent, campaign, contact);
 			newsletterLog.setSent(true);
-			NewsletterLogLocalServiceUtil.updateNewsletterLog(newsletterLog);
+			newsletterLogLocalService.updateNewsletterLog(newsletterLog);
 			//Thread.sleep(5000);
 		}
 		campaign.setSent(true);
-		CampaignLocalServiceUtil.updateCampaign(campaign);
+		campaignLocalService.updateCampaign(campaign);
 	}
 
-	private void _sendEmail(
+	protected void _sendEmail(
 			CampaignContent campaignContent, Campaign campaign, Contact contact)
 		throws AddressException, MessagingException, SystemException {
 
@@ -227,7 +235,28 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 
 		Transport.send(msg);
 	}
-	
+
+	protected void validate(String emailSubject, String senderEmail,
+			String senderName, String contacts)
+		throws PortalException {
+
+		if (Validator.isNull(emailSubject)) {
+			throw new EmailSubjectException();
+		}
+		else if (Validator.isNull(senderEmail)) {
+			throw new SenderEmailException("x-is-required");
+		}
+		else if (!Validator.isEmailAddress(senderEmail)) {
+			throw new SenderEmailException("x-is-wrong-formated");
+		}
+		else if (Validator.isNull(senderName)) {
+			throw new SenderNameException();
+		}
+		else if (Validator.isNull(contacts)) {
+			throw new ContactsException();
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		CampaignLocalServiceImpl.class);
 

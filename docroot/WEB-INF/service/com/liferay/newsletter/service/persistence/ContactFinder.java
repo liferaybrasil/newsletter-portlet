@@ -15,7 +15,7 @@
 package com.liferay.newsletter.service.persistence;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public interface ContactFinder {
 	public int countByCampaign(long campaignId)

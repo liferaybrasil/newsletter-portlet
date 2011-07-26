@@ -51,7 +51,7 @@ package com.liferay.newsletter.service.http;
  * The SOAP utility is only generated for remote services.
  * </p>
  *
- * @author    Bruno Pinheiro
+ * @author    Brian Wing Shun Chan
  * @see       CampaignContentServiceHttp
  * @see       com.liferay.newsletter.model.CampaignContentSoap
  * @see       com.liferay.newsletter.service.CampaignContentServiceUtil

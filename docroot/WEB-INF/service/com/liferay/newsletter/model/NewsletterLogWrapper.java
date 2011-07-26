@@ -19,7 +19,7 @@ package com.liferay.newsletter.model;
  * This class is a wrapper for {@link NewsletterLog}.
  * </p>
  *
- * @author    Bruno Pinheiro
+ * @author    Brian Wing Shun Chan
  * @see       NewsletterLog
  * @generated
  */
@@ -37,7 +37,7 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	}
 
 	/**
-	* Gets the primary key of this newsletter log.
+	* Returns the primary key of this newsletter log.
 	*
 	* @return the primary key of this newsletter log
 	*/
@@ -46,7 +46,7 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	}
 
 	/**
-	* Sets the primary key of this newsletter log
+	* Sets the primary key of this newsletter log.
 	*
 	* @param primaryKey the primary key of this newsletter log
 	*/
@@ -55,7 +55,7 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	}
 
 	/**
-	* Gets the uuid of this newsletter log.
+	* Returns the uuid of this newsletter log.
 	*
 	* @return the uuid of this newsletter log
 	*/
@@ -73,7 +73,7 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	}
 
 	/**
-	* Gets the newsletter log ID of this newsletter log.
+	* Returns the newsletter log ID of this newsletter log.
 	*
 	* @return the newsletter log ID of this newsletter log
 	*/
@@ -91,7 +91,7 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	}
 
 	/**
-	* Gets the campaign ID of this newsletter log.
+	* Returns the campaign ID of this newsletter log.
 	*
 	* @return the campaign ID of this newsletter log
 	*/
@@ -109,7 +109,7 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	}
 
 	/**
-	* Gets the contact ID of this newsletter log.
+	* Returns the contact ID of this newsletter log.
 	*
 	* @return the contact ID of this newsletter log
 	*/
@@ -127,7 +127,7 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	}
 
 	/**
-	* Gets the sent of this newsletter log.
+	* Returns the sent of this newsletter log.
 	*
 	* @return the sent of this newsletter log
 	*/
@@ -136,7 +136,7 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	}
 
 	/**
-	* Determines if this newsletter log is sent.
+	* Returns <code>true</code> if this newsletter log is sent.
 	*
 	* @return <code>true</code> if this newsletter log is sent; <code>false</code> otherwise
 	*/
@@ -194,6 +194,7 @@ public class NewsletterLogWrapper implements NewsletterLog {
 		_newsletterLog.setExpandoBridgeAttributes(serviceContext);
 	}
 
+	@Override
 	public java.lang.Object clone() {
 		return new NewsletterLogWrapper((NewsletterLog)_newsletterLog.clone());
 	}
@@ -203,20 +204,31 @@ public class NewsletterLogWrapper implements NewsletterLog {
 		return _newsletterLog.compareTo(newsletterLog);
 	}
 
+	@Override
 	public int hashCode() {
 		return _newsletterLog.hashCode();
+	}
+
+	public com.liferay.portal.model.CacheModel<com.liferay.newsletter.model.NewsletterLog> toCacheModel() {
+		return _newsletterLog.toCacheModel();
 	}
 
 	public com.liferay.newsletter.model.NewsletterLog toEscapedModel() {
 		return new NewsletterLogWrapper(_newsletterLog.toEscapedModel());
 	}
 
+	@Override
 	public java.lang.String toString() {
 		return _newsletterLog.toString();
 	}
 
 	public java.lang.String toXmlString() {
 		return _newsletterLog.toXmlString();
+	}
+
+	public void persist()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_newsletterLog.persist();
 	}
 
 	public NewsletterLog getWrappedNewsletterLog() {

@@ -14,7 +14,10 @@
 
 package com.liferay.newsletter.model;
 
+import com.liferay.newsletter.service.CampaignContentLocalServiceUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
@@ -25,7 +28,7 @@ import java.lang.reflect.Proxy;
 import java.util.Date;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 	implements CampaignContent {
@@ -104,6 +107,11 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 		_articleId = articleId;
 	}
 
+	public void persist() throws SystemException {
+		CampaignContentLocalServiceUtil.updateCampaignContent(this);
+	}
+
+	@Override
 	public CampaignContent toEscapedModel() {
 		if (isEscapedModel()) {
 			return this;
@@ -115,6 +123,7 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 		}
 	}
 
+	@Override
 	public Object clone() {
 		CampaignContentClp clone = new CampaignContentClp();
 
@@ -142,6 +151,7 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 		}
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
@@ -166,10 +176,12 @@ public class CampaignContentClp extends BaseModelImpl<CampaignContent>
 		}
 	}
 
+	@Override
 	public int hashCode() {
 		return (int)getPrimaryKey();
 	}
 
+	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(13);
 

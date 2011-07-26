@@ -47,6 +47,7 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
 import com.liferay.portal.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.service.persistence.BatchSessionUtil;
@@ -68,7 +69,7 @@ import java.util.List;
  * Caching information and settings can be found in <code>portal.properties</code>
  * </p>
  *
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  * @see CampaignPersistence
  * @see CampaignUtil
  * @generated
@@ -84,8 +85,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	public static final String FINDER_CLASS_NAME_LIST = FINDER_CLASS_NAME_ENTITY +
 		".List";
 	public static final FinderPath FINDER_PATH_FIND_BY_UUID = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"findByUuid",
+			CampaignModelImpl.FINDER_CACHE_ENABLED, CampaignImpl.class,
+			FINDER_CLASS_NAME_LIST, "findByUuid",
 			new String[] {
 				String.class.getName(),
 				
@@ -93,11 +94,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"countByUuid", new String[] { String.class.getName() });
+			CampaignModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST, "countByUuid",
+			new String[] { String.class.getName() });
 	public static final FinderPath FINDER_PATH_FIND_BY_CAMPAIGNCONTENT = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"findByCampaignContent",
+			CampaignModelImpl.FINDER_CACHE_ENABLED, CampaignImpl.class,
+			FINDER_CLASS_NAME_LIST, "findByCampaignContent",
 			new String[] {
 				Long.class.getName(),
 				
@@ -105,11 +107,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
 	public static final FinderPath FINDER_PATH_COUNT_BY_CAMPAIGNCONTENT = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"countByCampaignContent", new String[] { Long.class.getName() });
+			CampaignModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST, "countByCampaignContent",
+			new String[] { Long.class.getName() });
 	public static final FinderPath FINDER_PATH_FIND_BY_SENDDATE = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"findBySendDate",
+			CampaignModelImpl.FINDER_CACHE_ENABLED, CampaignImpl.class,
+			FINDER_CLASS_NAME_LIST, "findBySendDate",
 			new String[] {
 				Date.class.getName(),
 				
@@ -117,11 +120,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
 	public static final FinderPath FINDER_PATH_COUNT_BY_SENDDATE = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"countBySendDate", new String[] { Date.class.getName() });
+			CampaignModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST, "countBySendDate",
+			new String[] { Date.class.getName() });
 	public static final FinderPath FINDER_PATH_FIND_BY_SD_LT = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"findBySD_LT",
+			CampaignModelImpl.FINDER_CACHE_ENABLED, CampaignImpl.class,
+			FINDER_CLASS_NAME_LIST, "findBySD_LT",
 			new String[] {
 				Date.class.getName(), Boolean.class.getName(),
 				
@@ -129,20 +133,20 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
 	public static final FinderPath FINDER_PATH_COUNT_BY_SD_LT = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"countBySD_LT",
+			CampaignModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST, "countBySD_LT",
 			new String[] { Date.class.getName(), Boolean.class.getName() });
 	public static final FinderPath FINDER_PATH_FIND_ALL = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"findAll", new String[0]);
+			CampaignModelImpl.FINDER_CACHE_ENABLED, CampaignImpl.class,
+			FINDER_CLASS_NAME_LIST, "findAll", new String[0]);
 	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(CampaignModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"countAll", new String[0]);
+			CampaignModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST, "countAll", new String[0]);
 
 	/**
 	 * Caches the campaign in the entity cache if it is enabled.
 	 *
-	 * @param campaign the campaign to cache
+	 * @param campaign the campaign
 	 */
 	public void cacheResult(Campaign campaign) {
 		EntityCacheUtil.putResult(CampaignModelImpl.ENTITY_CACHE_ENABLED,
@@ -154,7 +158,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	/**
 	 * Caches the campaigns in the entity cache if it is enabled.
 	 *
-	 * @param campaigns the campaigns to cache
+	 * @param campaigns the campaigns
 	 */
 	public void cacheResult(List<Campaign> campaigns) {
 		for (Campaign campaign : campaigns) {
@@ -173,6 +177,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
 	 * </p>
 	 */
+	@Override
 	public void clearCache() {
 		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
 			CacheRegistryUtil.clear(CampaignImpl.class.getName());
@@ -190,6 +195,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
 	 * </p>
 	 */
+	@Override
 	public void clearCache(Campaign campaign) {
 		EntityCacheUtil.removeResult(CampaignModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignImpl.class, campaign.getPrimaryKey());
@@ -217,11 +223,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	/**
 	 * Removes the campaign with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param primaryKey the primary key of the campaign to remove
+	 * @param primaryKey the primary key of the campaign
 	 * @return the campaign that was removed
 	 * @throws com.liferay.portal.NoSuchModelException if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Campaign remove(Serializable primaryKey)
 		throws NoSuchModelException, SystemException {
 		return remove(((Long)primaryKey).longValue());
@@ -230,7 +237,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	/**
 	 * Removes the campaign with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param campaignId the primary key of the campaign to remove
+	 * @param campaignId the primary key of the campaign
 	 * @return the campaign that was removed
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -270,14 +277,16 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	/**
 	 * Removes the campaign from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param campaign the campaign to remove
+	 * @param campaign the campaign
 	 * @return the campaign that was removed
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Campaign remove(Campaign campaign) throws SystemException {
 		return super.remove(campaign);
 	}
 
+	@Override
 	protected Campaign removeImpl(Campaign campaign) throws SystemException {
 		campaign = toUnwrappedModel(campaign);
 
@@ -303,6 +312,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		return campaign;
 	}
 
+	@Override
 	public Campaign updateImpl(com.liferay.newsletter.model.Campaign campaign,
 		boolean merge) throws SystemException {
 		campaign = toUnwrappedModel(campaign);
@@ -361,22 +371,23 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the campaign with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the campaign with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the campaign to find
+	 * @param primaryKey the primary key of the campaign
 	 * @return the campaign
 	 * @throws com.liferay.portal.NoSuchModelException if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Campaign findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchModelException, SystemException {
 		return findByPrimaryKey(((Long)primaryKey).longValue());
 	}
 
 	/**
-	 * Finds the campaign with the primary key or throws a {@link com.liferay.newsletter.NoSuchCampaignException} if it could not be found.
+	 * Returns the campaign with the primary key or throws a {@link com.liferay.newsletter.NoSuchCampaignException} if it could not be found.
 	 *
-	 * @param campaignId the primary key of the campaign to find
+	 * @param campaignId the primary key of the campaign
 	 * @return the campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -398,21 +409,22 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the campaign with the primary key or returns <code>null</code> if it could not be found.
+	 * Returns the campaign with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the campaign to find
+	 * @param primaryKey the primary key of the campaign
 	 * @return the campaign, or <code>null</code> if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Campaign fetchByPrimaryKey(Serializable primaryKey)
 		throws SystemException {
 		return fetchByPrimaryKey(((Long)primaryKey).longValue());
 	}
 
 	/**
-	 * Finds the campaign with the primary key or returns <code>null</code> if it could not be found.
+	 * Returns the campaign with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param campaignId the primary key of the campaign to find
+	 * @param campaignId the primary key of the campaign
 	 * @return the campaign, or <code>null</code> if a campaign with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -421,8 +433,14 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		Campaign campaign = (Campaign)EntityCacheUtil.getResult(CampaignModelImpl.ENTITY_CACHE_ENABLED,
 				CampaignImpl.class, campaignId, this);
 
+		if (campaign == _nullCampaign) {
+			return null;
+		}
+
 		if (campaign == null) {
 			Session session = null;
+
+			boolean hasException = false;
 
 			try {
 				session = openSession();
@@ -431,11 +449,17 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 						Long.valueOf(campaignId));
 			}
 			catch (Exception e) {
+				hasException = true;
+
 				throw processException(e);
 			}
 			finally {
 				if (campaign != null) {
 					cacheResult(campaign);
+				}
+				else if (!hasException) {
+					EntityCacheUtil.putResult(CampaignModelImpl.ENTITY_CACHE_ENABLED,
+						CampaignImpl.class, campaignId, _nullCampaign);
 				}
 
 				closeSession(session);
@@ -446,9 +470,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds all the campaigns where uuid = &#63;.
+	 * Returns all the campaigns where uuid = &#63;.
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @return the matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -457,15 +481,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds a range of all the campaigns where uuid = &#63;.
+	 * Returns a range of all the campaigns where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param uuid the uuid to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -475,15 +499,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds an ordered range of all the campaigns where uuid = &#63;.
+	 * Returns an ordered range of all the campaigns where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param uuid the uuid to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns
 	 * @throws SystemException if a system exception occurred
@@ -575,13 +599,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the first campaign in the ordered set where uuid = &#63;.
+	 * Returns the first campaign in the ordered set where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -610,13 +634,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the last campaign in the ordered set where uuid = &#63;.
+	 * Returns the last campaign in the ordered set where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -648,14 +672,14 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the campaigns before and after the current campaign in the ordered set where uuid = &#63;.
+	 * Returns the campaigns before and after the current campaign in the ordered set where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -808,9 +832,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds all the campaigns where uuid = &#63;.
+	 * Returns all the campaigns that the user has permission to view where uuid = &#63;.
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @return the matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -820,15 +844,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds a range of all the campaigns where uuid = &#63;.
+	 * Returns a range of all the campaigns that the user has permission to view where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param uuid the uuid to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -838,15 +862,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds an ordered range of all the campaigns where uuid = &#63;.
+	 * Returns an ordered range of all the campaigns that the user has permissions to view where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param uuid the uuid to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
@@ -867,7 +891,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
 
 		if (uuid == null) {
 			query.append(_FINDER_COLUMN_UUID_UUID_1);
@@ -881,7 +910,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			}
 		}
 
-		appendGroupByComparator(query, _FILTER_COLUMN_PK);
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
 
 		if (orderByComparator != null) {
 			if (getDB().isSupportsInlineDistinct()) {
@@ -904,7 +935,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -937,14 +968,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters the campaigns before and after the current campaign in the ordered set where uuid = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
+	 * Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where uuid = &#63;.
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -997,7 +1024,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
 
 		if (uuid == null) {
 			query.append(_FINDER_COLUMN_UUID_UUID_1);
@@ -1011,7 +1043,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			}
 		}
 
-		appendGroupByComparator(query, _FILTER_COLUMN_PK);
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByFields = orderByComparator.getOrderByFields();
@@ -1089,7 +1123,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		SQLQuery q = session.createSQLQuery(sql);
 
@@ -1128,9 +1162,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds all the campaigns where campaignContentId = &#63;.
+	 * Returns all the campaigns where campaignContentId = &#63;.
 	 *
-	 * @param campaignContentId the campaign content ID to search with
+	 * @param campaignContentId the campaign content ID
 	 * @return the matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1141,15 +1175,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds a range of all the campaigns where campaignContentId = &#63;.
+	 * Returns a range of all the campaigns where campaignContentId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param campaignContentId the campaign content ID to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param campaignContentId the campaign content ID
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1159,15 +1193,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds an ordered range of all the campaigns where campaignContentId = &#63;.
+	 * Returns an ordered range of all the campaigns where campaignContentId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param campaignContentId the campaign content ID to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param campaignContentId the campaign content ID
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns
 	 * @throws SystemException if a system exception occurred
@@ -1248,13 +1282,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the first campaign in the ordered set where campaignContentId = &#63;.
+	 * Returns the first campaign in the ordered set where campaignContentId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param campaignContentId the campaign content ID to search with
+	 * @param campaignContentId the campaign content ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -1284,13 +1318,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the last campaign in the ordered set where campaignContentId = &#63;.
+	 * Returns the last campaign in the ordered set where campaignContentId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param campaignContentId the campaign content ID to search with
+	 * @param campaignContentId the campaign content ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -1322,14 +1356,14 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the campaigns before and after the current campaign in the ordered set where campaignContentId = &#63;.
+	 * Returns the campaigns before and after the current campaign in the ordered set where campaignContentId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param campaignContentId the campaign content ID to search with
+	 * @param campaignContentId the campaign content ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -1470,9 +1504,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds all the campaigns where campaignContentId = &#63;.
+	 * Returns all the campaigns that the user has permission to view where campaignContentId = &#63;.
 	 *
-	 * @param campaignContentId the campaign content ID to search with
+	 * @param campaignContentId the campaign content ID
 	 * @return the matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1483,15 +1517,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds a range of all the campaigns where campaignContentId = &#63;.
+	 * Returns a range of all the campaigns that the user has permission to view where campaignContentId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param campaignContentId the campaign content ID to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param campaignContentId the campaign content ID
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1501,15 +1535,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds an ordered range of all the campaigns where campaignContentId = &#63;.
+	 * Returns an ordered range of all the campaigns that the user has permissions to view where campaignContentId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param campaignContentId the campaign content ID to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param campaignContentId the campaign content ID
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
@@ -1532,11 +1566,18 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
 
 		query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
 
-		appendGroupByComparator(query, _FILTER_COLUMN_PK);
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
 
 		if (orderByComparator != null) {
 			if (getDB().isSupportsInlineDistinct()) {
@@ -1559,7 +1600,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -1590,14 +1631,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters the campaigns before and after the current campaign in the ordered set where campaignContentId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
+	 * Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where campaignContentId = &#63;.
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param campaignContentId the campaign content ID to search with
+	 * @param campaignContentId the campaign content ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -1651,11 +1688,18 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
 
 		query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
 
-		appendGroupByComparator(query, _FILTER_COLUMN_PK);
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByFields = orderByComparator.getOrderByFields();
@@ -1733,7 +1777,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		SQLQuery q = session.createSQLQuery(sql);
 
@@ -1770,9 +1814,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds all the campaigns where sendDate = &#63;.
+	 * Returns all the campaigns where sendDate = &#63;.
 	 *
-	 * @param sendDate the send date to search with
+	 * @param sendDate the send date
 	 * @return the matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1783,15 +1827,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds a range of all the campaigns where sendDate = &#63;.
+	 * Returns a range of all the campaigns where sendDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param sendDate the send date
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1801,15 +1845,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds an ordered range of all the campaigns where sendDate = &#63;.
+	 * Returns an ordered range of all the campaigns where sendDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param sendDate the send date
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns
 	 * @throws SystemException if a system exception occurred
@@ -1896,13 +1940,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the first campaign in the ordered set where sendDate = &#63;.
+	 * Returns the first campaign in the ordered set where sendDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
+	 * @param sendDate the send date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -1931,13 +1975,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the last campaign in the ordered set where sendDate = &#63;.
+	 * Returns the last campaign in the ordered set where sendDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
+	 * @param sendDate the send date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -1969,14 +2013,14 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the campaigns before and after the current campaign in the ordered set where sendDate = &#63;.
+	 * Returns the campaigns before and after the current campaign in the ordered set where sendDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param sendDate the send date to search with
+	 * @param sendDate the send date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -2124,9 +2168,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds all the campaigns where sendDate = &#63;.
+	 * Returns all the campaigns that the user has permission to view where sendDate = &#63;.
 	 *
-	 * @param sendDate the send date to search with
+	 * @param sendDate the send date
 	 * @return the matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -2137,15 +2181,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds a range of all the campaigns where sendDate = &#63;.
+	 * Returns a range of all the campaigns that the user has permission to view where sendDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param sendDate the send date
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -2155,15 +2199,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds an ordered range of all the campaigns where sendDate = &#63;.
+	 * Returns an ordered range of all the campaigns that the user has permissions to view where sendDate = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param sendDate the send date
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
@@ -2184,7 +2228,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
 
 		if (sendDate == null) {
 			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
@@ -2193,7 +2242,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
 		}
 
-		appendGroupByComparator(query, _FILTER_COLUMN_PK);
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
 
 		if (orderByComparator != null) {
 			if (getDB().isSupportsInlineDistinct()) {
@@ -2216,7 +2267,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -2249,14 +2300,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters the campaigns before and after the current campaign in the ordered set where sendDate = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
+	 * Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where sendDate = &#63;.
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param sendDate the send date to search with
+	 * @param sendDate the send date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -2310,7 +2357,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
 
 		if (sendDate == null) {
 			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_1);
@@ -2319,7 +2371,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query.append(_FINDER_COLUMN_SENDDATE_SENDDATE_2);
 		}
 
-		appendGroupByComparator(query, _FILTER_COLUMN_PK);
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByFields = orderByComparator.getOrderByFields();
@@ -2397,7 +2451,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		SQLQuery q = session.createSQLQuery(sql);
 
@@ -2436,10 +2490,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns all the campaigns where sendDate &le; &#63; and sent = &#63;.
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
+	 * @param sendDate the send date
+	 * @param sent the sent
 	 * @return the matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -2450,16 +2504,16 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds a range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns a range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param sendDate the send date
+	 * @param sent the sent
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -2469,16 +2523,16 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds an ordered range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns an ordered range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param sendDate the send date
+	 * @param sent the sent
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns
 	 * @throws SystemException if a system exception occurred
@@ -2569,14 +2623,14 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the first campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the first campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
+	 * @param sendDate the send date
+	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -2609,14 +2663,14 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the last campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the last campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
+	 * @param sendDate the send date
+	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching campaign could not be found
@@ -2651,15 +2705,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds the campaigns before and after the current campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the campaigns before and after the current campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
+	 * @param sendDate the send date
+	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -2811,10 +2865,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns all the campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
+	 * @param sendDate the send date
+	 * @param sent the sent
 	 * @return the matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -2825,16 +2879,16 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds a range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns a range of all the campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param sendDate the send date
+	 * @param sent the sent
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -2844,16 +2898,16 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and finds an ordered range of all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns an ordered range of all the campaigns that the user has permissions to view where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param sendDate the send date
+	 * @param sent the sent
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
@@ -2875,7 +2929,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(4);
 		}
 
-		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
 
 		if (sendDate == null) {
 			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
@@ -2886,7 +2945,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
 
-		appendGroupByComparator(query, _FILTER_COLUMN_PK);
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
 
 		if (orderByComparator != null) {
 			if (getDB().isSupportsInlineDistinct()) {
@@ -2909,7 +2970,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -2944,15 +3005,11 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters the campaigns before and after the current campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
+	 * Returns the campaigns before and after the current campaign in the ordered set of campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * @param campaignId the primary key of the current campaign
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
+	 * @param sendDate the send date
+	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a campaign with the primary key could not be found
@@ -3006,7 +3063,12 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			query = new StringBundler(3);
 		}
 
-		query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1);
+		}
 
 		if (sendDate == null) {
 			query.append(_FINDER_COLUMN_SD_LT_SENDDATE_1);
@@ -3017,7 +3079,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
 
-		appendGroupByComparator(query, _FILTER_COLUMN_PK);
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByFields = orderByComparator.getOrderByFields();
@@ -3095,7 +3159,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		SQLQuery q = session.createSQLQuery(sql);
 
@@ -3136,7 +3200,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds all the campaigns.
+	 * Returns all the campaigns.
 	 *
 	 * @return the campaigns
 	 * @throws SystemException if a system exception occurred
@@ -3146,14 +3210,14 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds a range of all the campaigns.
+	 * Returns a range of all the campaigns.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3162,14 +3226,14 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Finds an ordered range of all the campaigns.
+	 * Returns an ordered range of all the campaigns.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of campaigns
 	 * @throws SystemException if a system exception occurred
@@ -3246,7 +3310,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	/**
 	 * Removes all the campaigns where uuid = &#63; from the database.
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void removeByUuid(String uuid) throws SystemException {
@@ -3258,7 +3322,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	/**
 	 * Removes all the campaigns where campaignContentId = &#63; from the database.
 	 *
-	 * @param campaignContentId the campaign content ID to search with
+	 * @param campaignContentId the campaign content ID
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void removeByCampaignContent(long campaignContentId)
@@ -3271,7 +3335,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	/**
 	 * Removes all the campaigns where sendDate = &#63; from the database.
 	 *
-	 * @param sendDate the send date to search with
+	 * @param sendDate the send date
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void removeBySendDate(Date sendDate) throws SystemException {
@@ -3283,8 +3347,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	/**
 	 * Removes all the campaigns where sendDate &le; &#63; and sent = &#63; from the database.
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
+	 * @param sendDate the send date
+	 * @param sent the sent
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void removeBySD_LT(Date sendDate, boolean sent)
@@ -3306,9 +3370,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Counts all the campaigns where uuid = &#63;.
+	 * Returns the number of campaigns where uuid = &#63;.
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @return the number of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3371,9 +3435,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and counts all the campaigns where uuid = &#63;.
+	 * Returns the number of campaigns that the user has permission to view where uuid = &#63;.
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @return the number of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3399,7 +3463,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -3430,9 +3494,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Counts all the campaigns where campaignContentId = &#63;.
+	 * Returns the number of campaigns where campaignContentId = &#63;.
 	 *
-	 * @param campaignContentId the campaign content ID to search with
+	 * @param campaignContentId the campaign content ID
 	 * @return the number of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3484,9 +3548,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and counts all the campaigns where campaignContentId = &#63;.
+	 * Returns the number of campaigns that the user has permission to view where campaignContentId = &#63;.
 	 *
-	 * @param campaignContentId the campaign content ID to search with
+	 * @param campaignContentId the campaign content ID
 	 * @return the number of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3503,7 +3567,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		query.append(_FINDER_COLUMN_CAMPAIGNCONTENT_CAMPAIGNCONTENTID_2);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -3532,9 +3596,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Counts all the campaigns where sendDate = &#63;.
+	 * Returns the number of campaigns where sendDate = &#63;.
 	 *
-	 * @param sendDate the send date to search with
+	 * @param sendDate the send date
 	 * @return the number of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3592,9 +3656,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and counts all the campaigns where sendDate = &#63;.
+	 * Returns the number of campaigns that the user has permission to view where sendDate = &#63;.
 	 *
-	 * @param sendDate the send date to search with
+	 * @param sendDate the send date
 	 * @return the number of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3615,7 +3679,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -3646,10 +3710,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Counts all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the number of campaigns where sendDate &le; &#63; and sent = &#63;.
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
+	 * @param sendDate the send date
+	 * @param sent the sent
 	 * @return the number of matching campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3712,10 +3776,10 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Filters by the user's permissions and counts all the campaigns where sendDate &le; &#63; and sent = &#63;.
+	 * Returns the number of campaigns that the user has permission to view where sendDate &le; &#63; and sent = &#63;.
 	 *
-	 * @param sendDate the send date to search with
-	 * @param sent the sent to search with
+	 * @param sendDate the send date
+	 * @param sent the sent
 	 * @return the number of matching campaigns that the user has permission to view
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3739,7 +3803,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		query.append(_FINDER_COLUMN_SD_LT_SENT_2);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
-				Campaign.class.getName(), _FILTER_COLUMN_PK);
+				Campaign.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -3772,7 +3836,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Counts all the campaigns.
+	 * Returns the number of campaigns.
 	 *
 	 * @return the number of campaigns
 	 * @throws SystemException if a system exception occurred
@@ -3812,9 +3876,9 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Gets all the newsletter logs associated with the campaign.
+	 * Returns all the newsletter logs associated with the campaign.
 	 *
-	 * @param pk the primary key of the campaign to get the associated newsletter logs for
+	 * @param pk the primary key of the campaign
 	 * @return the newsletter logs associated with the campaign
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3824,15 +3888,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Gets a range of all the newsletter logs associated with the campaign.
+	 * Returns a range of all the newsletter logs associated with the campaign.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param pk the primary key of the campaign to get the associated newsletter logs for
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param pk the primary key of the campaign
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @return the range of newsletter logs associated with the campaign
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3843,6 +3907,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 	public static final FinderPath FINDER_PATH_GET_NEWSLETTERLOGS = new FinderPath(com.liferay.newsletter.model.impl.NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			com.liferay.newsletter.model.impl.NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			com.liferay.newsletter.model.impl.NewsletterLogImpl.class,
 			com.liferay.newsletter.service.persistence.NewsletterLogPersistenceImpl.FINDER_CLASS_NAME_LIST,
 			"getNewsletterLogs",
 			new String[] {
@@ -3851,15 +3916,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 			});
 
 	/**
-	 * Gets an ordered range of all the newsletter logs associated with the campaign.
+	 * Returns an ordered range of all the newsletter logs associated with the campaign.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param pk the primary key of the campaign to get the associated newsletter logs for
-	 * @param start the lower bound of the range of campaigns to return
-	 * @param end the upper bound of the range of campaigns to return (not inclusive)
+	 * @param pk the primary key of the campaign
+	 * @param start the lower bound of the range of campaigns
+	 * @param end the upper bound of the range of campaigns (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of newsletter logs associated with the campaign
 	 * @throws SystemException if a system exception occurred
@@ -3927,13 +3992,14 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 	public static final FinderPath FINDER_PATH_GET_NEWSLETTERLOGS_SIZE = new FinderPath(com.liferay.newsletter.model.impl.NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			com.liferay.newsletter.model.impl.NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			com.liferay.newsletter.model.impl.NewsletterLogImpl.class,
 			com.liferay.newsletter.service.persistence.NewsletterLogPersistenceImpl.FINDER_CLASS_NAME_LIST,
 			"getNewsletterLogsSize", new String[] { Long.class.getName() });
 
 	/**
-	 * Gets the number of newsletter logs associated with the campaign.
+	 * Returns the number of newsletter logs associated with the campaign.
 	 *
-	 * @param pk the primary key of the campaign to get the number of associated newsletter logs for
+	 * @param pk the primary key of the campaign
 	 * @return the number of newsletter logs associated with the campaign
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -3980,12 +4046,13 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 
 	public static final FinderPath FINDER_PATH_CONTAINS_NEWSLETTERLOG = new FinderPath(com.liferay.newsletter.model.impl.NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			com.liferay.newsletter.model.impl.NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			com.liferay.newsletter.model.impl.NewsletterLogImpl.class,
 			com.liferay.newsletter.service.persistence.NewsletterLogPersistenceImpl.FINDER_CLASS_NAME_LIST,
 			"containsNewsletterLog",
 			new String[] { Long.class.getName(), Long.class.getName() });
 
 	/**
-	 * Determines if the newsletter log is associated with the campaign.
+	 * Returns <code>true</code> if the newsletter log is associated with the campaign.
 	 *
 	 * @param pk the primary key of the campaign
 	 * @param newsletterLogPK the primary key of the newsletter log
@@ -4021,7 +4088,7 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	}
 
 	/**
-	 * Determines if the campaign has any newsletter logs associated with it.
+	 * Returns <code>true</code> if the campaign has any newsletter logs associated with it.
 	 *
 	 * @param pk the primary key of the campaign to check for associations with newsletter logs
 	 * @return <code>true</code> if the campaign has any newsletter logs associated with it; <code>false</code> otherwise
@@ -4129,11 +4196,15 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	private static final String _FINDER_COLUMN_SD_LT_SENDDATE_1 = "campaign.sendDate <= NULL AND ";
 	private static final String _FINDER_COLUMN_SD_LT_SENDDATE_2 = "campaign.sendDate <= ? AND ";
 	private static final String _FINDER_COLUMN_SD_LT_SENT_2 = "campaign.sent = ?";
-	private static final String _FILTER_SQL_SELECT_CAMPAIGN_WHERE = "SELECT {campaign.*} FROM Newsletter_Campaign campaign WHERE ";
+	private static final String _FILTER_SQL_SELECT_CAMPAIGN_WHERE = "SELECT DISTINCT {campaign.*} FROM Newsletter_Campaign campaign WHERE ";
+	private static final String _FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_1 =
+		"SELECT {Newsletter_Campaign.*} FROM (SELECT DISTINCT campaign.campaignId FROM Newsletter_Campaign campaign WHERE ";
+	private static final String _FILTER_SQL_SELECT_CAMPAIGN_NO_INLINE_DISTINCT_WHERE_2 =
+		") TEMP_TABLE INNER JOIN Newsletter_Campaign ON TEMP_TABLE.campaignId = Newsletter_Campaign.campaignId";
 	private static final String _FILTER_SQL_COUNT_CAMPAIGN_WHERE = "SELECT COUNT(DISTINCT campaign.campaignId) AS COUNT_VALUE FROM Newsletter_Campaign campaign WHERE ";
-	private static final String _FILTER_COLUMN_PK = "campaign.campaignId";
 	private static final String _FILTER_ENTITY_ALIAS = "campaign";
 	private static final String _FILTER_ENTITY_TABLE = "Newsletter_Campaign";
+	private static final String _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN = "campaign.campaignId";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "campaign.";
 	private static final String _ORDER_BY_ENTITY_TABLE = "Newsletter_Campaign.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Campaign exists with the primary key ";
@@ -4141,4 +4212,19 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 	private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
 				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(CampaignPersistenceImpl.class);
+	private static Campaign _nullCampaign = new CampaignImpl() {
+			public Object clone() {
+				return this;
+			}
+
+			public CacheModel<Campaign> toCacheModel() {
+				return _nullCampaignCacheModel;
+			}
+		};
+
+	private static CacheModel<Campaign> _nullCampaignCacheModel = new CacheModel<Campaign>() {
+			public Campaign toEntityModel() {
+				return _nullCampaign;
+			}
+		};
 }
