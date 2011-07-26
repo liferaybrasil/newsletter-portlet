@@ -120,7 +120,7 @@ public class ContactUtil {
 	/**
 	* Caches the contact in the entity cache if it is enabled.
 	*
-	* @param contact the contact to cache
+	* @param contact the contact
 	*/
 	public static void cacheResult(com.liferay.newsletter.model.Contact contact) {
 		getPersistence().cacheResult(contact);
@@ -129,7 +129,7 @@ public class ContactUtil {
 	/**
 	* Caches the contacts in the entity cache if it is enabled.
 	*
-	* @param contacts the contacts to cache
+	* @param contacts the contacts
 	*/
 	public static void cacheResult(
 		java.util.List<com.liferay.newsletter.model.Contact> contacts) {
@@ -149,7 +149,7 @@ public class ContactUtil {
 	/**
 	* Removes the contact with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param contactId the primary key of the contact to remove
+	* @param contactId the primary key of the contact
 	* @return the contact that was removed
 	* @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -167,9 +167,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the contact with the primary key or throws a {@link com.liferay.newsletter.NoSuchContactException} if it could not be found.
+	* Returns the contact with the primary key or throws a {@link com.liferay.newsletter.NoSuchContactException} if it could not be found.
 	*
-	* @param contactId the primary key of the contact to find
+	* @param contactId the primary key of the contact
 	* @return the contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -182,9 +182,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the contact with the primary key or returns <code>null</code> if it could not be found.
+	* Returns the contact with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param contactId the primary key of the contact to find
+	* @param contactId the primary key of the contact
 	* @return the contact, or <code>null</code> if a contact with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -195,9 +195,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds all the contacts where uuid = &#63;.
+	* Returns all the contacts where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the matching contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -208,15 +208,15 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds a range of all the contacts where uuid = &#63;.
+	* Returns a range of all the contacts where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of contacts to return
-	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of contacts
+	* @param end the upper bound of the range of contacts (not inclusive)
 	* @return the range of matching contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -227,15 +227,15 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds an ordered range of all the contacts where uuid = &#63;.
+	* Returns an ordered range of all the contacts where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of contacts to return
-	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of contacts
+	* @param end the upper bound of the range of contacts (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching contacts
 	* @throws SystemException if a system exception occurred
@@ -248,13 +248,13 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the first contact in the ordered set where uuid = &#63;.
+	* Returns the first contact in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
@@ -269,13 +269,13 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the last contact in the ordered set where uuid = &#63;.
+	* Returns the last contact in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
@@ -290,14 +290,14 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the contacts before and after the current contact in the ordered set where uuid = &#63;.
+	* Returns the contacts before and after the current contact in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param contactId the primary key of the current contact
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
@@ -313,9 +313,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the contact where email = &#63; or throws a {@link com.liferay.newsletter.NoSuchContactException} if it could not be found.
+	* Returns the contact where email = &#63; or throws a {@link com.liferay.newsletter.NoSuchContactException} if it could not be found.
 	*
-	* @param email the email to search with
+	* @param email the email
 	* @return the matching contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
 	* @throws SystemException if a system exception occurred
@@ -328,9 +328,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the contact where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	* Returns the contact where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
-	* @param email the email to search with
+	* @param email the email
 	* @return the matching contact, or <code>null</code> if a matching contact could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -341,9 +341,10 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the contact where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	* Returns the contact where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
-	* @param email the email to search with
+	* @param email the email
+	* @param retrieveFromCache whether to use the finder cache
 	* @return the matching contact, or <code>null</code> if a matching contact could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -354,9 +355,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds all the contacts where name = &#63;.
+	* Returns all the contacts where name = &#63;.
 	*
-	* @param name the name to search with
+	* @param name the name
 	* @return the matching contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -367,15 +368,15 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds a range of all the contacts where name = &#63;.
+	* Returns a range of all the contacts where name = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param name the name to search with
-	* @param start the lower bound of the range of contacts to return
-	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @param name the name
+	* @param start the lower bound of the range of contacts
+	* @param end the upper bound of the range of contacts (not inclusive)
 	* @return the range of matching contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -386,15 +387,15 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds an ordered range of all the contacts where name = &#63;.
+	* Returns an ordered range of all the contacts where name = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param name the name to search with
-	* @param start the lower bound of the range of contacts to return
-	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @param name the name
+	* @param start the lower bound of the range of contacts
+	* @param end the upper bound of the range of contacts (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching contacts
 	* @throws SystemException if a system exception occurred
@@ -407,13 +408,13 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the first contact in the ordered set where name = &#63;.
+	* Returns the first contact in the ordered set where name = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param name the name to search with
+	* @param name the name
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
@@ -428,13 +429,13 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the last contact in the ordered set where name = &#63;.
+	* Returns the last contact in the ordered set where name = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param name the name to search with
+	* @param name the name
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
@@ -449,14 +450,14 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds the contacts before and after the current contact in the ordered set where name = &#63;.
+	* Returns the contacts before and after the current contact in the ordered set where name = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param contactId the primary key of the current contact
-	* @param name the name to search with
+	* @param name the name
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next contact
 	* @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
@@ -472,7 +473,7 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds all the contacts.
+	* Returns all the contacts.
 	*
 	* @return the contacts
 	* @throws SystemException if a system exception occurred
@@ -483,14 +484,14 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds a range of all the contacts.
+	* Returns a range of all the contacts.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of contacts to return
-	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @param start the lower bound of the range of contacts
+	* @param end the upper bound of the range of contacts (not inclusive)
 	* @return the range of contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -501,14 +502,14 @@ public class ContactUtil {
 	}
 
 	/**
-	* Finds an ordered range of all the contacts.
+	* Returns an ordered range of all the contacts.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of contacts to return
-	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @param start the lower bound of the range of contacts
+	* @param end the upper bound of the range of contacts (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of contacts
 	* @throws SystemException if a system exception occurred
@@ -523,7 +524,7 @@ public class ContactUtil {
 	/**
 	* Removes all the contacts where uuid = &#63; from the database.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeByUuid(java.lang.String uuid)
@@ -534,7 +535,7 @@ public class ContactUtil {
 	/**
 	* Removes the contact where email = &#63; from the database.
 	*
-	* @param email the email to search with
+	* @param email the email
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeByEmail(java.lang.String email)
@@ -546,7 +547,7 @@ public class ContactUtil {
 	/**
 	* Removes all the contacts where name = &#63; from the database.
 	*
-	* @param name the name to search with
+	* @param name the name
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeByName(java.lang.String name)
@@ -565,9 +566,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Counts all the contacts where uuid = &#63;.
+	* Returns the number of contacts where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the number of matching contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -577,9 +578,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Counts all the contacts where email = &#63;.
+	* Returns the number of contacts where email = &#63;.
 	*
-	* @param email the email to search with
+	* @param email the email
 	* @return the number of matching contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -589,9 +590,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Counts all the contacts where name = &#63;.
+	* Returns the number of contacts where name = &#63;.
 	*
-	* @param name the name to search with
+	* @param name the name
 	* @return the number of matching contacts
 	* @throws SystemException if a system exception occurred
 	*/
@@ -601,7 +602,7 @@ public class ContactUtil {
 	}
 
 	/**
-	* Counts all the contacts.
+	* Returns the number of contacts.
 	*
 	* @return the number of contacts
 	* @throws SystemException if a system exception occurred
@@ -612,9 +613,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Gets all the newsletter logs associated with the contact.
+	* Returns all the newsletter logs associated with the contact.
 	*
-	* @param pk the primary key of the contact to get the associated newsletter logs for
+	* @param pk the primary key of the contact
 	* @return the newsletter logs associated with the contact
 	* @throws SystemException if a system exception occurred
 	*/
@@ -624,15 +625,15 @@ public class ContactUtil {
 	}
 
 	/**
-	* Gets a range of all the newsletter logs associated with the contact.
+	* Returns a range of all the newsletter logs associated with the contact.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param pk the primary key of the contact to get the associated newsletter logs for
-	* @param start the lower bound of the range of contacts to return
-	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @param pk the primary key of the contact
+	* @param start the lower bound of the range of contacts
+	* @param end the upper bound of the range of contacts (not inclusive)
 	* @return the range of newsletter logs associated with the contact
 	* @throws SystemException if a system exception occurred
 	*/
@@ -643,15 +644,15 @@ public class ContactUtil {
 	}
 
 	/**
-	* Gets an ordered range of all the newsletter logs associated with the contact.
+	* Returns an ordered range of all the newsletter logs associated with the contact.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param pk the primary key of the contact to get the associated newsletter logs for
-	* @param start the lower bound of the range of contacts to return
-	* @param end the upper bound of the range of contacts to return (not inclusive)
+	* @param pk the primary key of the contact
+	* @param start the lower bound of the range of contacts
+	* @param end the upper bound of the range of contacts (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of newsletter logs associated with the contact
 	* @throws SystemException if a system exception occurred
@@ -665,9 +666,9 @@ public class ContactUtil {
 	}
 
 	/**
-	* Gets the number of newsletter logs associated with the contact.
+	* Returns the number of newsletter logs associated with the contact.
 	*
-	* @param pk the primary key of the contact to get the number of associated newsletter logs for
+	* @param pk the primary key of the contact
 	* @return the number of newsletter logs associated with the contact
 	* @throws SystemException if a system exception occurred
 	*/
@@ -677,7 +678,7 @@ public class ContactUtil {
 	}
 
 	/**
-	* Determines if the newsletter log is associated with the contact.
+	* Returns <code>true</code> if the newsletter log is associated with the contact.
 	*
 	* @param pk the primary key of the contact
 	* @param newsletterLogPK the primary key of the newsletter log
@@ -690,7 +691,7 @@ public class ContactUtil {
 	}
 
 	/**
-	* Determines if the contact has any newsletter logs associated with it.
+	* Returns <code>true</code> if the contact has any newsletter logs associated with it.
 	*
 	* @param pk the primary key of the contact to check for associations with newsletter logs
 	* @return <code>true</code> if the contact has any newsletter logs associated with it; <code>false</code> otherwise

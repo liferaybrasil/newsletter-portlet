@@ -14,8 +14,10 @@
 
 package com.liferay.newsletter.model;
 
+import com.liferay.portal.model.PersistedModel;
+
 /**
- * The model interface for the Campaign service. Represents a row in the &quot;Newsletter_Campaign&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the Campaign service. Represents a row in the &quot;Newsletter_Campaign&quot; database table, with each column mapped to a property of this class.
  *
  * @author Bruno Pinheiro
  * @see CampaignModel
@@ -23,7 +25,7 @@ package com.liferay.newsletter.model;
  * @see com.liferay.newsletter.model.impl.CampaignModelImpl
  * @generated
  */
-public interface Campaign extends CampaignModel {
+public interface Campaign extends CampaignModel, PersistedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

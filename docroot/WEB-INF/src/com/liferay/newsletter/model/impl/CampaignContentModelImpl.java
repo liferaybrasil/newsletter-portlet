@@ -14,25 +14,31 @@
 
 package com.liferay.newsletter.model.impl;
 
-import java.io.Serializable;
-import java.lang.reflect.Proxy;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.CampaignContentModel;
 import com.liferay.newsletter.model.CampaignContentSoap;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
+
 import com.liferay.portlet.expando.model.ExpandoBridge;
 import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
+
+import java.io.Serializable;
+
+import java.lang.reflect.Proxy;
+
+import java.sql.Types;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * The base model implementation for the CampaignContent service. Represents a row in the &quot;Newsletter_CampaignContent&quot; database table, with each column mapped to a property of this class.
@@ -211,17 +217,23 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		_articleId = articleId;
 	}
 
+	@Override
 	public CampaignContent toEscapedModel() {
 		if (isEscapedModel()) {
 			return (CampaignContent)this;
 		}
 		else {
-			return (CampaignContent)Proxy.newProxyInstance(CampaignContent.class.getClassLoader(),
-				new Class[] { CampaignContent.class },
-				new AutoEscapeBeanHandler(this));
+			if (_escapedModelProxy == null) {
+				_escapedModelProxy = (CampaignContent)Proxy.newProxyInstance(_classLoader,
+						_escapedModelProxyInterfaces,
+						new AutoEscapeBeanHandler(this));
+			}
+
+			return _escapedModelProxy;
 		}
 	}
 
+	@Override
 	public ExpandoBridge getExpandoBridge() {
 		if (_expandoBridge == null) {
 			_expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(0,
@@ -231,10 +243,12 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		return _expandoBridge;
 	}
 
+	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		getExpandoBridge().setAttributes(serviceContext);
 	}
 
+	@Override
 	public Object clone() {
 		CampaignContentImpl campaignContentImpl = new CampaignContentImpl();
 
@@ -264,6 +278,7 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		}
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
@@ -288,13 +303,60 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		}
 	}
 
+	@Override
 	public int hashCode() {
 		return (int)getPrimaryKey();
 	}
 
+	@Override
 	public void resetOriginalValues() {
 	}
 
+	@Override
+	public CacheModel<CampaignContent> toCacheModel() {
+		CampaignContentCacheModel campaignContentCacheModel = new CampaignContentCacheModel();
+
+		campaignContentCacheModel.uuid = getUuid();
+
+		String uuid = campaignContentCacheModel.uuid;
+
+		if ((uuid != null) && (uuid.length() == 0)) {
+			campaignContentCacheModel.uuid = null;
+		}
+
+		campaignContentCacheModel.campaignContentId = getCampaignContentId();
+
+		campaignContentCacheModel.title = getTitle();
+
+		String title = campaignContentCacheModel.title;
+
+		if ((title != null) && (title.length() == 0)) {
+			campaignContentCacheModel.title = null;
+		}
+
+		campaignContentCacheModel.content = getContent();
+
+		String content = campaignContentCacheModel.content;
+
+		if ((content != null) && (content.length() == 0)) {
+			campaignContentCacheModel.content = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			campaignContentCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			campaignContentCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		campaignContentCacheModel.articleId = getArticleId();
+
+		return campaignContentCacheModel;
+	}
+
+	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(13);
 
@@ -352,6 +414,10 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 		return sb.toString();
 	}
 
+	private static ClassLoader _classLoader = CampaignContent.class.getClassLoader();
+	private static Class<?>[] _escapedModelProxyInterfaces = new Class[] {
+			CampaignContent.class
+		};
 	private String _uuid;
 	private long _campaignContentId;
 	private String _title;
@@ -359,4 +425,5 @@ public class CampaignContentModelImpl extends BaseModelImpl<CampaignContent>
 	private Date _createDate;
 	private long _articleId;
 	private transient ExpandoBridge _expandoBridge;
+	private CampaignContent _escapedModelProxy;
 }

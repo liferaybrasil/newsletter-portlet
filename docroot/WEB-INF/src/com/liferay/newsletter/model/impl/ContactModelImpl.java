@@ -14,24 +14,30 @@
 
 package com.liferay.newsletter.model.impl;
 
-import java.io.Serializable;
-import java.lang.reflect.Proxy;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.ContactModel;
 import com.liferay.newsletter.model.ContactSoap;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
+
 import com.liferay.portlet.expando.model.ExpandoBridge;
 import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
+
+import java.io.Serializable;
+
+import java.lang.reflect.Proxy;
+
+import java.sql.Types;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The base model implementation for the Contact service. Represents a row in the &quot;Newsletter_Contact&quot; database table, with each column mapped to a property of this class.
@@ -197,16 +203,23 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 		_name = name;
 	}
 
+	@Override
 	public Contact toEscapedModel() {
 		if (isEscapedModel()) {
 			return (Contact)this;
 		}
 		else {
-			return (Contact)Proxy.newProxyInstance(Contact.class.getClassLoader(),
-				new Class[] { Contact.class }, new AutoEscapeBeanHandler(this));
+			if (_escapedModelProxy == null) {
+				_escapedModelProxy = (Contact)Proxy.newProxyInstance(_classLoader,
+						_escapedModelProxyInterfaces,
+						new AutoEscapeBeanHandler(this));
+			}
+
+			return _escapedModelProxy;
 		}
 	}
 
+	@Override
 	public ExpandoBridge getExpandoBridge() {
 		if (_expandoBridge == null) {
 			_expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(0,
@@ -216,10 +229,12 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 		return _expandoBridge;
 	}
 
+	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		getExpandoBridge().setAttributes(serviceContext);
 	}
 
+	@Override
 	public Object clone() {
 		ContactImpl contactImpl = new ContactImpl();
 
@@ -245,6 +260,7 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 		return 0;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
@@ -269,16 +285,52 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 		}
 	}
 
+	@Override
 	public int hashCode() {
 		return (int)getPrimaryKey();
 	}
 
+	@Override
 	public void resetOriginalValues() {
 		ContactModelImpl contactModelImpl = this;
 
 		contactModelImpl._originalEmail = contactModelImpl._email;
 	}
 
+	@Override
+	public CacheModel<Contact> toCacheModel() {
+		ContactCacheModel contactCacheModel = new ContactCacheModel();
+
+		contactCacheModel.uuid = getUuid();
+
+		String uuid = contactCacheModel.uuid;
+
+		if ((uuid != null) && (uuid.length() == 0)) {
+			contactCacheModel.uuid = null;
+		}
+
+		contactCacheModel.contactId = getContactId();
+
+		contactCacheModel.email = getEmail();
+
+		String email = contactCacheModel.email;
+
+		if ((email != null) && (email.length() == 0)) {
+			contactCacheModel.email = null;
+		}
+
+		contactCacheModel.name = getName();
+
+		String name = contactCacheModel.name;
+
+		if ((name != null) && (name.length() == 0)) {
+			contactCacheModel.name = null;
+		}
+
+		return contactCacheModel;
+	}
+
+	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(9);
 
@@ -324,10 +376,15 @@ public class ContactModelImpl extends BaseModelImpl<Contact>
 		return sb.toString();
 	}
 
+	private static ClassLoader _classLoader = Contact.class.getClassLoader();
+	private static Class<?>[] _escapedModelProxyInterfaces = new Class[] {
+			Contact.class
+		};
 	private String _uuid;
 	private long _contactId;
 	private String _email;
 	private String _originalEmail;
 	private String _name;
 	private transient ExpandoBridge _expandoBridge;
+	private Contact _escapedModelProxy;
 }

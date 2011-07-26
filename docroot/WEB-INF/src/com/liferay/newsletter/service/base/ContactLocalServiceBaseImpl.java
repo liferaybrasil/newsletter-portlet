@@ -14,11 +14,8 @@
 
 package com.liferay.newsletter.service.base;
 
-import java.util.List;
-
-import javax.sql.DataSource;
-
 import com.liferay.counter.service.CounterLocalService;
+
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.service.CampaignContentLocalService;
 import com.liferay.newsletter.service.CampaignContentService;
@@ -32,6 +29,7 @@ import com.liferay.newsletter.service.persistence.CampaignPersistence;
 import com.liferay.newsletter.service.persistence.ContactFinder;
 import com.liferay.newsletter.service.persistence.ContactPersistence;
 import com.liferay.newsletter.service.persistence.NewsletterLogPersistence;
+
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.bean.IdentifiableBean;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
@@ -39,13 +37,26 @@ import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
+import com.liferay.portal.service.PersistedModelLocalServiceRegistryUtil;
 import com.liferay.portal.service.ResourceLocalService;
 import com.liferay.portal.service.ResourceService;
 import com.liferay.portal.service.UserLocalService;
 import com.liferay.portal.service.UserService;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
+
+import java.io.Serializable;
+
+import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * The base implementation of the contact local service.
@@ -70,14 +81,29 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	/**
 	 * Adds the contact to the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param contact the contact to add
+	 * @param contact the contact
 	 * @return the contact that was added
 	 * @throws SystemException if a system exception occurred
 	 */
 	public Contact addContact(Contact contact) throws SystemException {
 		contact.setNew(true);
 
-		return contactPersistence.update(contact, false);
+		contact = contactPersistence.update(contact, false);
+
+		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());
+
+		if (indexer != null) {
+			try {
+				indexer.reindex(contact);
+			}
+			catch (SearchException se) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(se, se);
+				}
+			}
+		}
+
+		return contact;
 	}
 
 	/**
@@ -93,29 +119,55 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	/**
 	 * Deletes the contact with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param contactId the primary key of the contact to delete
+	 * @param contactId the primary key of the contact
 	 * @throws PortalException if a contact with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void deleteContact(long contactId)
 		throws PortalException, SystemException {
-		contactPersistence.remove(contactId);
+		Contact contact = contactPersistence.remove(contactId);
+
+		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());
+
+		if (indexer != null) {
+			try {
+				indexer.delete(contact);
+			}
+			catch (SearchException se) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(se, se);
+				}
+			}
+		}
 	}
 
 	/**
 	 * Deletes the contact from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param contact the contact to delete
+	 * @param contact the contact
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void deleteContact(Contact contact) throws SystemException {
 		contactPersistence.remove(contact);
+
+		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());
+
+		if (indexer != null) {
+			try {
+				indexer.delete(contact);
+			}
+			catch (SearchException se) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(se, se);
+				}
+			}
+		}
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns the matching rows.
 	 *
-	 * @param dynamicQuery the dynamic query to search with
+	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -132,9 +184,9 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param dynamicQuery the dynamic query to search with
-	 * @param start the lower bound of the range of model instances to return
-	 * @param end the upper bound of the range of model instances to return (not inclusive)
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -151,9 +203,9 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param dynamicQuery the dynamic query to search with
-	 * @param start the lower bound of the range of model instances to return
-	 * @param end the upper bound of the range of model instances to return (not inclusive)
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 * @throws SystemException if a system exception occurred
@@ -166,9 +218,9 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Counts the number of rows that match the dynamic query.
+	 * Returns the number of rows that match the dynamic query.
 	 *
-	 * @param dynamicQuery the dynamic query to search with
+	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows that match the dynamic query
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -178,9 +230,9 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the contact with the primary key.
+	 * Returns the contact with the primary key.
 	 *
-	 * @param contactId the primary key of the contact to get
+	 * @param contactId the primary key of the contact
 	 * @return the contact
 	 * @throws PortalException if a contact with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -190,15 +242,20 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 		return contactPersistence.findByPrimaryKey(contactId);
 	}
 
+	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException, SystemException {
+		return contactPersistence.findByPrimaryKey(primaryKeyObj);
+	}
+
 	/**
-	 * Gets a range of all the contacts.
+	 * Returns a range of all the contacts.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of contacts to return
-	 * @param end the upper bound of the range of contacts to return (not inclusive)
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
 	 * @return the range of contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -208,7 +265,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the number of contacts.
+	 * Returns the number of contacts.
 	 *
 	 * @return the number of contacts
 	 * @throws SystemException if a system exception occurred
@@ -218,22 +275,20 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Updates the contact in the database. Also notifies the appropriate model listeners.
+	 * Updates the contact in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
-	 * @param contact the contact to update
+	 * @param contact the contact
 	 * @return the contact that was updated
 	 * @throws SystemException if a system exception occurred
 	 */
 	public Contact updateContact(Contact contact) throws SystemException {
-		contact.setNew(false);
-
-		return contactPersistence.update(contact, true);
+		return updateContact(contact, true);
 	}
 
 	/**
-	 * Updates the contact in the database. Also notifies the appropriate model listeners.
+	 * Updates the contact in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
-	 * @param contact the contact to update
+	 * @param contact the contact
 	 * @param merge whether to merge the contact with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
 	 * @return the contact that was updated
 	 * @throws SystemException if a system exception occurred
@@ -242,11 +297,26 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 		throws SystemException {
 		contact.setNew(false);
 
-		return contactPersistence.update(contact, merge);
+		contact = contactPersistence.update(contact, merge);
+
+		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());
+
+		if (indexer != null) {
+			try {
+				indexer.reindex(contact);
+			}
+			catch (SearchException se) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(se, se);
+				}
+			}
+		}
+
+		return contact;
 	}
 
 	/**
-	 * Gets the campaign local service.
+	 * Returns the campaign local service.
 	 *
 	 * @return the campaign local service
 	 */
@@ -265,7 +335,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the campaign persistence.
+	 * Returns the campaign persistence.
 	 *
 	 * @return the campaign persistence
 	 */
@@ -283,7 +353,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the campaign content local service.
+	 * Returns the campaign content local service.
 	 *
 	 * @return the campaign content local service
 	 */
@@ -302,7 +372,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the campaign content remote service.
+	 * Returns the campaign content remote service.
 	 *
 	 * @return the campaign content remote service
 	 */
@@ -321,7 +391,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the campaign content persistence.
+	 * Returns the campaign content persistence.
 	 *
 	 * @return the campaign content persistence
 	 */
@@ -340,7 +410,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the campaign content finder.
+	 * Returns the campaign content finder.
 	 *
 	 * @return the campaign content finder
 	 */
@@ -359,7 +429,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the contact local service.
+	 * Returns the contact local service.
 	 *
 	 * @return the contact local service
 	 */
@@ -377,7 +447,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the contact remote service.
+	 * Returns the contact remote service.
 	 *
 	 * @return the contact remote service
 	 */
@@ -395,7 +465,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the contact persistence.
+	 * Returns the contact persistence.
 	 *
 	 * @return the contact persistence
 	 */
@@ -413,7 +483,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the contact finder.
+	 * Returns the contact finder.
 	 *
 	 * @return the contact finder
 	 */
@@ -431,7 +501,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the newsletter log local service.
+	 * Returns the newsletter log local service.
 	 *
 	 * @return the newsletter log local service
 	 */
@@ -450,7 +520,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the newsletter log persistence.
+	 * Returns the newsletter log persistence.
 	 *
 	 * @return the newsletter log persistence
 	 */
@@ -469,7 +539,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the counter local service.
+	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
 	 */
@@ -487,7 +557,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the resource local service.
+	 * Returns the resource local service.
 	 *
 	 * @return the resource local service
 	 */
@@ -506,7 +576,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the resource remote service.
+	 * Returns the resource remote service.
 	 *
 	 * @return the resource remote service
 	 */
@@ -524,7 +594,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the resource persistence.
+	 * Returns the resource persistence.
 	 *
 	 * @return the resource persistence
 	 */
@@ -542,7 +612,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the user local service.
+	 * Returns the user local service.
 	 *
 	 * @return the user local service
 	 */
@@ -560,7 +630,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the user remote service.
+	 * Returns the user remote service.
 	 *
 	 * @return the user remote service
 	 */
@@ -578,7 +648,7 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	}
 
 	/**
-	 * Gets the user persistence.
+	 * Returns the user persistence.
 	 *
 	 * @return the user persistence
 	 */
@@ -595,8 +665,18 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 		this.userPersistence = userPersistence;
 	}
 
+	public void afterPropertiesSet() {
+		PersistedModelLocalServiceRegistryUtil.register("com.liferay.newsletter.model.Contact",
+			contactLocalService);
+	}
+
+	public void destroy() {
+		PersistedModelLocalServiceRegistryUtil.unregister(
+			"com.liferay.newsletter.model.Contact");
+	}
+
 	/**
-	 * Gets the Spring bean ID for this bean.
+	 * Returns the Spring bean ID for this bean.
 	 *
 	 * @return the Spring bean ID for this bean
 	 */
@@ -613,10 +693,18 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 		_beanIdentifier = beanIdentifier;
 	}
 
+	protected Class<?> getModelClass() {
+		return Contact.class;
+	}
+
+	protected String getModelClassName() {
+		return Contact.class.getName();
+	}
+
 	/**
 	 * Performs an SQL query.
 	 *
-	 * @param sql the sql query to perform
+	 * @param sql the sql query
 	 */
 	protected void runSQL(String sql) throws SystemException {
 		try {
@@ -670,5 +758,6 @@ public abstract class ContactLocalServiceBaseImpl implements ContactLocalService
 	protected UserService userService;
 	@BeanReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+	private static Log _log = LogFactoryUtil.getLog(ContactLocalServiceBaseImpl.class);
 	private String _beanIdentifier;
 }

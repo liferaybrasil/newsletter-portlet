@@ -14,8 +14,10 @@
 
 package com.liferay.newsletter.model;
 
+import com.liferay.portal.model.PersistedModel;
+
 /**
- * The model interface for the NewsletterLog service. Represents a row in the &quot;Newsletter_NewsletterLog&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the NewsletterLog service. Represents a row in the &quot;Newsletter_NewsletterLog&quot; database table, with each column mapped to a property of this class.
  *
  * @author Bruno Pinheiro
  * @see NewsletterLogModel
@@ -23,7 +25,7 @@ package com.liferay.newsletter.model;
  * @see com.liferay.newsletter.model.impl.NewsletterLogModelImpl
  * @generated
  */
-public interface NewsletterLog extends NewsletterLogModel {
+public interface NewsletterLog extends NewsletterLogModel, PersistedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

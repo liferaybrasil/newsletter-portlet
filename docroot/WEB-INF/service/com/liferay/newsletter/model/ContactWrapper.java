@@ -37,7 +37,7 @@ public class ContactWrapper implements Contact {
 	}
 
 	/**
-	* Gets the primary key of this contact.
+	* Returns the primary key of this contact.
 	*
 	* @return the primary key of this contact
 	*/
@@ -46,7 +46,7 @@ public class ContactWrapper implements Contact {
 	}
 
 	/**
-	* Sets the primary key of this contact
+	* Sets the primary key of this contact.
 	*
 	* @param primaryKey the primary key of this contact
 	*/
@@ -55,7 +55,7 @@ public class ContactWrapper implements Contact {
 	}
 
 	/**
-	* Gets the uuid of this contact.
+	* Returns the uuid of this contact.
 	*
 	* @return the uuid of this contact
 	*/
@@ -73,7 +73,7 @@ public class ContactWrapper implements Contact {
 	}
 
 	/**
-	* Gets the contact ID of this contact.
+	* Returns the contact ID of this contact.
 	*
 	* @return the contact ID of this contact
 	*/
@@ -91,7 +91,7 @@ public class ContactWrapper implements Contact {
 	}
 
 	/**
-	* Gets the email of this contact.
+	* Returns the email of this contact.
 	*
 	* @return the email of this contact
 	*/
@@ -109,7 +109,7 @@ public class ContactWrapper implements Contact {
 	}
 
 	/**
-	* Gets the name of this contact.
+	* Returns the name of this contact.
 	*
 	* @return the name of this contact
 	*/
@@ -167,6 +167,7 @@ public class ContactWrapper implements Contact {
 		_contact.setExpandoBridgeAttributes(serviceContext);
 	}
 
+	@Override
 	public java.lang.Object clone() {
 		return new ContactWrapper((Contact)_contact.clone());
 	}
@@ -175,20 +176,31 @@ public class ContactWrapper implements Contact {
 		return _contact.compareTo(contact);
 	}
 
+	@Override
 	public int hashCode() {
 		return _contact.hashCode();
+	}
+
+	public com.liferay.portal.model.CacheModel<com.liferay.newsletter.model.Contact> toCacheModel() {
+		return _contact.toCacheModel();
 	}
 
 	public com.liferay.newsletter.model.Contact toEscapedModel() {
 		return new ContactWrapper(_contact.toEscapedModel());
 	}
 
+	@Override
 	public java.lang.String toString() {
 		return _contact.toString();
 	}
 
 	public java.lang.String toXmlString() {
 		return _contact.toXmlString();
+	}
+
+	public void persist()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_contact.persist();
 	}
 
 	public Contact getWrappedContact() {

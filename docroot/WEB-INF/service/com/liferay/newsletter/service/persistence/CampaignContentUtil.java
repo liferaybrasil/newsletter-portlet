@@ -121,7 +121,7 @@ public class CampaignContentUtil {
 	/**
 	* Caches the campaign content in the entity cache if it is enabled.
 	*
-	* @param campaignContent the campaign content to cache
+	* @param campaignContent the campaign content
 	*/
 	public static void cacheResult(
 		com.liferay.newsletter.model.CampaignContent campaignContent) {
@@ -131,7 +131,7 @@ public class CampaignContentUtil {
 	/**
 	* Caches the campaign contents in the entity cache if it is enabled.
 	*
-	* @param campaignContents the campaign contents to cache
+	* @param campaignContents the campaign contents
 	*/
 	public static void cacheResult(
 		java.util.List<com.liferay.newsletter.model.CampaignContent> campaignContents) {
@@ -152,7 +152,7 @@ public class CampaignContentUtil {
 	/**
 	* Removes the campaign content with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param campaignContentId the primary key of the campaign content to remove
+	* @param campaignContentId the primary key of the campaign content
 	* @return the campaign content that was removed
 	* @throws com.liferay.newsletter.NoSuchCampaignContentException if a campaign content with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -172,9 +172,9 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds the campaign content with the primary key or throws a {@link com.liferay.newsletter.NoSuchCampaignContentException} if it could not be found.
+	* Returns the campaign content with the primary key or throws a {@link com.liferay.newsletter.NoSuchCampaignContentException} if it could not be found.
 	*
-	* @param campaignContentId the primary key of the campaign content to find
+	* @param campaignContentId the primary key of the campaign content
 	* @return the campaign content
 	* @throws com.liferay.newsletter.NoSuchCampaignContentException if a campaign content with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -187,9 +187,9 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds the campaign content with the primary key or returns <code>null</code> if it could not be found.
+	* Returns the campaign content with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param campaignContentId the primary key of the campaign content to find
+	* @param campaignContentId the primary key of the campaign content
 	* @return the campaign content, or <code>null</code> if a campaign content with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -200,9 +200,9 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds all the campaign contents where uuid = &#63;.
+	* Returns all the campaign contents where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the matching campaign contents
 	* @throws SystemException if a system exception occurred
 	*/
@@ -213,15 +213,15 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds a range of all the campaign contents where uuid = &#63;.
+	* Returns a range of all the campaign contents where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of campaign contents to return
-	* @param end the upper bound of the range of campaign contents to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of campaign contents
+	* @param end the upper bound of the range of campaign contents (not inclusive)
 	* @return the range of matching campaign contents
 	* @throws SystemException if a system exception occurred
 	*/
@@ -232,15 +232,15 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds an ordered range of all the campaign contents where uuid = &#63;.
+	* Returns an ordered range of all the campaign contents where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of campaign contents to return
-	* @param end the upper bound of the range of campaign contents to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of campaign contents
+	* @param end the upper bound of the range of campaign contents (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaign contents
 	* @throws SystemException if a system exception occurred
@@ -253,13 +253,13 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds the first campaign content in the ordered set where uuid = &#63;.
+	* Returns the first campaign content in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching campaign content
 	* @throws com.liferay.newsletter.NoSuchCampaignContentException if a matching campaign content could not be found
@@ -274,13 +274,13 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds the last campaign content in the ordered set where uuid = &#63;.
+	* Returns the last campaign content in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching campaign content
 	* @throws com.liferay.newsletter.NoSuchCampaignContentException if a matching campaign content could not be found
@@ -295,14 +295,14 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds the campaign contents before and after the current campaign content in the ordered set where uuid = &#63;.
+	* Returns the campaign contents before and after the current campaign content in the ordered set where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param campaignContentId the primary key of the current campaign content
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign content
 	* @throws com.liferay.newsletter.NoSuchCampaignContentException if a campaign content with the primary key could not be found
@@ -319,9 +319,9 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Filters by the user's permissions and finds all the campaign contents where uuid = &#63;.
+	* Returns all the campaign contents that the user has permission to view where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the matching campaign contents that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -332,15 +332,15 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Filters by the user's permissions and finds a range of all the campaign contents where uuid = &#63;.
+	* Returns a range of all the campaign contents that the user has permission to view where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of campaign contents to return
-	* @param end the upper bound of the range of campaign contents to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of campaign contents
+	* @param end the upper bound of the range of campaign contents (not inclusive)
 	* @return the range of matching campaign contents that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -351,15 +351,15 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Filters by the user's permissions and finds an ordered range of all the campaign contents where uuid = &#63;.
+	* Returns an ordered range of all the campaign contents that the user has permissions to view where uuid = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param uuid the uuid to search with
-	* @param start the lower bound of the range of campaign contents to return
-	* @param end the upper bound of the range of campaign contents to return (not inclusive)
+	* @param uuid the uuid
+	* @param start the lower bound of the range of campaign contents
+	* @param end the upper bound of the range of campaign contents (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching campaign contents that the user has permission to view
 	* @throws SystemException if a system exception occurred
@@ -373,14 +373,10 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Filters the campaign contents before and after the current campaign content in the ordered set where uuid = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* Returns the campaign contents before and after the current campaign content in the ordered set of campaign contents that the user has permission to view where uuid = &#63;.
 	*
 	* @param campaignContentId the primary key of the current campaign content
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next campaign content
 	* @throws com.liferay.newsletter.NoSuchCampaignContentException if a campaign content with the primary key could not be found
@@ -397,7 +393,7 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds all the campaign contents.
+	* Returns all the campaign contents.
 	*
 	* @return the campaign contents
 	* @throws SystemException if a system exception occurred
@@ -408,14 +404,14 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds a range of all the campaign contents.
+	* Returns a range of all the campaign contents.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of campaign contents to return
-	* @param end the upper bound of the range of campaign contents to return (not inclusive)
+	* @param start the lower bound of the range of campaign contents
+	* @param end the upper bound of the range of campaign contents (not inclusive)
 	* @return the range of campaign contents
 	* @throws SystemException if a system exception occurred
 	*/
@@ -426,14 +422,14 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Finds an ordered range of all the campaign contents.
+	* Returns an ordered range of all the campaign contents.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of campaign contents to return
-	* @param end the upper bound of the range of campaign contents to return (not inclusive)
+	* @param start the lower bound of the range of campaign contents
+	* @param end the upper bound of the range of campaign contents (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of campaign contents
 	* @throws SystemException if a system exception occurred
@@ -448,7 +444,7 @@ public class CampaignContentUtil {
 	/**
 	* Removes all the campaign contents where uuid = &#63; from the database.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeByUuid(java.lang.String uuid)
@@ -467,9 +463,9 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Counts all the campaign contents where uuid = &#63;.
+	* Returns the number of campaign contents where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the number of matching campaign contents
 	* @throws SystemException if a system exception occurred
 	*/
@@ -479,9 +475,9 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Filters by the user's permissions and counts all the campaign contents where uuid = &#63;.
+	* Returns the number of campaign contents that the user has permission to view where uuid = &#63;.
 	*
-	* @param uuid the uuid to search with
+	* @param uuid the uuid
 	* @return the number of matching campaign contents that the user has permission to view
 	* @throws SystemException if a system exception occurred
 	*/
@@ -491,7 +487,7 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Counts all the campaign contents.
+	* Returns the number of campaign contents.
 	*
 	* @return the number of campaign contents
 	* @throws SystemException if a system exception occurred
@@ -502,9 +498,9 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Gets all the campaigns associated with the campaign content.
+	* Returns all the campaigns associated with the campaign content.
 	*
-	* @param pk the primary key of the campaign content to get the associated campaigns for
+	* @param pk the primary key of the campaign content
 	* @return the campaigns associated with the campaign content
 	* @throws SystemException if a system exception occurred
 	*/
@@ -514,15 +510,15 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Gets a range of all the campaigns associated with the campaign content.
+	* Returns a range of all the campaigns associated with the campaign content.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param pk the primary key of the campaign content to get the associated campaigns for
-	* @param start the lower bound of the range of campaign contents to return
-	* @param end the upper bound of the range of campaign contents to return (not inclusive)
+	* @param pk the primary key of the campaign content
+	* @param start the lower bound of the range of campaign contents
+	* @param end the upper bound of the range of campaign contents (not inclusive)
 	* @return the range of campaigns associated with the campaign content
 	* @throws SystemException if a system exception occurred
 	*/
@@ -533,15 +529,15 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Gets an ordered range of all the campaigns associated with the campaign content.
+	* Returns an ordered range of all the campaigns associated with the campaign content.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param pk the primary key of the campaign content to get the associated campaigns for
-	* @param start the lower bound of the range of campaign contents to return
-	* @param end the upper bound of the range of campaign contents to return (not inclusive)
+	* @param pk the primary key of the campaign content
+	* @param start the lower bound of the range of campaign contents
+	* @param end the upper bound of the range of campaign contents (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of campaigns associated with the campaign content
 	* @throws SystemException if a system exception occurred
@@ -554,9 +550,9 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Gets the number of campaigns associated with the campaign content.
+	* Returns the number of campaigns associated with the campaign content.
 	*
-	* @param pk the primary key of the campaign content to get the number of associated campaigns for
+	* @param pk the primary key of the campaign content
 	* @return the number of campaigns associated with the campaign content
 	* @throws SystemException if a system exception occurred
 	*/
@@ -566,7 +562,7 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Determines if the campaign is associated with the campaign content.
+	* Returns <code>true</code> if the campaign is associated with the campaign content.
 	*
 	* @param pk the primary key of the campaign content
 	* @param campaignPK the primary key of the campaign
@@ -579,7 +575,7 @@ public class CampaignContentUtil {
 	}
 
 	/**
-	* Determines if the campaign content has any campaigns associated with it.
+	* Returns <code>true</code> if the campaign content has any campaigns associated with it.
 	*
 	* @param pk the primary key of the campaign content to check for associations with campaigns
 	* @return <code>true</code> if the campaign content has any campaigns associated with it; <code>false</code> otherwise

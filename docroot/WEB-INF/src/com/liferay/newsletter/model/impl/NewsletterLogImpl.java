@@ -19,8 +19,7 @@ import com.liferay.newsletter.model.NewsletterLog;
 /**
  * @author Bruno Pinheiro
  */
-public class NewsletterLogImpl extends NewsletterLogModelImpl
-	implements NewsletterLog {
+public class NewsletterLogImpl extends NewsletterLogBaseImpl {
 
 	public NewsletterLogImpl() {
 	}

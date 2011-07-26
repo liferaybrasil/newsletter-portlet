@@ -33,7 +33,7 @@ public class CampaignContentLocalServiceWrapper
 	/**
 	* Adds the campaign content to the database. Also notifies the appropriate model listeners.
 	*
-	* @param campaignContent the campaign content to add
+	* @param campaignContent the campaign content
 	* @return the campaign content that was added
 	* @throws SystemException if a system exception occurred
 	*/
@@ -57,7 +57,7 @@ public class CampaignContentLocalServiceWrapper
 	/**
 	* Deletes the campaign content with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param campaignContentId the primary key of the campaign content to delete
+	* @param campaignContentId the primary key of the campaign content
 	* @throws PortalException if a campaign content with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -70,7 +70,7 @@ public class CampaignContentLocalServiceWrapper
 	/**
 	* Deletes the campaign content from the database. Also notifies the appropriate model listeners.
 	*
-	* @param campaignContent the campaign content to delete
+	* @param campaignContent the campaign content
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteCampaignContent(
@@ -82,7 +82,7 @@ public class CampaignContentLocalServiceWrapper
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
 	*
-	* @param dynamicQuery the dynamic query to search with
+	* @param dynamicQuery the dynamic query
 	* @return the matching rows
 	* @throws SystemException if a system exception occurred
 	*/
@@ -100,9 +100,9 @@ public class CampaignContentLocalServiceWrapper
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param dynamicQuery the dynamic query to search with
-	* @param start the lower bound of the range of model instances to return
-	* @param end the upper bound of the range of model instances to return (not inclusive)
+	* @param dynamicQuery the dynamic query
+	* @param start the lower bound of the range of model instances
+	* @param end the upper bound of the range of model instances (not inclusive)
 	* @return the range of matching rows
 	* @throws SystemException if a system exception occurred
 	*/
@@ -121,9 +121,9 @@ public class CampaignContentLocalServiceWrapper
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param dynamicQuery the dynamic query to search with
-	* @param start the lower bound of the range of model instances to return
-	* @param end the upper bound of the range of model instances to return (not inclusive)
+	* @param dynamicQuery the dynamic query
+	* @param start the lower bound of the range of model instances
+	* @param end the upper bound of the range of model instances (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching rows
 	* @throws SystemException if a system exception occurred
@@ -139,9 +139,9 @@ public class CampaignContentLocalServiceWrapper
 	}
 
 	/**
-	* Counts the number of rows that match the dynamic query.
+	* Returns the number of rows that match the dynamic query.
 	*
-	* @param dynamicQuery the dynamic query to search with
+	* @param dynamicQuery the dynamic query
 	* @return the number of rows that match the dynamic query
 	* @throws SystemException if a system exception occurred
 	*/
@@ -152,9 +152,9 @@ public class CampaignContentLocalServiceWrapper
 	}
 
 	/**
-	* Gets the campaign content with the primary key.
+	* Returns the campaign content with the primary key.
 	*
-	* @param campaignContentId the primary key of the campaign content to get
+	* @param campaignContentId the primary key of the campaign content
 	* @return the campaign content
 	* @throws PortalException if a campaign content with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -166,15 +166,22 @@ public class CampaignContentLocalServiceWrapper
 		return _campaignContentLocalService.getCampaignContent(campaignContentId);
 	}
 
+	public com.liferay.portal.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _campaignContentLocalService.getPersistedModel(primaryKeyObj);
+	}
+
 	/**
-	* Gets a range of all the campaign contents.
+	* Returns a range of all the campaign contents.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of campaign contents to return
-	* @param end the upper bound of the range of campaign contents to return (not inclusive)
+	* @param start the lower bound of the range of campaign contents
+	* @param end the upper bound of the range of campaign contents (not inclusive)
 	* @return the range of campaign contents
 	* @throws SystemException if a system exception occurred
 	*/
@@ -185,7 +192,7 @@ public class CampaignContentLocalServiceWrapper
 	}
 
 	/**
-	* Gets the number of campaign contents.
+	* Returns the number of campaign contents.
 	*
 	* @return the number of campaign contents
 	* @throws SystemException if a system exception occurred
@@ -196,40 +203,36 @@ public class CampaignContentLocalServiceWrapper
 	}
 
 	/**
-	* Updates the campaign content in the database. Also notifies the appropriate model listeners.
+	* Updates the campaign content in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
-	* @param campaignContent the campaign content to update
+	* @param campaignContent the campaign content
 	* @return the campaign content that was updated
-	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.CampaignContent updateCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _campaignContentLocalService.updateCampaignContent(campaignContent);
 	}
 
 	/**
-	* Updates the campaign content in the database. Also notifies the appropriate model listeners.
+	* Updates the campaign content in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
-	* @param campaignContent the campaign content to update
+	* @param campaignContent the campaign content
 	* @param merge whether to merge the campaign content with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
 	* @return the campaign content that was updated
-	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.CampaignContent updateCampaignContent(
 		com.liferay.newsletter.model.CampaignContent campaignContent,
 		boolean merge)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _campaignContentLocalService.updateCampaignContent(campaignContent,
 			merge);
 	}
 
 	/**
-	* Gets the Spring bean ID for this bean.
+	* Returns the Spring bean ID for this bean.
 	*
 	* @return the Spring bean ID for this bean
 	*/

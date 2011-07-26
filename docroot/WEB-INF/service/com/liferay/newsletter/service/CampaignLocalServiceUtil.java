@@ -42,7 +42,7 @@ public class CampaignLocalServiceUtil {
 	/**
 	* Adds the campaign to the database. Also notifies the appropriate model listeners.
 	*
-	* @param campaign the campaign to add
+	* @param campaign the campaign
 	* @return the campaign that was added
 	* @throws SystemException if a system exception occurred
 	*/
@@ -66,7 +66,7 @@ public class CampaignLocalServiceUtil {
 	/**
 	* Deletes the campaign with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param campaignId the primary key of the campaign to delete
+	* @param campaignId the primary key of the campaign
 	* @throws PortalException if a campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
@@ -79,7 +79,7 @@ public class CampaignLocalServiceUtil {
 	/**
 	* Deletes the campaign from the database. Also notifies the appropriate model listeners.
 	*
-	* @param campaign the campaign to delete
+	* @param campaign the campaign
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void deleteCampaign(
@@ -91,7 +91,7 @@ public class CampaignLocalServiceUtil {
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
 	*
-	* @param dynamicQuery the dynamic query to search with
+	* @param dynamicQuery the dynamic query
 	* @return the matching rows
 	* @throws SystemException if a system exception occurred
 	*/
@@ -109,9 +109,9 @@ public class CampaignLocalServiceUtil {
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param dynamicQuery the dynamic query to search with
-	* @param start the lower bound of the range of model instances to return
-	* @param end the upper bound of the range of model instances to return (not inclusive)
+	* @param dynamicQuery the dynamic query
+	* @param start the lower bound of the range of model instances
+	* @param end the upper bound of the range of model instances (not inclusive)
 	* @return the range of matching rows
 	* @throws SystemException if a system exception occurred
 	*/
@@ -129,9 +129,9 @@ public class CampaignLocalServiceUtil {
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param dynamicQuery the dynamic query to search with
-	* @param start the lower bound of the range of model instances to return
-	* @param end the upper bound of the range of model instances to return (not inclusive)
+	* @param dynamicQuery the dynamic query
+	* @param start the lower bound of the range of model instances
+	* @param end the upper bound of the range of model instances (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching rows
 	* @throws SystemException if a system exception occurred
@@ -147,9 +147,9 @@ public class CampaignLocalServiceUtil {
 	}
 
 	/**
-	* Counts the number of rows that match the dynamic query.
+	* Returns the number of rows that match the dynamic query.
 	*
-	* @param dynamicQuery the dynamic query to search with
+	* @param dynamicQuery the dynamic query
 	* @return the number of rows that match the dynamic query
 	* @throws SystemException if a system exception occurred
 	*/
@@ -160,9 +160,9 @@ public class CampaignLocalServiceUtil {
 	}
 
 	/**
-	* Gets the campaign with the primary key.
+	* Returns the campaign with the primary key.
 	*
-	* @param campaignId the primary key of the campaign to get
+	* @param campaignId the primary key of the campaign
 	* @return the campaign
 	* @throws PortalException if a campaign with the primary key could not be found
 	* @throws SystemException if a system exception occurred
@@ -174,15 +174,22 @@ public class CampaignLocalServiceUtil {
 		return getService().getCampaign(campaignId);
 	}
 
+	public static com.liferay.portal.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getPersistedModel(primaryKeyObj);
+	}
+
 	/**
-	* Gets a range of all the campaigns.
+	* Returns a range of all the campaigns.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param start the lower bound of the range of campaigns to return
-	* @param end the upper bound of the range of campaigns to return (not inclusive)
+	* @param start the lower bound of the range of campaigns
+	* @param end the upper bound of the range of campaigns (not inclusive)
 	* @return the range of campaigns
 	* @throws SystemException if a system exception occurred
 	*/
@@ -193,7 +200,7 @@ public class CampaignLocalServiceUtil {
 	}
 
 	/**
-	* Gets the number of campaigns.
+	* Returns the number of campaigns.
 	*
 	* @return the number of campaigns
 	* @throws SystemException if a system exception occurred
@@ -204,9 +211,9 @@ public class CampaignLocalServiceUtil {
 	}
 
 	/**
-	* Updates the campaign in the database. Also notifies the appropriate model listeners.
+	* Updates the campaign in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
-	* @param campaign the campaign to update
+	* @param campaign the campaign
 	* @return the campaign that was updated
 	* @throws SystemException if a system exception occurred
 	*/
@@ -217,9 +224,9 @@ public class CampaignLocalServiceUtil {
 	}
 
 	/**
-	* Updates the campaign in the database. Also notifies the appropriate model listeners.
+	* Updates the campaign in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
-	* @param campaign the campaign to update
+	* @param campaign the campaign
 	* @param merge whether to merge the campaign with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
 	* @return the campaign that was updated
 	* @throws SystemException if a system exception occurred
@@ -231,7 +238,7 @@ public class CampaignLocalServiceUtil {
 	}
 
 	/**
-	* Gets the Spring bean ID for this bean.
+	* Returns the Spring bean ID for this bean.
 	*
 	* @return the Spring bean ID for this bean
 	*/

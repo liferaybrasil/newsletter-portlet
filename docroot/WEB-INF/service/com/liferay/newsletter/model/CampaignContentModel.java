@@ -16,6 +16,7 @@ package com.liferay.newsletter.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.model.BaseModel;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.service.ServiceContext;
 
 import com.liferay.portlet.expando.model.ExpandoBridge;
@@ -45,21 +46,21 @@ public interface CampaignContentModel extends BaseModel<CampaignContent> {
 	 */
 
 	/**
-	 * Gets the primary key of this campaign content.
+	 * Returns the primary key of this campaign content.
 	 *
 	 * @return the primary key of this campaign content
 	 */
 	public long getPrimaryKey();
 
 	/**
-	 * Sets the primary key of this campaign content
+	 * Sets the primary key of this campaign content.
 	 *
 	 * @param primaryKey the primary key of this campaign content
 	 */
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Gets the uuid of this campaign content.
+	 * Returns the uuid of this campaign content.
 	 *
 	 * @return the uuid of this campaign content
 	 */
@@ -74,7 +75,7 @@ public interface CampaignContentModel extends BaseModel<CampaignContent> {
 	public void setUuid(String uuid);
 
 	/**
-	 * Gets the campaign content ID of this campaign content.
+	 * Returns the campaign content ID of this campaign content.
 	 *
 	 * @return the campaign content ID of this campaign content
 	 */
@@ -88,7 +89,7 @@ public interface CampaignContentModel extends BaseModel<CampaignContent> {
 	public void setCampaignContentId(long campaignContentId);
 
 	/**
-	 * Gets the title of this campaign content.
+	 * Returns the title of this campaign content.
 	 *
 	 * @return the title of this campaign content
 	 */
@@ -103,7 +104,7 @@ public interface CampaignContentModel extends BaseModel<CampaignContent> {
 	public void setTitle(String title);
 
 	/**
-	 * Gets the content of this campaign content.
+	 * Returns the content of this campaign content.
 	 *
 	 * @return the content of this campaign content
 	 */
@@ -118,7 +119,7 @@ public interface CampaignContentModel extends BaseModel<CampaignContent> {
 	public void setContent(String content);
 
 	/**
-	 * Gets the create date of this campaign content.
+	 * Returns the create date of this campaign content.
 	 *
 	 * @return the create date of this campaign content
 	 */
@@ -132,7 +133,7 @@ public interface CampaignContentModel extends BaseModel<CampaignContent> {
 	public void setCreateDate(Date createDate);
 
 	/**
-	 * Gets the article ID of this campaign content.
+	 * Returns the article ID of this campaign content.
 	 *
 	 * @return the article ID of this campaign content
 	 */
@@ -170,6 +171,8 @@ public interface CampaignContentModel extends BaseModel<CampaignContent> {
 	public int compareTo(CampaignContent campaignContent);
 
 	public int hashCode();
+
+	public CacheModel<CampaignContent> toCacheModel();
 
 	public CampaignContent toEscapedModel();
 

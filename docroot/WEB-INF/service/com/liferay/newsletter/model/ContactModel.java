@@ -16,6 +16,7 @@ package com.liferay.newsletter.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.model.BaseModel;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.service.ServiceContext;
 
 import com.liferay.portlet.expando.model.ExpandoBridge;
@@ -43,21 +44,21 @@ public interface ContactModel extends BaseModel<Contact> {
 	 */
 
 	/**
-	 * Gets the primary key of this contact.
+	 * Returns the primary key of this contact.
 	 *
 	 * @return the primary key of this contact
 	 */
 	public long getPrimaryKey();
 
 	/**
-	 * Sets the primary key of this contact
+	 * Sets the primary key of this contact.
 	 *
 	 * @param primaryKey the primary key of this contact
 	 */
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Gets the uuid of this contact.
+	 * Returns the uuid of this contact.
 	 *
 	 * @return the uuid of this contact
 	 */
@@ -72,7 +73,7 @@ public interface ContactModel extends BaseModel<Contact> {
 	public void setUuid(String uuid);
 
 	/**
-	 * Gets the contact ID of this contact.
+	 * Returns the contact ID of this contact.
 	 *
 	 * @return the contact ID of this contact
 	 */
@@ -86,7 +87,7 @@ public interface ContactModel extends BaseModel<Contact> {
 	public void setContactId(long contactId);
 
 	/**
-	 * Gets the email of this contact.
+	 * Returns the email of this contact.
 	 *
 	 * @return the email of this contact
 	 */
@@ -101,7 +102,7 @@ public interface ContactModel extends BaseModel<Contact> {
 	public void setEmail(String email);
 
 	/**
-	 * Gets the name of this contact.
+	 * Returns the name of this contact.
 	 *
 	 * @return the name of this contact
 	 */
@@ -140,6 +141,8 @@ public interface ContactModel extends BaseModel<Contact> {
 	public int compareTo(Contact contact);
 
 	public int hashCode();
+
+	public CacheModel<Contact> toCacheModel();
 
 	public Contact toEscapedModel();
 

@@ -25,7 +25,7 @@ import com.liferay.newsletter.model.Campaign;
  *
  * @author Bruno Pinheiro
  */
-public class CampaignImpl extends CampaignModelImpl implements Campaign {
+public class CampaignImpl extends CampaignBaseImpl {
 	/**
 	 * NOTE FOR DEVELOPERS:
 	 *

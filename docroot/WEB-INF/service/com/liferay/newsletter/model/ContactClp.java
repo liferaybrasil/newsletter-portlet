@@ -14,7 +14,10 @@
 
 package com.liferay.newsletter.model;
 
+import com.liferay.newsletter.service.ContactLocalServiceUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
@@ -85,6 +88,11 @@ public class ContactClp extends BaseModelImpl<Contact> implements Contact {
 		_name = name;
 	}
 
+	public void persist() throws SystemException {
+		ContactLocalServiceUtil.updateContact(this);
+	}
+
+	@Override
 	public Contact toEscapedModel() {
 		if (isEscapedModel()) {
 			return this;
@@ -95,6 +103,7 @@ public class ContactClp extends BaseModelImpl<Contact> implements Contact {
 		}
 	}
 
+	@Override
 	public Object clone() {
 		ContactClp clone = new ContactClp();
 
@@ -118,6 +127,7 @@ public class ContactClp extends BaseModelImpl<Contact> implements Contact {
 		return 0;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
@@ -142,10 +152,12 @@ public class ContactClp extends BaseModelImpl<Contact> implements Contact {
 		}
 	}
 
+	@Override
 	public int hashCode() {
 		return (int)getPrimaryKey();
 	}
 
+	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(9);
 

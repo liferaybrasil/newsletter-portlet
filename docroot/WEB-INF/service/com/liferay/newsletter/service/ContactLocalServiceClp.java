@@ -59,52 +59,55 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		_getContactMethodKey8 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContact", long.class);
 
-		_getContactsMethodKey9 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getPersistedModelMethodKey9 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getPersistedModel", java.io.Serializable.class);
+
+		_getContactsMethodKey10 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContacts", int.class, int.class);
 
-		_getContactsCountMethodKey10 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactsCountMethodKey11 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactsCount");
 
-		_updateContactMethodKey11 = new MethodKey(_classLoaderProxy.getClassName(),
+		_updateContactMethodKey12 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateContact", com.liferay.newsletter.model.Contact.class);
 
-		_updateContactMethodKey12 = new MethodKey(_classLoaderProxy.getClassName(),
+		_updateContactMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateContact", com.liferay.newsletter.model.Contact.class,
 				boolean.class);
 
-		_getBeanIdentifierMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getBeanIdentifierMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getBeanIdentifier");
 
-		_setBeanIdentifierMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+		_setBeanIdentifierMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"setBeanIdentifier", java.lang.String.class);
 
-		_getContactsByNameMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactsByNameMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactsByName", java.lang.String.class);
 
-		_getContactByNameAndCampaignMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactByNameAndCampaignMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactByNameAndCampaign", java.lang.String.class,
 				long.class, int.class, int.class);
 
-		_getContactByEmailMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactByEmailMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactByEmail", java.lang.String.class, int.class,
 				int.class);
 
-		_getContactByEmailMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactByEmailMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactByEmail", java.lang.String.class);
 
-		_getContactCountByCampaignMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactCountByCampaignMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactCountByCampaign", long.class);
 
-		_getContactCountByCampaignContentMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactCountByCampaignContentMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactCountByCampaignContent", long.class);
 
-		_getContactCountByEmailMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactCountByEmailMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactCountByEmail", java.lang.String.class);
 
-		_getContactCountByNameMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContactCountByNameMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContactCountByName", java.lang.String.class);
 
-		_getNewsletterLogsMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getNewsletterLogsMethodKey24 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getNewsletterLogs", com.liferay.newsletter.model.Contact.class);
 	}
 
@@ -359,12 +362,45 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		return (com.liferay.newsletter.model.Contact)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public com.liferay.portal.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getPersistedModelMethodKey9,
+				ClpSerializer.translateInput(primaryKeyObj));
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.portal.model.PersistedModel)ClpSerializer.translateOutput(returnObj);
+	}
+
 	public java.util.List<com.liferay.newsletter.model.Contact> getContacts(
 		int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactsMethodKey9,
+		MethodHandler methodHandler = new MethodHandler(_getContactsMethodKey10,
 				start, end);
 
 		try {
@@ -391,7 +427,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactsCountMethodKey10);
+		MethodHandler methodHandler = new MethodHandler(_getContactsCountMethodKey11);
 
 		try {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
@@ -418,7 +454,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_updateContactMethodKey11,
+		MethodHandler methodHandler = new MethodHandler(_updateContactMethodKey12,
 				ClpSerializer.translateInput(contact));
 
 		try {
@@ -446,7 +482,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_updateContactMethodKey12,
+		MethodHandler methodHandler = new MethodHandler(_updateContactMethodKey13,
 				ClpSerializer.translateInput(contact), merge);
 
 		try {
@@ -472,7 +508,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 	public java.lang.String getBeanIdentifier() {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey13);
+		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey14);
 
 		try {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
@@ -491,7 +527,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 	}
 
 	public void setBeanIdentifier(java.lang.String beanIdentifier) {
-		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey14,
+		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey15,
 				ClpSerializer.translateInput(beanIdentifier));
 
 		try {
@@ -513,7 +549,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactsByNameMethodKey15,
+		MethodHandler methodHandler = new MethodHandler(_getContactsByNameMethodKey16,
 				ClpSerializer.translateInput(contactName));
 
 		try {
@@ -541,7 +577,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactByNameAndCampaignMethodKey16,
+		MethodHandler methodHandler = new MethodHandler(_getContactByNameAndCampaignMethodKey17,
 				ClpSerializer.translateInput(contactName), campaignId, start,
 				end);
 
@@ -570,7 +606,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactByEmailMethodKey17,
+		MethodHandler methodHandler = new MethodHandler(_getContactByEmailMethodKey18,
 				ClpSerializer.translateInput(email), start, end);
 
 		try {
@@ -598,7 +634,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactByEmailMethodKey18,
+		MethodHandler methodHandler = new MethodHandler(_getContactByEmailMethodKey19,
 				ClpSerializer.translateInput(contactEmail));
 
 		try {
@@ -625,7 +661,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactCountByCampaignMethodKey19,
+		MethodHandler methodHandler = new MethodHandler(_getContactCountByCampaignMethodKey20,
 				campaignId);
 
 		try {
@@ -652,7 +688,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactCountByCampaignContentMethodKey20,
+		MethodHandler methodHandler = new MethodHandler(_getContactCountByCampaignContentMethodKey21,
 				campaignContentId);
 
 		try {
@@ -679,7 +715,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactCountByEmailMethodKey21,
+		MethodHandler methodHandler = new MethodHandler(_getContactCountByEmailMethodKey22,
 				ClpSerializer.translateInput(contactEmail));
 
 		try {
@@ -706,7 +742,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContactCountByNameMethodKey22,
+		MethodHandler methodHandler = new MethodHandler(_getContactCountByNameMethodKey23,
 				ClpSerializer.translateInput(contactName));
 
 		try {
@@ -734,7 +770,7 @@ public class ContactLocalServiceClp implements ContactLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsMethodKey23,
+		MethodHandler methodHandler = new MethodHandler(_getNewsletterLogsMethodKey24,
 				ClpSerializer.translateInput(contact));
 
 		try {
@@ -771,19 +807,20 @@ public class ContactLocalServiceClp implements ContactLocalService {
 	private MethodKey _dynamicQueryMethodKey6;
 	private MethodKey _dynamicQueryCountMethodKey7;
 	private MethodKey _getContactMethodKey8;
-	private MethodKey _getContactsMethodKey9;
-	private MethodKey _getContactsCountMethodKey10;
-	private MethodKey _updateContactMethodKey11;
+	private MethodKey _getPersistedModelMethodKey9;
+	private MethodKey _getContactsMethodKey10;
+	private MethodKey _getContactsCountMethodKey11;
 	private MethodKey _updateContactMethodKey12;
-	private MethodKey _getBeanIdentifierMethodKey13;
-	private MethodKey _setBeanIdentifierMethodKey14;
-	private MethodKey _getContactsByNameMethodKey15;
-	private MethodKey _getContactByNameAndCampaignMethodKey16;
-	private MethodKey _getContactByEmailMethodKey17;
+	private MethodKey _updateContactMethodKey13;
+	private MethodKey _getBeanIdentifierMethodKey14;
+	private MethodKey _setBeanIdentifierMethodKey15;
+	private MethodKey _getContactsByNameMethodKey16;
+	private MethodKey _getContactByNameAndCampaignMethodKey17;
 	private MethodKey _getContactByEmailMethodKey18;
-	private MethodKey _getContactCountByCampaignMethodKey19;
-	private MethodKey _getContactCountByCampaignContentMethodKey20;
-	private MethodKey _getContactCountByEmailMethodKey21;
-	private MethodKey _getContactCountByNameMethodKey22;
-	private MethodKey _getNewsletterLogsMethodKey23;
+	private MethodKey _getContactByEmailMethodKey19;
+	private MethodKey _getContactCountByCampaignMethodKey20;
+	private MethodKey _getContactCountByCampaignContentMethodKey21;
+	private MethodKey _getContactCountByEmailMethodKey22;
+	private MethodKey _getContactCountByNameMethodKey23;
+	private MethodKey _getNewsletterLogsMethodKey24;
 }

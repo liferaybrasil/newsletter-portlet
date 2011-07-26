@@ -25,8 +25,7 @@ import com.liferay.newsletter.model.CampaignContent;
  *
  * @author Bruno Pinheiro
  */
-public class CampaignContentImpl extends CampaignContentModelImpl
-	implements CampaignContent {
+public class CampaignContentImpl extends CampaignContentBaseImpl {
 	/**
 	 * NOTE FOR DEVELOPERS:
 	 *

@@ -14,15 +14,11 @@
 
 package com.liferay.newsletter.service.persistence;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.liferay.newsletter.NoSuchContactException;
 import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.impl.ContactImpl;
 import com.liferay.newsletter.model.impl.ContactModelImpl;
+
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
@@ -50,11 +46,18 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
 import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
+
+import java.io.Serializable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The persistence implementation for the contact service.
@@ -79,8 +82,8 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	public static final String FINDER_CLASS_NAME_LIST = FINDER_CLASS_NAME_ENTITY +
 		".List";
 	public static final FinderPath FINDER_PATH_FIND_BY_UUID = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
-			ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"findByUuid",
+			ContactModelImpl.FINDER_CACHE_ENABLED, ContactImpl.class,
+			FINDER_CLASS_NAME_LIST, "findByUuid",
 			new String[] {
 				String.class.getName(),
 				
@@ -88,17 +91,20 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
-			ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"countByUuid", new String[] { String.class.getName() });
+			ContactModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST, "countByUuid",
+			new String[] { String.class.getName() });
 	public static final FinderPath FINDER_PATH_FETCH_BY_EMAIL = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
-			ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_ENTITY,
-			"fetchByEmail", new String[] { String.class.getName() });
+			ContactModelImpl.FINDER_CACHE_ENABLED, ContactImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByEmail",
+			new String[] { String.class.getName() });
 	public static final FinderPath FINDER_PATH_COUNT_BY_EMAIL = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
-			ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"countByEmail", new String[] { String.class.getName() });
+			ContactModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST, "countByEmail",
+			new String[] { String.class.getName() });
 	public static final FinderPath FINDER_PATH_FIND_BY_NAME = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
-			ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"findByName",
+			ContactModelImpl.FINDER_CACHE_ENABLED, ContactImpl.class,
+			FINDER_CLASS_NAME_LIST, "findByName",
 			new String[] {
 				String.class.getName(),
 				
@@ -106,19 +112,20 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
 	public static final FinderPath FINDER_PATH_COUNT_BY_NAME = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
-			ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"countByName", new String[] { String.class.getName() });
+			ContactModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST, "countByName",
+			new String[] { String.class.getName() });
 	public static final FinderPath FINDER_PATH_FIND_ALL = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
-			ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"findAll", new String[0]);
+			ContactModelImpl.FINDER_CACHE_ENABLED, ContactImpl.class,
+			FINDER_CLASS_NAME_LIST, "findAll", new String[0]);
 	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(ContactModelImpl.ENTITY_CACHE_ENABLED,
-			ContactModelImpl.FINDER_CACHE_ENABLED, FINDER_CLASS_NAME_LIST,
-			"countAll", new String[0]);
+			ContactModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST, "countAll", new String[0]);
 
 	/**
 	 * Caches the contact in the entity cache if it is enabled.
 	 *
-	 * @param contact the contact to cache
+	 * @param contact the contact
 	 */
 	public void cacheResult(Contact contact) {
 		EntityCacheUtil.putResult(ContactModelImpl.ENTITY_CACHE_ENABLED,
@@ -133,7 +140,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	/**
 	 * Caches the contacts in the entity cache if it is enabled.
 	 *
-	 * @param contacts the contacts to cache
+	 * @param contacts the contacts
 	 */
 	public void cacheResult(List<Contact> contacts) {
 		for (Contact contact : contacts) {
@@ -152,6 +159,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
 	 * </p>
 	 */
+	@Override
 	public void clearCache() {
 		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
 			CacheRegistryUtil.clear(ContactImpl.class.getName());
@@ -169,6 +177,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
 	 * </p>
 	 */
+	@Override
 	public void clearCache(Contact contact) {
 		EntityCacheUtil.removeResult(ContactModelImpl.ENTITY_CACHE_ENABLED,
 			ContactImpl.class, contact.getPrimaryKey());
@@ -199,11 +208,12 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	/**
 	 * Removes the contact with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param primaryKey the primary key of the contact to remove
+	 * @param primaryKey the primary key of the contact
 	 * @return the contact that was removed
 	 * @throws com.liferay.portal.NoSuchModelException if a contact with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Contact remove(Serializable primaryKey)
 		throws NoSuchModelException, SystemException {
 		return remove(((Long)primaryKey).longValue());
@@ -212,7 +222,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	/**
 	 * Removes the contact with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param contactId the primary key of the contact to remove
+	 * @param contactId the primary key of the contact
 	 * @return the contact that was removed
 	 * @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -252,14 +262,16 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	/**
 	 * Removes the contact from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param contact the contact to remove
+	 * @param contact the contact
 	 * @return the contact that was removed
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Contact remove(Contact contact) throws SystemException {
 		return super.remove(contact);
 	}
 
+	@Override
 	protected Contact removeImpl(Contact contact) throws SystemException {
 		contact = toUnwrappedModel(contact);
 
@@ -290,6 +302,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 		return contact;
 	}
 
+	@Override
 	public Contact updateImpl(com.liferay.newsletter.model.Contact contact,
 		boolean merge) throws SystemException {
 		contact = toUnwrappedModel(contact);
@@ -361,22 +374,23 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the contact with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the contact with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the contact to find
+	 * @param primaryKey the primary key of the contact
 	 * @return the contact
 	 * @throws com.liferay.portal.NoSuchModelException if a contact with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Contact findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchModelException, SystemException {
 		return findByPrimaryKey(((Long)primaryKey).longValue());
 	}
 
 	/**
-	 * Finds the contact with the primary key or throws a {@link com.liferay.newsletter.NoSuchContactException} if it could not be found.
+	 * Returns the contact with the primary key or throws a {@link com.liferay.newsletter.NoSuchContactException} if it could not be found.
 	 *
-	 * @param contactId the primary key of the contact to find
+	 * @param contactId the primary key of the contact
 	 * @return the contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -398,21 +412,22 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the contact with the primary key or returns <code>null</code> if it could not be found.
+	 * Returns the contact with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the contact to find
+	 * @param primaryKey the primary key of the contact
 	 * @return the contact, or <code>null</code> if a contact with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Contact fetchByPrimaryKey(Serializable primaryKey)
 		throws SystemException {
 		return fetchByPrimaryKey(((Long)primaryKey).longValue());
 	}
 
 	/**
-	 * Finds the contact with the primary key or returns <code>null</code> if it could not be found.
+	 * Returns the contact with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param contactId the primary key of the contact to find
+	 * @param contactId the primary key of the contact
 	 * @return the contact, or <code>null</code> if a contact with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -420,8 +435,14 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 		Contact contact = (Contact)EntityCacheUtil.getResult(ContactModelImpl.ENTITY_CACHE_ENABLED,
 				ContactImpl.class, contactId, this);
 
+		if (contact == _nullContact) {
+			return null;
+		}
+
 		if (contact == null) {
 			Session session = null;
+
+			boolean hasException = false;
 
 			try {
 				session = openSession();
@@ -430,11 +451,17 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 						Long.valueOf(contactId));
 			}
 			catch (Exception e) {
+				hasException = true;
+
 				throw processException(e);
 			}
 			finally {
 				if (contact != null) {
 					cacheResult(contact);
+				}
+				else if (!hasException) {
+					EntityCacheUtil.putResult(ContactModelImpl.ENTITY_CACHE_ENABLED,
+						ContactImpl.class, contactId, _nullContact);
 				}
 
 				closeSession(session);
@@ -445,9 +472,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds all the contacts where uuid = &#63;.
+	 * Returns all the contacts where uuid = &#63;.
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @return the matching contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -456,15 +483,15 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds a range of all the contacts where uuid = &#63;.
+	 * Returns a range of all the contacts where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param uuid the uuid to search with
-	 * @param start the lower bound of the range of contacts to return
-	 * @param end the upper bound of the range of contacts to return (not inclusive)
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
 	 * @return the range of matching contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -474,15 +501,15 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds an ordered range of all the contacts where uuid = &#63;.
+	 * Returns an ordered range of all the contacts where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param uuid the uuid to search with
-	 * @param start the lower bound of the range of contacts to return
-	 * @param end the upper bound of the range of contacts to return (not inclusive)
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching contacts
 	 * @throws SystemException if a system exception occurred
@@ -573,13 +600,13 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the first contact in the ordered set where uuid = &#63;.
+	 * Returns the first contact in the ordered set where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
@@ -608,13 +635,13 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the last contact in the ordered set where uuid = &#63;.
+	 * Returns the last contact in the ordered set where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
@@ -646,14 +673,14 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the contacts before and after the current contact in the ordered set where uuid = &#63;.
+	 * Returns the contacts before and after the current contact in the ordered set where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param contactId the primary key of the current contact
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
@@ -805,9 +832,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the contact where email = &#63; or throws a {@link com.liferay.newsletter.NoSuchContactException} if it could not be found.
+	 * Returns the contact where email = &#63; or throws a {@link com.liferay.newsletter.NoSuchContactException} if it could not be found.
 	 *
-	 * @param email the email to search with
+	 * @param email the email
 	 * @return the matching contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
 	 * @throws SystemException if a system exception occurred
@@ -837,9 +864,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the contact where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the contact where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * @param email the email to search with
+	 * @param email the email
 	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -848,9 +875,10 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the contact where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the contact where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * @param email the email to search with
+	 * @param email the email
+	 * @param retrieveFromCache whether to use the finder cache
 	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -946,9 +974,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds all the contacts where name = &#63;.
+	 * Returns all the contacts where name = &#63;.
 	 *
-	 * @param name the name to search with
+	 * @param name the name
 	 * @return the matching contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -957,15 +985,15 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds a range of all the contacts where name = &#63;.
+	 * Returns a range of all the contacts where name = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param name the name to search with
-	 * @param start the lower bound of the range of contacts to return
-	 * @param end the upper bound of the range of contacts to return (not inclusive)
+	 * @param name the name
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
 	 * @return the range of matching contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -975,15 +1003,15 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds an ordered range of all the contacts where name = &#63;.
+	 * Returns an ordered range of all the contacts where name = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param name the name to search with
-	 * @param start the lower bound of the range of contacts to return
-	 * @param end the upper bound of the range of contacts to return (not inclusive)
+	 * @param name the name
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching contacts
 	 * @throws SystemException if a system exception occurred
@@ -1074,13 +1102,13 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the first contact in the ordered set where name = &#63;.
+	 * Returns the first contact in the ordered set where name = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param name the name to search with
+	 * @param name the name
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
@@ -1109,13 +1137,13 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the last contact in the ordered set where name = &#63;.
+	 * Returns the last contact in the ordered set where name = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param name the name to search with
+	 * @param name the name
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a matching contact could not be found
@@ -1147,14 +1175,14 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds the contacts before and after the current contact in the ordered set where name = &#63;.
+	 * Returns the contacts before and after the current contact in the ordered set where name = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param contactId the primary key of the current contact
-	 * @param name the name to search with
+	 * @param name the name
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next contact
 	 * @throws com.liferay.newsletter.NoSuchContactException if a contact with the primary key could not be found
@@ -1306,7 +1334,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds all the contacts.
+	 * Returns all the contacts.
 	 *
 	 * @return the contacts
 	 * @throws SystemException if a system exception occurred
@@ -1316,14 +1344,14 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds a range of all the contacts.
+	 * Returns a range of all the contacts.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of contacts to return
-	 * @param end the upper bound of the range of contacts to return (not inclusive)
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
 	 * @return the range of contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1332,14 +1360,14 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Finds an ordered range of all the contacts.
+	 * Returns an ordered range of all the contacts.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of contacts to return
-	 * @param end the upper bound of the range of contacts to return (not inclusive)
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of contacts
 	 * @throws SystemException if a system exception occurred
@@ -1416,7 +1444,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	/**
 	 * Removes all the contacts where uuid = &#63; from the database.
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void removeByUuid(String uuid) throws SystemException {
@@ -1428,7 +1456,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	/**
 	 * Removes the contact where email = &#63; from the database.
 	 *
-	 * @param email the email to search with
+	 * @param email the email
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void removeByEmail(String email)
@@ -1441,7 +1469,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	/**
 	 * Removes all the contacts where name = &#63; from the database.
 	 *
-	 * @param name the name to search with
+	 * @param name the name
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void removeByName(String name) throws SystemException {
@@ -1462,9 +1490,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Counts all the contacts where uuid = &#63;.
+	 * Returns the number of contacts where uuid = &#63;.
 	 *
-	 * @param uuid the uuid to search with
+	 * @param uuid the uuid
 	 * @return the number of matching contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1527,9 +1555,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Counts all the contacts where email = &#63;.
+	 * Returns the number of contacts where email = &#63;.
 	 *
-	 * @param email the email to search with
+	 * @param email the email
 	 * @return the number of matching contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1592,9 +1620,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Counts all the contacts where name = &#63;.
+	 * Returns the number of contacts where name = &#63;.
 	 *
-	 * @param name the name to search with
+	 * @param name the name
 	 * @return the number of matching contacts
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1657,7 +1685,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Counts all the contacts.
+	 * Returns the number of contacts.
 	 *
 	 * @return the number of contacts
 	 * @throws SystemException if a system exception occurred
@@ -1697,9 +1725,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Gets all the newsletter logs associated with the contact.
+	 * Returns all the newsletter logs associated with the contact.
 	 *
-	 * @param pk the primary key of the contact to get the associated newsletter logs for
+	 * @param pk the primary key of the contact
 	 * @return the newsletter logs associated with the contact
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1709,15 +1737,15 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Gets a range of all the newsletter logs associated with the contact.
+	 * Returns a range of all the newsletter logs associated with the contact.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param pk the primary key of the contact to get the associated newsletter logs for
-	 * @param start the lower bound of the range of contacts to return
-	 * @param end the upper bound of the range of contacts to return (not inclusive)
+	 * @param pk the primary key of the contact
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
 	 * @return the range of newsletter logs associated with the contact
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1728,6 +1756,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 	public static final FinderPath FINDER_PATH_GET_NEWSLETTERLOGS = new FinderPath(com.liferay.newsletter.model.impl.NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			com.liferay.newsletter.model.impl.NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			com.liferay.newsletter.model.impl.NewsletterLogImpl.class,
 			com.liferay.newsletter.service.persistence.NewsletterLogPersistenceImpl.FINDER_CLASS_NAME_LIST,
 			"getNewsletterLogs",
 			new String[] {
@@ -1736,15 +1765,15 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 			});
 
 	/**
-	 * Gets an ordered range of all the newsletter logs associated with the contact.
+	 * Returns an ordered range of all the newsletter logs associated with the contact.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param pk the primary key of the contact to get the associated newsletter logs for
-	 * @param start the lower bound of the range of contacts to return
-	 * @param end the upper bound of the range of contacts to return (not inclusive)
+	 * @param pk the primary key of the contact
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of newsletter logs associated with the contact
 	 * @throws SystemException if a system exception occurred
@@ -1812,13 +1841,14 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 	public static final FinderPath FINDER_PATH_GET_NEWSLETTERLOGS_SIZE = new FinderPath(com.liferay.newsletter.model.impl.NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			com.liferay.newsletter.model.impl.NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			com.liferay.newsletter.model.impl.NewsletterLogImpl.class,
 			com.liferay.newsletter.service.persistence.NewsletterLogPersistenceImpl.FINDER_CLASS_NAME_LIST,
 			"getNewsletterLogsSize", new String[] { Long.class.getName() });
 
 	/**
-	 * Gets the number of newsletter logs associated with the contact.
+	 * Returns the number of newsletter logs associated with the contact.
 	 *
-	 * @param pk the primary key of the contact to get the number of associated newsletter logs for
+	 * @param pk the primary key of the contact
 	 * @return the number of newsletter logs associated with the contact
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -1865,12 +1895,13 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 	public static final FinderPath FINDER_PATH_CONTAINS_NEWSLETTERLOG = new FinderPath(com.liferay.newsletter.model.impl.NewsletterLogModelImpl.ENTITY_CACHE_ENABLED,
 			com.liferay.newsletter.model.impl.NewsletterLogModelImpl.FINDER_CACHE_ENABLED,
+			com.liferay.newsletter.model.impl.NewsletterLogImpl.class,
 			com.liferay.newsletter.service.persistence.NewsletterLogPersistenceImpl.FINDER_CLASS_NAME_LIST,
 			"containsNewsletterLog",
 			new String[] { Long.class.getName(), Long.class.getName() });
 
 	/**
-	 * Determines if the newsletter log is associated with the contact.
+	 * Returns <code>true</code> if the newsletter log is associated with the contact.
 	 *
 	 * @param pk the primary key of the contact
 	 * @param newsletterLogPK the primary key of the newsletter log
@@ -1906,7 +1937,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	}
 
 	/**
-	 * Determines if the contact has any newsletter logs associated with it.
+	 * Returns <code>true</code> if the contact has any newsletter logs associated with it.
 	 *
 	 * @param pk the primary key of the contact to check for associations with newsletter logs
 	 * @return <code>true</code> if the contact has any newsletter logs associated with it; <code>false</code> otherwise
@@ -2019,4 +2050,19 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 	private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
 				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(ContactPersistenceImpl.class);
+	private static Contact _nullContact = new ContactImpl() {
+			public Object clone() {
+				return this;
+			}
+
+			public CacheModel<Contact> toCacheModel() {
+				return _nullContactCacheModel;
+			}
+		};
+
+	private static CacheModel<Contact> _nullContactCacheModel = new CacheModel<Contact>() {
+			public Contact toEntityModel() {
+				return _nullContact;
+			}
+		};
 }

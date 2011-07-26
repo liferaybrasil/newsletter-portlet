@@ -37,7 +37,7 @@ public class CampaignContentWrapper implements CampaignContent {
 	}
 
 	/**
-	* Gets the primary key of this campaign content.
+	* Returns the primary key of this campaign content.
 	*
 	* @return the primary key of this campaign content
 	*/
@@ -46,7 +46,7 @@ public class CampaignContentWrapper implements CampaignContent {
 	}
 
 	/**
-	* Sets the primary key of this campaign content
+	* Sets the primary key of this campaign content.
 	*
 	* @param primaryKey the primary key of this campaign content
 	*/
@@ -55,7 +55,7 @@ public class CampaignContentWrapper implements CampaignContent {
 	}
 
 	/**
-	* Gets the uuid of this campaign content.
+	* Returns the uuid of this campaign content.
 	*
 	* @return the uuid of this campaign content
 	*/
@@ -73,7 +73,7 @@ public class CampaignContentWrapper implements CampaignContent {
 	}
 
 	/**
-	* Gets the campaign content ID of this campaign content.
+	* Returns the campaign content ID of this campaign content.
 	*
 	* @return the campaign content ID of this campaign content
 	*/
@@ -91,7 +91,7 @@ public class CampaignContentWrapper implements CampaignContent {
 	}
 
 	/**
-	* Gets the title of this campaign content.
+	* Returns the title of this campaign content.
 	*
 	* @return the title of this campaign content
 	*/
@@ -109,7 +109,7 @@ public class CampaignContentWrapper implements CampaignContent {
 	}
 
 	/**
-	* Gets the content of this campaign content.
+	* Returns the content of this campaign content.
 	*
 	* @return the content of this campaign content
 	*/
@@ -127,7 +127,7 @@ public class CampaignContentWrapper implements CampaignContent {
 	}
 
 	/**
-	* Gets the create date of this campaign content.
+	* Returns the create date of this campaign content.
 	*
 	* @return the create date of this campaign content
 	*/
@@ -145,7 +145,7 @@ public class CampaignContentWrapper implements CampaignContent {
 	}
 
 	/**
-	* Gets the article ID of this campaign content.
+	* Returns the article ID of this campaign content.
 	*
 	* @return the article ID of this campaign content
 	*/
@@ -203,6 +203,7 @@ public class CampaignContentWrapper implements CampaignContent {
 		_campaignContent.setExpandoBridgeAttributes(serviceContext);
 	}
 
+	@Override
 	public java.lang.Object clone() {
 		return new CampaignContentWrapper((CampaignContent)_campaignContent.clone());
 	}
@@ -212,20 +213,31 @@ public class CampaignContentWrapper implements CampaignContent {
 		return _campaignContent.compareTo(campaignContent);
 	}
 
+	@Override
 	public int hashCode() {
 		return _campaignContent.hashCode();
+	}
+
+	public com.liferay.portal.model.CacheModel<com.liferay.newsletter.model.CampaignContent> toCacheModel() {
+		return _campaignContent.toCacheModel();
 	}
 
 	public com.liferay.newsletter.model.CampaignContent toEscapedModel() {
 		return new CampaignContentWrapper(_campaignContent.toEscapedModel());
 	}
 
+	@Override
 	public java.lang.String toString() {
 		return _campaignContent.toString();
 	}
 
 	public java.lang.String toXmlString() {
 		return _campaignContent.toXmlString();
+	}
+
+	public void persist()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_campaignContent.persist();
 	}
 
 	public CampaignContent getWrappedCampaignContent() {

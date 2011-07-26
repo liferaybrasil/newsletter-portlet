@@ -14,11 +14,8 @@
 
 package com.liferay.newsletter.service.base;
 
-import java.util.List;
-
-import javax.sql.DataSource;
-
 import com.liferay.counter.service.CounterLocalService;
+
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.service.CampaignContentLocalService;
 import com.liferay.newsletter.service.CampaignContentService;
@@ -32,6 +29,7 @@ import com.liferay.newsletter.service.persistence.CampaignPersistence;
 import com.liferay.newsletter.service.persistence.ContactFinder;
 import com.liferay.newsletter.service.persistence.ContactPersistence;
 import com.liferay.newsletter.service.persistence.NewsletterLogPersistence;
+
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.bean.IdentifiableBean;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
@@ -39,13 +37,26 @@ import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
+import com.liferay.portal.service.PersistedModelLocalServiceRegistryUtil;
 import com.liferay.portal.service.ResourceLocalService;
 import com.liferay.portal.service.ResourceService;
 import com.liferay.portal.service.UserLocalService;
 import com.liferay.portal.service.UserService;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
+
+import java.io.Serializable;
+
+import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * The base implementation of the campaign content local service.
@@ -70,7 +81,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	/**
 	 * Adds the campaign content to the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param campaignContent the campaign content to add
+	 * @param campaignContent the campaign content
 	 * @return the campaign content that was added
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -78,7 +89,23 @@ public abstract class CampaignContentLocalServiceBaseImpl
 		throws SystemException {
 		campaignContent.setNew(true);
 
-		return campaignContentPersistence.update(campaignContent, false);
+		campaignContent = campaignContentPersistence.update(campaignContent,
+				false);
+
+		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());
+
+		if (indexer != null) {
+			try {
+				indexer.reindex(campaignContent);
+			}
+			catch (SearchException se) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(se, se);
+				}
+			}
+		}
+
+		return campaignContent;
 	}
 
 	/**
@@ -94,30 +121,56 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	/**
 	 * Deletes the campaign content with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param campaignContentId the primary key of the campaign content to delete
+	 * @param campaignContentId the primary key of the campaign content
 	 * @throws PortalException if a campaign content with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void deleteCampaignContent(long campaignContentId)
 		throws PortalException, SystemException {
-		campaignContentPersistence.remove(campaignContentId);
+		CampaignContent campaignContent = campaignContentPersistence.remove(campaignContentId);
+
+		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());
+
+		if (indexer != null) {
+			try {
+				indexer.delete(campaignContent);
+			}
+			catch (SearchException se) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(se, se);
+				}
+			}
+		}
 	}
 
 	/**
 	 * Deletes the campaign content from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param campaignContent the campaign content to delete
+	 * @param campaignContent the campaign content
 	 * @throws SystemException if a system exception occurred
 	 */
 	public void deleteCampaignContent(CampaignContent campaignContent)
 		throws SystemException {
 		campaignContentPersistence.remove(campaignContent);
+
+		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());
+
+		if (indexer != null) {
+			try {
+				indexer.delete(campaignContent);
+			}
+			catch (SearchException se) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(se, se);
+				}
+			}
+		}
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns the matching rows.
 	 *
-	 * @param dynamicQuery the dynamic query to search with
+	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -134,9 +187,9 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param dynamicQuery the dynamic query to search with
-	 * @param start the lower bound of the range of model instances to return
-	 * @param end the upper bound of the range of model instances to return (not inclusive)
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -154,9 +207,9 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param dynamicQuery the dynamic query to search with
-	 * @param start the lower bound of the range of model instances to return
-	 * @param end the upper bound of the range of model instances to return (not inclusive)
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 * @throws SystemException if a system exception occurred
@@ -169,9 +222,9 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Counts the number of rows that match the dynamic query.
+	 * Returns the number of rows that match the dynamic query.
 	 *
-	 * @param dynamicQuery the dynamic query to search with
+	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows that match the dynamic query
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -181,9 +234,9 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the campaign content with the primary key.
+	 * Returns the campaign content with the primary key.
 	 *
-	 * @param campaignContentId the primary key of the campaign content to get
+	 * @param campaignContentId the primary key of the campaign content
 	 * @return the campaign content
 	 * @throws PortalException if a campaign content with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
@@ -193,15 +246,20 @@ public abstract class CampaignContentLocalServiceBaseImpl
 		return campaignContentPersistence.findByPrimaryKey(campaignContentId);
 	}
 
+	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException, SystemException {
+		return campaignContentPersistence.findByPrimaryKey(primaryKeyObj);
+	}
+
 	/**
-	 * Gets a range of all the campaign contents.
+	 * Returns a range of all the campaign contents.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of campaign contents to return
-	 * @param end the upper bound of the range of campaign contents to return (not inclusive)
+	 * @param start the lower bound of the range of campaign contents
+	 * @param end the upper bound of the range of campaign contents (not inclusive)
 	 * @return the range of campaign contents
 	 * @throws SystemException if a system exception occurred
 	 */
@@ -211,7 +269,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the number of campaign contents.
+	 * Returns the number of campaign contents.
 	 *
 	 * @return the number of campaign contents
 	 * @throws SystemException if a system exception occurred
@@ -221,40 +279,51 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Updates the campaign content in the database. Also notifies the appropriate model listeners.
+	 * Updates the campaign content in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
-	 * @param campaignContent the campaign content to update
+	 * @param campaignContent the campaign content
 	 * @return the campaign content that was updated
-	 * @throws PortalException
 	 * @throws SystemException if a system exception occurred
 	 */
 	public CampaignContent updateCampaignContent(
-		CampaignContent campaignContent)
-		throws PortalException, SystemException {
-		campaignContent.setNew(false);
-
-		return campaignContentPersistence.update(campaignContent, true);
+		CampaignContent campaignContent) throws SystemException {
+		return updateCampaignContent(campaignContent, true);
 	}
 
 	/**
-	 * Updates the campaign content in the database. Also notifies the appropriate model listeners.
+	 * Updates the campaign content in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
-	 * @param campaignContent the campaign content to update
+	 * @param campaignContent the campaign content
 	 * @param merge whether to merge the campaign content with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
 	 * @return the campaign content that was updated
-	 * @throws PortalException
 	 * @throws SystemException if a system exception occurred
 	 */
 	public CampaignContent updateCampaignContent(
 		CampaignContent campaignContent, boolean merge)
-		throws PortalException, SystemException {
+		throws SystemException {
 		campaignContent.setNew(false);
 
-		return campaignContentPersistence.update(campaignContent, merge);
+		campaignContent = campaignContentPersistence.update(campaignContent,
+				merge);
+
+		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());
+
+		if (indexer != null) {
+			try {
+				indexer.reindex(campaignContent);
+			}
+			catch (SearchException se) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(se, se);
+				}
+			}
+		}
+
+		return campaignContent;
 	}
 
 	/**
-	 * Gets the campaign local service.
+	 * Returns the campaign local service.
 	 *
 	 * @return the campaign local service
 	 */
@@ -273,7 +342,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the campaign persistence.
+	 * Returns the campaign persistence.
 	 *
 	 * @return the campaign persistence
 	 */
@@ -291,7 +360,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the campaign content local service.
+	 * Returns the campaign content local service.
 	 *
 	 * @return the campaign content local service
 	 */
@@ -310,7 +379,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the campaign content remote service.
+	 * Returns the campaign content remote service.
 	 *
 	 * @return the campaign content remote service
 	 */
@@ -329,7 +398,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the campaign content persistence.
+	 * Returns the campaign content persistence.
 	 *
 	 * @return the campaign content persistence
 	 */
@@ -348,7 +417,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the campaign content finder.
+	 * Returns the campaign content finder.
 	 *
 	 * @return the campaign content finder
 	 */
@@ -367,7 +436,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the contact local service.
+	 * Returns the contact local service.
 	 *
 	 * @return the contact local service
 	 */
@@ -385,7 +454,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the contact remote service.
+	 * Returns the contact remote service.
 	 *
 	 * @return the contact remote service
 	 */
@@ -403,7 +472,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the contact persistence.
+	 * Returns the contact persistence.
 	 *
 	 * @return the contact persistence
 	 */
@@ -421,7 +490,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the contact finder.
+	 * Returns the contact finder.
 	 *
 	 * @return the contact finder
 	 */
@@ -439,7 +508,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the newsletter log local service.
+	 * Returns the newsletter log local service.
 	 *
 	 * @return the newsletter log local service
 	 */
@@ -458,7 +527,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the newsletter log persistence.
+	 * Returns the newsletter log persistence.
 	 *
 	 * @return the newsletter log persistence
 	 */
@@ -477,7 +546,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the counter local service.
+	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
 	 */
@@ -495,7 +564,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the resource local service.
+	 * Returns the resource local service.
 	 *
 	 * @return the resource local service
 	 */
@@ -514,7 +583,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the resource remote service.
+	 * Returns the resource remote service.
 	 *
 	 * @return the resource remote service
 	 */
@@ -532,7 +601,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the resource persistence.
+	 * Returns the resource persistence.
 	 *
 	 * @return the resource persistence
 	 */
@@ -550,7 +619,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the user local service.
+	 * Returns the user local service.
 	 *
 	 * @return the user local service
 	 */
@@ -568,7 +637,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the user remote service.
+	 * Returns the user remote service.
 	 *
 	 * @return the user remote service
 	 */
@@ -586,7 +655,7 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Gets the user persistence.
+	 * Returns the user persistence.
 	 *
 	 * @return the user persistence
 	 */
@@ -603,8 +672,18 @@ public abstract class CampaignContentLocalServiceBaseImpl
 		this.userPersistence = userPersistence;
 	}
 
+	public void afterPropertiesSet() {
+		PersistedModelLocalServiceRegistryUtil.register("com.liferay.newsletter.model.CampaignContent",
+			campaignContentLocalService);
+	}
+
+	public void destroy() {
+		PersistedModelLocalServiceRegistryUtil.unregister(
+			"com.liferay.newsletter.model.CampaignContent");
+	}
+
 	/**
-	 * Gets the Spring bean ID for this bean.
+	 * Returns the Spring bean ID for this bean.
 	 *
 	 * @return the Spring bean ID for this bean
 	 */
@@ -621,10 +700,18 @@ public abstract class CampaignContentLocalServiceBaseImpl
 		_beanIdentifier = beanIdentifier;
 	}
 
+	protected Class<?> getModelClass() {
+		return CampaignContent.class;
+	}
+
+	protected String getModelClassName() {
+		return CampaignContent.class.getName();
+	}
+
 	/**
 	 * Performs an SQL query.
 	 *
-	 * @param sql the sql query to perform
+	 * @param sql the sql query
 	 */
 	protected void runSQL(String sql) throws SystemException {
 		try {
@@ -678,5 +765,6 @@ public abstract class CampaignContentLocalServiceBaseImpl
 	protected UserService userService;
 	@BeanReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+	private static Log _log = LogFactoryUtil.getLog(CampaignContentLocalServiceBaseImpl.class);
 	private String _beanIdentifier;
 }

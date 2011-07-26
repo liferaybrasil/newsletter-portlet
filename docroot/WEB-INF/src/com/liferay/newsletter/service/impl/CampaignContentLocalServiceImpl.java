@@ -59,19 +59,6 @@ public class CampaignContentLocalServiceImpl
 	}
 
 	@Override
-	public CampaignContent updateCampaignContent(
-			CampaignContent campaignContent)
-		throws SystemException, PortalException {
-
-		CampaignContent getCampaignContent = getCampaignContent(
-				campaignContent.getCampaignContentId());
-		campaignContent.setCreateDate(getCampaignContent.getCreateDate());
-		CampaignContent updateCampaignContent = super.updateCampaignContent(
-			campaignContent);
-		return updateCampaignContent;
-	}
-
-	@Override
 	public void deleteCampaignContent(long campaignContentId)
 		throws SystemException,	PortalException {
 

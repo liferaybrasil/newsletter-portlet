@@ -14,8 +14,10 @@
 
 package com.liferay.newsletter.model;
 
+import com.liferay.portal.model.PersistedModel;
+
 /**
- * The model interface for the Contact service. Represents a row in the &quot;Newsletter_Contact&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the Contact service. Represents a row in the &quot;Newsletter_Contact&quot; database table, with each column mapped to a property of this class.
  *
  * @author Bruno Pinheiro
  * @see ContactModel
@@ -23,7 +25,7 @@ package com.liferay.newsletter.model;
  * @see com.liferay.newsletter.model.impl.ContactModelImpl
  * @generated
  */
-public interface Contact extends ContactModel {
+public interface Contact extends ContactModel, PersistedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

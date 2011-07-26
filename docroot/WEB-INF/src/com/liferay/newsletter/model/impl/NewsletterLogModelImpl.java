@@ -14,20 +14,25 @@
 
 package com.liferay.newsletter.model.impl;
 
-import java.io.Serializable;
-import java.lang.reflect.Proxy;
-import java.sql.Types;
-
 import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.model.NewsletterLogModel;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
+
 import com.liferay.portlet.expando.model.ExpandoBridge;
 import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
+
+import java.io.Serializable;
+
+import java.lang.reflect.Proxy;
+
+import java.sql.Types;
 
 /**
  * The base model implementation for the NewsletterLog service. Represents a row in the &quot;Newsletter_NewsletterLog&quot; database table, with each column mapped to a property of this class.
@@ -168,17 +173,23 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 		_sent = sent;
 	}
 
+	@Override
 	public NewsletterLog toEscapedModel() {
 		if (isEscapedModel()) {
 			return (NewsletterLog)this;
 		}
 		else {
-			return (NewsletterLog)Proxy.newProxyInstance(NewsletterLog.class.getClassLoader(),
-				new Class[] { NewsletterLog.class },
-				new AutoEscapeBeanHandler(this));
+			if (_escapedModelProxy == null) {
+				_escapedModelProxy = (NewsletterLog)Proxy.newProxyInstance(_classLoader,
+						_escapedModelProxyInterfaces,
+						new AutoEscapeBeanHandler(this));
+			}
+
+			return _escapedModelProxy;
 		}
 	}
 
+	@Override
 	public ExpandoBridge getExpandoBridge() {
 		if (_expandoBridge == null) {
 			_expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(0,
@@ -188,10 +199,12 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 		return _expandoBridge;
 	}
 
+	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		getExpandoBridge().setAttributes(serviceContext);
 	}
 
+	@Override
 	public Object clone() {
 		NewsletterLogImpl newsletterLogImpl = new NewsletterLogImpl();
 
@@ -220,6 +233,7 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 		}
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
@@ -244,10 +258,12 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 		}
 	}
 
+	@Override
 	public int hashCode() {
 		return (int)getPrimaryKey();
 	}
 
+	@Override
 	public void resetOriginalValues() {
 		NewsletterLogModelImpl newsletterLogModelImpl = this;
 
@@ -260,6 +276,30 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 		newsletterLogModelImpl._setOriginalContactId = false;
 	}
 
+	@Override
+	public CacheModel<NewsletterLog> toCacheModel() {
+		NewsletterLogCacheModel newsletterLogCacheModel = new NewsletterLogCacheModel();
+
+		newsletterLogCacheModel.uuid = getUuid();
+
+		String uuid = newsletterLogCacheModel.uuid;
+
+		if ((uuid != null) && (uuid.length() == 0)) {
+			newsletterLogCacheModel.uuid = null;
+		}
+
+		newsletterLogCacheModel.newsletterLogId = getNewsletterLogId();
+
+		newsletterLogCacheModel.campaignId = getCampaignId();
+
+		newsletterLogCacheModel.contactId = getContactId();
+
+		newsletterLogCacheModel.sent = getSent();
+
+		return newsletterLogCacheModel;
+	}
+
+	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(11);
 
@@ -311,6 +351,10 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 		return sb.toString();
 	}
 
+	private static ClassLoader _classLoader = NewsletterLog.class.getClassLoader();
+	private static Class<?>[] _escapedModelProxyInterfaces = new Class[] {
+			NewsletterLog.class
+		};
 	private String _uuid;
 	private long _newsletterLogId;
 	private long _campaignId;
@@ -321,4 +365,5 @@ public class NewsletterLogModelImpl extends BaseModelImpl<NewsletterLog>
 	private boolean _setOriginalContactId;
 	private boolean _sent;
 	private transient ExpandoBridge _expandoBridge;
+	private NewsletterLog _escapedModelProxy;
 }
