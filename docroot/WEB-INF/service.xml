@@ -117,4 +117,14 @@
 			<finder-column name="contactId" />
 		</finder>
 	</entity>
+	<exceptions>
+		<exception>Contacts</exception>
+		<exception>Content</exception>
+		<exception>EmailSubject</exception>
+		<exception>IDNotFound</exception>
+		<exception>InvalidCampaign</exception>
+		<exception>SenderEmail</exception>
+		<exception>SenderName</exception>
+		<exception>Title</exception>
+	</exceptions>
 </service-builder>

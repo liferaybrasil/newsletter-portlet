@@ -14,11 +14,11 @@
 
 package com.liferay.newsletter.service.impl;
 
-import com.liferay.newsletter.exception.ContactsException;
-import com.liferay.newsletter.exception.EmailSubjectException;
-import com.liferay.newsletter.exception.IdNotFoundException;
-import com.liferay.newsletter.exception.SenderEmailException;
-import com.liferay.newsletter.exception.SenderNameException;
+import com.liferay.newsletter.ContactsException;
+import com.liferay.newsletter.EmailSubjectException;
+import com.liferay.newsletter.IDNotFoundException;
+import com.liferay.newsletter.SenderEmailException;
+import com.liferay.newsletter.SenderNameException;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.Contact;
@@ -117,7 +117,7 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 			campaignPersistence.remove(campaignId);
 		}
 		else {
-			throw new IdNotFoundException();
+			throw new IDNotFoundException();
 		}
 	}
 

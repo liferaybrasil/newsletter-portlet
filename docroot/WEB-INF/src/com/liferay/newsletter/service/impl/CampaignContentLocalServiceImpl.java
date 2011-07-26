@@ -14,9 +14,9 @@
 
 package com.liferay.newsletter.service.impl;
 
-import com.liferay.newsletter.exception.ContentException;
-import com.liferay.newsletter.exception.IdNotFoundException;
-import com.liferay.newsletter.exception.TitleException;
+import com.liferay.newsletter.ContentException;
+import com.liferay.newsletter.IDNotFoundException;
+import com.liferay.newsletter.TitleException;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.NewsletterLog;
@@ -71,7 +71,7 @@ public class CampaignContentLocalServiceImpl
 			campaignContentPersistence.remove(campaignContentId);
 			}
 		else {
-			throw new IdNotFoundException();
+			throw new IDNotFoundException();
 		}
 	}
 

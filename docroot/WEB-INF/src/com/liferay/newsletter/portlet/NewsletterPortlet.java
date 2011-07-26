@@ -14,13 +14,13 @@
 
 package com.liferay.newsletter.portlet;
 
-import com.liferay.newsletter.exception.ContactsException;
-import com.liferay.newsletter.exception.ContentException;
-import com.liferay.newsletter.exception.EmailSubjectException;
-import com.liferay.newsletter.exception.IdNotFoundException;
-import com.liferay.newsletter.exception.SenderEmailException;
-import com.liferay.newsletter.exception.SenderNameException;
-import com.liferay.newsletter.exception.TitleException;
+import com.liferay.newsletter.ContactsException;
+import com.liferay.newsletter.ContentException;
+import com.liferay.newsletter.EmailSubjectException;
+import com.liferay.newsletter.IDNotFoundException;
+import com.liferay.newsletter.SenderEmailException;
+import com.liferay.newsletter.SenderNameException;
+import com.liferay.newsletter.TitleException;
 import com.liferay.newsletter.model.Campaign;
 import com.liferay.newsletter.model.CampaignContent;
 import com.liferay.newsletter.model.Contact;
@@ -57,7 +57,6 @@ import com.liferay.util.portlet.PortletProps;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
 import java.util.Date;
 import java.util.List;
 
@@ -211,7 +210,7 @@ public class NewsletterPortlet extends MVCPortlet {
 
 				page = "/html/newsletterportlet/edit_campaignContent.jsp";
 			}
-			else if (e instanceof IdNotFoundException) {
+			else if (e instanceof IDNotFoundException) {
 
 				page = "/html/newsletterportlet/view_campaign.jsp";
 			}
