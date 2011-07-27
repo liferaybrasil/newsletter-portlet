@@ -28,7 +28,7 @@
 			<basic name="senderEmail" />
 			<basic name="senderName" />
 			<basic name="sent" />
-			<basic name="sentDate">
+			<basic name="sendDate">
 				<temporal>TIMESTAMP</temporal>
 			</basic>
 			<transient name="primaryKey" />

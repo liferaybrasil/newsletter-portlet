@@ -46,7 +46,7 @@ create table Newsletter_NewsletterCampaign (
 	senderEmail VARCHAR(75) null,
 	senderName VARCHAR(75) null,
 	sent BOOLEAN,
-	sentDate DATE null
+	sendDate DATE null
 );
 
 create table Newsletter_NewsletterContact (

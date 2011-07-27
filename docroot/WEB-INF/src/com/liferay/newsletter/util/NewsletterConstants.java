@@ -16,8 +16,19 @@ package com.liferay.newsletter.util;
 
 /**
  * @author Bruno Pinheiro
+ * @author Marcellus Tavares
  */
 public interface NewsletterConstants {
+
+	public static final String ADD_CAMPAIGN = "add_campaign";
+
+	public static final String ADD_CONTENT = "add_content";
+
+	public static final String CONFIGURE = "configure";
+
+	public static final String DELETE_CAMPAIGN = "delete_campaign";
+
+	public static final String DELETE_CONTENT = "delete_content";
 
 	public static final String GET_CAMPAIGN_CONTENT = "get_campaign_content";
 
@@ -43,10 +54,14 @@ public interface NewsletterConstants {
 	public static final String MAIL_TRANSPORT_PROTOCOL =
 		"mail_transport_protocol";
 
+	public static final String RESEND = "resend";
+
 	public static final String ROWS_PER_PAGE = "rows_per_page";
 
 	public static final String SENDER_EMAIL = "sender_email";
 
 	public static final String SENDER_NAME = "sender_name";
+
+	public static final String UPDATE_CONTENT = "update_content";
 
 }

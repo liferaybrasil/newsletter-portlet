@@ -272,18 +272,18 @@ public interface NewsletterCampaignModel extends BaseModel<NewsletterCampaign>,
 	public void setSent(boolean sent);
 
 	/**
-	 * Returns the sent date of this newsletter campaign.
+	 * Returns the send date of this newsletter campaign.
 	 *
-	 * @return the sent date of this newsletter campaign
+	 * @return the send date of this newsletter campaign
 	 */
-	public Date getSentDate();
+	public Date getSendDate();
 
 	/**
-	 * Sets the sent date of this newsletter campaign.
+	 * Sets the send date of this newsletter campaign.
 	 *
-	 * @param sentDate the sent date of this newsletter campaign
+	 * @param sendDate the send date of this newsletter campaign
 	 */
-	public void setSentDate(Date sentDate);
+	public void setSendDate(Date sendDate);
 
 	public boolean isNew();
 

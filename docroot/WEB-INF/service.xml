@@ -28,12 +28,12 @@
 		<column name="senderEmail" type="String" />
 		<column name="senderName" type="String" />
 		<column name="sent" type="boolean" />
-		<column name="sentDate" type="Date" />
+		<column name="sendDate" type="Date" />
 
 		<!-- Order -->
 
 		<order by="desc">
-			<order-column name="sentDate" />
+			<order-column name="sendDate" />
 		</order>
 
 		<!-- Finder methods -->
@@ -42,7 +42,7 @@
 			<finder-column name="contentId" />
 		</finder>
 		<finder name="SD_S" return-type="Collection">
-			<finder-column name="sentDate" comparator="&lt;=" />
+			<finder-column name="sendDate" comparator="&lt;=" />
 			<finder-column name="sent" />
 		</finder>
 	</entity>
@@ -69,12 +69,6 @@
 		<column name="title" type="String" />
 		<column name="content" type="String" />
 		<column name="articleId" type="long" />
-
-		<!-- Finder methods -->
-
-		<finder name="Title" return-type="Collection">
-			<finder-column name="title" />
-		</finder>
 	</entity>	
 	<entity name="NewsletterContact" local-service="true" remote-service="false">
 

@@ -79,12 +79,12 @@ public class NewsletterCampaignModelImpl extends BaseModelImpl<NewsletterCampaig
 			{ "senderEmail", Types.VARCHAR },
 			{ "senderName", Types.VARCHAR },
 			{ "sent", Types.BOOLEAN },
-			{ "sentDate", Types.TIMESTAMP }
+			{ "sendDate", Types.TIMESTAMP }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Newsletter_NewsletterCampaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,contentId LONG,emailSubject VARCHAR(75) null,senderEmail VARCHAR(75) null,senderName VARCHAR(75) null,sent BOOLEAN,sentDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table Newsletter_NewsletterCampaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,contentId LONG,emailSubject VARCHAR(75) null,senderEmail VARCHAR(75) null,senderName VARCHAR(75) null,sent BOOLEAN,sendDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table Newsletter_NewsletterCampaign";
-	public static final String ORDER_BY_JPQL = " ORDER BY newsletterCampaign.sentDate DESC";
-	public static final String ORDER_BY_SQL = " ORDER BY Newsletter_NewsletterCampaign.sentDate DESC";
+	public static final String ORDER_BY_JPQL = " ORDER BY newsletterCampaign.sendDate DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY Newsletter_NewsletterCampaign.sendDate DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -117,7 +117,7 @@ public class NewsletterCampaignModelImpl extends BaseModelImpl<NewsletterCampaig
 		model.setSenderEmail(soapModel.getSenderEmail());
 		model.setSenderName(soapModel.getSenderName());
 		model.setSent(soapModel.getSent());
-		model.setSentDate(soapModel.getSentDate());
+		model.setSendDate(soapModel.getSendDate());
 
 		return model;
 	}
@@ -342,12 +342,12 @@ public class NewsletterCampaignModelImpl extends BaseModelImpl<NewsletterCampaig
 	}
 
 	@JSON
-	public Date getSentDate() {
-		return _sentDate;
+	public Date getSendDate() {
+		return _sendDate;
 	}
 
-	public void setSentDate(Date sentDate) {
-		_sentDate = sentDate;
+	public void setSendDate(Date sendDate) {
+		_sendDate = sendDate;
 	}
 
 	@Override
@@ -398,7 +398,7 @@ public class NewsletterCampaignModelImpl extends BaseModelImpl<NewsletterCampaig
 		newsletterCampaignImpl.setSenderEmail(getSenderEmail());
 		newsletterCampaignImpl.setSenderName(getSenderName());
 		newsletterCampaignImpl.setSent(getSent());
-		newsletterCampaignImpl.setSentDate(getSentDate());
+		newsletterCampaignImpl.setSendDate(getSendDate());
 
 		newsletterCampaignImpl.resetOriginalValues();
 
@@ -408,8 +408,8 @@ public class NewsletterCampaignModelImpl extends BaseModelImpl<NewsletterCampaig
 	public int compareTo(NewsletterCampaign newsletterCampaign) {
 		int value = 0;
 
-		value = DateUtil.compareTo(getSentDate(),
-				newsletterCampaign.getSentDate());
+		value = DateUtil.compareTo(getSendDate(),
+				newsletterCampaign.getSendDate());
 
 		value = value * -1;
 
@@ -535,13 +535,13 @@ public class NewsletterCampaignModelImpl extends BaseModelImpl<NewsletterCampaig
 
 		newsletterCampaignCacheModel.sent = getSent();
 
-		Date sentDate = getSentDate();
+		Date sendDate = getSendDate();
 
-		if (sentDate != null) {
-			newsletterCampaignCacheModel.sentDate = sentDate.getTime();
+		if (sendDate != null) {
+			newsletterCampaignCacheModel.sendDate = sendDate.getTime();
 		}
 		else {
-			newsletterCampaignCacheModel.sentDate = Long.MIN_VALUE;
+			newsletterCampaignCacheModel.sendDate = Long.MIN_VALUE;
 		}
 
 		return newsletterCampaignCacheModel;
@@ -577,8 +577,8 @@ public class NewsletterCampaignModelImpl extends BaseModelImpl<NewsletterCampaig
 		sb.append(getSenderName());
 		sb.append(", sent=");
 		sb.append(getSent());
-		sb.append(", sentDate=");
-		sb.append(getSentDate());
+		sb.append(", sendDate=");
+		sb.append(getSendDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -644,8 +644,8 @@ public class NewsletterCampaignModelImpl extends BaseModelImpl<NewsletterCampaig
 		sb.append(getSent());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>sentDate</column-name><column-value><![CDATA[");
-		sb.append(getSentDate());
+			"<column><column-name>sendDate</column-name><column-value><![CDATA[");
+		sb.append(getSendDate());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -674,7 +674,7 @@ public class NewsletterCampaignModelImpl extends BaseModelImpl<NewsletterCampaig
 	private String _senderEmail;
 	private String _senderName;
 	private boolean _sent;
-	private Date _sentDate;
+	private Date _sendDate;
 	private transient ExpandoBridge _expandoBridge;
 	private NewsletterCampaign _escapedModelProxy;
 }

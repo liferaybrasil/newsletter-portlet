@@ -20,6 +20,7 @@ create index IX_BDBA079F on Newsletter_Contact (name);
 create index IX_8DBB6DD4 on Newsletter_Contact (uuid_);
 
 create index IX_58F76CCF on Newsletter_NewsletterCampaign (contentId);
+create index IX_7E53C70B on Newsletter_NewsletterCampaign (sendDate, sent);
 create index IX_43C2B0CF on Newsletter_NewsletterCampaign (sentDate);
 create index IX_66842F1B on Newsletter_NewsletterCampaign (sentDate, sent);
 create index IX_A93605DF on Newsletter_NewsletterCampaign (uuid_);

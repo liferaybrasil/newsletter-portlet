@@ -365,124 +365,6 @@ public class NewsletterContentUtil {
 	}
 
 	/**
-	* Returns all the newsletter contents where title = &#63;.
-	*
-	* @param title the title
-	* @return the matching newsletter contents
-	* @throws SystemException if a system exception occurred
-	*/
-	public static java.util.List<com.liferay.newsletter.model.NewsletterContent> findByTitle(
-		java.lang.String title)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getPersistence().findByTitle(title);
-	}
-
-	/**
-	* Returns a range of all the newsletter contents where title = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param title the title
-	* @param start the lower bound of the range of newsletter contents
-	* @param end the upper bound of the range of newsletter contents (not inclusive)
-	* @return the range of matching newsletter contents
-	* @throws SystemException if a system exception occurred
-	*/
-	public static java.util.List<com.liferay.newsletter.model.NewsletterContent> findByTitle(
-		java.lang.String title, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getPersistence().findByTitle(title, start, end);
-	}
-
-	/**
-	* Returns an ordered range of all the newsletter contents where title = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param title the title
-	* @param start the lower bound of the range of newsletter contents
-	* @param end the upper bound of the range of newsletter contents (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching newsletter contents
-	* @throws SystemException if a system exception occurred
-	*/
-	public static java.util.List<com.liferay.newsletter.model.NewsletterContent> findByTitle(
-		java.lang.String title, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getPersistence().findByTitle(title, start, end, orderByComparator);
-	}
-
-	/**
-	* Returns the first newsletter content in the ordered set where title = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param title the title
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching newsletter content
-	* @throws com.liferay.newsletter.NoSuchContentException if a matching newsletter content could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public static com.liferay.newsletter.model.NewsletterContent findByTitle_First(
-		java.lang.String title,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.newsletter.NoSuchContentException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getPersistence().findByTitle_First(title, orderByComparator);
-	}
-
-	/**
-	* Returns the last newsletter content in the ordered set where title = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param title the title
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching newsletter content
-	* @throws com.liferay.newsletter.NoSuchContentException if a matching newsletter content could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public static com.liferay.newsletter.model.NewsletterContent findByTitle_Last(
-		java.lang.String title,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.newsletter.NoSuchContentException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getPersistence().findByTitle_Last(title, orderByComparator);
-	}
-
-	/**
-	* Returns the newsletter contents before and after the current newsletter content in the ordered set where title = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param contentId the primary key of the current newsletter content
-	* @param title the title
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next newsletter content
-	* @throws com.liferay.newsletter.NoSuchContentException if a newsletter content with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public static com.liferay.newsletter.model.NewsletterContent[] findByTitle_PrevAndNext(
-		long contentId, java.lang.String title,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.newsletter.NoSuchContentException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getPersistence()
-				   .findByTitle_PrevAndNext(contentId, title, orderByComparator);
-	}
-
-	/**
 	* Returns all the newsletter contents.
 	*
 	* @return the newsletter contents
@@ -556,17 +438,6 @@ public class NewsletterContentUtil {
 	}
 
 	/**
-	* Removes all the newsletter contents where title = &#63; from the database.
-	*
-	* @param title the title
-	* @throws SystemException if a system exception occurred
-	*/
-	public static void removeByTitle(java.lang.String title)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		getPersistence().removeByTitle(title);
-	}
-
-	/**
 	* Removes all the newsletter contents from the database.
 	*
 	* @throws SystemException if a system exception occurred
@@ -599,18 +470,6 @@ public class NewsletterContentUtil {
 	public static int countByUUID_G(java.lang.String uuid, long groupId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().countByUUID_G(uuid, groupId);
-	}
-
-	/**
-	* Returns the number of newsletter contents where title = &#63;.
-	*
-	* @param title the title
-	* @return the number of matching newsletter contents
-	* @throws SystemException if a system exception occurred
-	*/
-	public static int countByTitle(java.lang.String title)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getPersistence().countByTitle(title);
 	}
 
 	/**

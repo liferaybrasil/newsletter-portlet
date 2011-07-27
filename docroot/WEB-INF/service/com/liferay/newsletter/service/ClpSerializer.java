@@ -240,10 +240,10 @@ public class ClpSerializer {
 
 				method12.invoke(newModel, value12);
 
-				Method method13 = newModelClass.getMethod("setSentDate",
+				Method method13 = newModelClass.getMethod("setSendDate",
 						new Class[] { Date.class });
 
-				Date value13 = oldCplModel.getSentDate();
+				Date value13 = oldCplModel.getSendDate();
 
 				method13.invoke(newModel, value13);
 
@@ -632,11 +632,11 @@ public class ClpSerializer {
 
 				newModel.setSent(value12);
 
-				Method method13 = oldModelClass.getMethod("getSentDate");
+				Method method13 = oldModelClass.getMethod("getSendDate");
 
 				Date value13 = (Date)method13.invoke(oldModel, (Object[])null);
 
-				newModel.setSentDate(value13);
+				newModel.setSendDate(value13);
 
 				return newModel;
 			}

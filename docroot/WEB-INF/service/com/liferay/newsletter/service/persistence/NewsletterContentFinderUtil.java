@@ -21,10 +21,14 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  * @author Brian Wing Shun Chan
  */
 public class NewsletterContentFinderUtil {
-	public static java.util.List<com.liferay.newsletter.model.NewsletterContent> findByTitle(
-		java.lang.String title, int start, int end)
+	public static java.util.List<com.liferay.newsletter.model.NewsletterContent> findByKeywords(
+		long companyId, long groupId, java.lang.String keywords, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getFinder().findByTitle(title, start, end);
+		return getFinder()
+				   .findByKeywords(companyId, groupId, keywords, start, end,
+			orderByComparator);
 	}
 
 	public static NewsletterContentFinder getFinder() {

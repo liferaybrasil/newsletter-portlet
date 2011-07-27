@@ -14,7 +14,6 @@
 
 package com.liferay.newsletter.service.impl;
 
-import com.liferay.newsletter.ContactException;
 import com.liferay.newsletter.NameException;
 import com.liferay.newsletter.model.NewsletterCampaign;
 import com.liferay.newsletter.model.NewsletterContact;
@@ -36,8 +35,6 @@ import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.portlet.PortletProps;
 
-import java.io.IOException;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -56,19 +53,18 @@ public class NewsletterCampaignLocalServiceImpl
 
 	public NewsletterCampaign addCampaign(
 			long userId, long groupId, long contentId, String emailSubject,
-			String senderEmail, String senderName, int sentDateDay,
-			int sentDateMonth, int sentDateYear, String contacts,
-			ServiceContext serviceContext)
+			String senderEmail, String senderName, int sendDateDay,
+			int sendDateMonth, int sendDateYear, ServiceContext serviceContext)
 		throws PortalException, SystemException {
 
 		User user = userPersistence.findByPrimaryKey(userId);
 
 		Date now = new Date();
 
-		validate(senderEmail, senderName, contacts);
+		validate(senderEmail, senderName);
 
-		Date sentDate = PortalUtil.getDate(
-			sentDateMonth, sentDateDay,sentDateYear);
+		Date sendDate = PortalUtil.getDate(
+			sendDateMonth, sendDateDay,sendDateYear);
 
 		long campaignId = counterLocalService.increment();
 
@@ -87,7 +83,7 @@ public class NewsletterCampaignLocalServiceImpl
 		campaign.setSenderEmail(senderEmail);
 		campaign.setSenderName(senderName);
 		campaign.setSent(false);
-		campaign.setSentDate(sentDate);
+		campaign.setSendDate(sendDate);
 
 		return newsletterCampaignPersistence.update(campaign, false);
 	}
@@ -99,12 +95,7 @@ public class NewsletterCampaignLocalServiceImpl
 			date, false);
 
 		for (NewsletterCampaign campaign : campaigns) {
-			try {
-				sendCampaign(campaign);
-			}
-			catch (IOException ioe) {
-				throw new SystemException(ioe);
-			}
+			sendCampaign(campaign);
 		}
 	}
 
@@ -151,8 +142,16 @@ public class NewsletterCampaignLocalServiceImpl
 		return newsletterCampaignPersistence.findBySD_S(sentDateLT, sent);
 	}
 
+	public void sendCampaign(long campaignId)
+		throws PortalException, SystemException {
+
+		NewsletterCampaign campaign = getCampaign(campaignId);
+
+		sendCampaign(campaign);
+	}
+
 	public void sendCampaign(NewsletterCampaign campaign)
-		throws SystemException, PortalException, IOException {
+		throws PortalException, SystemException {
 
 		List<NewsletterLog> logs =
 			newsletterLogLocalService.getLogsByCampaignId(
@@ -173,7 +172,7 @@ public class NewsletterCampaignLocalServiceImpl
 
 	protected void sendEmail(
 			long contactId, NewsletterCampaign campaign)
-		throws IOException, PortalException, SystemException {
+		throws PortalException, SystemException {
 
 		String passwordString = PortletProps.get(
 			PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD);
@@ -247,7 +246,7 @@ public class NewsletterCampaignLocalServiceImpl
 	}
 
 	protected void validate(
-			String senderEmail, String senderName, String contacts)
+			String senderEmail, String senderName)
 		throws PortalException {
 
 		if (!Validator.isEmailAddress(senderEmail)) {
@@ -255,9 +254,6 @@ public class NewsletterCampaignLocalServiceImpl
 		}
 		else if (Validator.isNull(senderName)) {
 			throw new NameException();
-		}
-		else if (Validator.isNull(contacts)) {
-			throw new ContactException();
 		}
 	}
 

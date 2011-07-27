@@ -14,42 +14,35 @@
 
 package com.liferay.newsletter.portlet;
 
-import com.liferay.newsletter.ContactsException;
 import com.liferay.newsletter.ContentException;
-import com.liferay.newsletter.EmailSubjectException;
-import com.liferay.newsletter.IDNotFoundException;
-import com.liferay.newsletter.SenderEmailException;
-import com.liferay.newsletter.SenderNameException;
+import com.liferay.newsletter.NameException;
 import com.liferay.newsletter.TitleException;
-import com.liferay.newsletter.model.Campaign;
-import com.liferay.newsletter.model.CampaignContent;
-import com.liferay.newsletter.model.Contact;
-import com.liferay.newsletter.model.NewsletterLog;
-import com.liferay.newsletter.model.impl.CampaignContentImpl;
-import com.liferay.newsletter.model.impl.ContactImpl;
-import com.liferay.newsletter.model.impl.NewsletterLogImpl;
-import com.liferay.newsletter.service.CampaignContentLocalServiceUtil;
-import com.liferay.newsletter.service.CampaignLocalServiceUtil;
-import com.liferay.newsletter.service.ContactLocalServiceUtil;
+import com.liferay.newsletter.model.NewsletterCampaign;
+import com.liferay.newsletter.model.NewsletterContact;
+import com.liferay.newsletter.model.NewsletterContent;
+import com.liferay.newsletter.service.NewsletterCampaignLocalServiceUtil;
+import com.liferay.newsletter.service.NewsletterContactLocalServiceUtil;
+import com.liferay.newsletter.service.NewsletterContentLocalServiceUtil;
 import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
 import com.liferay.newsletter.util.NewsletterConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.EmailAddressException;
 import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.util.WebKeys;
 import com.liferay.portlet.journal.model.JournalArticleDisplay;
 import com.liferay.portlet.journalcontent.util.JournalContentUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -58,14 +51,12 @@ import com.liferay.util.portlet.PortletProps;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -73,178 +64,58 @@ import javax.portlet.ValidatorException;
 
 /**
  * @author Bruno Pinheiro
+ * @author Marcellus Tavares
  */
 public class NewsletterPortlet extends MVCPortlet {
-
-	public void addCampaign(ActionRequest request, ActionResponse response)
-		throws Exception {
-
-		int sendDateMonth = ParamUtil.getInteger(request, "sendDateMonth");
-		int sendDateDay = ParamUtil.getInteger(request, "sendDateDay");
-		int sendDateYear = ParamUtil.getInteger(request, "sendDateYear");
-
-		long campaignContentId = ParamUtil.getLong(
-			request, "campaignContentId");
-
-		String senderEmail = ParamUtil.getString(request, "senderEmail");
-		String senderName = ParamUtil.getString(request, "senderName");
-		String emailSubject = ParamUtil.getString(request, "emailSubject");
-
-		String contacts = ParamUtil.getString(request, "contacts");
-
-		Campaign campaign =	CampaignLocalServiceUtil.addCampaign(
-			campaignContentId, senderEmail, senderName, emailSubject,
-			sendDateMonth, sendDateDay, sendDateYear, contacts);
-
-		_registerLog(campaign, contacts, request);
-
-		SessionMessages.add(request, "campaign-added");
-		sendRedirect(request, response);
-	}
-
-	public void addCampaignContent(
-			ActionRequest request, ActionResponse response)
-		throws Exception {
-
-		CampaignContent campaignContent = _campaignContentFromRequest(request);
-		campaignContent.setCreateDate(new Date());
-
-		campaignContent =
-			CampaignContentLocalServiceUtil.addCampaignContent(
-				campaignContent);
-
-		SessionMessages.add(request, "campaign-content-added");
-
-		sendRedirect(request, response);
-	}
-
-	public void deleteCampaign(ActionRequest request, ActionResponse response)
-		throws Exception {
-
-		long campaignId = ParamUtil.getLong(request, "campaignId");
-
-//		if (Validator.isNotNull(campaignId)) {
-			CampaignLocalServiceUtil.deleteCampaign(campaignId);
-
-			SessionMessages.add(request, "campaign-deleted");
-
-			sendRedirect(request, response);
-//		}
-/**		else {
-			SessionErrors.add(request, "campaign-cannot-be-removed");
-			PortalUtil.copyRequestParameters(request, response);
-
-			response.setRenderParameter(
-				"jspPage", "/html/newsletterportlet/view_campaign.jsp");
-		}**/
-	}
-
-	public void deleteCampaignContent(
-			ActionRequest request, ActionResponse response)
-		throws Exception {
-
-		long campaignContentId = ParamUtil.getLong(
-			request, "campaignContentId");
-
-//		if (Validator.isNotNull(campaignContentId)) {
-			CampaignContentLocalServiceUtil.deleteCampaignContent(
-				campaignContentId);
-			SessionMessages.add(request, "campaign-content-deleted");
-			sendRedirect(request, response);
-
-/**		}
-		else {
-			SessionErrors.add(request, "campaign-content-cannot-be-removed");
-			PortalUtil.copyRequestParameters(request, response);
-
-			response.setRenderParameter(
-				"jspPage", "/html/newsletterportlet/view_campaignContent.jsp");
-		} **/
-
-	}
 
 	public void processAction(
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws IOException, PortletException {
 
-		String cmd = ParamUtil.getString(actionRequest, "cmd");
+		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
 
 		try {
-			if (cmd.equals("campaign")) {
+			if (cmd.equals(NewsletterConstants.ADD_CAMPAIGN)) {
 				addCampaign(actionRequest, actionResponse);
 			}
-			else if (cmd.equals("campaignContent")) {
-				addCampaignContent(actionRequest, actionResponse);
+			else if (cmd.equals(NewsletterConstants.ADD_CONTENT)) {
+				addContent(actionRequest, actionResponse);
 			}
-			else if (cmd.equals("resendCampaign")) {
-				resendCampaign(actionRequest, actionResponse);
+			else if (cmd.equals(NewsletterConstants.CONFIGURE)) {
+				configure(actionRequest, actionResponse);
 			}
-			else if (cmd.equals("resendFailed")) {
-				resendCampaign(actionRequest, actionResponse);
-			}
-			else if (cmd.equals("editCampaignContent")) {
-				updateCampaignContent(actionRequest, actionResponse);
-			}
-			else if (cmd.equals("deleteCampaign")) {
+			else if (cmd.equals(NewsletterConstants.DELETE_CAMPAIGN)) {
 				deleteCampaign(actionRequest, actionResponse);
 			}
-			else if (cmd.equals("deleteCampaignContent")) {
-				deleteCampaignContent(actionRequest, actionResponse);
+			else if (cmd.equals(NewsletterConstants.DELETE_CONTENT)) {
+				deleteContent(actionRequest, actionResponse);
 			}
-			else if (cmd.equals("setNewsletterPref")) {
-				setNewsletterPref(actionRequest, actionResponse);
+			else if (cmd.equals(NewsletterConstants.RESEND)) {
+				resendCampaign(actionRequest, actionResponse);
+			}
+			else if (cmd.equals(NewsletterConstants.UPDATE_CONTENT)) {
+				updateContent(actionRequest, actionResponse);
 			}
 		}
 		catch (Exception e) {
 			PortalUtil.copyRequestParameters(actionRequest, actionResponse);
-			String page = "/html/newsletterportlet/view_campaignContent.jsp";
 
-			if (e instanceof ContactsException ||
-				e instanceof EmailSubjectException ||
-				e instanceof SenderNameException ||
-				e instanceof SenderEmailException) {
+			String page = "/html/newsletterportlet/view_content.jsp";
+
+			if (e instanceof EmailAddressException ||
+				e instanceof NameException) {
 
 				page = "/html/newsletterportlet/edit_campaign.jsp";
 			}
 			else if (e instanceof ContentException ||
 					 e instanceof TitleException) {
 
-				page = "/html/newsletterportlet/edit_campaignContent.jsp";
-			}
-			else if (e instanceof IDNotFoundException) {
-
-				page = "/html/newsletterportlet/view_campaign.jsp";
+				page = "/html/newsletterportlet/edit_content.jsp";
 			}
 
 			SessionErrors.add(actionRequest, e.getClass().getName(), e);
+
 			actionResponse.setRenderParameter("jspPage", page);
-		}
-	}
-
-	public void resendCampaign(
-		ActionRequest actionRequest, ActionResponse actionResponse) {
-
-		long campaignId = ParamUtil.getLong(
-			actionRequest, "campaignId");
-
-		Campaign campaign;
-		try {
-			campaign = CampaignLocalServiceUtil.
-				getCampaign(campaignId);
-			campaign.setSent(false);
-
-			CampaignLocalServiceUtil.updateCampaign(campaign);
-
-			CampaignLocalServiceUtil.sendCampaign(campaign);
-
-			SessionMessages.add(actionRequest, "campaign-resended");
-
-			sendRedirect(actionRequest, actionResponse);
-
-		}
-		catch (Exception e) {
-// Colocar mensagens no JSP
-			SessionErrors.add(actionRequest, e.getClass().getName());
 		}
 	}
 
@@ -252,7 +123,7 @@ public class NewsletterPortlet extends MVCPortlet {
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 		throws IOException, PortletException {
 
-		String cmd = ParamUtil.getString(resourceRequest, "cmd");
+		String cmd = ParamUtil.getString(resourceRequest, Constants.CMD);
 
 		try {
 			if (cmd.equals(NewsletterConstants.GET_ARTICLE_CONTENT)) {
@@ -270,139 +141,76 @@ public class NewsletterPortlet extends MVCPortlet {
 		}
 	}
 
-	public void updateCampaignContent(
-			ActionRequest request, ActionResponse response)
+	protected void addCampaign(
+			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		CampaignContent campaignContent = _campaignContentFromRequest(request);
+		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
 
-/**		ArrayList<String> errors = new ArrayList<String>();
+		long contentId = ParamUtil.getLong(actionRequest, "contentId");
 
-		if (NewsletterValidator.validateCampaignContent(
-				campaignContent, errors)) {**/
+		int sendDateDay = ParamUtil.getInteger(actionRequest, "sendDateDay");
+		int sendDateMonth = ParamUtil.getInteger(
+			actionRequest, "sendDateMonth");
+		int sendDateYear = ParamUtil.getInteger(actionRequest, "sendDateYear");
 
-			campaignContent =
-				CampaignContentLocalServiceUtil.updateCampaignContent(
-					campaignContent);
+		String senderEmail = ParamUtil.getString(actionRequest, "senderEmail");
+		String senderName = ParamUtil.getString(actionRequest, "senderName");
+		String emailSubject = ParamUtil.getString(
+			actionRequest, "emailSubject");
 
-			SessionMessages.add(request, "campaign-content-updated");
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(
+			NewsletterCampaign.class.getName(), actionRequest);
 
-			sendRedirect(request, response);
+		NewsletterCampaign campaign =
+			NewsletterCampaignLocalServiceUtil.addCampaign(
+				themeDisplay.getUserId(),themeDisplay.getScopeGroupId(),
+				contentId, emailSubject, senderEmail, senderName, sendDateDay,
+				sendDateMonth, sendDateYear, serviceContext);
 
-/**		}
-		else {
-			for (String error : errors) {
-				SessionErrors.add(request, error);
-			}
+		String contacts = ParamUtil.getString(actionRequest, "contacts");
 
-			PortalUtil.copyRequestParameters(request, response);
+		for (String email : StringUtil.split(contacts)) {
+			NewsletterContact contact =
+				NewsletterContactLocalServiceUtil.addContact(
+					email.trim(), StringPool.BLANK, serviceContext);
 
-			response.setRenderParameter(
-				"jspPage", "/html/newsletterportlet/edit_campaignContent.jsp");
-		}**/
+			NewsletterLogLocalServiceUtil.addLog(
+				campaign.getCampaignId(), contact.getContactId(), false,
+				serviceContext);
+		}
+
+		SessionMessages.add(actionRequest, "request_processed");
+
+		sendRedirect(actionRequest, actionResponse);
 	}
 
-	protected void getArticleContent(
-			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+	protected void addContent(
+			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		long groupId = ParamUtil.getLong(resourceRequest, "groupId");
-		String articleId = ParamUtil.getString(resourceRequest, "articleId");
+		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
 
-		OutputStream os = resourceResponse.getPortletOutputStream();
+		long articleId = ParamUtil.getLong(actionRequest, "articleId");
 
-		JournalArticleDisplay contentDisplay = getArticleContentDisplay(
-			resourceRequest, resourceResponse, groupId, articleId);
+		String title = ParamUtil.getString(actionRequest, "title");
+		String content = ParamUtil.getString(actionRequest, "content");
 
-		try {
-			os.write(contentDisplay.getContent().getBytes());
-		}
-		finally {
-			os.close();
-		}
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(
+			NewsletterContent.class.getName(), actionRequest);
+
+		NewsletterContentLocalServiceUtil.addContent(
+			themeDisplay.getUserId(), themeDisplay.getScopeGroupId(), articleId,
+			title, content, serviceContext);
+
+		SessionMessages.add(actionRequest, "request_processed");
+
+		sendRedirect(actionRequest, actionResponse);
 	}
 
-	protected JournalArticleDisplay getArticleContentDisplay(
-		ResourceRequest resourceRequest, ResourceResponse resourceResponse,
-		long groupId, String articleId) {
-
-		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(
-			"THEME_DISPLAY");
-
-		String viewMode = ParamUtil.getString(resourceRequest, "viewMode");
-		String languageId = LanguageUtil.getLanguageId(resourceRequest);
-
-		JournalArticleDisplay articleDisplay = null;
-
-		articleDisplay = JournalContentUtil.getDisplay(
-			groupId,articleId,viewMode,languageId,themeDisplay);
-
-		return articleDisplay;
-	}
-
-	protected void getCampaignContents(
-			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-		throws SystemException, IOException, JSONException {
-
-		String keywords = ParamUtil.getString(resourceRequest, "keywords");
-
-		if (Validator.isNotNull(keywords)) {
-			keywords = StringUtil.replace(
-				keywords, StringPool.STAR, StringPool.BLANK);
-			List<CampaignContent> campaignContents =
-				CampaignContentLocalServiceUtil.getCampaignsContentByTitle(
-					keywords, 0, 5);
-
-			JSONArray jsonArr = JSONFactoryUtil.createJSONArray(
-					JSONFactoryUtil.looseSerialize(campaignContents));
-
-			JSONObject o = JSONFactoryUtil.createJSONObject();
-
-			o.put("results", jsonArr);
-
-			outputJSON(resourceResponse, o.toString().getBytes());
-		}
-	}
-
-	protected void getContacts(
-			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-		throws SystemException, IOException, JSONException {
-
-		String keywords = ParamUtil.getString(resourceRequest, "keywords");
-
-		if (Validator.isNotNull(keywords)) {
-			keywords = StringUtil.replace(
-				keywords, StringPool.STAR, StringPool.BLANK);
-			List<Contact> contacts =
-				ContactLocalServiceUtil.getContactByEmail(keywords, 0, 5);
-
-			JSONArray jsonArr = JSONFactoryUtil.createJSONArray(
-					JSONFactoryUtil.looseSerialize(contacts));
-
-			JSONObject o = JSONFactoryUtil.createJSONObject();
-
-			o.put("results", jsonArr);
-
-			outputJSON(resourceResponse, o.toString().getBytes());
-		}
-	}
-
-	protected void outputJSON(ResourceResponse resourceResponse, byte[] bytes)
-		throws IOException {
-
-		resourceResponse.setContentType(ContentTypes.TEXT_JAVASCRIPT);
-
-		OutputStream os = resourceResponse.getPortletOutputStream();
-
-		try {
-			os.write(bytes);
-		}
-		finally {
-			os.close();
-		}
-	}
-
-	protected void setNewsletterPref(
+	protected void configure(
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws ReadOnlyException, ValidatorException, IOException {
 
@@ -456,57 +264,144 @@ public class NewsletterPortlet extends MVCPortlet {
 		sendRedirect(actionRequest, actionResponse);
 	}
 
-	private void _registerLog(
-			Campaign campaign, String contacts, ActionRequest request)
+	protected void deleteCampaign(
+			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		NewsletterLog newsletterLog;
+		long campaignId = ParamUtil.getLong(actionRequest, "campaignId");
 
-		String[] contactsList = contacts.split(",");
+		NewsletterCampaignLocalServiceUtil.deleteCampaign(campaignId);
 
-		for (String contactEmail : contactsList) {
-			contactEmail = contactEmail.trim();
+		SessionMessages.add(actionRequest, "request_processed");
 
-			if (Validator.isEmailAddress(contactEmail)) {
-				Contact contact = _addContact(contactEmail);
+		sendRedirect(actionRequest, actionResponse);
+	}
 
-				newsletterLog = new NewsletterLogImpl();
-				newsletterLog.setCampaignId(campaign.getCampaignId());
-				newsletterLog.setContactId(contact.getContactId());
+	protected void deleteContent(
+			ActionRequest actionRequest, ActionResponse actionResponse)
+		throws Exception {
 
-				NewsletterLogLocalServiceUtil.addNewsletterLog(newsletterLog);
-			}
+		long contentId = ParamUtil.getLong(actionRequest, "contentId");
+
+		NewsletterContentLocalServiceUtil.deleteContent(contentId);
+
+		SessionMessages.add(actionRequest, "request_processed");
+
+		sendRedirect(actionRequest, actionResponse);
+	}
+
+	protected void getArticleContent(
+			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+		throws Exception {
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(
+			"THEME_DISPLAY");
+
+		long groupId = ParamUtil.getLong(resourceRequest, "groupId");
+
+		String articleId = ParamUtil.getString(resourceRequest, "articleId");
+		String viewMode = ParamUtil.getString(resourceRequest, "viewMode");
+		String languageId = LanguageUtil.getLanguageId(resourceRequest);
+
+		OutputStream os = resourceResponse.getPortletOutputStream();
+
+		JournalArticleDisplay articleDisplay = JournalContentUtil.getDisplay(
+			groupId, articleId, viewMode, languageId, themeDisplay);
+
+		try {
+			String content = articleDisplay.getContent();
+
+			os.write(content.getBytes());
+		}
+		finally {
+			os.close();
 		}
 	}
 
-	private Contact _addContact(String contactEmail)
-		throws PortalException, SystemException {
+	protected void getCampaignContents(
+			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+		throws Exception {
 
-		Contact contact = ContactLocalServiceUtil.getContactByEmail(
-			contactEmail);
+		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(
+			"THEME_DISPLAY");
 
-			if (contact == null) {
-				contact = new ContactImpl();
-				contact.setEmail(contactEmail);
+		String keywords = ParamUtil.getString(resourceRequest, "keywords");
 
-				contact = ContactLocalServiceUtil.addContact(contact);
-			}
+		List<NewsletterContent> contents =
+			NewsletterContentLocalServiceUtil.search(
+				themeDisplay.getCompanyId(), themeDisplay.getScopeGroupId(),
+				keywords, 0, 5, null);
 
-		return contact;
+		toJSON(resourceResponse, contents);
 	}
 
-	private CampaignContent _campaignContentFromRequest(
-		PortletRequest request) {
+	protected void getContacts(
+			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+		throws Exception {
 
-		CampaignContentImpl campaignContent = new CampaignContentImpl();
+		String keywords = ParamUtil.getString(resourceRequest, "keywords");
 
-		campaignContent.setCampaignContentId(ParamUtil.getLong(
-			request, "campaignContentId"));
-		campaignContent.setTitle(ParamUtil.getString(request, "title"));
-		campaignContent.setContent(ParamUtil.getString(request, "content"));
-		campaignContent.setArticleId(ParamUtil.getLong(request, "articleId"));
+		List<NewsletterContact> contacts =
+			NewsletterContactLocalServiceUtil.search(keywords, 0 , 5, null);
 
-		return campaignContent;
+		toJSON(resourceResponse, contacts);
+	}
+
+	protected void resendCampaign(
+			ActionRequest actionRequest, ActionResponse actionResponse)
+		throws Exception {
+
+		long campaignId = ParamUtil.getLong(actionRequest, "campaignId");
+
+		NewsletterCampaignLocalServiceUtil.sendCampaign(campaignId);
+
+		SessionMessages.add(actionRequest, "request_processed");
+
+		sendRedirect(actionRequest, actionResponse);
+	}
+
+	protected void toJSON(ResourceResponse resourceResponse, Object object)
+		throws Exception {
+
+		JSONArray jsonArray = JSONFactoryUtil.createJSONArray(
+			JSONFactoryUtil.looseSerialize(object));
+
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+
+		jsonObject.put("results", jsonArray);
+
+		resourceResponse.setContentType(ContentTypes.TEXT_JAVASCRIPT);
+
+		OutputStream os = resourceResponse.getPortletOutputStream();
+
+		try {
+			os.write(jsonObject.toString().getBytes());
+		}
+		finally {
+			os.close();
+		}
+	}
+
+	public void updateContent(
+			ActionRequest actionRequest, ActionResponse actionResponse)
+		throws Exception {
+
+		long contentId = ParamUtil.getLong(actionRequest, "contentId");
+
+		long articleId = ParamUtil.getLong(actionRequest, "articleId");
+
+		String title = ParamUtil.getString(actionRequest, "title");
+		String content = ParamUtil.getString(actionRequest, "content");
+
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(
+			NewsletterContent.class.getName(), actionRequest);
+
+		NewsletterContentLocalServiceUtil.updateContent(
+			contentId, articleId, title, content, serviceContext);
+
+		SessionMessages.add(actionRequest, "request_processed");
+
+		sendRedirect(actionRequest, actionResponse);
 	}
 
 }

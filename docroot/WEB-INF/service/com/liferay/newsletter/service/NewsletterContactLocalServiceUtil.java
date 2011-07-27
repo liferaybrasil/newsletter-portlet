@@ -278,9 +278,11 @@ public class NewsletterContactLocalServiceUtil {
 		return getService().getContact(email);
 	}
 
-	public static void validate(java.lang.String name, java.lang.String email)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		getService().validate(name, email);
+	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
+		java.lang.String keywords, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().search(keywords, start, end, orderByComparator);
 	}
 
 	public static void clearService() {

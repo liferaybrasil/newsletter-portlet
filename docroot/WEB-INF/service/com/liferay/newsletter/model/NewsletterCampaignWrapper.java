@@ -318,21 +318,21 @@ public class NewsletterCampaignWrapper implements NewsletterCampaign {
 	}
 
 	/**
-	* Returns the sent date of this newsletter campaign.
+	* Returns the send date of this newsletter campaign.
 	*
-	* @return the sent date of this newsletter campaign
+	* @return the send date of this newsletter campaign
 	*/
-	public java.util.Date getSentDate() {
-		return _newsletterCampaign.getSentDate();
+	public java.util.Date getSendDate() {
+		return _newsletterCampaign.getSendDate();
 	}
 
 	/**
-	* Sets the sent date of this newsletter campaign.
+	* Sets the send date of this newsletter campaign.
 	*
-	* @param sentDate the sent date of this newsletter campaign
+	* @param sendDate the send date of this newsletter campaign
 	*/
-	public void setSentDate(java.util.Date sentDate) {
-		_newsletterCampaign.setSentDate(sentDate);
+	public void setSendDate(java.util.Date sendDate) {
+		_newsletterCampaign.setSendDate(sendDate);
 	}
 
 	public boolean isNew() {

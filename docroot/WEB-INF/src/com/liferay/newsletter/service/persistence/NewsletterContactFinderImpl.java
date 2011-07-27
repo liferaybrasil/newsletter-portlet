@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.model.Contact;
 import com.liferay.portal.model.impl.ContactImpl;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
@@ -181,4 +182,30 @@ public class NewsletterContactFinderImpl
 		}
 	}
 
+	public List<NewsletterContact> findByKeywords(
+			String keywords,  int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			String sql = CustomSQLUtil.get(FIND_BY_NAME_CAMPAIGN);
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			q.addEntity("Contact", Contact.class);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			return (List<NewsletterContact>)QueryUtil.list(q, getDialect(), start, end);
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
 }

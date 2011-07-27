@@ -177,12 +177,12 @@ public class NewsletterCampaignClp extends BaseModelImpl<NewsletterCampaign>
 		_sent = sent;
 	}
 
-	public Date getSentDate() {
-		return _sentDate;
+	public Date getSendDate() {
+		return _sendDate;
 	}
 
-	public void setSentDate(Date sentDate) {
-		_sentDate = sentDate;
+	public void setSendDate(Date sendDate) {
+		_sendDate = sendDate;
 	}
 
 	public com.liferay.newsletter.model.NewsletterContent getContent() {
@@ -226,7 +226,7 @@ public class NewsletterCampaignClp extends BaseModelImpl<NewsletterCampaign>
 		clone.setSenderEmail(getSenderEmail());
 		clone.setSenderName(getSenderName());
 		clone.setSent(getSent());
-		clone.setSentDate(getSentDate());
+		clone.setSendDate(getSendDate());
 
 		return clone;
 	}
@@ -234,8 +234,8 @@ public class NewsletterCampaignClp extends BaseModelImpl<NewsletterCampaign>
 	public int compareTo(NewsletterCampaign newsletterCampaign) {
 		int value = 0;
 
-		value = DateUtil.compareTo(getSentDate(),
-				newsletterCampaign.getSentDate());
+		value = DateUtil.compareTo(getSendDate(),
+				newsletterCampaign.getSendDate());
 
 		value = value * -1;
 
@@ -306,8 +306,8 @@ public class NewsletterCampaignClp extends BaseModelImpl<NewsletterCampaign>
 		sb.append(getSenderName());
 		sb.append(", sent=");
 		sb.append(getSent());
-		sb.append(", sentDate=");
-		sb.append(getSentDate());
+		sb.append(", sendDate=");
+		sb.append(getSendDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -373,8 +373,8 @@ public class NewsletterCampaignClp extends BaseModelImpl<NewsletterCampaign>
 		sb.append(getSent());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>sentDate</column-name><column-value><![CDATA[");
-		sb.append(getSentDate());
+			"<column><column-name>sendDate</column-name><column-value><![CDATA[");
+		sb.append(getSendDate());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -396,5 +396,5 @@ public class NewsletterCampaignClp extends BaseModelImpl<NewsletterCampaign>
 	private String _senderEmail;
 	private String _senderName;
 	private boolean _sent;
-	private Date _sentDate;
+	private Date _sendDate;
 }

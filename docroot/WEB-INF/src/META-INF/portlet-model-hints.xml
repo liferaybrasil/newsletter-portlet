@@ -15,7 +15,7 @@
 		<field name="senderEmail" type="String" />
 		<field name="senderName" type="String" />
 		<field name="sent" type="boolean" />
-		<field name="sentDate" type="Date" />
+		<field name="sendDate" type="Date" />
 	</model>
 	<model name="com.liferay.newsletter.model.NewsletterContact">
 		<field name="contactId" type="long" />

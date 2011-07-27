@@ -21,6 +21,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
@@ -28,6 +32,7 @@ import java.util.List;
 
 /**
  * @author Bruno Pinheiro
+ * @author Marcellus Tavares
  */
 public class NewsletterContentFinderImpl
 	extends BasePersistenceImpl<NewsletterContent>
@@ -36,8 +41,33 @@ public class NewsletterContentFinderImpl
 	public static String FIND_BY_TITLE =
 		NewsletterContentFinder.class.getName() + ".findByTitle";
 
-	public List<NewsletterContent> findByTitle(String title, int start, int end)
+	public List<NewsletterContent> findByKeywords(
+			long companyId, long groupId, String keywords, int start, int end,
+			OrderByComparator orderByComparator)
 		throws SystemException {
+
+		String[] titles = null;
+		boolean andOperator = false;
+
+		if (Validator.isNotNull(keywords)) {
+			titles = CustomSQLUtil.keywords(keywords);
+		}
+		else {
+			andOperator = true;
+		}
+
+		return doFindByKeywords(
+			companyId, groupId, titles, andOperator, start, end,
+			orderByComparator);
+	}
+
+	protected List<NewsletterContent> doFindByKeywords(
+			long companyId, long groupId, String[] titles,
+			boolean andOperator, int start, int end,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		titles = CustomSQLUtil.keywords(titles);
 
 		Session session = null;
 
@@ -46,14 +76,29 @@ public class NewsletterContentFinderImpl
 
 			String sql = CustomSQLUtil.get(FIND_BY_TITLE);
 
+			if (groupId <= 0) {
+				sql = StringUtil.replace(sql, "(groupId = ?) AND", "");
+			}
+
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(title)", StringPool.LIKE, false, titles);
+
+			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
+			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);
+
 			SQLQuery q = session.createSQLQuery(sql);
 
-			q.addEntity("CampaignContent", NewsletterContentImpl.class);
+			q.addEntity("NewsletterContent", NewsletterContentImpl.class);
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
-			// TODO: mesma coisa aqui, t� com cara de errado
-			qPos.add("%"+title+"%");
+			qPos.add(companyId);
+
+			if (groupId > 0) {
+				qPos.add(groupId);
+			}
+
+			qPos.add(titles, 2);
 
 			return (List<NewsletterContent>)QueryUtil.list(
 				q, getDialect(), start, end);

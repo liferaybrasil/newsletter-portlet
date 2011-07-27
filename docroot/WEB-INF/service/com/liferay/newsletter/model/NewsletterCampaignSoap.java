@@ -44,7 +44,7 @@ public class NewsletterCampaignSoap implements Serializable {
 		soapModel.setSenderEmail(model.getSenderEmail());
 		soapModel.setSenderName(model.getSenderName());
 		soapModel.setSent(model.getSent());
-		soapModel.setSentDate(model.getSentDate());
+		soapModel.setSendDate(model.getSendDate());
 
 		return soapModel;
 	}
@@ -208,12 +208,12 @@ public class NewsletterCampaignSoap implements Serializable {
 		_sent = sent;
 	}
 
-	public Date getSentDate() {
-		return _sentDate;
+	public Date getSendDate() {
+		return _sendDate;
 	}
 
-	public void setSentDate(Date sentDate) {
-		_sentDate = sentDate;
+	public void setSendDate(Date sendDate) {
+		_sendDate = sendDate;
 	}
 
 	private String _uuid;
@@ -229,5 +229,5 @@ public class NewsletterCampaignSoap implements Serializable {
 	private String _senderEmail;
 	private String _senderName;
 	private boolean _sent;
-	private Date _sentDate;
+	private Date _sendDate;
 }

@@ -355,25 +355,25 @@ public interface NewsletterCampaignPersistence extends BasePersistence<Newslette
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns all the newsletter campaigns where sentDate &le; &#63; and sent = &#63;.
+	* Returns all the newsletter campaigns where sendDate &le; &#63; and sent = &#63;.
 	*
-	* @param sentDate the sent date
+	* @param sendDate the send date
 	* @param sent the sent
 	* @return the matching newsletter campaigns
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<com.liferay.newsletter.model.NewsletterCampaign> findBySD_S(
-		java.util.Date sentDate, boolean sent)
+		java.util.Date sendDate, boolean sent)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns a range of all the newsletter campaigns where sentDate &le; &#63; and sent = &#63;.
+	* Returns a range of all the newsletter campaigns where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sentDate the sent date
+	* @param sendDate the send date
 	* @param sent the sent
 	* @param start the lower bound of the range of newsletter campaigns
 	* @param end the upper bound of the range of newsletter campaigns (not inclusive)
@@ -381,17 +381,17 @@ public interface NewsletterCampaignPersistence extends BasePersistence<Newslette
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<com.liferay.newsletter.model.NewsletterCampaign> findBySD_S(
-		java.util.Date sentDate, boolean sent, int start, int end)
+		java.util.Date sendDate, boolean sent, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns an ordered range of all the newsletter campaigns where sentDate &le; &#63; and sent = &#63;.
+	* Returns an ordered range of all the newsletter campaigns where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sentDate the sent date
+	* @param sendDate the send date
 	* @param sent the sent
 	* @param start the lower bound of the range of newsletter campaigns
 	* @param end the upper bound of the range of newsletter campaigns (not inclusive)
@@ -400,18 +400,18 @@ public interface NewsletterCampaignPersistence extends BasePersistence<Newslette
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<com.liferay.newsletter.model.NewsletterCampaign> findBySD_S(
-		java.util.Date sentDate, boolean sent, int start, int end,
+		java.util.Date sendDate, boolean sent, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the first newsletter campaign in the ordered set where sentDate &le; &#63; and sent = &#63;.
+	* Returns the first newsletter campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sentDate the sent date
+	* @param sendDate the send date
 	* @param sent the sent
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching newsletter campaign
@@ -419,19 +419,19 @@ public interface NewsletterCampaignPersistence extends BasePersistence<Newslette
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.NewsletterCampaign findBySD_S_First(
-		java.util.Date sentDate, boolean sent,
+		java.util.Date sendDate, boolean sent,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.newsletter.NoSuchCampaignException,
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the last newsletter campaign in the ordered set where sentDate &le; &#63; and sent = &#63;.
+	* Returns the last newsletter campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param sentDate the sent date
+	* @param sendDate the send date
 	* @param sent the sent
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching newsletter campaign
@@ -439,20 +439,20 @@ public interface NewsletterCampaignPersistence extends BasePersistence<Newslette
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.NewsletterCampaign findBySD_S_Last(
-		java.util.Date sentDate, boolean sent,
+		java.util.Date sendDate, boolean sent,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.newsletter.NoSuchCampaignException,
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the newsletter campaigns before and after the current newsletter campaign in the ordered set where sentDate &le; &#63; and sent = &#63;.
+	* Returns the newsletter campaigns before and after the current newsletter campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param campaignId the primary key of the current newsletter campaign
-	* @param sentDate the sent date
+	* @param sendDate the send date
 	* @param sent the sent
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next newsletter campaign
@@ -460,7 +460,7 @@ public interface NewsletterCampaignPersistence extends BasePersistence<Newslette
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.NewsletterCampaign[] findBySD_S_PrevAndNext(
-		long campaignId, java.util.Date sentDate, boolean sent,
+		long campaignId, java.util.Date sendDate, boolean sent,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.newsletter.NoSuchCampaignException,
 			com.liferay.portal.kernel.exception.SystemException;
@@ -538,13 +538,13 @@ public interface NewsletterCampaignPersistence extends BasePersistence<Newslette
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Removes all the newsletter campaigns where sentDate &le; &#63; and sent = &#63; from the database.
+	* Removes all the newsletter campaigns where sendDate &le; &#63; and sent = &#63; from the database.
 	*
-	* @param sentDate the sent date
+	* @param sendDate the send date
 	* @param sent the sent
 	* @throws SystemException if a system exception occurred
 	*/
-	public void removeBySD_S(java.util.Date sentDate, boolean sent)
+	public void removeBySD_S(java.util.Date sendDate, boolean sent)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
@@ -587,14 +587,14 @@ public interface NewsletterCampaignPersistence extends BasePersistence<Newslette
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the number of newsletter campaigns where sentDate &le; &#63; and sent = &#63;.
+	* Returns the number of newsletter campaigns where sendDate &le; &#63; and sent = &#63;.
 	*
-	* @param sentDate the sent date
+	* @param sendDate the send date
 	* @param sent the sent
 	* @return the number of matching newsletter campaigns
 	* @throws SystemException if a system exception occurred
 	*/
-	public int countBySD_S(java.util.Date sentDate, boolean sent)
+	public int countBySD_S(java.util.Date sendDate, boolean sent)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

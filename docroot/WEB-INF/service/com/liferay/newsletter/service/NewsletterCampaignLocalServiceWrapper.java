@@ -269,14 +269,14 @@ public class NewsletterCampaignLocalServiceWrapper
 	public com.liferay.newsletter.model.NewsletterCampaign addCampaign(
 		long userId, long groupId, long contentId,
 		java.lang.String emailSubject, java.lang.String senderEmail,
-		java.lang.String senderName, int sentDateDay, int sentDateMonth,
-		int sentDateYear, java.lang.String contacts,
+		java.lang.String senderName, int sendDateDay, int sendDateMonth,
+		int sendDateYear,
 		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return _newsletterCampaignLocalService.addCampaign(userId, groupId,
-			contentId, emailSubject, senderEmail, senderName, sentDateDay,
-			sentDateMonth, sentDateYear, contacts, serviceContext);
+			contentId, emailSubject, senderEmail, senderName, sendDateDay,
+			sendDateMonth, sendDateYear, serviceContext);
 	}
 
 	public void checkCampaigns()
@@ -323,11 +323,16 @@ public class NewsletterCampaignLocalServiceWrapper
 			sent);
 	}
 
+	public void sendCampaign(long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_newsletterCampaignLocalService.sendCampaign(campaignId);
+	}
+
 	public void sendCampaign(
 		com.liferay.newsletter.model.NewsletterCampaign campaign)
 		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException,
-			java.io.IOException {
+			com.liferay.portal.kernel.exception.SystemException {
 		_newsletterCampaignLocalService.sendCampaign(campaign);
 	}
 

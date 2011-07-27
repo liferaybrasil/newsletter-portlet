@@ -96,8 +96,9 @@ public class NewsletterContactLocalServiceClp
 		_getContactMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContact", java.lang.String.class);
 
-		_validateMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
-				"validate", java.lang.String.class, java.lang.String.class);
+		_searchMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
+				"search", java.lang.String.class, int.class, int.class,
+				com.liferay.portal.kernel.util.OrderByComparator.class);
 	}
 
 	public com.liferay.newsletter.model.NewsletterContact addNewsletterContact(
@@ -639,18 +640,22 @@ public class NewsletterContactLocalServiceClp
 		return (com.liferay.newsletter.model.NewsletterContact)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public void validate(java.lang.String name, java.lang.String email)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		MethodHandler methodHandler = new MethodHandler(_validateMethodKey19,
-				ClpSerializer.translateInput(name),
-				ClpSerializer.translateInput(email));
+	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
+		java.lang.String keywords, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_searchMethodKey19,
+				ClpSerializer.translateInput(keywords), start, end,
+				ClpSerializer.translateInput(orderByComparator));
 
 		try {
-			_classLoaderProxy.invoke(methodHandler);
+			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -661,6 +666,8 @@ public class NewsletterContactLocalServiceClp
 					" is not a valid exception");
 			}
 		}
+
+		return (java.util.List<com.liferay.newsletter.model.NewsletterContact>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public ClassLoaderProxy getClassLoaderProxy() {
@@ -687,5 +694,5 @@ public class NewsletterContactLocalServiceClp
 	private MethodKey _addContactMethodKey16;
 	private MethodKey _getContactMethodKey17;
 	private MethodKey _getContactMethodKey18;
-	private MethodKey _validateMethodKey19;
+	private MethodKey _searchMethodKey19;
 }

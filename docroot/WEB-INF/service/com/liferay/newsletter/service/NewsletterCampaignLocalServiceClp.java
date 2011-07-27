@@ -94,7 +94,6 @@ public class NewsletterCampaignLocalServiceClp
 				"addCampaign", long.class, long.class, long.class,
 				java.lang.String.class, java.lang.String.class,
 				java.lang.String.class, int.class, int.class, int.class,
-				java.lang.String.class,
 				com.liferay.portal.service.ServiceContext.class);
 
 		_checkCampaignsMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
@@ -120,6 +119,9 @@ public class NewsletterCampaignLocalServiceClp
 				"getCampaignsBySentDate", java.util.Date.class, boolean.class);
 
 		_sendCampaignMethodKey25 = new MethodKey(_classLoaderProxy.getClassName(),
+				"sendCampaign", long.class);
+
+		_sendCampaignMethodKey26 = new MethodKey(_classLoaderProxy.getClassName(),
 				"sendCampaign",
 				com.liferay.newsletter.model.NewsletterCampaign.class);
 	}
@@ -597,8 +599,8 @@ public class NewsletterCampaignLocalServiceClp
 	public com.liferay.newsletter.model.NewsletterCampaign addCampaign(
 		long userId, long groupId, long contentId,
 		java.lang.String emailSubject, java.lang.String senderEmail,
-		java.lang.String senderName, int sentDateDay, int sentDateMonth,
-		int sentDateYear, java.lang.String contacts,
+		java.lang.String senderName, int sendDateDay, int sendDateMonth,
+		int sendDateYear,
 		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
@@ -608,9 +610,8 @@ public class NewsletterCampaignLocalServiceClp
 				userId, groupId, contentId,
 				ClpSerializer.translateInput(emailSubject),
 				ClpSerializer.translateInput(senderEmail),
-				ClpSerializer.translateInput(senderName), sentDateDay,
-				sentDateMonth, sentDateYear,
-				ClpSerializer.translateInput(contacts),
+				ClpSerializer.translateInput(senderName), sendDateDay,
+				sendDateMonth, sendDateYear,
 				ClpSerializer.translateInput(serviceContext));
 
 		try {
@@ -837,13 +838,11 @@ public class NewsletterCampaignLocalServiceClp
 		return (java.util.List<com.liferay.newsletter.model.NewsletterCampaign>)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public void sendCampaign(
-		com.liferay.newsletter.model.NewsletterCampaign campaign)
+	public void sendCampaign(long campaignId)
 		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException,
-			java.io.IOException {
+			com.liferay.portal.kernel.exception.SystemException {
 		MethodHandler methodHandler = new MethodHandler(_sendCampaignMethodKey25,
-				ClpSerializer.translateInput(campaign));
+				campaignId);
 
 		try {
 			_classLoaderProxy.invoke(methodHandler);
@@ -857,8 +856,33 @@ public class NewsletterCampaignLocalServiceClp
 				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
-			if (t instanceof java.io.IOException) {
-				throw (java.io.IOException)t;
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
+	public void sendCampaign(
+		com.liferay.newsletter.model.NewsletterCampaign campaign)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		MethodHandler methodHandler = new MethodHandler(_sendCampaignMethodKey26,
+				ClpSerializer.translateInput(campaign));
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -902,4 +926,5 @@ public class NewsletterCampaignLocalServiceClp
 	private MethodKey _getCampaignsCountMethodKey23;
 	private MethodKey _getCampaignsBySentDateMethodKey24;
 	private MethodKey _sendCampaignMethodKey25;
+	private MethodKey _sendCampaignMethodKey26;
 }

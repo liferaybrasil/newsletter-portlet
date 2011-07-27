@@ -14,14 +14,16 @@
 
 package com.liferay.newsletter.service.impl;
 
-import com.liferay.newsletter.NameException;
 import com.liferay.newsletter.model.NewsletterContact;
 import com.liferay.newsletter.service.base.NewsletterContactLocalServiceBaseImpl;
 import com.liferay.portal.EmailAddressException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.service.ServiceContext;
+
+import java.util.List;
 
 /**
  * @author Bruno Pinheiro
@@ -34,7 +36,7 @@ public class NewsletterContactLocalServiceImpl
 			String email, String name, ServiceContext serviceContext)
 		throws SystemException, PortalException{
 
-		validate(name, email);
+		validate(email);
 
 		long contactId = counterLocalService.increment();
 
@@ -59,11 +61,17 @@ public class NewsletterContactLocalServiceImpl
 		return newsletterContactPersistence.findByEmail(email);
 	}
 
-	public void validate(String name, String email) throws PortalException {
-		if (Validator.isNull(name)) {
-			throw new NameException();
-		}
-		else if (Validator.isEmailAddress(email)) {
+	public List<NewsletterContact> search(
+			String keywords, int start, int end,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		return newsletterContactFinder.findByKeywords(
+			keywords, start, end, orderByComparator);
+	}
+
+	protected void validate(String email) throws PortalException {
+		if (Validator.isEmailAddress(email)) {
 			throw new EmailAddressException();
 		}
 	}

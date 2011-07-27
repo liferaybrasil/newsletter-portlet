@@ -44,6 +44,14 @@ public class NewsletterContactFinderUtil {
 				   .findByNameAndCampaign(contactName, campaignId, start, end);
 	}
 
+	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> findByKeywords(
+		java.lang.String keywords, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .findByKeywords(keywords, start, end, orderByComparator);
+	}
+
 	public static NewsletterContactFinder getFinder() {
 		if (_finder == null) {
 			_finder = (NewsletterContactFinder)PortletBeanLocatorUtil.locate(com.liferay.newsletter.service.ClpSerializer.getServletContextName(),

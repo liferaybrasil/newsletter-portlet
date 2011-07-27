@@ -23,7 +23,7 @@
 		<property name="senderEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="senderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="sent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="sentDate" type="org.hibernate.type.TimestampType" />
+		<property name="sendDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="com.liferay.newsletter.model.impl.NewsletterContactImpl" table="Newsletter_NewsletterContact">
 		<cache usage="read-write" />

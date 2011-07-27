@@ -21,6 +21,7 @@ import com.liferay.newsletter.model.NewsletterContent;
 import com.liferay.newsletter.service.base.NewsletterContentLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
@@ -37,7 +38,7 @@ public class NewsletterContentLocalServiceImpl
 	public NewsletterContent addContent(
 			long userId, long groupId, long articleId, String title,
 			String content, ServiceContext serviceContext)
-		throws SystemException, PortalException {
+		throws PortalException, SystemException {
 
 		User user = userPersistence.findByPrimaryKey(userId);
 
@@ -80,7 +81,7 @@ public class NewsletterContentLocalServiceImpl
 	}
 
 	public void deleteContent(long contentId)
-		throws SystemException,	PortalException {
+		throws PortalException, SystemException {
 
 		NewsletterContent newsletterContent =
 			newsletterContentPersistence.findByPrimaryKey(contentId);
@@ -94,10 +95,31 @@ public class NewsletterContentLocalServiceImpl
 		return newsletterContentPersistence.findByPrimaryKey(contentId);
 	}
 
-	public List<NewsletterContent> getContents(
-		String title, int start, int end) throws SystemException{
+	public List<NewsletterContent> search(
+			long companyId, long groupId, String keywords, int start, int end,
+			OrderByComparator orderByComparator)
+		throws SystemException{
 
-		return newsletterContentPersistence.findByTitle(title, start, end);
+		return newsletterContentFinder.findByKeywords(
+			companyId, groupId, keywords, start, end, orderByComparator);
+	}
+
+	public NewsletterContent updateContent(
+			long contentId, long articleId, String title, String content,
+			ServiceContext serviceContext)
+		throws PortalException, SystemException {
+
+		validate(title, content);
+
+		NewsletterContent newsletterContent =
+			newsletterContentPersistence.findByPrimaryKey(contentId);
+
+		newsletterContent.setModifiedDate(serviceContext.getModifiedDate(null));
+		newsletterContent.setArticleId(articleId);
+		newsletterContent.setTitle(title);
+		newsletterContent.setContent(content);
+
+		return newsletterContentPersistence.update(newsletterContent, false);
 	}
 
 	public void validate(String title, String content) throws PortalException {

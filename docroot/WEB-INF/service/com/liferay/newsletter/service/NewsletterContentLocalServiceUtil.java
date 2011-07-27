@@ -303,10 +303,25 @@ public class NewsletterContentLocalServiceUtil {
 		return getService().getContent(contentId);
 	}
 
-	public static java.util.List<com.liferay.newsletter.model.NewsletterContent> getContents(
-		java.lang.String title, int start, int end)
+	public static java.util.List<com.liferay.newsletter.model.NewsletterContent> search(
+		long companyId, long groupId, java.lang.String keywords, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getContents(title, start, end);
+		return getService()
+				   .search(companyId, groupId, keywords, start, end,
+			orderByComparator);
+	}
+
+	public static com.liferay.newsletter.model.NewsletterContent updateContent(
+		long contentId, long articleId, java.lang.String title,
+		java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .updateContent(contentId, articleId, title, content,
+			serviceContext);
 	}
 
 	public static void validate(java.lang.String title, java.lang.String content)

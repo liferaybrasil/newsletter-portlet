@@ -272,9 +272,12 @@ public class NewsletterContactLocalServiceWrapper
 		return _newsletterContactLocalService.getContact(email);
 	}
 
-	public void validate(java.lang.String name, java.lang.String email)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		_newsletterContactLocalService.validate(name, email);
+	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
+		java.lang.String keywords, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterContactLocalService.search(keywords, start, end,
+			orderByComparator);
 	}
 
 	public NewsletterContactLocalService getWrappedNewsletterContactLocalService() {

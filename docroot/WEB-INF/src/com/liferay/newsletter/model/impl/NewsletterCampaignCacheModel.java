@@ -60,8 +60,8 @@ public class NewsletterCampaignCacheModel implements CacheModel<NewsletterCampai
 		sb.append(senderName);
 		sb.append(", sent=");
 		sb.append(sent);
-		sb.append(", sentDate=");
-		sb.append(sentDate);
+		sb.append(", sendDate=");
+		sb.append(sendDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -128,11 +128,11 @@ public class NewsletterCampaignCacheModel implements CacheModel<NewsletterCampai
 
 		newsletterCampaignImpl.setSent(sent);
 
-		if (sentDate == Long.MIN_VALUE) {
-			newsletterCampaignImpl.setSentDate(null);
+		if (sendDate == Long.MIN_VALUE) {
+			newsletterCampaignImpl.setSendDate(null);
 		}
 		else {
-			newsletterCampaignImpl.setSentDate(new Date(sentDate));
+			newsletterCampaignImpl.setSendDate(new Date(sendDate));
 		}
 
 		newsletterCampaignImpl.resetOriginalValues();
@@ -153,5 +153,5 @@ public class NewsletterCampaignCacheModel implements CacheModel<NewsletterCampai
 	public String senderEmail;
 	public String senderName;
 	public boolean sent;
-	public long sentDate;
+	public long sendDate;
 }

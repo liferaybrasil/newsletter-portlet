@@ -105,10 +105,17 @@ public class NewsletterContentLocalServiceClp
 		_getContentMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContent", long.class);
 
-		_getContentsMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getContents", java.lang.String.class, int.class, int.class);
+		_searchMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+				"search", long.class, long.class, java.lang.String.class,
+				int.class, int.class,
+				com.liferay.portal.kernel.util.OrderByComparator.class);
 
-		_validateMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
+		_updateContentMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
+				"updateContent", long.class, long.class,
+				java.lang.String.class, java.lang.String.class,
+				com.liferay.portal.service.ServiceContext.class);
+
+		_validateMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
 				"validate", java.lang.String.class, java.lang.String.class);
 	}
 
@@ -710,13 +717,16 @@ public class NewsletterContentLocalServiceClp
 		return (com.liferay.newsletter.model.NewsletterContent)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public java.util.List<com.liferay.newsletter.model.NewsletterContent> getContents(
-		java.lang.String title, int start, int end)
+	public java.util.List<com.liferay.newsletter.model.NewsletterContent> search(
+		long companyId, long groupId, java.lang.String keywords, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContentsMethodKey21,
-				ClpSerializer.translateInput(title), start, end);
+		MethodHandler methodHandler = new MethodHandler(_searchMethodKey21,
+				companyId, groupId, ClpSerializer.translateInput(keywords),
+				start, end, ClpSerializer.translateInput(orderByComparator));
 
 		try {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
@@ -738,9 +748,46 @@ public class NewsletterContentLocalServiceClp
 		return (java.util.List<com.liferay.newsletter.model.NewsletterContent>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public com.liferay.newsletter.model.NewsletterContent updateContent(
+		long contentId, long articleId, java.lang.String title,
+		java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_updateContentMethodKey22,
+				contentId, articleId, ClpSerializer.translateInput(title),
+				ClpSerializer.translateInput(content),
+				ClpSerializer.translateInput(serviceContext));
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.newsletter.model.NewsletterContent)ClpSerializer.translateOutput(returnObj);
+	}
+
 	public void validate(java.lang.String title, java.lang.String content)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		MethodHandler methodHandler = new MethodHandler(_validateMethodKey22,
+		MethodHandler methodHandler = new MethodHandler(_validateMethodKey23,
 				ClpSerializer.translateInput(title),
 				ClpSerializer.translateInput(content));
 
@@ -788,6 +835,7 @@ public class NewsletterContentLocalServiceClp
 	private MethodKey _deleteContentMethodKey18;
 	private MethodKey _deleteContentMethodKey19;
 	private MethodKey _getContentMethodKey20;
-	private MethodKey _getContentsMethodKey21;
-	private MethodKey _validateMethodKey22;
+	private MethodKey _searchMethodKey21;
+	private MethodKey _updateContentMethodKey22;
+	private MethodKey _validateMethodKey23;
 }

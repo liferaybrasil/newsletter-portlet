@@ -417,7 +417,7 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 		newsletterCampaignImpl.setSenderEmail(newsletterCampaign.getSenderEmail());
 		newsletterCampaignImpl.setSenderName(newsletterCampaign.getSenderName());
 		newsletterCampaignImpl.setSent(newsletterCampaign.isSent());
-		newsletterCampaignImpl.setSentDate(newsletterCampaign.getSentDate());
+		newsletterCampaignImpl.setSendDate(newsletterCampaign.getSendDate());
 
 		return newsletterCampaignImpl;
 	}
@@ -1381,46 +1381,46 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 	}
 
 	/**
-	 * Returns all the newsletter campaigns where sentDate &le; &#63; and sent = &#63;.
+	 * Returns all the newsletter campaigns where sendDate &le; &#63; and sent = &#63;.
 	 *
-	 * @param sentDate the sent date
+	 * @param sendDate the send date
 	 * @param sent the sent
 	 * @return the matching newsletter campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<NewsletterCampaign> findBySD_S(Date sentDate, boolean sent)
+	public List<NewsletterCampaign> findBySD_S(Date sendDate, boolean sent)
 		throws SystemException {
-		return findBySD_S(sentDate, sent, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+		return findBySD_S(sendDate, sent, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			null);
 	}
 
 	/**
-	 * Returns a range of all the newsletter campaigns where sentDate &le; &#63; and sent = &#63;.
+	 * Returns a range of all the newsletter campaigns where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sentDate the sent date
+	 * @param sendDate the send date
 	 * @param sent the sent
 	 * @param start the lower bound of the range of newsletter campaigns
 	 * @param end the upper bound of the range of newsletter campaigns (not inclusive)
 	 * @return the range of matching newsletter campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<NewsletterCampaign> findBySD_S(Date sentDate, boolean sent,
+	public List<NewsletterCampaign> findBySD_S(Date sendDate, boolean sent,
 		int start, int end) throws SystemException {
-		return findBySD_S(sentDate, sent, start, end, null);
+		return findBySD_S(sendDate, sent, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the newsletter campaigns where sentDate &le; &#63; and sent = &#63;.
+	 * Returns an ordered range of all the newsletter campaigns where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sentDate the sent date
+	 * @param sendDate the send date
 	 * @param sent the sent
 	 * @param start the lower bound of the range of newsletter campaigns
 	 * @param end the upper bound of the range of newsletter campaigns (not inclusive)
@@ -1428,11 +1428,11 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 	 * @return the ordered range of matching newsletter campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<NewsletterCampaign> findBySD_S(Date sentDate, boolean sent,
+	public List<NewsletterCampaign> findBySD_S(Date sendDate, boolean sent,
 		int start, int end, OrderByComparator orderByComparator)
 		throws SystemException {
 		Object[] finderArgs = new Object[] {
-				sentDate, sent,
+				sendDate, sent,
 				
 				String.valueOf(start), String.valueOf(end),
 				String.valueOf(orderByComparator)
@@ -1454,11 +1454,11 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 
 			query.append(_SQL_SELECT_NEWSLETTERCAMPAIGN_WHERE);
 
-			if (sentDate == null) {
-				query.append(_FINDER_COLUMN_SD_S_SENTDATE_1);
+			if (sendDate == null) {
+				query.append(_FINDER_COLUMN_SD_S_SENDDATE_1);
 			}
 			else {
-				query.append(_FINDER_COLUMN_SD_S_SENTDATE_2);
+				query.append(_FINDER_COLUMN_SD_S_SENDDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_SD_S_SENT_2);
@@ -1483,8 +1483,8 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (sentDate != null) {
-					qPos.add(CalendarUtil.getTimestamp(sentDate));
+				if (sendDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(sendDate));
 				}
 
 				qPos.add(sent);
@@ -1515,23 +1515,23 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 	}
 
 	/**
-	 * Returns the first newsletter campaign in the ordered set where sentDate &le; &#63; and sent = &#63;.
+	 * Returns the first newsletter campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sentDate the sent date
+	 * @param sendDate the send date
 	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching newsletter campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching newsletter campaign could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public NewsletterCampaign findBySD_S_First(Date sentDate, boolean sent,
+	public NewsletterCampaign findBySD_S_First(Date sendDate, boolean sent,
 		OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
-		List<NewsletterCampaign> list = findBySD_S(sentDate, sent, 0, 1,
+		List<NewsletterCampaign> list = findBySD_S(sendDate, sent, 0, 1,
 				orderByComparator);
 
 		if (list.isEmpty()) {
@@ -1539,8 +1539,8 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("sentDate=");
-			msg.append(sentDate);
+			msg.append("sendDate=");
+			msg.append(sendDate);
 
 			msg.append(", sent=");
 			msg.append(sent);
@@ -1555,25 +1555,25 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 	}
 
 	/**
-	 * Returns the last newsletter campaign in the ordered set where sentDate &le; &#63; and sent = &#63;.
+	 * Returns the last newsletter campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param sentDate the sent date
+	 * @param sendDate the send date
 	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching newsletter campaign
 	 * @throws com.liferay.newsletter.NoSuchCampaignException if a matching newsletter campaign could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public NewsletterCampaign findBySD_S_Last(Date sentDate, boolean sent,
+	public NewsletterCampaign findBySD_S_Last(Date sendDate, boolean sent,
 		OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
-		int count = countBySD_S(sentDate, sent);
+		int count = countBySD_S(sendDate, sent);
 
-		List<NewsletterCampaign> list = findBySD_S(sentDate, sent, count - 1,
+		List<NewsletterCampaign> list = findBySD_S(sendDate, sent, count - 1,
 				count, orderByComparator);
 
 		if (list.isEmpty()) {
@@ -1581,8 +1581,8 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("sentDate=");
-			msg.append(sentDate);
+			msg.append("sendDate=");
+			msg.append(sendDate);
 
 			msg.append(", sent=");
 			msg.append(sent);
@@ -1597,14 +1597,14 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 	}
 
 	/**
-	 * Returns the newsletter campaigns before and after the current newsletter campaign in the ordered set where sentDate &le; &#63; and sent = &#63;.
+	 * Returns the newsletter campaigns before and after the current newsletter campaign in the ordered set where sendDate &le; &#63; and sent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param campaignId the primary key of the current newsletter campaign
-	 * @param sentDate the sent date
+	 * @param sendDate the send date
 	 * @param sent the sent
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next newsletter campaign
@@ -1612,7 +1612,7 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 	 * @throws SystemException if a system exception occurred
 	 */
 	public NewsletterCampaign[] findBySD_S_PrevAndNext(long campaignId,
-		Date sentDate, boolean sent, OrderByComparator orderByComparator)
+		Date sendDate, boolean sent, OrderByComparator orderByComparator)
 		throws NoSuchCampaignException, SystemException {
 		NewsletterCampaign newsletterCampaign = findByPrimaryKey(campaignId);
 
@@ -1624,12 +1624,12 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 			NewsletterCampaign[] array = new NewsletterCampaignImpl[3];
 
 			array[0] = getBySD_S_PrevAndNext(session, newsletterCampaign,
-					sentDate, sent, orderByComparator, true);
+					sendDate, sent, orderByComparator, true);
 
 			array[1] = newsletterCampaign;
 
 			array[2] = getBySD_S_PrevAndNext(session, newsletterCampaign,
-					sentDate, sent, orderByComparator, false);
+					sendDate, sent, orderByComparator, false);
 
 			return array;
 		}
@@ -1642,7 +1642,7 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 	}
 
 	protected NewsletterCampaign getBySD_S_PrevAndNext(Session session,
-		NewsletterCampaign newsletterCampaign, Date sentDate, boolean sent,
+		NewsletterCampaign newsletterCampaign, Date sendDate, boolean sent,
 		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -1656,11 +1656,11 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 
 		query.append(_SQL_SELECT_NEWSLETTERCAMPAIGN_WHERE);
 
-		if (sentDate == null) {
-			query.append(_FINDER_COLUMN_SD_S_SENTDATE_1);
+		if (sendDate == null) {
+			query.append(_FINDER_COLUMN_SD_S_SENDDATE_1);
 		}
 		else {
-			query.append(_FINDER_COLUMN_SD_S_SENTDATE_2);
+			query.append(_FINDER_COLUMN_SD_S_SENDDATE_2);
 		}
 
 		query.append(_FINDER_COLUMN_SD_S_SENT_2);
@@ -1732,8 +1732,8 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		if (sentDate != null) {
-			qPos.add(CalendarUtil.getTimestamp(sentDate));
+		if (sendDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(sendDate));
 		}
 
 		qPos.add(sent);
@@ -1904,15 +1904,15 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 	}
 
 	/**
-	 * Removes all the newsletter campaigns where sentDate &le; &#63; and sent = &#63; from the database.
+	 * Removes all the newsletter campaigns where sendDate &le; &#63; and sent = &#63; from the database.
 	 *
-	 * @param sentDate the sent date
+	 * @param sendDate the send date
 	 * @param sent the sent
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void removeBySD_S(Date sentDate, boolean sent)
+	public void removeBySD_S(Date sendDate, boolean sent)
 		throws SystemException {
-		for (NewsletterCampaign newsletterCampaign : findBySD_S(sentDate, sent)) {
+		for (NewsletterCampaign newsletterCampaign : findBySD_S(sendDate, sent)) {
 			newsletterCampaignPersistence.remove(newsletterCampaign);
 		}
 	}
@@ -2118,16 +2118,16 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 	}
 
 	/**
-	 * Returns the number of newsletter campaigns where sentDate &le; &#63; and sent = &#63;.
+	 * Returns the number of newsletter campaigns where sendDate &le; &#63; and sent = &#63;.
 	 *
-	 * @param sentDate the sent date
+	 * @param sendDate the send date
 	 * @param sent the sent
 	 * @return the number of matching newsletter campaigns
 	 * @throws SystemException if a system exception occurred
 	 */
-	public int countBySD_S(Date sentDate, boolean sent)
+	public int countBySD_S(Date sendDate, boolean sent)
 		throws SystemException {
-		Object[] finderArgs = new Object[] { sentDate, sent };
+		Object[] finderArgs = new Object[] { sendDate, sent };
 
 		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SD_S,
 				finderArgs, this);
@@ -2137,11 +2137,11 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 
 			query.append(_SQL_COUNT_NEWSLETTERCAMPAIGN_WHERE);
 
-			if (sentDate == null) {
-				query.append(_FINDER_COLUMN_SD_S_SENTDATE_1);
+			if (sendDate == null) {
+				query.append(_FINDER_COLUMN_SD_S_SENDDATE_1);
 			}
 			else {
-				query.append(_FINDER_COLUMN_SD_S_SENTDATE_2);
+				query.append(_FINDER_COLUMN_SD_S_SENDDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_SD_S_SENT_2);
@@ -2157,8 +2157,8 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (sentDate != null) {
-					qPos.add(CalendarUtil.getTimestamp(sentDate));
+				if (sendDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(sendDate));
 				}
 
 				qPos.add(sent);
@@ -2278,8 +2278,8 @@ public class NewsletterCampaignPersistenceImpl extends BasePersistenceImpl<Newsl
 	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(newsletterCampaign.uuid IS NULL OR newsletterCampaign.uuid = ?) AND ";
 	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "newsletterCampaign.groupId = ?";
 	private static final String _FINDER_COLUMN_CONTENTID_CONTENTID_2 = "newsletterCampaign.contentId = ?";
-	private static final String _FINDER_COLUMN_SD_S_SENTDATE_1 = "newsletterCampaign.sentDate <= NULL AND ";
-	private static final String _FINDER_COLUMN_SD_S_SENTDATE_2 = "newsletterCampaign.sentDate <= ? AND ";
+	private static final String _FINDER_COLUMN_SD_S_SENDDATE_1 = "newsletterCampaign.sendDate <= NULL AND ";
+	private static final String _FINDER_COLUMN_SD_S_SENDDATE_2 = "newsletterCampaign.sendDate <= ? AND ";
 	private static final String _FINDER_COLUMN_SD_S_SENT_2 = "newsletterCampaign.sent = ?";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "newsletterCampaign.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No NewsletterCampaign exists with the primary key ";
