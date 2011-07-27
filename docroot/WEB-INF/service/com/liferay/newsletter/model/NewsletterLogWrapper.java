@@ -55,39 +55,21 @@ public class NewsletterLogWrapper implements NewsletterLog {
 	}
 
 	/**
-	* Returns the uuid of this newsletter log.
+	* Returns the log ID of this newsletter log.
 	*
-	* @return the uuid of this newsletter log
+	* @return the log ID of this newsletter log
 	*/
-	public java.lang.String getUuid() {
-		return _newsletterLog.getUuid();
+	public long getLogId() {
+		return _newsletterLog.getLogId();
 	}
 
 	/**
-	* Sets the uuid of this newsletter log.
+	* Sets the log ID of this newsletter log.
 	*
-	* @param uuid the uuid of this newsletter log
+	* @param logId the log ID of this newsletter log
 	*/
-	public void setUuid(java.lang.String uuid) {
-		_newsletterLog.setUuid(uuid);
-	}
-
-	/**
-	* Returns the newsletter log ID of this newsletter log.
-	*
-	* @return the newsletter log ID of this newsletter log
-	*/
-	public long getNewsletterLogId() {
-		return _newsletterLog.getNewsletterLogId();
-	}
-
-	/**
-	* Sets the newsletter log ID of this newsletter log.
-	*
-	* @param newsletterLogId the newsletter log ID of this newsletter log
-	*/
-	public void setNewsletterLogId(long newsletterLogId) {
-		_newsletterLog.setNewsletterLogId(newsletterLogId);
+	public void setLogId(long logId) {
+		_newsletterLog.setLogId(logId);
 	}
 
 	/**

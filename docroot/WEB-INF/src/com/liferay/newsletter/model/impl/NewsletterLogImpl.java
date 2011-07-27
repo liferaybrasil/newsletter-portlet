@@ -18,8 +18,4 @@ package com.liferay.newsletter.model.impl;
  * @author Bruno Pinheiro
  */
 public class NewsletterLogImpl extends NewsletterLogBaseImpl {
-
-	public NewsletterLogImpl() {
-	}
-
 }

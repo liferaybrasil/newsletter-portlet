@@ -17,7 +17,7 @@ package com.liferay.newsletter;
 import com.liferay.portal.NoSuchModelException;
 
 /**
- * @author Bruno Pinheiro
+ * @author Brian Wing Shun Chan
  */
 public class NoSuchCampaignException extends NoSuchModelException {
 

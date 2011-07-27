@@ -14,7 +14,6 @@
 
 package com.liferay.newsletter.model;
 
-import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.service.ServiceContext;
@@ -58,33 +57,18 @@ public interface NewsletterLogModel extends BaseModel<NewsletterLog> {
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Returns the uuid of this newsletter log.
+	 * Returns the log ID of this newsletter log.
 	 *
-	 * @return the uuid of this newsletter log
+	 * @return the log ID of this newsletter log
 	 */
-	@AutoEscape
-	public String getUuid();
+	public long getLogId();
 
 	/**
-	 * Sets the uuid of this newsletter log.
+	 * Sets the log ID of this newsletter log.
 	 *
-	 * @param uuid the uuid of this newsletter log
+	 * @param logId the log ID of this newsletter log
 	 */
-	public void setUuid(String uuid);
-
-	/**
-	 * Returns the newsletter log ID of this newsletter log.
-	 *
-	 * @return the newsletter log ID of this newsletter log
-	 */
-	public long getNewsletterLogId();
-
-	/**
-	 * Sets the newsletter log ID of this newsletter log.
-	 *
-	 * @param newsletterLogId the newsletter log ID of this newsletter log
-	 */
-	public void setNewsletterLogId(long newsletterLogId);
+	public void setLogId(long logId);
 
 	/**
 	 * Returns the campaign ID of this newsletter log.

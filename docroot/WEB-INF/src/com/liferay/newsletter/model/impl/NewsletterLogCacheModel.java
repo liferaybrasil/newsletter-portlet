@@ -17,7 +17,6 @@ package com.liferay.newsletter.model.impl;
 import com.liferay.newsletter.model.NewsletterLog;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 /**
@@ -30,12 +29,10 @@ import com.liferay.portal.model.CacheModel;
 public class NewsletterLogCacheModel implements CacheModel<NewsletterLog> {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(9);
 
-		sb.append("{uuid=");
-		sb.append(uuid);
-		sb.append(", newsletterLogId=");
-		sb.append(newsletterLogId);
+		sb.append("{logId=");
+		sb.append(logId);
 		sb.append(", campaignId=");
 		sb.append(campaignId);
 		sb.append(", contactId=");
@@ -50,14 +47,7 @@ public class NewsletterLogCacheModel implements CacheModel<NewsletterLog> {
 	public NewsletterLog toEntityModel() {
 		NewsletterLogImpl newsletterLogImpl = new NewsletterLogImpl();
 
-		if (uuid == null) {
-			newsletterLogImpl.setUuid(StringPool.BLANK);
-		}
-		else {
-			newsletterLogImpl.setUuid(uuid);
-		}
-
-		newsletterLogImpl.setNewsletterLogId(newsletterLogId);
+		newsletterLogImpl.setLogId(logId);
 		newsletterLogImpl.setCampaignId(campaignId);
 		newsletterLogImpl.setContactId(contactId);
 		newsletterLogImpl.setSent(sent);
@@ -67,8 +57,7 @@ public class NewsletterLogCacheModel implements CacheModel<NewsletterLog> {
 		return newsletterLogImpl;
 	}
 
-	public String uuid;
-	public long newsletterLogId;
+	public long logId;
 	public long campaignId;
 	public long contactId;
 	public boolean sent;

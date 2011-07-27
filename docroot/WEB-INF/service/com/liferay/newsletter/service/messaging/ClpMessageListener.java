@@ -14,12 +14,12 @@
 
 package com.liferay.newsletter.service.messaging;
 
-import com.liferay.newsletter.service.CampaignContentLocalServiceUtil;
-import com.liferay.newsletter.service.CampaignContentServiceUtil;
-import com.liferay.newsletter.service.CampaignLocalServiceUtil;
 import com.liferay.newsletter.service.ClpSerializer;
-import com.liferay.newsletter.service.ContactLocalServiceUtil;
-import com.liferay.newsletter.service.ContactServiceUtil;
+import com.liferay.newsletter.service.NewsletterCampaignLocalServiceUtil;
+import com.liferay.newsletter.service.NewsletterCampaignServiceUtil;
+import com.liferay.newsletter.service.NewsletterContactLocalServiceUtil;
+import com.liferay.newsletter.service.NewsletterContentLocalServiceUtil;
+import com.liferay.newsletter.service.NewsletterContentServiceUtil;
 import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
 
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
@@ -39,14 +39,14 @@ public class ClpMessageListener extends BaseMessageListener {
 
 		if (command.equals("undeploy") &&
 				servletContextName.equals(getServletContextName())) {
-			CampaignLocalServiceUtil.clearService();
+			NewsletterCampaignLocalServiceUtil.clearService();
 
-			CampaignContentLocalServiceUtil.clearService();
+			NewsletterCampaignServiceUtil.clearService();
+			NewsletterContactLocalServiceUtil.clearService();
 
-			CampaignContentServiceUtil.clearService();
-			ContactLocalServiceUtil.clearService();
+			NewsletterContentLocalServiceUtil.clearService();
 
-			ContactServiceUtil.clearService();
+			NewsletterContentServiceUtil.clearService();
 			NewsletterLogLocalServiceUtil.clearService();
 		}
 	}

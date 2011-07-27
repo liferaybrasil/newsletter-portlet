@@ -14,13 +14,12 @@
 
 package com.liferay.newsletter.service.impl;
 
-import com.liferay.newsletter.model.Contact;
 import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.service.base.NewsletterLogLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.service.ServiceContext;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,51 +28,43 @@ import java.util.List;
 public class NewsletterLogLocalServiceImpl
 	extends NewsletterLogLocalServiceBaseImpl {
 
-	public NewsletterLog addNewsletterLog(NewsletterLog newsletter)
-		throws SystemException{
+	public NewsletterLog addLog(
+			long campaignId, long contactId, boolean sent,
+			ServiceContext serviceContext)
+		throws PortalException, SystemException {
 
-		long newsletterLogId = counterLocalService.increment();
+		long logId = counterLocalService.increment();
 
-		newsletter.setNewsletterLogId(newsletterLogId);
+		NewsletterLog log = newsletterLogPersistence.create(logId);
 
-		return newsletterLogPersistence.update(newsletter, false);
+		log.setCampaignId(campaignId);
+		log.setContactId(contactId);
+		log.setSent(sent);
+
+		return newsletterLogPersistence.update(log, false);
 	}
 
-	public List<Contact> getContactsByCampaign(long campaignId)
-		throws SystemException, PortalException{
-
-		List<Contact> contacts = new ArrayList<Contact>();
-
-		List<NewsletterLog> newsletterLogByCampaign =
-			getNewsletterLogByCampaign(campaignId);
-
-		for (NewsletterLog newsletterLog : newsletterLogByCampaign) {
-			long contactId = newsletterLog.getContactId();
-			Contact contact = contactLocalService.getContact(contactId);
-			contacts.add(contact);
-		}
-
-		return contacts;
+	public void deleteLog(NewsletterLog log) throws SystemException {
+		newsletterLogPersistence.remove(log);
 	}
 
-	public int getContactsByCampaignCount(long campaignId)
-		throws SystemException {
-
-		return getNewsletterLogByCampaign(campaignId).size();
-	}
-
-	public List<NewsletterLog> getNewsletterLogByCampaign(long campaignId)
-		throws SystemException{
-
-		return newsletterLogPersistence.findByCampaign(campaignId);
-	}
-
-	public NewsletterLog getNewsletterLogByCampaignAndContact(
+	public NewsletterLog getLog(
 			long campaignId, long contactId)
 		throws SystemException, PortalException{
 
-		return newsletterLogPersistence.
-				findByCampaign_Contact(campaignId, contactId);
+		return newsletterLogPersistence.findByC_C(campaignId, contactId);
+	}
+
+	public List<NewsletterLog> getLogsByCampaignId(long campaignId)
+		throws SystemException{
+
+		return newsletterLogPersistence.findByCampaignId(campaignId);
+	}
+
+	public List<NewsletterLog> getLogsByContactId(long contactId)
+		throws SystemException{
+
+		return newsletterLogPersistence.findByContactId(contactId);
 	}
 
 }

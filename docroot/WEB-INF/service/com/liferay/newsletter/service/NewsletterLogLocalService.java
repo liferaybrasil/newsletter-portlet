@@ -57,20 +57,20 @@ public interface NewsletterLogLocalService extends PersistedModelLocalService {
 	/**
 	* Creates a new newsletter log with the primary key. Does not add the newsletter log to the database.
 	*
-	* @param newsletterLogId the primary key for the new newsletter log
+	* @param logId the primary key for the new newsletter log
 	* @return the new newsletter log
 	*/
 	public com.liferay.newsletter.model.NewsletterLog createNewsletterLog(
-		long newsletterLogId);
+		long logId);
 
 	/**
 	* Deletes the newsletter log with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param newsletterLogId the primary key of the newsletter log
+	* @param logId the primary key of the newsletter log
 	* @throws PortalException if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public void deleteNewsletterLog(long newsletterLogId)
+	public void deleteNewsletterLog(long logId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -149,14 +149,14 @@ public interface NewsletterLogLocalService extends PersistedModelLocalService {
 	/**
 	* Returns the newsletter log with the primary key.
 	*
-	* @param newsletterLogId the primary key of the newsletter log
+	* @param logId the primary key of the newsletter log
 	* @return the newsletter log
 	* @throws PortalException if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.newsletter.model.NewsletterLog getNewsletterLog(
-		long newsletterLogId)
+		long logId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -230,24 +230,28 @@ public interface NewsletterLogLocalService extends PersistedModelLocalService {
 	*/
 	public void setBeanIdentifier(java.lang.String beanIdentifier);
 
+	public com.liferay.newsletter.model.NewsletterLog addLog(long campaignId,
+		long contactId, boolean sent,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	public void deleteLog(com.liferay.newsletter.model.NewsletterLog log)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.newsletter.model.Contact> getContactsByCampaign(
-		long campaignId)
+	public com.liferay.newsletter.model.NewsletterLog getLog(long campaignId,
+		long contactId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getContactsByCampaignCount(long campaignId)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogByCampaign(
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getLogsByCampaignId(
 		long campaignId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public com.liferay.newsletter.model.NewsletterLog getNewsletterLogByCampaignAndContact(
-		long campaignId, long contactId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getLogsByContactId(
+		long contactId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

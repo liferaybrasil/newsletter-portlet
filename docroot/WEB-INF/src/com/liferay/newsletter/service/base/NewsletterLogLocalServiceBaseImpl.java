@@ -17,17 +17,17 @@ package com.liferay.newsletter.service.base;
 import com.liferay.counter.service.CounterLocalService;
 
 import com.liferay.newsletter.model.NewsletterLog;
-import com.liferay.newsletter.service.CampaignContentLocalService;
-import com.liferay.newsletter.service.CampaignContentService;
-import com.liferay.newsletter.service.CampaignLocalService;
-import com.liferay.newsletter.service.ContactLocalService;
-import com.liferay.newsletter.service.ContactService;
+import com.liferay.newsletter.service.NewsletterCampaignLocalService;
+import com.liferay.newsletter.service.NewsletterCampaignService;
+import com.liferay.newsletter.service.NewsletterContactLocalService;
+import com.liferay.newsletter.service.NewsletterContentLocalService;
+import com.liferay.newsletter.service.NewsletterContentService;
 import com.liferay.newsletter.service.NewsletterLogLocalService;
-import com.liferay.newsletter.service.persistence.CampaignContentFinder;
-import com.liferay.newsletter.service.persistence.CampaignContentPersistence;
-import com.liferay.newsletter.service.persistence.CampaignPersistence;
-import com.liferay.newsletter.service.persistence.ContactFinder;
-import com.liferay.newsletter.service.persistence.ContactPersistence;
+import com.liferay.newsletter.service.persistence.NewsletterCampaignPersistence;
+import com.liferay.newsletter.service.persistence.NewsletterContactFinder;
+import com.liferay.newsletter.service.persistence.NewsletterContactPersistence;
+import com.liferay.newsletter.service.persistence.NewsletterContentFinder;
+import com.liferay.newsletter.service.persistence.NewsletterContentPersistence;
 import com.liferay.newsletter.service.persistence.NewsletterLogPersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
@@ -110,23 +110,23 @@ public abstract class NewsletterLogLocalServiceBaseImpl
 	/**
 	 * Creates a new newsletter log with the primary key. Does not add the newsletter log to the database.
 	 *
-	 * @param newsletterLogId the primary key for the new newsletter log
+	 * @param logId the primary key for the new newsletter log
 	 * @return the new newsletter log
 	 */
-	public NewsletterLog createNewsletterLog(long newsletterLogId) {
-		return newsletterLogPersistence.create(newsletterLogId);
+	public NewsletterLog createNewsletterLog(long logId) {
+		return newsletterLogPersistence.create(logId);
 	}
 
 	/**
 	 * Deletes the newsletter log with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param newsletterLogId the primary key of the newsletter log
+	 * @param logId the primary key of the newsletter log
 	 * @throws PortalException if a newsletter log with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void deleteNewsletterLog(long newsletterLogId)
+	public void deleteNewsletterLog(long logId)
 		throws PortalException, SystemException {
-		NewsletterLog newsletterLog = newsletterLogPersistence.remove(newsletterLogId);
+		NewsletterLog newsletterLog = newsletterLogPersistence.remove(logId);
 
 		Indexer indexer = IndexerRegistryUtil.getIndexer(getModelClassName());
 
@@ -235,14 +235,14 @@ public abstract class NewsletterLogLocalServiceBaseImpl
 	/**
 	 * Returns the newsletter log with the primary key.
 	 *
-	 * @param newsletterLogId the primary key of the newsletter log
+	 * @param logId the primary key of the newsletter log
 	 * @return the newsletter log
 	 * @throws PortalException if a newsletter log with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public NewsletterLog getNewsletterLog(long newsletterLogId)
+	public NewsletterLog getNewsletterLog(long logId)
 		throws PortalException, SystemException {
-		return newsletterLogPersistence.findByPrimaryKey(newsletterLogId);
+		return newsletterLogPersistence.findByPrimaryKey(logId);
 	}
 
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
@@ -320,188 +320,193 @@ public abstract class NewsletterLogLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the campaign local service.
+	 * Returns the newsletter campaign local service.
 	 *
-	 * @return the campaign local service
+	 * @return the newsletter campaign local service
 	 */
-	public CampaignLocalService getCampaignLocalService() {
-		return campaignLocalService;
+	public NewsletterCampaignLocalService getNewsletterCampaignLocalService() {
+		return newsletterCampaignLocalService;
 	}
 
 	/**
-	 * Sets the campaign local service.
+	 * Sets the newsletter campaign local service.
 	 *
-	 * @param campaignLocalService the campaign local service
+	 * @param newsletterCampaignLocalService the newsletter campaign local service
 	 */
-	public void setCampaignLocalService(
-		CampaignLocalService campaignLocalService) {
-		this.campaignLocalService = campaignLocalService;
+	public void setNewsletterCampaignLocalService(
+		NewsletterCampaignLocalService newsletterCampaignLocalService) {
+		this.newsletterCampaignLocalService = newsletterCampaignLocalService;
 	}
 
 	/**
-	 * Returns the campaign persistence.
+	 * Returns the newsletter campaign remote service.
 	 *
-	 * @return the campaign persistence
+	 * @return the newsletter campaign remote service
 	 */
-	public CampaignPersistence getCampaignPersistence() {
-		return campaignPersistence;
+	public NewsletterCampaignService getNewsletterCampaignService() {
+		return newsletterCampaignService;
 	}
 
 	/**
-	 * Sets the campaign persistence.
+	 * Sets the newsletter campaign remote service.
 	 *
-	 * @param campaignPersistence the campaign persistence
+	 * @param newsletterCampaignService the newsletter campaign remote service
 	 */
-	public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
-		this.campaignPersistence = campaignPersistence;
+	public void setNewsletterCampaignService(
+		NewsletterCampaignService newsletterCampaignService) {
+		this.newsletterCampaignService = newsletterCampaignService;
 	}
 
 	/**
-	 * Returns the campaign content local service.
+	 * Returns the newsletter campaign persistence.
 	 *
-	 * @return the campaign content local service
+	 * @return the newsletter campaign persistence
 	 */
-	public CampaignContentLocalService getCampaignContentLocalService() {
-		return campaignContentLocalService;
+	public NewsletterCampaignPersistence getNewsletterCampaignPersistence() {
+		return newsletterCampaignPersistence;
 	}
 
 	/**
-	 * Sets the campaign content local service.
+	 * Sets the newsletter campaign persistence.
 	 *
-	 * @param campaignContentLocalService the campaign content local service
+	 * @param newsletterCampaignPersistence the newsletter campaign persistence
 	 */
-	public void setCampaignContentLocalService(
-		CampaignContentLocalService campaignContentLocalService) {
-		this.campaignContentLocalService = campaignContentLocalService;
+	public void setNewsletterCampaignPersistence(
+		NewsletterCampaignPersistence newsletterCampaignPersistence) {
+		this.newsletterCampaignPersistence = newsletterCampaignPersistence;
 	}
 
 	/**
-	 * Returns the campaign content remote service.
+	 * Returns the newsletter contact local service.
 	 *
-	 * @return the campaign content remote service
+	 * @return the newsletter contact local service
 	 */
-	public CampaignContentService getCampaignContentService() {
-		return campaignContentService;
+	public NewsletterContactLocalService getNewsletterContactLocalService() {
+		return newsletterContactLocalService;
 	}
 
 	/**
-	 * Sets the campaign content remote service.
+	 * Sets the newsletter contact local service.
 	 *
-	 * @param campaignContentService the campaign content remote service
+	 * @param newsletterContactLocalService the newsletter contact local service
 	 */
-	public void setCampaignContentService(
-		CampaignContentService campaignContentService) {
-		this.campaignContentService = campaignContentService;
+	public void setNewsletterContactLocalService(
+		NewsletterContactLocalService newsletterContactLocalService) {
+		this.newsletterContactLocalService = newsletterContactLocalService;
 	}
 
 	/**
-	 * Returns the campaign content persistence.
+	 * Returns the newsletter contact persistence.
 	 *
-	 * @return the campaign content persistence
+	 * @return the newsletter contact persistence
 	 */
-	public CampaignContentPersistence getCampaignContentPersistence() {
-		return campaignContentPersistence;
+	public NewsletterContactPersistence getNewsletterContactPersistence() {
+		return newsletterContactPersistence;
 	}
 
 	/**
-	 * Sets the campaign content persistence.
+	 * Sets the newsletter contact persistence.
 	 *
-	 * @param campaignContentPersistence the campaign content persistence
+	 * @param newsletterContactPersistence the newsletter contact persistence
 	 */
-	public void setCampaignContentPersistence(
-		CampaignContentPersistence campaignContentPersistence) {
-		this.campaignContentPersistence = campaignContentPersistence;
+	public void setNewsletterContactPersistence(
+		NewsletterContactPersistence newsletterContactPersistence) {
+		this.newsletterContactPersistence = newsletterContactPersistence;
 	}
 
 	/**
-	 * Returns the campaign content finder.
+	 * Returns the newsletter contact finder.
 	 *
-	 * @return the campaign content finder
+	 * @return the newsletter contact finder
 	 */
-	public CampaignContentFinder getCampaignContentFinder() {
-		return campaignContentFinder;
+	public NewsletterContactFinder getNewsletterContactFinder() {
+		return newsletterContactFinder;
 	}
 
 	/**
-	 * Sets the campaign content finder.
+	 * Sets the newsletter contact finder.
 	 *
-	 * @param campaignContentFinder the campaign content finder
+	 * @param newsletterContactFinder the newsletter contact finder
 	 */
-	public void setCampaignContentFinder(
-		CampaignContentFinder campaignContentFinder) {
-		this.campaignContentFinder = campaignContentFinder;
+	public void setNewsletterContactFinder(
+		NewsletterContactFinder newsletterContactFinder) {
+		this.newsletterContactFinder = newsletterContactFinder;
 	}
 
 	/**
-	 * Returns the contact local service.
+	 * Returns the newsletter content local service.
 	 *
-	 * @return the contact local service
+	 * @return the newsletter content local service
 	 */
-	public ContactLocalService getContactLocalService() {
-		return contactLocalService;
+	public NewsletterContentLocalService getNewsletterContentLocalService() {
+		return newsletterContentLocalService;
 	}
 
 	/**
-	 * Sets the contact local service.
+	 * Sets the newsletter content local service.
 	 *
-	 * @param contactLocalService the contact local service
+	 * @param newsletterContentLocalService the newsletter content local service
 	 */
-	public void setContactLocalService(ContactLocalService contactLocalService) {
-		this.contactLocalService = contactLocalService;
+	public void setNewsletterContentLocalService(
+		NewsletterContentLocalService newsletterContentLocalService) {
+		this.newsletterContentLocalService = newsletterContentLocalService;
 	}
 
 	/**
-	 * Returns the contact remote service.
+	 * Returns the newsletter content remote service.
 	 *
-	 * @return the contact remote service
+	 * @return the newsletter content remote service
 	 */
-	public ContactService getContactService() {
-		return contactService;
+	public NewsletterContentService getNewsletterContentService() {
+		return newsletterContentService;
 	}
 
 	/**
-	 * Sets the contact remote service.
+	 * Sets the newsletter content remote service.
 	 *
-	 * @param contactService the contact remote service
+	 * @param newsletterContentService the newsletter content remote service
 	 */
-	public void setContactService(ContactService contactService) {
-		this.contactService = contactService;
+	public void setNewsletterContentService(
+		NewsletterContentService newsletterContentService) {
+		this.newsletterContentService = newsletterContentService;
 	}
 
 	/**
-	 * Returns the contact persistence.
+	 * Returns the newsletter content persistence.
 	 *
-	 * @return the contact persistence
+	 * @return the newsletter content persistence
 	 */
-	public ContactPersistence getContactPersistence() {
-		return contactPersistence;
+	public NewsletterContentPersistence getNewsletterContentPersistence() {
+		return newsletterContentPersistence;
 	}
 
 	/**
-	 * Sets the contact persistence.
+	 * Sets the newsletter content persistence.
 	 *
-	 * @param contactPersistence the contact persistence
+	 * @param newsletterContentPersistence the newsletter content persistence
 	 */
-	public void setContactPersistence(ContactPersistence contactPersistence) {
-		this.contactPersistence = contactPersistence;
+	public void setNewsletterContentPersistence(
+		NewsletterContentPersistence newsletterContentPersistence) {
+		this.newsletterContentPersistence = newsletterContentPersistence;
 	}
 
 	/**
-	 * Returns the contact finder.
+	 * Returns the newsletter content finder.
 	 *
-	 * @return the contact finder
+	 * @return the newsletter content finder
 	 */
-	public ContactFinder getContactFinder() {
-		return contactFinder;
+	public NewsletterContentFinder getNewsletterContentFinder() {
+		return newsletterContentFinder;
 	}
 
 	/**
-	 * Sets the contact finder.
+	 * Sets the newsletter content finder.
 	 *
-	 * @param contactFinder the contact finder
+	 * @param newsletterContentFinder the newsletter content finder
 	 */
-	public void setContactFinder(ContactFinder contactFinder) {
-		this.contactFinder = contactFinder;
+	public void setNewsletterContentFinder(
+		NewsletterContentFinder newsletterContentFinder) {
+		this.newsletterContentFinder = newsletterContentFinder;
 	}
 
 	/**
@@ -724,26 +729,26 @@ public abstract class NewsletterLogLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = CampaignLocalService.class)
-	protected CampaignLocalService campaignLocalService;
-	@BeanReference(type = CampaignPersistence.class)
-	protected CampaignPersistence campaignPersistence;
-	@BeanReference(type = CampaignContentLocalService.class)
-	protected CampaignContentLocalService campaignContentLocalService;
-	@BeanReference(type = CampaignContentService.class)
-	protected CampaignContentService campaignContentService;
-	@BeanReference(type = CampaignContentPersistence.class)
-	protected CampaignContentPersistence campaignContentPersistence;
-	@BeanReference(type = CampaignContentFinder.class)
-	protected CampaignContentFinder campaignContentFinder;
-	@BeanReference(type = ContactLocalService.class)
-	protected ContactLocalService contactLocalService;
-	@BeanReference(type = ContactService.class)
-	protected ContactService contactService;
-	@BeanReference(type = ContactPersistence.class)
-	protected ContactPersistence contactPersistence;
-	@BeanReference(type = ContactFinder.class)
-	protected ContactFinder contactFinder;
+	@BeanReference(type = NewsletterCampaignLocalService.class)
+	protected NewsletterCampaignLocalService newsletterCampaignLocalService;
+	@BeanReference(type = NewsletterCampaignService.class)
+	protected NewsletterCampaignService newsletterCampaignService;
+	@BeanReference(type = NewsletterCampaignPersistence.class)
+	protected NewsletterCampaignPersistence newsletterCampaignPersistence;
+	@BeanReference(type = NewsletterContactLocalService.class)
+	protected NewsletterContactLocalService newsletterContactLocalService;
+	@BeanReference(type = NewsletterContactPersistence.class)
+	protected NewsletterContactPersistence newsletterContactPersistence;
+	@BeanReference(type = NewsletterContactFinder.class)
+	protected NewsletterContactFinder newsletterContactFinder;
+	@BeanReference(type = NewsletterContentLocalService.class)
+	protected NewsletterContentLocalService newsletterContentLocalService;
+	@BeanReference(type = NewsletterContentService.class)
+	protected NewsletterContentService newsletterContentService;
+	@BeanReference(type = NewsletterContentPersistence.class)
+	protected NewsletterContentPersistence newsletterContentPersistence;
+	@BeanReference(type = NewsletterContentFinder.class)
+	protected NewsletterContentFinder newsletterContentFinder;
 	@BeanReference(type = NewsletterLogLocalService.class)
 	protected NewsletterLogLocalService newsletterLogLocalService;
 	@BeanReference(type = NewsletterLogPersistence.class)

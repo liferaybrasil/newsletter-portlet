@@ -14,9 +14,9 @@
 
 package com.liferay.newsletter.service;
 
-import com.liferay.newsletter.model.CampaignClp;
-import com.liferay.newsletter.model.CampaignContentClp;
-import com.liferay.newsletter.model.ContactClp;
+import com.liferay.newsletter.model.NewsletterCampaignClp;
+import com.liferay.newsletter.model.NewsletterContactClp;
+import com.liferay.newsletter.model.NewsletterContentClp;
 import com.liferay.newsletter.model.NewsletterLogClp;
 
 import com.liferay.portal.kernel.log.Log;
@@ -102,16 +102,16 @@ public class ClpSerializer {
 
 		String oldModelClassName = oldModelClass.getName();
 
-		if (oldModelClassName.equals(CampaignClp.class.getName())) {
-			return translateInputCampaign(oldModel);
+		if (oldModelClassName.equals(NewsletterCampaignClp.class.getName())) {
+			return translateInputNewsletterCampaign(oldModel);
 		}
 
-		if (oldModelClassName.equals(CampaignContentClp.class.getName())) {
-			return translateInputCampaignContent(oldModel);
+		if (oldModelClassName.equals(NewsletterContactClp.class.getName())) {
+			return translateInputNewsletterContact(oldModel);
 		}
 
-		if (oldModelClassName.equals(ContactClp.class.getName())) {
-			return translateInputContact(oldModel);
+		if (oldModelClassName.equals(NewsletterContentClp.class.getName())) {
+			return translateInputNewsletterContent(oldModel);
 		}
 
 		if (oldModelClassName.equals(NewsletterLogClp.class.getName())) {
@@ -133,8 +133,8 @@ public class ClpSerializer {
 		return newList;
 	}
 
-	public static Object translateInputCampaign(BaseModel<?> oldModel) {
-		CampaignClp oldCplModel = (CampaignClp)oldModel;
+	public static Object translateInputNewsletterCampaign(BaseModel<?> oldModel) {
+		NewsletterCampaignClp oldCplModel = (NewsletterCampaignClp)oldModel;
 
 		Thread currentThread = Thread.currentThread();
 
@@ -144,7 +144,7 @@ public class ClpSerializer {
 			currentThread.setContextClassLoader(_classLoader);
 
 			try {
-				Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.CampaignImpl",
+				Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.NewsletterCampaignImpl",
 						true, _classLoader);
 
 				Object newModel = newModelClass.newInstance();
@@ -163,55 +163,90 @@ public class ClpSerializer {
 
 				method1.invoke(newModel, value1);
 
-				Method method2 = newModelClass.getMethod("setSentDate",
-						new Class[] { Date.class });
+				Method method2 = newModelClass.getMethod("setGroupId",
+						new Class[] { Long.TYPE });
 
-				Date value2 = oldCplModel.getSentDate();
+				Long value2 = new Long(oldCplModel.getGroupId());
 
 				method2.invoke(newModel, value2);
 
-				Method method3 = newModelClass.getMethod("setEmailSubject",
-						new Class[] { String.class });
+				Method method3 = newModelClass.getMethod("setCompanyId",
+						new Class[] { Long.TYPE });
 
-				String value3 = oldCplModel.getEmailSubject();
+				Long value3 = new Long(oldCplModel.getCompanyId());
 
 				method3.invoke(newModel, value3);
 
-				Method method4 = newModelClass.getMethod("setSenderEmail",
-						new Class[] { String.class });
+				Method method4 = newModelClass.getMethod("setUserId",
+						new Class[] { Long.TYPE });
 
-				String value4 = oldCplModel.getSenderEmail();
+				Long value4 = new Long(oldCplModel.getUserId());
 
 				method4.invoke(newModel, value4);
 
-				Method method5 = newModelClass.getMethod("setSenderName",
+				Method method5 = newModelClass.getMethod("setUserName",
 						new Class[] { String.class });
 
-				String value5 = oldCplModel.getSenderName();
+				String value5 = oldCplModel.getUserName();
 
 				method5.invoke(newModel, value5);
 
-				Method method6 = newModelClass.getMethod("setContent",
-						new Class[] { String.class });
+				Method method6 = newModelClass.getMethod("setCreateDate",
+						new Class[] { Date.class });
 
-				String value6 = oldCplModel.getContent();
+				Date value6 = oldCplModel.getCreateDate();
 
 				method6.invoke(newModel, value6);
 
-				Method method7 = newModelClass.getMethod("setSent",
-						new Class[] { Boolean.TYPE });
+				Method method7 = newModelClass.getMethod("setModifiedDate",
+						new Class[] { Date.class });
 
-				Boolean value7 = new Boolean(oldCplModel.getSent());
+				Date value7 = oldCplModel.getModifiedDate();
 
 				method7.invoke(newModel, value7);
 
-				Method method8 = newModelClass.getMethod("setCampaignContentId",
+				Method method8 = newModelClass.getMethod("setContentId",
 						new Class[] { Long.TYPE });
 
-				Long value8 = new Long(oldCplModel.getCampaignContentId());
+				Long value8 = new Long(oldCplModel.getContentId());
 
 				method8.invoke(newModel, value8);
 
+				Method method9 = newModelClass.getMethod("setEmailSubject",
+						new Class[] { String.class });
+
+				String value9 = oldCplModel.getEmailSubject();
+
+				method9.invoke(newModel, value9);
+
+				Method method10 = newModelClass.getMethod("setSenderEmail",
+						new Class[] { String.class });
+
+				String value10 = oldCplModel.getSenderEmail();
+
+				method10.invoke(newModel, value10);
+
+				Method method11 = newModelClass.getMethod("setSenderName",
+						new Class[] { String.class });
+
+				String value11 = oldCplModel.getSenderName();
+
+				method11.invoke(newModel, value11);
+
+				Method method12 = newModelClass.getMethod("setSent",
+						new Class[] { Boolean.TYPE });
+
+				Boolean value12 = new Boolean(oldCplModel.getSent());
+
+				method12.invoke(newModel, value12);
+
+				Method method13 = newModelClass.getMethod("setSentDate",
+						new Class[] { Date.class });
+
+				Date value13 = oldCplModel.getSentDate();
+
+				method13.invoke(newModel, value13);
+
 				return newModel;
 			}
 			catch (Exception e) {
@@ -225,8 +260,8 @@ public class ClpSerializer {
 		return oldModel;
 	}
 
-	public static Object translateInputCampaignContent(BaseModel<?> oldModel) {
-		CampaignContentClp oldCplModel = (CampaignContentClp)oldModel;
+	public static Object translateInputNewsletterContact(BaseModel<?> oldModel) {
+		NewsletterContactClp oldCplModel = (NewsletterContactClp)oldModel;
 
 		Thread currentThread = Thread.currentThread();
 
@@ -236,7 +271,57 @@ public class ClpSerializer {
 			currentThread.setContextClassLoader(_classLoader);
 
 			try {
-				Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.CampaignContentImpl",
+				Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.NewsletterContactImpl",
+						true, _classLoader);
+
+				Object newModel = newModelClass.newInstance();
+
+				Method method0 = newModelClass.getMethod("setContactId",
+						new Class[] { Long.TYPE });
+
+				Long value0 = new Long(oldCplModel.getContactId());
+
+				method0.invoke(newModel, value0);
+
+				Method method1 = newModelClass.getMethod("setEmail",
+						new Class[] { String.class });
+
+				String value1 = oldCplModel.getEmail();
+
+				method1.invoke(newModel, value1);
+
+				Method method2 = newModelClass.getMethod("setName",
+						new Class[] { String.class });
+
+				String value2 = oldCplModel.getName();
+
+				method2.invoke(newModel, value2);
+
+				return newModel;
+			}
+			catch (Exception e) {
+				_log.error(e, e);
+			}
+		}
+		finally {
+			currentThread.setContextClassLoader(contextClassLoader);
+		}
+
+		return oldModel;
+	}
+
+	public static Object translateInputNewsletterContent(BaseModel<?> oldModel) {
+		NewsletterContentClp oldCplModel = (NewsletterContentClp)oldModel;
+
+		Thread currentThread = Thread.currentThread();
+
+		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
+
+		try {
+			currentThread.setContextClassLoader(_classLoader);
+
+			try {
+				Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.NewsletterContentImpl",
 						true, _classLoader);
 
 				Object newModel = newModelClass.newInstance();
@@ -248,97 +333,75 @@ public class ClpSerializer {
 
 				method0.invoke(newModel, value0);
 
-				Method method1 = newModelClass.getMethod("setCampaignContentId",
+				Method method1 = newModelClass.getMethod("setContentId",
 						new Class[] { Long.TYPE });
 
-				Long value1 = new Long(oldCplModel.getCampaignContentId());
+				Long value1 = new Long(oldCplModel.getContentId());
 
 				method1.invoke(newModel, value1);
 
-				Method method2 = newModelClass.getMethod("setTitle",
-						new Class[] { String.class });
+				Method method2 = newModelClass.getMethod("setGroupId",
+						new Class[] { Long.TYPE });
 
-				String value2 = oldCplModel.getTitle();
+				Long value2 = new Long(oldCplModel.getGroupId());
 
 				method2.invoke(newModel, value2);
 
-				Method method3 = newModelClass.getMethod("setContent",
-						new Class[] { String.class });
+				Method method3 = newModelClass.getMethod("setCompanyId",
+						new Class[] { Long.TYPE });
 
-				String value3 = oldCplModel.getContent();
+				Long value3 = new Long(oldCplModel.getCompanyId());
 
 				method3.invoke(newModel, value3);
 
-				Method method4 = newModelClass.getMethod("setCreateDate",
-						new Class[] { Date.class });
+				Method method4 = newModelClass.getMethod("setUserId",
+						new Class[] { Long.TYPE });
 
-				Date value4 = oldCplModel.getCreateDate();
+				Long value4 = new Long(oldCplModel.getUserId());
 
 				method4.invoke(newModel, value4);
 
-				Method method5 = newModelClass.getMethod("setArticleId",
-						new Class[] { Long.TYPE });
+				Method method5 = newModelClass.getMethod("setUserName",
+						new Class[] { String.class });
 
-				Long value5 = new Long(oldCplModel.getArticleId());
+				String value5 = oldCplModel.getUserName();
 
 				method5.invoke(newModel, value5);
 
-				return newModel;
-			}
-			catch (Exception e) {
-				_log.error(e, e);
-			}
-		}
-		finally {
-			currentThread.setContextClassLoader(contextClassLoader);
-		}
+				Method method6 = newModelClass.getMethod("setCreateDate",
+						new Class[] { Date.class });
 
-		return oldModel;
-	}
+				Date value6 = oldCplModel.getCreateDate();
 
-	public static Object translateInputContact(BaseModel<?> oldModel) {
-		ContactClp oldCplModel = (ContactClp)oldModel;
+				method6.invoke(newModel, value6);
 
-		Thread currentThread = Thread.currentThread();
+				Method method7 = newModelClass.getMethod("setModifiedDate",
+						new Class[] { Date.class });
 
-		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
+				Date value7 = oldCplModel.getModifiedDate();
 
-		try {
-			currentThread.setContextClassLoader(_classLoader);
+				method7.invoke(newModel, value7);
 
-			try {
-				Class<?> newModelClass = Class.forName("com.liferay.newsletter.model.impl.ContactImpl",
-						true, _classLoader);
-
-				Object newModel = newModelClass.newInstance();
-
-				Method method0 = newModelClass.getMethod("setUuid",
+				Method method8 = newModelClass.getMethod("setTitle",
 						new Class[] { String.class });
 
-				String value0 = oldCplModel.getUuid();
+				String value8 = oldCplModel.getTitle();
 
-				method0.invoke(newModel, value0);
+				method8.invoke(newModel, value8);
 
-				Method method1 = newModelClass.getMethod("setContactId",
+				Method method9 = newModelClass.getMethod("setContent",
+						new Class[] { String.class });
+
+				String value9 = oldCplModel.getContent();
+
+				method9.invoke(newModel, value9);
+
+				Method method10 = newModelClass.getMethod("setArticleId",
 						new Class[] { Long.TYPE });
 
-				Long value1 = new Long(oldCplModel.getContactId());
+				Long value10 = new Long(oldCplModel.getArticleId());
 
-				method1.invoke(newModel, value1);
-
-				Method method2 = newModelClass.getMethod("setEmail",
-						new Class[] { String.class });
-
-				String value2 = oldCplModel.getEmail();
-
-				method2.invoke(newModel, value2);
-
-				Method method3 = newModelClass.getMethod("setName",
-						new Class[] { String.class });
-
-				String value3 = oldCplModel.getName();
-
-				method3.invoke(newModel, value3);
+				method10.invoke(newModel, value10);
 
 				return newModel;
 			}
@@ -369,40 +432,33 @@ public class ClpSerializer {
 
 				Object newModel = newModelClass.newInstance();
 
-				Method method0 = newModelClass.getMethod("setUuid",
-						new Class[] { String.class });
+				Method method0 = newModelClass.getMethod("setLogId",
+						new Class[] { Long.TYPE });
 
-				String value0 = oldCplModel.getUuid();
+				Long value0 = new Long(oldCplModel.getLogId());
 
 				method0.invoke(newModel, value0);
 
-				Method method1 = newModelClass.getMethod("setNewsletterLogId",
+				Method method1 = newModelClass.getMethod("setCampaignId",
 						new Class[] { Long.TYPE });
 
-				Long value1 = new Long(oldCplModel.getNewsletterLogId());
+				Long value1 = new Long(oldCplModel.getCampaignId());
 
 				method1.invoke(newModel, value1);
 
-				Method method2 = newModelClass.getMethod("setCampaignId",
+				Method method2 = newModelClass.getMethod("setContactId",
 						new Class[] { Long.TYPE });
 
-				Long value2 = new Long(oldCplModel.getCampaignId());
+				Long value2 = new Long(oldCplModel.getContactId());
 
 				method2.invoke(newModel, value2);
 
-				Method method3 = newModelClass.getMethod("setContactId",
-						new Class[] { Long.TYPE });
-
-				Long value3 = new Long(oldCplModel.getContactId());
-
-				method3.invoke(newModel, value3);
-
-				Method method4 = newModelClass.getMethod("setSent",
+				Method method3 = newModelClass.getMethod("setSent",
 						new Class[] { Boolean.TYPE });
 
-				Boolean value4 = new Boolean(oldCplModel.getSent());
+				Boolean value3 = new Boolean(oldCplModel.getSent());
 
-				method4.invoke(newModel, value4);
+				method3.invoke(newModel, value3);
 
 				return newModel;
 			}
@@ -435,18 +491,18 @@ public class ClpSerializer {
 		String oldModelClassName = oldModelClass.getName();
 
 		if (oldModelClassName.equals(
-					"com.liferay.newsletter.model.impl.CampaignImpl")) {
-			return translateOutputCampaign(oldModel);
+					"com.liferay.newsletter.model.impl.NewsletterCampaignImpl")) {
+			return translateOutputNewsletterCampaign(oldModel);
 		}
 
 		if (oldModelClassName.equals(
-					"com.liferay.newsletter.model.impl.CampaignContentImpl")) {
-			return translateOutputCampaignContent(oldModel);
+					"com.liferay.newsletter.model.impl.NewsletterContactImpl")) {
+			return translateOutputNewsletterContact(oldModel);
 		}
 
 		if (oldModelClassName.equals(
-					"com.liferay.newsletter.model.impl.ContactImpl")) {
-			return translateOutputContact(oldModel);
+					"com.liferay.newsletter.model.impl.NewsletterContentImpl")) {
+			return translateOutputNewsletterContent(oldModel);
 		}
 
 		if (oldModelClassName.equals(
@@ -481,7 +537,8 @@ public class ClpSerializer {
 		}
 	}
 
-	public static Object translateOutputCampaign(BaseModel<?> oldModel) {
+	public static Object translateOutputNewsletterCampaign(
+		BaseModel<?> oldModel) {
 		Thread currentThread = Thread.currentThread();
 
 		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
@@ -490,7 +547,7 @@ public class ClpSerializer {
 			currentThread.setContextClassLoader(_classLoader);
 
 			try {
-				CampaignClp newModel = new CampaignClp();
+				NewsletterCampaignClp newModel = new NewsletterCampaignClp();
 
 				Class<?> oldModelClass = oldModel.getClass();
 
@@ -506,48 +563,80 @@ public class ClpSerializer {
 
 				newModel.setCampaignId(value1);
 
-				Method method2 = oldModelClass.getMethod("getSentDate");
+				Method method2 = oldModelClass.getMethod("getGroupId");
 
-				Date value2 = (Date)method2.invoke(oldModel, (Object[])null);
+				Long value2 = (Long)method2.invoke(oldModel, (Object[])null);
 
-				newModel.setSentDate(value2);
+				newModel.setGroupId(value2);
 
-				Method method3 = oldModelClass.getMethod("getEmailSubject");
+				Method method3 = oldModelClass.getMethod("getCompanyId");
 
-				String value3 = (String)method3.invoke(oldModel, (Object[])null);
+				Long value3 = (Long)method3.invoke(oldModel, (Object[])null);
 
-				newModel.setEmailSubject(value3);
+				newModel.setCompanyId(value3);
 
-				Method method4 = oldModelClass.getMethod("getSenderEmail");
+				Method method4 = oldModelClass.getMethod("getUserId");
 
-				String value4 = (String)method4.invoke(oldModel, (Object[])null);
+				Long value4 = (Long)method4.invoke(oldModel, (Object[])null);
 
-				newModel.setSenderEmail(value4);
+				newModel.setUserId(value4);
 
-				Method method5 = oldModelClass.getMethod("getSenderName");
+				Method method5 = oldModelClass.getMethod("getUserName");
 
 				String value5 = (String)method5.invoke(oldModel, (Object[])null);
 
-				newModel.setSenderName(value5);
+				newModel.setUserName(value5);
 
-				Method method6 = oldModelClass.getMethod("getContent");
+				Method method6 = oldModelClass.getMethod("getCreateDate");
 
-				String value6 = (String)method6.invoke(oldModel, (Object[])null);
+				Date value6 = (Date)method6.invoke(oldModel, (Object[])null);
 
-				newModel.setContent(value6);
+				newModel.setCreateDate(value6);
 
-				Method method7 = oldModelClass.getMethod("getSent");
+				Method method7 = oldModelClass.getMethod("getModifiedDate");
 
-				Boolean value7 = (Boolean)method7.invoke(oldModel,
-						(Object[])null);
+				Date value7 = (Date)method7.invoke(oldModel, (Object[])null);
 
-				newModel.setSent(value7);
+				newModel.setModifiedDate(value7);
 
-				Method method8 = oldModelClass.getMethod("getCampaignContentId");
+				Method method8 = oldModelClass.getMethod("getContentId");
 
 				Long value8 = (Long)method8.invoke(oldModel, (Object[])null);
 
-				newModel.setCampaignContentId(value8);
+				newModel.setContentId(value8);
+
+				Method method9 = oldModelClass.getMethod("getEmailSubject");
+
+				String value9 = (String)method9.invoke(oldModel, (Object[])null);
+
+				newModel.setEmailSubject(value9);
+
+				Method method10 = oldModelClass.getMethod("getSenderEmail");
+
+				String value10 = (String)method10.invoke(oldModel,
+						(Object[])null);
+
+				newModel.setSenderEmail(value10);
+
+				Method method11 = oldModelClass.getMethod("getSenderName");
+
+				String value11 = (String)method11.invoke(oldModel,
+						(Object[])null);
+
+				newModel.setSenderName(value11);
+
+				Method method12 = oldModelClass.getMethod("getSent");
+
+				Boolean value12 = (Boolean)method12.invoke(oldModel,
+						(Object[])null);
+
+				newModel.setSent(value12);
+
+				Method method13 = oldModelClass.getMethod("getSentDate");
+
+				Date value13 = (Date)method13.invoke(oldModel, (Object[])null);
+
+				newModel.setSentDate(value13);
 
 				return newModel;
 			}
@@ -562,7 +651,7 @@ public class ClpSerializer {
 		return oldModel;
 	}
 
-	public static Object translateOutputCampaignContent(BaseModel<?> oldModel) {
+	public static Object translateOutputNewsletterContact(BaseModel<?> oldModel) {
 		Thread currentThread = Thread.currentThread();
 
 		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
@@ -571,45 +660,27 @@ public class ClpSerializer {
 			currentThread.setContextClassLoader(_classLoader);
 
 			try {
-				CampaignContentClp newModel = new CampaignContentClp();
+				NewsletterContactClp newModel = new NewsletterContactClp();
 
 				Class<?> oldModelClass = oldModel.getClass();
 
-				Method method0 = oldModelClass.getMethod("getUuid");
+				Method method0 = oldModelClass.getMethod("getContactId");
 
-				String value0 = (String)method0.invoke(oldModel, (Object[])null);
+				Long value0 = (Long)method0.invoke(oldModel, (Object[])null);
 
-				newModel.setUuid(value0);
+				newModel.setContactId(value0);
 
-				Method method1 = oldModelClass.getMethod("getCampaignContentId");
+				Method method1 = oldModelClass.getMethod("getEmail");
 
-				Long value1 = (Long)method1.invoke(oldModel, (Object[])null);
+				String value1 = (String)method1.invoke(oldModel, (Object[])null);
 
-				newModel.setCampaignContentId(value1);
+				newModel.setEmail(value1);
 
-				Method method2 = oldModelClass.getMethod("getTitle");
+				Method method2 = oldModelClass.getMethod("getName");
 
 				String value2 = (String)method2.invoke(oldModel, (Object[])null);
 
-				newModel.setTitle(value2);
-
-				Method method3 = oldModelClass.getMethod("getContent");
-
-				String value3 = (String)method3.invoke(oldModel, (Object[])null);
-
-				newModel.setContent(value3);
-
-				Method method4 = oldModelClass.getMethod("getCreateDate");
-
-				Date value4 = (Date)method4.invoke(oldModel, (Object[])null);
-
-				newModel.setCreateDate(value4);
-
-				Method method5 = oldModelClass.getMethod("getArticleId");
-
-				Long value5 = (Long)method5.invoke(oldModel, (Object[])null);
-
-				newModel.setArticleId(value5);
+				newModel.setName(value2);
 
 				return newModel;
 			}
@@ -624,7 +695,7 @@ public class ClpSerializer {
 		return oldModel;
 	}
 
-	public static Object translateOutputContact(BaseModel<?> oldModel) {
+	public static Object translateOutputNewsletterContent(BaseModel<?> oldModel) {
 		Thread currentThread = Thread.currentThread();
 
 		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
@@ -633,7 +704,7 @@ public class ClpSerializer {
 			currentThread.setContextClassLoader(_classLoader);
 
 			try {
-				ContactClp newModel = new ContactClp();
+				NewsletterContentClp newModel = new NewsletterContentClp();
 
 				Class<?> oldModelClass = oldModel.getClass();
 
@@ -643,23 +714,65 @@ public class ClpSerializer {
 
 				newModel.setUuid(value0);
 
-				Method method1 = oldModelClass.getMethod("getContactId");
+				Method method1 = oldModelClass.getMethod("getContentId");
 
 				Long value1 = (Long)method1.invoke(oldModel, (Object[])null);
 
-				newModel.setContactId(value1);
+				newModel.setContentId(value1);
 
-				Method method2 = oldModelClass.getMethod("getEmail");
+				Method method2 = oldModelClass.getMethod("getGroupId");
 
-				String value2 = (String)method2.invoke(oldModel, (Object[])null);
+				Long value2 = (Long)method2.invoke(oldModel, (Object[])null);
 
-				newModel.setEmail(value2);
+				newModel.setGroupId(value2);
 
-				Method method3 = oldModelClass.getMethod("getName");
+				Method method3 = oldModelClass.getMethod("getCompanyId");
 
-				String value3 = (String)method3.invoke(oldModel, (Object[])null);
+				Long value3 = (Long)method3.invoke(oldModel, (Object[])null);
 
-				newModel.setName(value3);
+				newModel.setCompanyId(value3);
+
+				Method method4 = oldModelClass.getMethod("getUserId");
+
+				Long value4 = (Long)method4.invoke(oldModel, (Object[])null);
+
+				newModel.setUserId(value4);
+
+				Method method5 = oldModelClass.getMethod("getUserName");
+
+				String value5 = (String)method5.invoke(oldModel, (Object[])null);
+
+				newModel.setUserName(value5);
+
+				Method method6 = oldModelClass.getMethod("getCreateDate");
+
+				Date value6 = (Date)method6.invoke(oldModel, (Object[])null);
+
+				newModel.setCreateDate(value6);
+
+				Method method7 = oldModelClass.getMethod("getModifiedDate");
+
+				Date value7 = (Date)method7.invoke(oldModel, (Object[])null);
+
+				newModel.setModifiedDate(value7);
+
+				Method method8 = oldModelClass.getMethod("getTitle");
+
+				String value8 = (String)method8.invoke(oldModel, (Object[])null);
+
+				newModel.setTitle(value8);
+
+				Method method9 = oldModelClass.getMethod("getContent");
+
+				String value9 = (String)method9.invoke(oldModel, (Object[])null);
+
+				newModel.setContent(value9);
+
+				Method method10 = oldModelClass.getMethod("getArticleId");
+
+				Long value10 = (Long)method10.invoke(oldModel, (Object[])null);
+
+				newModel.setArticleId(value10);
 
 				return newModel;
 			}
@@ -687,36 +800,30 @@ public class ClpSerializer {
 
 				Class<?> oldModelClass = oldModel.getClass();
 
-				Method method0 = oldModelClass.getMethod("getUuid");
+				Method method0 = oldModelClass.getMethod("getLogId");
 
-				String value0 = (String)method0.invoke(oldModel, (Object[])null);
+				Long value0 = (Long)method0.invoke(oldModel, (Object[])null);
 
-				newModel.setUuid(value0);
+				newModel.setLogId(value0);
 
-				Method method1 = oldModelClass.getMethod("getNewsletterLogId");
+				Method method1 = oldModelClass.getMethod("getCampaignId");
 
 				Long value1 = (Long)method1.invoke(oldModel, (Object[])null);
 
-				newModel.setNewsletterLogId(value1);
+				newModel.setCampaignId(value1);
 
-				Method method2 = oldModelClass.getMethod("getCampaignId");
+				Method method2 = oldModelClass.getMethod("getContactId");
 
 				Long value2 = (Long)method2.invoke(oldModel, (Object[])null);
 
-				newModel.setCampaignId(value2);
+				newModel.setContactId(value2);
 
-				Method method3 = oldModelClass.getMethod("getContactId");
+				Method method3 = oldModelClass.getMethod("getSent");
 
-				Long value3 = (Long)method3.invoke(oldModel, (Object[])null);
-
-				newModel.setContactId(value3);
-
-				Method method4 = oldModelClass.getMethod("getSent");
-
-				Boolean value4 = (Boolean)method4.invoke(oldModel,
+				Boolean value3 = (Boolean)method3.invoke(oldModel,
 						(Object[])null);
 
-				newModel.setSent(value4);
+				newModel.setSent(value3);
 
 				return newModel;
 			}

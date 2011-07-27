@@ -57,22 +57,20 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	/**
 	* Creates a new newsletter log with the primary key. Does not add the newsletter log to the database.
 	*
-	* @param newsletterLogId the primary key for the new newsletter log
+	* @param logId the primary key for the new newsletter log
 	* @return the new newsletter log
 	*/
-	public com.liferay.newsletter.model.NewsletterLog create(
-		long newsletterLogId);
+	public com.liferay.newsletter.model.NewsletterLog create(long logId);
 
 	/**
 	* Removes the newsletter log with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param newsletterLogId the primary key of the newsletter log
+	* @param logId the primary key of the newsletter log
 	* @return the newsletter log that was removed
 	* @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public com.liferay.newsletter.model.NewsletterLog remove(
-		long newsletterLogId)
+	public com.liferay.newsletter.model.NewsletterLog remove(long logId)
 		throws com.liferay.newsletter.NoSuchLogException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -83,131 +81,25 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	/**
 	* Returns the newsletter log with the primary key or throws a {@link com.liferay.newsletter.NoSuchLogException} if it could not be found.
 	*
-	* @param newsletterLogId the primary key of the newsletter log
+	* @param logId the primary key of the newsletter log
 	* @return the newsletter log
 	* @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.NewsletterLog findByPrimaryKey(
-		long newsletterLogId)
+		long logId)
 		throws com.liferay.newsletter.NoSuchLogException,
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns the newsletter log with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param newsletterLogId the primary key of the newsletter log
+	* @param logId the primary key of the newsletter log
 	* @return the newsletter log, or <code>null</code> if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.liferay.newsletter.model.NewsletterLog fetchByPrimaryKey(
-		long newsletterLogId)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
-	* Returns all the newsletter logs where uuid = &#63;.
-	*
-	* @param uuid the uuid
-	* @return the matching newsletter logs
-	* @throws SystemException if a system exception occurred
-	*/
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByUuid(
-		java.lang.String uuid)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
-	* Returns a range of all the newsletter logs where uuid = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param uuid the uuid
-	* @param start the lower bound of the range of newsletter logs
-	* @param end the upper bound of the range of newsletter logs (not inclusive)
-	* @return the range of matching newsletter logs
-	* @throws SystemException if a system exception occurred
-	*/
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByUuid(
-		java.lang.String uuid, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
-	* Returns an ordered range of all the newsletter logs where uuid = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param uuid the uuid
-	* @param start the lower bound of the range of newsletter logs
-	* @param end the upper bound of the range of newsletter logs (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching newsletter logs
-	* @throws SystemException if a system exception occurred
-	*/
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByUuid(
-		java.lang.String uuid, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
-	* Returns the first newsletter log in the ordered set where uuid = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param uuid the uuid
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching newsletter log
-	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public com.liferay.newsletter.model.NewsletterLog findByUuid_First(
-		java.lang.String uuid,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.newsletter.NoSuchLogException,
-			com.liferay.portal.kernel.exception.SystemException;
-
-	/**
-	* Returns the last newsletter log in the ordered set where uuid = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param uuid the uuid
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching newsletter log
-	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public com.liferay.newsletter.model.NewsletterLog findByUuid_Last(
-		java.lang.String uuid,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.newsletter.NoSuchLogException,
-			com.liferay.portal.kernel.exception.SystemException;
-
-	/**
-	* Returns the newsletter logs before and after the current newsletter log in the ordered set where uuid = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param newsletterLogId the primary key of the current newsletter log
-	* @param uuid the uuid
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next newsletter log
-	* @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public com.liferay.newsletter.model.NewsletterLog[] findByUuid_PrevAndNext(
-		long newsletterLogId, java.lang.String uuid,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.newsletter.NoSuchLogException,
-			com.liferay.portal.kernel.exception.SystemException;
+		long logId) throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns all the newsletter logs where campaignId = &#63;.
@@ -216,7 +108,7 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* @return the matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByCampaign(
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByCampaignId(
 		long campaignId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -233,7 +125,7 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* @return the range of matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByCampaign(
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByCampaignId(
 		long campaignId, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -251,7 +143,7 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* @return the ordered range of matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByCampaign(
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByCampaignId(
 		long campaignId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -269,7 +161,7 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public com.liferay.newsletter.model.NewsletterLog findByCampaign_First(
+	public com.liferay.newsletter.model.NewsletterLog findByCampaignId_First(
 		long campaignId,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.newsletter.NoSuchLogException,
@@ -288,7 +180,7 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public com.liferay.newsletter.model.NewsletterLog findByCampaign_Last(
+	public com.liferay.newsletter.model.NewsletterLog findByCampaignId_Last(
 		long campaignId,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.newsletter.NoSuchLogException,
@@ -301,15 +193,120 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
-	* @param newsletterLogId the primary key of the current newsletter log
+	* @param logId the primary key of the current newsletter log
 	* @param campaignId the campaign ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next newsletter log
 	* @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public com.liferay.newsletter.model.NewsletterLog[] findByCampaign_PrevAndNext(
-		long newsletterLogId, long campaignId,
+	public com.liferay.newsletter.model.NewsletterLog[] findByCampaignId_PrevAndNext(
+		long logId, long campaignId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.newsletter.NoSuchLogException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns all the newsletter logs where contactId = &#63;.
+	*
+	* @param contactId the contact ID
+	* @return the matching newsletter logs
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByContactId(
+		long contactId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns a range of all the newsletter logs where contactId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param contactId the contact ID
+	* @param start the lower bound of the range of newsletter logs
+	* @param end the upper bound of the range of newsletter logs (not inclusive)
+	* @return the range of matching newsletter logs
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByContactId(
+		long contactId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns an ordered range of all the newsletter logs where contactId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param contactId the contact ID
+	* @param start the lower bound of the range of newsletter logs
+	* @param end the upper bound of the range of newsletter logs (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching newsletter logs
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> findByContactId(
+		long contactId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the first newsletter log in the ordered set where contactId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param contactId the contact ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching newsletter log
+	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.liferay.newsletter.model.NewsletterLog findByContactId_First(
+		long contactId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.newsletter.NoSuchLogException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last newsletter log in the ordered set where contactId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param contactId the contact ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching newsletter log
+	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.liferay.newsletter.model.NewsletterLog findByContactId_Last(
+		long contactId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.newsletter.NoSuchLogException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the newsletter logs before and after the current newsletter log in the ordered set where contactId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param logId the primary key of the current newsletter log
+	* @param contactId the contact ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next newsletter log
+	* @throws com.liferay.newsletter.NoSuchLogException if a newsletter log with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.liferay.newsletter.model.NewsletterLog[] findByContactId_PrevAndNext(
+		long logId, long contactId,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.newsletter.NoSuchLogException,
 			com.liferay.portal.kernel.exception.SystemException;
@@ -323,7 +320,7 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* @throws com.liferay.newsletter.NoSuchLogException if a matching newsletter log could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public com.liferay.newsletter.model.NewsletterLog findByCampaign_Contact(
+	public com.liferay.newsletter.model.NewsletterLog findByC_C(
 		long campaignId, long contactId)
 		throws com.liferay.newsletter.NoSuchLogException,
 			com.liferay.portal.kernel.exception.SystemException;
@@ -336,7 +333,7 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* @return the matching newsletter log, or <code>null</code> if a matching newsletter log could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public com.liferay.newsletter.model.NewsletterLog fetchByCampaign_Contact(
+	public com.liferay.newsletter.model.NewsletterLog fetchByC_C(
 		long campaignId, long contactId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -349,7 +346,7 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* @return the matching newsletter log, or <code>null</code> if a matching newsletter log could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public com.liferay.newsletter.model.NewsletterLog fetchByCampaign_Contact(
+	public com.liferay.newsletter.model.NewsletterLog fetchByC_C(
 		long campaignId, long contactId, boolean retrieveFromCache)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -397,21 +394,21 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Removes all the newsletter logs where uuid = &#63; from the database.
-	*
-	* @param uuid the uuid
-	* @throws SystemException if a system exception occurred
-	*/
-	public void removeByUuid(java.lang.String uuid)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
 	* Removes all the newsletter logs where campaignId = &#63; from the database.
 	*
 	* @param campaignId the campaign ID
 	* @throws SystemException if a system exception occurred
 	*/
-	public void removeByCampaign(long campaignId)
+	public void removeByCampaignId(long campaignId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Removes all the newsletter logs where contactId = &#63; from the database.
+	*
+	* @param contactId the contact ID
+	* @throws SystemException if a system exception occurred
+	*/
+	public void removeByContactId(long contactId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
@@ -421,7 +418,7 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* @param contactId the contact ID
 	* @throws SystemException if a system exception occurred
 	*/
-	public void removeByCampaign_Contact(long campaignId, long contactId)
+	public void removeByC_C(long campaignId, long contactId)
 		throws com.liferay.newsletter.NoSuchLogException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -434,23 +431,23 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the number of newsletter logs where uuid = &#63;.
-	*
-	* @param uuid the uuid
-	* @return the number of matching newsletter logs
-	* @throws SystemException if a system exception occurred
-	*/
-	public int countByUuid(java.lang.String uuid)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
 	* Returns the number of newsletter logs where campaignId = &#63;.
 	*
 	* @param campaignId the campaign ID
 	* @return the number of matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
-	public int countByCampaign(long campaignId)
+	public int countByCampaignId(long campaignId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the number of newsletter logs where contactId = &#63;.
+	*
+	* @param contactId the contact ID
+	* @return the number of matching newsletter logs
+	* @throws SystemException if a system exception occurred
+	*/
+	public int countByContactId(long contactId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
@@ -461,7 +458,7 @@ public interface NewsletterLogPersistence extends BasePersistence<NewsletterLog>
 	* @return the number of matching newsletter logs
 	* @throws SystemException if a system exception occurred
 	*/
-	public int countByCampaign_Contact(long campaignId, long contactId)
+	public int countByC_C(long campaignId, long contactId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

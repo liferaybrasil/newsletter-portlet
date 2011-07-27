@@ -55,25 +55,25 @@ public class NewsletterLogLocalServiceUtil {
 	/**
 	* Creates a new newsletter log with the primary key. Does not add the newsletter log to the database.
 	*
-	* @param newsletterLogId the primary key for the new newsletter log
+	* @param logId the primary key for the new newsletter log
 	* @return the new newsletter log
 	*/
 	public static com.liferay.newsletter.model.NewsletterLog createNewsletterLog(
-		long newsletterLogId) {
-		return getService().createNewsletterLog(newsletterLogId);
+		long logId) {
+		return getService().createNewsletterLog(logId);
 	}
 
 	/**
 	* Deletes the newsletter log with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param newsletterLogId the primary key of the newsletter log
+	* @param logId the primary key of the newsletter log
 	* @throws PortalException if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static void deleteNewsletterLog(long newsletterLogId)
+	public static void deleteNewsletterLog(long logId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		getService().deleteNewsletterLog(newsletterLogId);
+		getService().deleteNewsletterLog(logId);
 	}
 
 	/**
@@ -162,16 +162,16 @@ public class NewsletterLogLocalServiceUtil {
 	/**
 	* Returns the newsletter log with the primary key.
 	*
-	* @param newsletterLogId the primary key of the newsletter log
+	* @param logId the primary key of the newsletter log
 	* @return the newsletter log
 	* @throws PortalException if a newsletter log with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.newsletter.model.NewsletterLog getNewsletterLog(
-		long newsletterLogId)
+		long logId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getNewsletterLog(newsletterLogId);
+		return getService().getNewsletterLog(logId);
 	}
 
 	public static com.liferay.portal.model.PersistedModel getPersistedModel(
@@ -255,30 +255,36 @@ public class NewsletterLogLocalServiceUtil {
 		getService().setBeanIdentifier(beanIdentifier);
 	}
 
-	public static java.util.List<com.liferay.newsletter.model.Contact> getContactsByCampaign(
-		long campaignId)
+	public static com.liferay.newsletter.model.NewsletterLog addLog(
+		long campaignId, long contactId, boolean sent,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getContactsByCampaign(campaignId);
+		return getService().addLog(campaignId, contactId, sent, serviceContext);
 	}
 
-	public static int getContactsByCampaignCount(long campaignId)
+	public static void deleteLog(com.liferay.newsletter.model.NewsletterLog log)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getContactsByCampaignCount(campaignId);
+		getService().deleteLog(log);
 	}
 
-	public static java.util.List<com.liferay.newsletter.model.NewsletterLog> getNewsletterLogByCampaign(
-		long campaignId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getNewsletterLogByCampaign(campaignId);
-	}
-
-	public static com.liferay.newsletter.model.NewsletterLog getNewsletterLogByCampaignAndContact(
+	public static com.liferay.newsletter.model.NewsletterLog getLog(
 		long campaignId, long contactId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService()
-				   .getNewsletterLogByCampaignAndContact(campaignId, contactId);
+		return getService().getLog(campaignId, contactId);
+	}
+
+	public static java.util.List<com.liferay.newsletter.model.NewsletterLog> getLogsByCampaignId(
+		long campaignId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getLogsByCampaignId(campaignId);
+	}
+
+	public static java.util.List<com.liferay.newsletter.model.NewsletterLog> getLogsByContactId(
+		long contactId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getLogsByContactId(contactId);
 	}
 
 	public static void clearService() {
