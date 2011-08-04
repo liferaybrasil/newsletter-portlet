@@ -40,13 +40,13 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 <liferay-ui:error key="campaign-content-deleted" message="campaign-content-deleted" />
 <liferay-ui:search-container emptyResultsMessage="newsletter-empty-results-message">
 	<liferay-ui:search-container-results
-		results="<%= CampaignContentLocalServiceUtil.getCampaignContents(searchContainer.getStart(), searchContainer.getEnd()) %>"
-		total="<%= CampaignContentLocalServiceUtil.getCampaignContentsCount() %>"
+		results="<%= NewsletterContentLocalServiceUtil.getNewsletterContents(searchContainer.getStart(), searchContainer.getEnd()) %>"
+		total="<%= NewsletterContentLocalServiceUtil.getNewsletterContentsCount() %>"
 	/>
 
 	<liferay-ui:search-container-row
-		className="com.liferay.newsletter.model.CampaignContent"
-		keyProperty="campaignContentId"
+		className="com.liferay.newsletter.model.NewsletterContent"
+		keyProperty="contentId"
 		modelVar="campaignContent"
 	>
 		<liferay-ui:search-container-column-text
@@ -61,12 +61,12 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
 		<liferay-ui:search-container-column-text
 			name="# of campaigns"
-			value='<%= ""+CampaignLocalServiceUtil.getCampaignsByCampaignContentCount(campaignContent.getCampaignContentId()) %>'
+			value='<%= ""+NewsletterCampaignLocalServiceUtil.getCampaignsCount(campaignContent.getContentId()) %>'
 		/>
 
 		<liferay-ui:search-container-column-text
 			name="# of emails"
-			value='<%= ""+ContactLocalServiceUtil.getContactCountByCampaignContent(campaignContent.getCampaignContentId()) %>'
+			value='<%= ""+NewsletterContactLocalServiceUtil.getContactCountByContent(campaignContent.getContentId()) %>'
 		/>
 
 		<liferay-ui:search-container-column-jsp

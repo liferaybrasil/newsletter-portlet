@@ -24,16 +24,39 @@ public interface NewsletterContactFinder {
 	public int countByCampaignContent(long campaignContentId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	public int countByC_G_N_E(long companyId, long groupId,
+		java.lang.String contactNames, java.lang.String contactEmails,
+		int start, int end, boolean andOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countByKeywords(long companyId, long groupId,
+		java.lang.String keywords, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	public java.util.List<com.liferay.newsletter.model.NewsletterContact> findByEmail(
-		java.lang.String email, int start, int end)
+		long companyId, long groupId, java.lang.String email, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<com.liferay.newsletter.model.NewsletterContact> findByNameAndCampaign(
-		java.lang.String contactName, long campaignId, int start, int end)
+		long companyId, long groupId, java.lang.String contactName,
+		long campaignId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<com.liferay.newsletter.model.NewsletterContact> findByC_G_N_E(
+		long companyId, long groupId, java.lang.String contactNames,
+		java.lang.String contactEmails, int start, int end,
+		boolean andOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<com.liferay.newsletter.model.NewsletterContact> findByKeywords(
-		java.lang.String keywords, int start, int end,
+		long companyId, long groupId, java.lang.String keywords, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

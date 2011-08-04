@@ -14,20 +14,21 @@
  */
 --%>
 
+<%@page import="com.liferay.newsletter.search.NewsletterContactSearch"%>
 <%@include file="/html/init.jsp" %>
 
 <%
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
 	long campaignId = ParamUtil.getLong(request, "campaignId");
 
-	Campaign campaign = CampaignLocalServiceUtil.getCampaign(campaignId);
+	NewsletterCampaign campaign = NewsletterCampaignLocalServiceUtil.getNewsletterCampaign(campaignId);
 
 	String redirect = ParamUtil.getString(request, "redirect");
 
-	String campaignContentTitle = CampaignContentLocalServiceUtil.getCampaignContent(campaign.getCampaignContentId()).getTitle();
+	String campaignContentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(campaign.getContentId()).getTitle();
 %>
 
-<aui:model-context bean="<%= campaign %>" model="<%= Campaign.class %>" />
+<aui:model-context bean="<%= campaign %>" model="<%= NewsletterCampaign.class %>" />
 
 <liferay-ui:header
 	backURL="<%= redirect %>"
@@ -63,7 +64,7 @@
 		<label class="aui-field-label"> Campaign Content </label>
 		<b>Title:</b> <%= campaignContentTitle %>
 	<span class="aui-field-element ">
-		<%= campaign.getContent() %>
+		<%= campaign.getContent().getContent() %>
 	</span>
 </span>
 </aui:fieldset>
@@ -76,7 +77,7 @@
 	<portlet:param name="jspPage" value="/html/newsletterportlet/detail_campaign.jsp" />
 			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
-			<portlet:param name="tabs1" value="Campaign" />
+			<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
 </liferay-portlet:renderURL>
 
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
@@ -86,10 +87,10 @@
 	/>
 </aui:form>
 
-	<liferay-ui:search-container
-	searchContainer="<%= new ContactSearch(renderRequest, portletURL) %>"
+<liferay-ui:search-container
+	searchContainer="<%= new NewsletterContactSearch(renderRequest, portletURL) %>"
 >
-	<%@ include file="contact_search_results.jspf" %>
+ 	<%@ include file="contact_search_results.jspf" %>
 
 	<liferay-ui:search-container-results
 		results="<%= resultList %>"
@@ -97,7 +98,7 @@
 	/>
 
 	<liferay-ui:search-container-row
-		className="com.liferay.newsletter.model.Contact"
+		className="com.liferay.newsletter.model.NewsletterContact"
 		keyProperty="contactId"
 		modelVar="contactNewsletter"
 	>
@@ -114,7 +115,7 @@
 
 		<liferay-ui:search-container-column-text
 			name="Status"
-			value='<%= NewsletterLogLocalServiceUtil.getNewsletterLogByCampaignAndContact(campaignId, contactNewsletter.getContactId()).isSent() ? "Sent" : "Failed" %>'
+			value='<%= NewsletterLogLocalServiceUtil.getLog(campaignId, contactNewsletter.getContactId()).isSent() ? "Sent" : "Failed" %>'
 		/>
 	</liferay-ui:search-container-row>
 
@@ -125,14 +126,14 @@
 			<portlet:param name="cmd" value="resendCampaign" />
 			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
-			<portlet:param name="tabs1" value="Campaign" />
+			<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
 </portlet:actionURL>
 
 <portlet:actionURL name="resendFailed" var="resendFailedURL">
 			<portlet:param name="cmd" value="resendFailed" />
 			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
-			<portlet:param name="tabs1" value="Campaign" />
+			<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
 </portlet:actionURL>
 
 <aui:button-row>

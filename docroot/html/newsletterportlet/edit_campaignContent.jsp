@@ -17,22 +17,22 @@
 <%@include file="/html/init.jsp" %>
 
 <%
-CampaignContent campaignContent = null;
+NewsletterContent campaignContent = null;
 String content = "";
 String contentEditorClass = "contentEditor-div";
 String displayingArticleContentClass = "displaying-article-content";
 
-long campaignContentId = ParamUtil.getLong(request, "campaignContentId");
+long contentId = ParamUtil.getLong(request, "contentId");
 
-if (campaignContentId > 0) {
-	campaignContent = CampaignContentLocalServiceUtil.getCampaignContent(campaignContentId);
+if (contentId > 0) {
+	campaignContent = NewsletterContentLocalServiceUtil.getNewsletterContent(contentId);
 	content = campaignContent.getContent();
 
 	if(campaignContent.getArticleId()>0){
-		contentEditorClass = contentEditorClass + " yui3-aui-helper-hidden";
+		contentEditorClass = contentEditorClass + " aui-helper-hidden";
 	}
 	else{
-		displayingArticleContentClass = displayingArticleContentClass + " yui3-aui-helper-hidden";
+		displayingArticleContentClass = displayingArticleContentClass + " aui-helper-hidden";
 	}
 }
 
@@ -44,7 +44,7 @@ String redirect = ParamUtil.getString(request, "redirect");
 	title='<%= (campaignContent != null) ? campaignContent.getTitle() : "New Campaign Content" %>'
 />
 
-<aui:model-context bean="<%= campaignContent %>" model="<%= CampaignContent.class %>" />
+<aui:model-context bean="<%= campaignContent %>" model="<%= NewsletterContent.class %>" />
 
 <portlet:actionURL var="editCampaignContentURL" />
 
@@ -72,11 +72,11 @@ String redirect = ParamUtil.getString(request, "redirect");
 
 <aui:form action="<%= editCampaignContentURL %>" method="POST" name="fm">
 	<aui:fieldset>
-		<aui:input type="hidden" name="cmd" value='<%= campaignContent == null ? "campaignContent" : "editCampaignContent" %>' />
+		<aui:input type="hidden" name="cmd" value='<%= campaignContent == null ? NewsletterConstants.ADD_CONTENT : NewsletterConstants.UPDATE_CONTENT %>' />
 
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
-		<aui:input type="hidden" name="campaignContentId" value="<%= campaignContentId %>" />
+		<aui:input type="hidden" name="contentId" value="<%= contentId %>" />
 
 		<aui:input type="hidden" name="articleId" />
 
@@ -94,7 +94,7 @@ String redirect = ParamUtil.getString(request, "redirect");
 		</liferay-ui:error>
 
 		<div class="separator article-separator"><!-- --></div>
-		<% String classMsgInfo = "portlet-msg-info " + (campaignContent == null ? "yui3-aui-helper-hidden" : "") ; %>
+		<% String classMsgInfo = "portlet-msg-info " + (campaignContent == null ? "aui-helper-hidden" : "") ; %>
 		<div class="<%= classMsgInfo %>">
 			<span class="displaying-article-id-holder">
 				<liferay-ui:message key="displaying-content" />: <span class="displaying-article-id"> </span>

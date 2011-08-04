@@ -76,6 +76,18 @@
 
 		<column name="contactId" type="long" primary="true" />
 
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
 		<!-- Other fields -->
 
 		<column name="email" type="String" />
@@ -121,6 +133,7 @@
 	<exceptions>
 		<exception>Contact</exception>
 		<exception>Content</exception>
+		<exception>Email</exception>
 		<exception>Name</exception>
 		<exception>Subject</exception>
 		<exception>Title</exception>

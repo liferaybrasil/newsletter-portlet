@@ -15,17 +15,17 @@
 --%>
 
 <%
-ContactSearchTerms searchTerms = (ContactSearchTerms)searchContainer.getSearchTerms();
+NewsletterContactSearchTerms searchTerms = (NewsletterContactSearchTerms)searchContainer.getSearchTerms();
 
 int totalCount = 0;
-List resultList = new ArrayList<Contact>();
+List<NewsletterContact> resultList = new ArrayList<NewsletterContact>();
 
 if (searchTerms.isAdvancedSearch()) {
-	resultList.add(ContactLocalServiceUtil.getContactByEmail(searchTerms.getEmail()));
-	totalCount = ContactLocalServiceUtil.getContactCountByEmail(searchTerms.getEmail());
+	resultList = NewsletterContactLocalServiceUtil.search(campaign.getCompanyId(), searchTerms.getGroupId(), searchTerms.getName(),searchTerms.getEmail(), searchContainer.getStart(), searchContainer.getEnd(), searchTerms.isAndOperator(), searchContainer.getOrderByComparator());
+	totalCount = NewsletterContactLocalServiceUtil.searchCount(campaign.getCompanyId(), searchTerms.getGroupId(), searchTerms.getName(),searchTerms.getEmail(), searchContainer.getStart(), searchContainer.getEnd(), searchTerms.isAndOperator(), searchContainer.getOrderByComparator());
 }
 else {
-	resultList = NewsletterLogLocalServiceUtil.getContactsByCampaign(campaignId);
-	totalCount = NewsletterLogLocalServiceUtil.getContactsByCampaignCount(campaignId);
+	resultList = NewsletterContactLocalServiceUtil.search(campaign.getCompanyId(), searchTerms.getGroupId(), searchTerms.getKeywords(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+	totalCount = NewsletterContactLocalServiceUtil.searchCount(campaign.getCompanyId(), searchTerms.getGroupId(), searchTerms.getKeywords(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
 }
 %>

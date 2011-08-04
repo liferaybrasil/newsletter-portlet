@@ -20,6 +20,8 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing NewsletterContact in entity cache.
  *
@@ -30,10 +32,22 @@ import com.liferay.portal.model.CacheModel;
 public class NewsletterContactCacheModel implements CacheModel<NewsletterContact> {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{contactId=");
 		sb.append(contactId);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append(", email=");
 		sb.append(email);
 		sb.append(", name=");
@@ -47,6 +61,30 @@ public class NewsletterContactCacheModel implements CacheModel<NewsletterContact
 		NewsletterContactImpl newsletterContactImpl = new NewsletterContactImpl();
 
 		newsletterContactImpl.setContactId(contactId);
+		newsletterContactImpl.setGroupId(groupId);
+		newsletterContactImpl.setCompanyId(companyId);
+		newsletterContactImpl.setUserId(userId);
+
+		if (userName == null) {
+			newsletterContactImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			newsletterContactImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			newsletterContactImpl.setCreateDate(null);
+		}
+		else {
+			newsletterContactImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			newsletterContactImpl.setModifiedDate(null);
+		}
+		else {
+			newsletterContactImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		if (email == null) {
 			newsletterContactImpl.setEmail(StringPool.BLANK);
@@ -68,6 +106,12 @@ public class NewsletterContactCacheModel implements CacheModel<NewsletterContact
 	}
 
 	public long contactId;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 	public String email;
 	public String name;
 }

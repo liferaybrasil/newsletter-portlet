@@ -20,7 +20,7 @@
 
 <%
 String tabs1 = ParamUtil.getString(request, "tabs1", "Campaign Content");
-
+String tabsCampaign = NewsletterConstants.TABS_CAMPAIGN;
 String tabNames = "Campaign Content,Campaign";
 %>
 
@@ -37,6 +37,6 @@ String tabNames = "Campaign Content,Campaign";
 <c:if test='<%= tabs1.equals("Campaign Content") %>'>
   <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_campaignContent.jsp" />
 </c:if>
-<c:if test='<%= tabs1.equals("Campaign") %>'>
+<c:if test='<%= tabs1.equals(tabsCampaign) %>'>
   <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_campaign.jsp" />
 </c:if>

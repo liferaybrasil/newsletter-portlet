@@ -18,29 +18,29 @@
 
 <%
 ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
-CampaignContent campaignContent = (CampaignContent)row.getObject();
+NewsletterContent campaignContent = (NewsletterContent)row.getObject();
 
-String name = CampaignContent.class.getName();
-long campaignContentId = campaignContent.getCampaignContentId();
+String name = NewsletterContent.class.getName();
+long contentId = campaignContent.getContentId();
 
 String redirect = PortalUtil.getCurrentURL(renderRequest);
 %>
 
 <liferay-ui:icon-menu>
-	<c:if test="<%= permissionChecker.hasPermission(scopeGroupId, name, campaignContentId, ActionKeys.UPDATE) %>">
+	<c:if test="<%= permissionChecker.hasPermission(scopeGroupId, name, contentId, ActionKeys.UPDATE) %>">
 		<portlet:renderURL var="editURL">
 			<portlet:param name="jspPage" value="/html/newsletterportlet/edit_campaignContent.jsp" />
-			<portlet:param name="campaignContentId" value="<%= String.valueOf(campaignContentId) %>" />
+			<portlet:param name="contentId" value="<%= String.valueOf(contentId) %>" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
 		</portlet:renderURL>
 
 		<liferay-ui:icon image="edit" url="<%=editURL.toString() %>" />
 	</c:if>
 
-	<c:if test="<%= permissionChecker.hasPermission(scopeGroupId, name, campaignContentId, ActionKeys.DELETE) %>">
+	<c:if test="<%= permissionChecker.hasPermission(scopeGroupId, name, contentId, ActionKeys.DELETE) %>">
 		<portlet:actionURL name="deleteCampaignContent" var="deleteURL">
-			<portlet:param name="cmd" value="deleteCampaignContent" />
-			<portlet:param name="campaignContentId" value="<%= String.valueOf(campaignContentId) %>" />
+			<portlet:param name="cmd" value="<%= NewsletterConstants.DELETE_CONTENT %>" />
+			<portlet:param name="contentId" value="<%= String.valueOf(contentId) %>" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
 		</portlet:actionURL>
 

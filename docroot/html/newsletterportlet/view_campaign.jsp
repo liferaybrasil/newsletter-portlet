@@ -39,12 +39,12 @@ boolean hasAddPermission = permissionChecker.hasPermission(scopeGroupId, "com.li
 <liferay-ui:error key="campaign-deleted" message="campaign-deleted" />
 <liferay-ui:search-container emptyResultsMessage="newsletter-empty-results-message">
 	<liferay-ui:search-container-results
-		results="<%= CampaignLocalServiceUtil.getCampaigns(searchContainer.getStart(), searchContainer.getEnd()) %>"
-		total="<%= CampaignLocalServiceUtil.getCampaignsCount() %>"
+		results="<%= NewsletterCampaignLocalServiceUtil.getNewsletterCampaigns(searchContainer.getStart(), searchContainer.getEnd()) %>"
+		total="<%= NewsletterCampaignLocalServiceUtil.getNewsletterCampaignsCount() %>"
 	/>
 
 	<liferay-ui:search-container-row
-		className="com.liferay.newsletter.model.Campaign"
+		className="com.liferay.newsletter.model.NewsletterCampaign"
 		keyProperty="campaignId"
 		modelVar="campaign"
 	>
@@ -60,12 +60,12 @@ boolean hasAddPermission = permissionChecker.hasPermission(scopeGroupId, "com.li
 
 		<liferay-ui:search-container-column-text
 			name="Campaign Content"
-			value="<%= CampaignContentLocalServiceUtil.getCampaignContent(campaign.getCampaignContentId()).getTitle() %>"
+			value="<%= NewsletterContentLocalServiceUtil.getContent(campaign.getContentId()).getTitle() %>"
 		/>
 
 		<liferay-ui:search-container-column-text
 			name="# of emails"
-			value='<%= ""+ContactLocalServiceUtil.getContactCountByCampaign(campaign.getCampaignId()) %>'
+			value='<%= ""+NewsletterContactLocalServiceUtil.getContactCountByCampaign(campaign.getCampaignId()) %>'
 		/>
 
 		<liferay-ui:search-container-column-jsp

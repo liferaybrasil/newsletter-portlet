@@ -15,13 +15,17 @@
 package com.liferay.newsletter.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.CacheModel;
+import com.liferay.portal.model.GroupedModel;
 import com.liferay.portal.service.ServiceContext;
 
 import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
+
+import java.util.Date;
 
 /**
  * The base model interface for the NewsletterContact service. Represents a row in the &quot;Newsletter_NewsletterContact&quot; database table, with each column mapped to a property of this class.
@@ -36,7 +40,8 @@ import java.io.Serializable;
  * @see com.liferay.newsletter.model.impl.NewsletterContactModelImpl
  * @generated
  */
-public interface NewsletterContactModel extends BaseModel<NewsletterContact> {
+public interface NewsletterContactModel extends BaseModel<NewsletterContact>,
+	GroupedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -70,6 +75,106 @@ public interface NewsletterContactModel extends BaseModel<NewsletterContact> {
 	 * @param contactId the contact ID of this newsletter contact
 	 */
 	public void setContactId(long contactId);
+
+	/**
+	 * Returns the group ID of this newsletter contact.
+	 *
+	 * @return the group ID of this newsletter contact
+	 */
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this newsletter contact.
+	 *
+	 * @param groupId the group ID of this newsletter contact
+	 */
+	public void setGroupId(long groupId);
+
+	/**
+	 * Returns the company ID of this newsletter contact.
+	 *
+	 * @return the company ID of this newsletter contact
+	 */
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this newsletter contact.
+	 *
+	 * @param companyId the company ID of this newsletter contact
+	 */
+	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the user ID of this newsletter contact.
+	 *
+	 * @return the user ID of this newsletter contact
+	 */
+	public long getUserId();
+
+	/**
+	 * Sets the user ID of this newsletter contact.
+	 *
+	 * @param userId the user ID of this newsletter contact
+	 */
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this newsletter contact.
+	 *
+	 * @return the user uuid of this newsletter contact
+	 * @throws SystemException if a system exception occurred
+	 */
+	public String getUserUuid() throws SystemException;
+
+	/**
+	 * Sets the user uuid of this newsletter contact.
+	 *
+	 * @param userUuid the user uuid of this newsletter contact
+	 */
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this newsletter contact.
+	 *
+	 * @return the user name of this newsletter contact
+	 */
+	@AutoEscape
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this newsletter contact.
+	 *
+	 * @param userName the user name of this newsletter contact
+	 */
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this newsletter contact.
+	 *
+	 * @return the create date of this newsletter contact
+	 */
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this newsletter contact.
+	 *
+	 * @param createDate the create date of this newsletter contact
+	 */
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this newsletter contact.
+	 *
+	 * @return the modified date of this newsletter contact
+	 */
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this newsletter contact.
+	 *
+	 * @param modifiedDate the modified date of this newsletter contact
+	 */
+	public void setModifiedDate(Date modifiedDate);
 
 	/**
 	 * Returns the email of this newsletter contact.

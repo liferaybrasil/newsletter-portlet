@@ -17,7 +17,7 @@
 <%@ include file="/html/init.jsp" %>
 
 <%
-ContactDisplayTerms displayTerms = new ContactDisplayTerms(renderRequest);
+NewsletterContactDisplayTerms displayTerms = new NewsletterContactDisplayTerms(renderRequest);
 %>
 
 <liferay-ui:search-toggle

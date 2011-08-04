@@ -333,6 +333,12 @@ public class NewsletterContactPersistenceImpl extends BasePersistenceImpl<Newsle
 		newsletterContactImpl.setPrimaryKey(newsletterContact.getPrimaryKey());
 
 		newsletterContactImpl.setContactId(newsletterContact.getContactId());
+		newsletterContactImpl.setGroupId(newsletterContact.getGroupId());
+		newsletterContactImpl.setCompanyId(newsletterContact.getCompanyId());
+		newsletterContactImpl.setUserId(newsletterContact.getUserId());
+		newsletterContactImpl.setUserName(newsletterContact.getUserName());
+		newsletterContactImpl.setCreateDate(newsletterContact.getCreateDate());
+		newsletterContactImpl.setModifiedDate(newsletterContact.getModifiedDate());
 		newsletterContactImpl.setEmail(newsletterContact.getEmail());
 		newsletterContactImpl.setName(newsletterContact.getName());
 

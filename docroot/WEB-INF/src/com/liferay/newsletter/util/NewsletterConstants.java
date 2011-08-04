@@ -36,23 +36,23 @@ public interface NewsletterConstants {
 
 	public static final String GET_CONTACT = "get_contact";
 
-	public static final String MAIL_SMTP_AUTH = "mail_smtp_auth";
+	public static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
 
-	public static final String MAIL_SMTP_HOST = "mail_smtp_host";
+	public static final String MAIL_SMTP_HOST = "mail.smtp.host";
 
-	public static final String MAIL_SMTP_PORT = "mail_smtp_port";
+	public static final String MAIL_SMTP_PORT = "mail.smtp.port";
 
 	public static final String MAIL_SMTP_SOCKET_FACTORY_PORT =
-		"mail_smtp_socket_factory_port";
+		"mail.smtp.socketFactory.port";
 
 	public static final String MAIL_SMTP_SOCKET_FACTORY_FALLBACK =
-		"mail.smtp.socket_factory_fallback";
+		"mail.smtp.socketFactory.fallback";
 
 	public static final String MAIL_SMTP_STARTTLS_ENABLE =
-		"mail_smtp_starttls_enable";
+		"mail.smtp.starttls.enable";
 
 	public static final String MAIL_TRANSPORT_PROTOCOL =
-		"mail_transport_protocol";
+		"mail.transport.protocol";
 
 	public static final String RESEND = "resend";
 
@@ -61,6 +61,12 @@ public interface NewsletterConstants {
 	public static final String SENDER_EMAIL = "sender_email";
 
 	public static final String SENDER_NAME = "sender_name";
+
+	public static final String TABS_CAMPAIGN = "Campaign";
+
+	public static final String TABS_CONTENT = "Campaign Content";
+
+	public static final String TABS_POPUP = "Popup";
 
 	public static final String UPDATE_CONTENT = "update_content";
 

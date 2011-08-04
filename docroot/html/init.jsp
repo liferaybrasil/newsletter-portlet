@@ -36,12 +36,12 @@
 <%@ page import="com.liferay.portal.model.Group" %>
 <%@ page import="com.liferay.portal.security.permission.ActionKeys" %>
 <%@ page import="com.liferay.portal.util.PortalUtil" %>
-<%@ page import="com.liferay.newsletter.model.Campaign" %>
-<%@ page import="com.liferay.newsletter.model.Contact" %>
-<%@ page import="com.liferay.newsletter.model.CampaignContent" %>
-<%@ page import="com.liferay.newsletter.service.CampaignContentLocalServiceUtil" %>
-<%@ page import="com.liferay.newsletter.service.CampaignLocalServiceUtil" %>
-<%@ page import="com.liferay.newsletter.service.ContactLocalServiceUtil" %>
+<%@ page import="com.liferay.newsletter.model.NewsletterCampaign" %>
+<%@ page import="com.liferay.newsletter.model.NewsletterContact" %>
+<%@ page import="com.liferay.newsletter.model.NewsletterContent" %>
+<%@ page import="com.liferay.newsletter.service.NewsletterContentLocalServiceUtil" %>
+<%@ page import="com.liferay.newsletter.service.NewsletterCampaignLocalServiceUtil" %>
+<%@ page import="com.liferay.newsletter.service.NewsletterContactLocalServiceUtil" %>
 <%@ page import="com.liferay.newsletter.service.NewsletterLogLocalServiceUtil" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="com.liferay.portlet.journal.model.JournalArticleDisplay" %>
@@ -55,9 +55,6 @@
 <%@ page import="com.liferay.portal.service.LayoutLocalServiceUtil" %>
 <%@ page import="com.liferay.portal.model.Layout" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.liferay.newsletter.search.ArticleDisplayTerms" %>
-<%@ page import="com.liferay.newsletter.search.ArticleSearch" %>
-<%@ page import="com.liferay.newsletter.search.ArticleSearchTerms" %>
 <%@ page import="javax.portlet.PortletURL" %>
 <%@ page import="com.liferay.portlet.PortletURLUtil" %>
 
@@ -72,19 +69,16 @@
 <%@ page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
 
-<%@ page import="com.liferay.newsletter.search.contact.ContactDisplayTerms" %>
-<%@ page import="com.liferay.newsletter.search.contact.ContactSearchTerms" %>
-<%@ page import="com.liferay.newsletter.search.contact.ContactSearch" %>
-
-<%@ page import="com.liferay.newsletter.EmailSubjectException" %>
-<%@ page import="com.liferay.newsletter.SenderEmailException" %>
-<%@ page import="com.liferay.newsletter.SenderNameException" %>
-<%@ page import="com.liferay.newsletter.ContactsException" %>
 <%@ page import="com.liferay.newsletter.TitleException" %>
 <%@ page import="com.liferay.newsletter.ContentException" %>
-<%@ page import="com.liferay.newsletter.IDNotFoundException" %>
+<%@ page import="com.liferay.newsletter.NameException" %>
+<%@ page import="com.liferay.newsletter.SubjectException" %>
+<%@ page import="com.liferay.newsletter.EmailException" %>
+<%@ page import="com.liferay.newsletter.SubjectException" %>
+<%@ page import="com.liferay.newsletter.ContactException" %>
 
-
+<%@ page import="com.liferay.newsletter.search.NewsletterContactSearchTerms"%>
+<%@ page import="com.liferay.newsletter.search.NewsletterContactDisplayTerms"%>
 
 
 <liferay-theme:defineObjects />

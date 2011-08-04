@@ -14,9 +14,6 @@
 
 package com.liferay.newsletter.search;
 
-import com.liferay.newsletter.model.NewsletterContact;
-import com.liferay.portal.kernel.dao.search.SearchContainer;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +21,9 @@ import java.util.Map;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+
+import com.liferay.newsletter.model.NewsletterContact;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 
 /**
  * @author Bruno Pinheiro
@@ -45,8 +45,8 @@ public class NewsletterContactSearch
 	}
 
 	public static final String EMPTY_RESULTS_MESSAGE =
-		"no-content-were-found";
-
+		"newsletter-empty-results-message";
+	
 	public NewsletterContactSearch(
 		PortletRequest portletRequest, PortletURL iteratorURL) {
 
@@ -67,5 +67,5 @@ public class NewsletterContactSearch
 
 		setOrderableHeaders(orderableHeaders);
 	}
-
+	
 }

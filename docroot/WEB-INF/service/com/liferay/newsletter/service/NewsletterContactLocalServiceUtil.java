@@ -257,11 +257,13 @@ public class NewsletterContactLocalServiceUtil {
 	}
 
 	public static com.liferay.newsletter.model.NewsletterContact addContact(
-		java.lang.String email, java.lang.String name,
+		long userId, long groupId, java.lang.String email,
+		java.lang.String name,
 		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService().addContact(email, name, serviceContext);
+		return getService()
+				   .addContact(userId, groupId, email, name, serviceContext);
 	}
 
 	public static com.liferay.newsletter.model.NewsletterContact getContact(
@@ -269,6 +271,18 @@ public class NewsletterContactLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return getService().getContact(contactId);
+	}
+
+	public static int getContactCountByContent(long contentId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getContactCountByContent(contentId);
+	}
+
+	public static int getContactCountByCampaign(long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getContactCountByCampaign(campaignId);
 	}
 
 	public static com.liferay.newsletter.model.NewsletterContact getContact(
@@ -279,10 +293,43 @@ public class NewsletterContactLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
+		long companyId, long groupId, java.lang.String keywords, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .search(companyId, groupId, keywords, start, end,
+			orderByComparator);
+	}
+
+	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
+		long companyId, long groupId, java.lang.String contactName,
+		java.lang.String contactEmail, int start, int end,
+		boolean isAndOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .search(companyId, groupId, contactName, contactEmail,
+			start, end, isAndOperator, orderByComparator);
+	}
+
+	public static int searchCount(long companyId, long groupId,
 		java.lang.String keywords, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().search(keywords, start, end, orderByComparator);
+		return getService()
+				   .searchCount(companyId, groupId, keywords, start, end,
+			orderByComparator);
+	}
+
+	public static int searchCount(long companyId, long groupId,
+		java.lang.String contactName, java.lang.String contactEmail, int start,
+		int end, boolean isAndOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .searchCount(companyId, groupId, contactName, contactEmail,
+			start, end, isAndOperator, orderByComparator);
 	}
 
 	public static void clearService() {

@@ -25,7 +25,7 @@
 <liferay-ui:error key="preferences-added" message="preferences-added" />
 <aui:form action="<%= setNewsletterPrefUrl %>" method="POST" name="fm">
 	<aui:fieldset>
-		<aui:input type="hidden" name="cmd" value="setNewsletterPref" />
+		<aui:input type="hidden" name="cmd" value="<%= NewsletterConstants.CONFIGURE %>" />
 		<aui:input name="senderName" label="Sender Name" value='<%= prefs.getValue(NewsletterConstants.SENDER_NAME,"") %>' size="45" type="text" />
 		<aui:input name="senderEmail" label="Sender Email" value='<%= prefs.getValue(NewsletterConstants.SENDER_EMAIL,"") %>' size="45" type="text" />
 		<aui:input name="smtpHost" label="SMTP Host" value='<%= prefs.getValue(PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST,"") %>' size="45" type="text" />

@@ -16,10 +16,13 @@ package com.liferay.newsletter.portlet;
 
 import com.liferay.newsletter.ContentException;
 import com.liferay.newsletter.NameException;
+import com.liferay.newsletter.NoSuchContactException;
+import com.liferay.newsletter.NoSuchLogException;
 import com.liferay.newsletter.TitleException;
 import com.liferay.newsletter.model.NewsletterCampaign;
 import com.liferay.newsletter.model.NewsletterContact;
 import com.liferay.newsletter.model.NewsletterContent;
+import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.service.NewsletterCampaignLocalServiceUtil;
 import com.liferay.newsletter.service.NewsletterContactLocalServiceUtil;
 import com.liferay.newsletter.service.NewsletterContentLocalServiceUtil;
@@ -38,11 +41,11 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
-import com.liferay.portal.util.WebKeys;
 import com.liferay.portlet.journal.model.JournalArticleDisplay;
 import com.liferay.portlet.journalcontent.util.JournalContentUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -148,6 +151,9 @@ public class NewsletterPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
+		long scopeGroupId = themeDisplay.getScopeGroupId();
+		long userId = themeDisplay.getUserId();
+
 		long contentId = ParamUtil.getLong(actionRequest, "contentId");
 
 		int sendDateDay = ParamUtil.getInteger(actionRequest, "sendDateDay");
@@ -165,20 +171,41 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		NewsletterCampaign campaign =
 			NewsletterCampaignLocalServiceUtil.addCampaign(
-				themeDisplay.getUserId(),themeDisplay.getScopeGroupId(),
-				contentId, emailSubject, senderEmail, senderName, sendDateDay,
-				sendDateMonth, sendDateYear, serviceContext);
+				userId,scopeGroupId, contentId, emailSubject, senderEmail,
+				senderName, sendDateDay, sendDateMonth, sendDateYear,
+				serviceContext);
 
 		String contacts = ParamUtil.getString(actionRequest, "contacts");
 
-		for (String email : StringUtil.split(contacts)) {
-			NewsletterContact contact =
-				NewsletterContactLocalServiceUtil.addContact(
-					email.trim(), StringPool.BLANK, serviceContext);
+		String[] emails = StringUtil.split(contacts);
 
-			NewsletterLogLocalServiceUtil.addLog(
-				campaign.getCampaignId(), contact.getContactId(), false,
-				serviceContext);
+		for (String email : emails) {
+			String emailFormated = email.trim();
+			long campaignId = campaign.getCampaignId();
+
+			NewsletterContact contact = null;
+
+			try {
+				contact = NewsletterContactLocalServiceUtil.getContact(
+					emailFormated);
+			}
+			catch (NoSuchContactException e) {
+				contact = NewsletterContactLocalServiceUtil.addContact(
+					userId,scopeGroupId, emailFormated, StringPool.BLANK,
+					serviceContext);
+			}
+
+			long contactId = contact.getContactId();
+
+			try{
+				NewsletterLogLocalServiceUtil.getLog(
+					campaignId, contactId);
+			}
+			catch (NoSuchLogException e) {
+				NewsletterLogLocalServiceUtil.addLog(
+						campaignId, contactId, false, serviceContext);
+			}
+
 		}
 
 		SessionMessages.add(actionRequest, "request_processed");
@@ -193,6 +220,9 @@ public class NewsletterPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
+		long userId = themeDisplay.getUserId();
+		long scopeGroupId = themeDisplay.getScopeGroupId();
+
 		long articleId = ParamUtil.getLong(actionRequest, "articleId");
 
 		String title = ParamUtil.getString(actionRequest, "title");
@@ -202,8 +232,7 @@ public class NewsletterPortlet extends MVCPortlet {
 			NewsletterContent.class.getName(), actionRequest);
 
 		NewsletterContentLocalServiceUtil.addContent(
-			themeDisplay.getUserId(), themeDisplay.getScopeGroupId(), articleId,
-			title, content, serviceContext);
+			userId, scopeGroupId, articleId, title, content, serviceContext);
 
 		SessionMessages.add(actionRequest, "request_processed");
 
@@ -325,12 +354,14 @@ public class NewsletterPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(
 			"THEME_DISPLAY");
 
+		long companyId = themeDisplay.getCompanyId();
+		long scopeGroupId = themeDisplay.getScopeGroupId();
+
 		String keywords = ParamUtil.getString(resourceRequest, "keywords");
 
 		List<NewsletterContent> contents =
 			NewsletterContentLocalServiceUtil.search(
-				themeDisplay.getCompanyId(), themeDisplay.getScopeGroupId(),
-				keywords, 0, 5, null);
+				companyId, scopeGroupId, keywords, 0, 5, null);
 
 		toJSON(resourceResponse, contents);
 	}
@@ -339,10 +370,17 @@ public class NewsletterPortlet extends MVCPortlet {
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 		throws Exception {
 
+		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(
+			"THEME_DISPLAY");
+
+		long companyId = themeDisplay.getCompanyId();
+		long scopeGroupId = themeDisplay.getScopeGroupId();
+
 		String keywords = ParamUtil.getString(resourceRequest, "keywords");
 
 		List<NewsletterContact> contacts =
-			NewsletterContactLocalServiceUtil.search(keywords, 0 , 5, null);
+			NewsletterContactLocalServiceUtil.search(
+				companyId, scopeGroupId, keywords, 0 , 5, null);
 
 		toJSON(resourceResponse, contacts);
 	}

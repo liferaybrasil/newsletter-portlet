@@ -14,7 +14,11 @@
 
 package com.liferay.newsletter.service.persistence;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.liferay.newsletter.model.NewsletterContact;
+import com.liferay.newsletter.model.impl.NewsletterContactImpl;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
@@ -22,31 +26,39 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.model.Contact;
-import com.liferay.portal.model.impl.ContactImpl;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author Bruno Pinheiro
  */
 public class NewsletterContactFinderImpl
-	extends BasePersistenceImpl<NewsletterContact> implements NewsletterContactFinder {
+	extends BasePersistenceImpl<NewsletterContact>
+	implements NewsletterContactFinder {
 
+	public static String COUNT_BY_C_G_N_E =
+		NewsletterContactFinder.class.getName() + ".countBy_C_G_N_E";
+	
 	public static String COUNT_BY_CAMPAIGN =
 		NewsletterContactFinder.class.getName() + ".countByCampaign";
 
 	public static String COUNT_BY_CAMPAIGN_CONTENT =
 		NewsletterContactFinder.class.getName() + ".countByCampaignContent";
 
+	public static String FIND_BY_C_G_N_E =
+		NewsletterContactFinder.class.getName() + ".findBy_C_G_N_E";
+
 	public static String FIND_BY_EMAIL =
 		NewsletterContactFinder.class.getName() + ".findByEmail";
 
 	public static String FIND_BY_NAME_CAMPAIGN =
 		NewsletterContactFinder.class.getName() + ".findByNameAndCampaign";
+
+	public static String FIND_BY_KEYWORDS =
+		NewsletterContactFinder.class.getName() + ".findByKeywords";
 
 	public int countByCampaign(long campaignId)	throws SystemException {
 		Session session = null;
@@ -121,9 +133,241 @@ public class NewsletterContactFinderImpl
 			closeSession(session);
 		}
 	}
-
-	public List<NewsletterContact> findByEmail(String email, int start, int end)
+	
+	public int countByC_G_N_E(
+			long companyId, long groupId, String contactNames,
+			String contactEmails, int start, int end, boolean andOperator,
+			OrderByComparator orderByComparator)
 		throws SystemException {
+
+		String[] contactsNames = null;
+		String[] contactsEmails = null;
+
+		contactsNames = CustomSQLUtil.keywords(contactNames);
+		contactsEmails = CustomSQLUtil.keywords(contactEmails);
+
+		return doCountByC_G_N_E(
+			companyId, groupId, contactsNames, contactsEmails, andOperator,
+			start, end, orderByComparator);
+	}
+
+	public int countByKeywords(
+			long companyId, long groupId, String keywords, int start, int end,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		String[] contactsNames = null;
+		String[] contactsEmails = null;
+		boolean andOperator = false;
+
+		if (Validator.isNotNull(keywords)) {
+			contactsNames = CustomSQLUtil.keywords(keywords);
+			contactsEmails = CustomSQLUtil.keywords(keywords);
+		}
+		else {
+			andOperator = true;
+		}
+
+		return doCountByC_G_N_E(
+			companyId, groupId, contactsNames, contactsEmails, andOperator,
+			start, end, orderByComparator);
+	}
+
+	public List<NewsletterContact> findByEmail(
+			long companyId, long groupId, String email, int start, int end,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		String[] emails = null;
+
+		emails = CustomSQLUtil.keywords(email);
+
+		return dofindByEmail(
+			companyId, groupId, emails, start, end, orderByComparator);
+	}
+
+	public List<NewsletterContact> findByNameAndCampaign(
+			long companyId, long groupId, String contactName, long campaignId,
+			int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
+
+		String[] contactsNames = null;
+		boolean andOperator = false;
+
+		if (Validator.isNotNull(contactName)) {
+			contactsNames = CustomSQLUtil.keywords(contactName);
+		}
+		else {
+			andOperator = true;
+		}
+
+		return doFindByNameAndCampaign(
+			companyId, groupId, contactsNames, campaignId, andOperator, start,
+			end, orderByComparator);
+	}
+
+	public List<NewsletterContact> findByC_G_N_E(
+			long companyId, long groupId, String contactNames,
+			String contactEmails, int start, int end, boolean andOperator,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		String[] contactsNames = null;
+		String[] contactsEmails = null;
+
+		contactsNames = CustomSQLUtil.keywords(contactNames);
+		contactsEmails = CustomSQLUtil.keywords(contactEmails);
+
+		return doFindByC_G_N_E(
+			companyId, groupId, contactsNames, contactsEmails, andOperator,
+			start, end, orderByComparator);
+	}
+
+	public List<NewsletterContact> findByKeywords(
+			long companyId, long groupId, String keywords, int start, int end,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		String[] contactsNames = null;
+		String[] contactsEmails = null;
+		boolean andOperator = false;
+
+		if (Validator.isNotNull(keywords)) {
+			contactsNames = CustomSQLUtil.keywords(keywords);
+			contactsEmails = CustomSQLUtil.keywords(keywords);
+		}
+		else {
+			andOperator = true;
+		}
+
+		return doFindByC_G_N_E(
+			companyId, groupId, contactsNames, contactsEmails, andOperator,
+			start, end, orderByComparator);
+	}
+
+	protected int doCountByC_G_N_E(
+			long companyId, long groupId, String[] contactsNames,
+			String[] contactsEmails, boolean andOperator, int start, int end,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		contactsNames = CustomSQLUtil.keywords(contactsNames);
+		contactsEmails = CustomSQLUtil.keywords(contactsEmails);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			String sql = CustomSQLUtil.get(COUNT_BY_C_G_N_E);
+
+			if (groupId <= 0) {
+				sql = StringUtil.replace(sql, "(groupId = ?) AND", "");
+			}
+
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(email)", StringPool.LIKE, false, contactsEmails);
+			sql = CustomSQLUtil.replaceKeywords(
+					sql, "lower(name)", StringPool.LIKE, false, contactsNames);
+
+			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			q.addScalar(COUNT_COLUMN_NAME, Type.LONG);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(companyId);
+
+			if (groupId > 0) {
+				qPos.add(groupId);
+			}
+
+			qPos.add(contactsEmails);
+			qPos.add(contactsNames);
+
+			Iterator<Long> itr = q.list().iterator();
+
+			if (itr.hasNext()) {
+				Long count = itr.next();
+
+				if (count != null) {
+					return count.intValue();
+				}
+			}
+
+			return 0;
+			
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected List<NewsletterContact> doFindByC_G_N_E(
+			long companyId, long groupId, String[] contactsNames,
+			String[] contactsEmails, boolean andOperator, int start, int end,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		contactsNames = CustomSQLUtil.keywords(contactsNames);
+		contactsEmails = CustomSQLUtil.keywords(contactsEmails);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			String sql = CustomSQLUtil.get(FIND_BY_C_G_N_E);
+
+			if (groupId <= 0) {
+				sql = StringUtil.replace(sql, "(groupId = ?) AND", "");
+			}
+
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(email)", StringPool.LIKE, false, contactsEmails);
+			sql = CustomSQLUtil.replaceKeywords(
+					sql, "lower(name)", StringPool.LIKE, false, contactsNames);
+
+			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
+			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			q.addEntity("NewsletterContact", NewsletterContactImpl.class);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(companyId);
+
+			if (groupId > 0) {
+				qPos.add(groupId);
+			}
+
+			qPos.add(contactsEmails);
+			qPos.add(contactsNames);
+
+			return (List<NewsletterContact>)QueryUtil.list(
+				q, getDialect(), start, end);
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected List<NewsletterContact> dofindByEmail(
+			long companyId, long groupId, String[] emails, int start, int end,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		emails = CustomSQLUtil.keywords(emails);
 
 		Session session = null;
 
@@ -132,17 +376,31 @@ public class NewsletterContactFinderImpl
 
 			String sql = CustomSQLUtil.get(FIND_BY_EMAIL);
 
+			if (groupId <= 0) {
+				sql = StringUtil.replace(sql, "(groupId = ?) AND", "");
+			}
+
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(email)", StringPool.LIKE, false, emails);
+
+			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);
+
 			SQLQuery q = session.createSQLQuery(sql);
 
-			q.addEntity("Contact", ContactImpl.class);
+			q.addEntity("NewsletterContact", NewsletterContactImpl.class);
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
-			// TODO: Cheque se isso est� correto (%email%), eu acho que n�o �
-			// assim que se faz
-			qPos.add("%"+email+"%");
+			qPos.add(companyId);
 
-			return (List<NewsletterContact>)QueryUtil.list(q, getDialect(), start, end);
+			if (groupId > 0) {
+				qPos.add(groupId);
+			}
+
+			qPos.add(emails, 2);
+
+			return (List<NewsletterContact>)QueryUtil.list(
+				q, getDialect(), start, end);
 		}
 		catch (Exception e) {
 			throw new SystemException(e);
@@ -152,9 +410,13 @@ public class NewsletterContactFinderImpl
 		}
 	}
 
-	public List<NewsletterContact> findByNameAndCampaign(
-			String contactName, long campaignId, int start, int end)
+	protected List<NewsletterContact> doFindByNameAndCampaign(
+			long companyId, long groupId, String[] contactsNames,
+			long campaignId, boolean andOperator, int start, int end,
+			OrderByComparator orderByComparator)
 		throws SystemException {
+
+		contactsNames = CustomSQLUtil.keywords(contactsNames);
 
 		Session session = null;
 
@@ -163,16 +425,33 @@ public class NewsletterContactFinderImpl
 
 			String sql = CustomSQLUtil.get(FIND_BY_NAME_CAMPAIGN);
 
+			if (groupId <= 0) {
+				sql = StringUtil.replace(sql, "(groupId = ?) AND", "");
+			}
+
+			sql = CustomSQLUtil.replaceKeywords(
+					sql, "lower(name)", StringPool.LIKE, false, contactsNames);
+
+			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
+			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);
+
 			SQLQuery q = session.createSQLQuery(sql);
 
-			q.addEntity("Contact", Contact.class);
+			q.addEntity("NewsletterContact", NewsletterContact.class);
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
-			qPos.add(contactName);
+			qPos.add(companyId);
+
+			if (groupId > 0) {
+				qPos.add(groupId);
+			}
+
+			qPos.add(contactsNames, 2);
 			qPos.add(campaignId);
 
-			return (List<NewsletterContact>)QueryUtil.list(q, getDialect(), start, end);
+			return (List<NewsletterContact>)QueryUtil.list(
+					q, getDialect(), start, end);
 		}
 		catch (Exception e) {
 			throw new SystemException(e);
@@ -182,30 +461,4 @@ public class NewsletterContactFinderImpl
 		}
 	}
 
-	public List<NewsletterContact> findByKeywords(
-			String keywords,  int start, int end, OrderByComparator orderByComparator)
-		throws SystemException {
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			String sql = CustomSQLUtil.get(FIND_BY_NAME_CAMPAIGN);
-
-			SQLQuery q = session.createSQLQuery(sql);
-
-			q.addEntity("Contact", Contact.class);
-
-			QueryPos qPos = QueryPos.getInstance(q);
-
-			return (List<NewsletterContact>)QueryUtil.list(q, getDialect(), start, end);
-		}
-		catch (Exception e) {
-			throw new SystemException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
 }

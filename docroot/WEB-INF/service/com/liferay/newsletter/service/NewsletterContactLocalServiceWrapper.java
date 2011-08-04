@@ -250,12 +250,13 @@ public class NewsletterContactLocalServiceWrapper
 	}
 
 	public com.liferay.newsletter.model.NewsletterContact addContact(
-		java.lang.String email, java.lang.String name,
+		long userId, long groupId, java.lang.String email,
+		java.lang.String name,
 		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return _newsletterContactLocalService.addContact(email, name,
-			serviceContext);
+		return _newsletterContactLocalService.addContact(userId, groupId,
+			email, name, serviceContext);
 	}
 
 	public com.liferay.newsletter.model.NewsletterContact getContact(
@@ -263,6 +264,18 @@ public class NewsletterContactLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return _newsletterContactLocalService.getContact(contactId);
+	}
+
+	public int getContactCountByContent(long contentId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterContactLocalService.getContactCountByContent(contentId);
+	}
+
+	public int getContactCountByCampaign(long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterContactLocalService.getContactCountByCampaign(campaignId);
 	}
 
 	public com.liferay.newsletter.model.NewsletterContact getContact(
@@ -273,10 +286,40 @@ public class NewsletterContactLocalServiceWrapper
 	}
 
 	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
+		long companyId, long groupId, java.lang.String keywords, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterContactLocalService.search(companyId, groupId,
+			keywords, start, end, orderByComparator);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
+		long companyId, long groupId, java.lang.String contactName,
+		java.lang.String contactEmail, int start, int end,
+		boolean isAndOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterContactLocalService.search(companyId, groupId,
+			contactName, contactEmail, start, end, isAndOperator,
+			orderByComparator);
+	}
+
+	public int searchCount(long companyId, long groupId,
 		java.lang.String keywords, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _newsletterContactLocalService.search(keywords, start, end,
+		return _newsletterContactLocalService.searchCount(companyId, groupId,
+			keywords, start, end, orderByComparator);
+	}
+
+	public int searchCount(long companyId, long groupId,
+		java.lang.String contactName, java.lang.String contactEmail, int start,
+		int end, boolean isAndOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterContactLocalService.searchCount(companyId, groupId,
+			contactName, contactEmail, start, end, isAndOperator,
 			orderByComparator);
 	}
 

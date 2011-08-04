@@ -14,10 +14,12 @@
 
 package com.liferay.newsletter.search;
 
+import javax.portlet.PortletRequest;
+
 import com.liferay.portal.kernel.dao.search.DisplayTerms;
 import com.liferay.portal.kernel.util.ParamUtil;
-
-import javax.portlet.PortletRequest;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.theme.ThemeDisplay;
 
 /**
  * @author Bruno Pinheiro
@@ -25,6 +27,8 @@ import javax.portlet.PortletRequest;
 public class NewsletterContactDisplayTerms extends DisplayTerms {
 
 	public static final String EMAIL = "email";
+
+	public static final String GROUP_ID = "groupId";
 
 	public static final String NAME = "name";
 
@@ -36,10 +40,15 @@ public class NewsletterContactDisplayTerms extends DisplayTerms {
 		email = ParamUtil.getString(portletRequest, EMAIL);
 		name = ParamUtil.getString(portletRequest, NAME);
 		status = ParamUtil.getString(portletRequest, STATUS);
+		groupId = setGroupId(portletRequest);
 	}
 
 	public String getEmail() {
 		return email;
+	}
+
+	public long getGroupId() {
+		return groupId;
 	}
 
 	public String getName() {
@@ -50,7 +59,23 @@ public class NewsletterContactDisplayTerms extends DisplayTerms {
 		return status;
 	}
 
+	public long setGroupId(PortletRequest portletRequest) {
+		groupId = ParamUtil.getLong(portletRequest, GROUP_ID);
+
+		if (groupId == 0) {
+
+			ThemeDisplay themeDisplay =
+				(ThemeDisplay)portletRequest.getAttribute(
+					WebKeys.THEME_DISPLAY);
+
+			groupId = themeDisplay.getScopeGroupId();
+		}
+
+		return groupId;
+	}
+
 	protected String email;
+	protected long groupId;
 	protected String name;
 	protected String status;
 

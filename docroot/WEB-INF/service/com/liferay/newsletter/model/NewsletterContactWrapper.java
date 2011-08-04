@@ -73,6 +73,134 @@ public class NewsletterContactWrapper implements NewsletterContact {
 	}
 
 	/**
+	* Returns the group ID of this newsletter contact.
+	*
+	* @return the group ID of this newsletter contact
+	*/
+	public long getGroupId() {
+		return _newsletterContact.getGroupId();
+	}
+
+	/**
+	* Sets the group ID of this newsletter contact.
+	*
+	* @param groupId the group ID of this newsletter contact
+	*/
+	public void setGroupId(long groupId) {
+		_newsletterContact.setGroupId(groupId);
+	}
+
+	/**
+	* Returns the company ID of this newsletter contact.
+	*
+	* @return the company ID of this newsletter contact
+	*/
+	public long getCompanyId() {
+		return _newsletterContact.getCompanyId();
+	}
+
+	/**
+	* Sets the company ID of this newsletter contact.
+	*
+	* @param companyId the company ID of this newsletter contact
+	*/
+	public void setCompanyId(long companyId) {
+		_newsletterContact.setCompanyId(companyId);
+	}
+
+	/**
+	* Returns the user ID of this newsletter contact.
+	*
+	* @return the user ID of this newsletter contact
+	*/
+	public long getUserId() {
+		return _newsletterContact.getUserId();
+	}
+
+	/**
+	* Sets the user ID of this newsletter contact.
+	*
+	* @param userId the user ID of this newsletter contact
+	*/
+	public void setUserId(long userId) {
+		_newsletterContact.setUserId(userId);
+	}
+
+	/**
+	* Returns the user uuid of this newsletter contact.
+	*
+	* @return the user uuid of this newsletter contact
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.lang.String getUserUuid()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterContact.getUserUuid();
+	}
+
+	/**
+	* Sets the user uuid of this newsletter contact.
+	*
+	* @param userUuid the user uuid of this newsletter contact
+	*/
+	public void setUserUuid(java.lang.String userUuid) {
+		_newsletterContact.setUserUuid(userUuid);
+	}
+
+	/**
+	* Returns the user name of this newsletter contact.
+	*
+	* @return the user name of this newsletter contact
+	*/
+	public java.lang.String getUserName() {
+		return _newsletterContact.getUserName();
+	}
+
+	/**
+	* Sets the user name of this newsletter contact.
+	*
+	* @param userName the user name of this newsletter contact
+	*/
+	public void setUserName(java.lang.String userName) {
+		_newsletterContact.setUserName(userName);
+	}
+
+	/**
+	* Returns the create date of this newsletter contact.
+	*
+	* @return the create date of this newsletter contact
+	*/
+	public java.util.Date getCreateDate() {
+		return _newsletterContact.getCreateDate();
+	}
+
+	/**
+	* Sets the create date of this newsletter contact.
+	*
+	* @param createDate the create date of this newsletter contact
+	*/
+	public void setCreateDate(java.util.Date createDate) {
+		_newsletterContact.setCreateDate(createDate);
+	}
+
+	/**
+	* Returns the modified date of this newsletter contact.
+	*
+	* @return the modified date of this newsletter contact
+	*/
+	public java.util.Date getModifiedDate() {
+		return _newsletterContact.getModifiedDate();
+	}
+
+	/**
+	* Sets the modified date of this newsletter contact.
+	*
+	* @param modifiedDate the modified date of this newsletter contact
+	*/
+	public void setModifiedDate(java.util.Date modifiedDate) {
+		_newsletterContact.setModifiedDate(modifiedDate);
+	}
+
+	/**
 	* Returns the email of this newsletter contact.
 	*
 	* @return the email of this newsletter contact

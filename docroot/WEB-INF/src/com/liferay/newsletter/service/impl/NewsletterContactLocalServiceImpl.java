@@ -21,8 +21,10 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,8 +35,13 @@ public class NewsletterContactLocalServiceImpl
 	extends NewsletterContactLocalServiceBaseImpl {
 
 	public NewsletterContact addContact(
-			String email, String name, ServiceContext serviceContext)
+			long userId, long groupId, String email, String name,
+			ServiceContext serviceContext)
 		throws SystemException, PortalException{
+
+		User user = userPersistence.findByPrimaryKey(userId);
+
+		Date now = new Date();
 
 		validate(email);
 
@@ -43,6 +50,12 @@ public class NewsletterContactLocalServiceImpl
 		NewsletterContact contact =
 			newsletterContactPersistence.create(contactId);
 
+		contact.setGroupId(groupId);
+		contact.setCompanyId(user.getCompanyId());
+		contact.setUserId(user.getUserId());
+		contact.setUserName(user.getFullName());
+		contact.setCreateDate(serviceContext.getCreateDate(now));
+		contact.setModifiedDate(serviceContext.getModifiedDate(now));
 		contact.setEmail(email);
 		contact.setName(name);
 
@@ -55,6 +68,18 @@ public class NewsletterContactLocalServiceImpl
 		return newsletterContactPersistence.findByPrimaryKey(contactId);
 	}
 
+	public int getContactCountByContent(long contentId)
+		throws PortalException, SystemException {
+
+		return newsletterContactFinder.countByCampaignContent(contentId);
+	}
+
+	public int getContactCountByCampaign(long campaignId)
+		throws PortalException, SystemException {
+
+		return newsletterContactFinder.countByCampaign(campaignId);
+	}
+
 	public NewsletterContact getContact(String email)
 		throws PortalException, SystemException {
 
@@ -62,16 +87,47 @@ public class NewsletterContactLocalServiceImpl
 	}
 
 	public List<NewsletterContact> search(
-			String keywords, int start, int end,
+			long companyId, long groupId, String keywords, int start, int end,
 			OrderByComparator orderByComparator)
 		throws SystemException {
 
 		return newsletterContactFinder.findByKeywords(
-			keywords, start, end, orderByComparator);
+				companyId, groupId, keywords, start, end, orderByComparator);
+	}
+
+	public List<NewsletterContact> search(
+			long companyId, long groupId, String contactName, 
+			String contactEmail, int start, int end, boolean isAndOperator,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		return newsletterContactFinder.findByC_G_N_E(
+				companyId, groupId, contactName, contactEmail, start, end, 
+				isAndOperator, orderByComparator);
+	}
+
+	public int searchCount(
+			long companyId, long groupId, String keywords, int start, int end,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		return newsletterContactFinder.countByKeywords(
+				companyId, groupId, keywords, start, end, orderByComparator);
+	}
+
+	public int searchCount(
+			long companyId, long groupId, String contactName, 
+			String contactEmail, int start, int end, boolean isAndOperator,
+			OrderByComparator orderByComparator)
+		throws SystemException {
+
+		return newsletterContactFinder.countByC_G_N_E(
+				companyId, groupId, contactName, contactEmail, start, end, 
+				isAndOperator, orderByComparator);
 	}
 
 	protected void validate(String email) throws PortalException {
-		if (Validator.isEmailAddress(email)) {
+		if (!Validator.isEmailAddress(email)) {
 			throw new EmailAddressException();
 		}
 	}

@@ -31,25 +31,64 @@ public class NewsletterContactFinderUtil {
 		return getFinder().countByCampaignContent(campaignContentId);
 	}
 
-	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> findByEmail(
-		java.lang.String email, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getFinder().findByEmail(email, start, end);
-	}
-
-	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> findByNameAndCampaign(
-		java.lang.String contactName, long campaignId, int start, int end)
+	public static int countByC_G_N_E(long companyId, long groupId,
+		java.lang.String contactNames, java.lang.String contactEmails,
+		int start, int end, boolean andOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder()
-				   .findByNameAndCampaign(contactName, campaignId, start, end);
+				   .countByC_G_N_E(companyId, groupId, contactNames,
+			contactEmails, start, end, andOperator, orderByComparator);
 	}
 
-	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> findByKeywords(
+	public static int countByKeywords(long companyId, long groupId,
 		java.lang.String keywords, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder()
-				   .findByKeywords(keywords, start, end, orderByComparator);
+				   .countByKeywords(companyId, groupId, keywords, start, end,
+			orderByComparator);
+	}
+
+	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> findByEmail(
+		long companyId, long groupId, java.lang.String email, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .findByEmail(companyId, groupId, email, start, end,
+			orderByComparator);
+	}
+
+	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> findByNameAndCampaign(
+		long companyId, long groupId, java.lang.String contactName,
+		long campaignId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .findByNameAndCampaign(companyId, groupId, contactName,
+			campaignId, start, end, orderByComparator);
+	}
+
+	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> findByC_G_N_E(
+		long companyId, long groupId, java.lang.String contactNames,
+		java.lang.String contactEmails, int start, int end,
+		boolean andOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .findByC_G_N_E(companyId, groupId, contactNames,
+			contactEmails, start, end, andOperator, orderByComparator);
+	}
+
+	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> findByKeywords(
+		long companyId, long groupId, java.lang.String keywords, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .findByKeywords(companyId, groupId, keywords, start, end,
+			orderByComparator);
 	}
 
 	public static NewsletterContactFinder getFinder() {

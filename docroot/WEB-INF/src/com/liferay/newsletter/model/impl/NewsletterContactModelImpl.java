@@ -18,12 +18,14 @@ import com.liferay.newsletter.model.NewsletterContact;
 import com.liferay.newsletter.model.NewsletterContactModel;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.util.PortalUtil;
 
 import com.liferay.portlet.expando.model.ExpandoBridge;
 import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
@@ -33,6 +35,8 @@ import java.io.Serializable;
 import java.lang.reflect.Proxy;
 
 import java.sql.Types;
+
+import java.util.Date;
 
 /**
  * The base model implementation for the NewsletterContact service. Represents a row in the &quot;Newsletter_NewsletterContact&quot; database table, with each column mapped to a property of this class.
@@ -57,10 +61,16 @@ public class NewsletterContactModelImpl extends BaseModelImpl<NewsletterContact>
 	public static final String TABLE_NAME = "Newsletter_NewsletterContact";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "contactId", Types.BIGINT },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP },
 			{ "email", Types.VARCHAR },
 			{ "name", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Newsletter_NewsletterContact (contactId LONG not null primary key,email VARCHAR(75) null,name VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table Newsletter_NewsletterContact (contactId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,email VARCHAR(75) null,name VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table Newsletter_NewsletterContact";
 	public static final String ORDER_BY_JPQL = " ORDER BY newsletterContact.email ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Newsletter_NewsletterContact.email ASC";
@@ -110,6 +120,67 @@ public class NewsletterContactModelImpl extends BaseModelImpl<NewsletterContact>
 
 	public void setContactId(long contactId) {
 		_contactId = contactId;
+	}
+
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
+	public long getUserId() {
+		return _userId;
+	}
+
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	public String getUserUuid() throws SystemException {
+		return PortalUtil.getUserValue(getUserId(), "uuid", _userUuid);
+	}
+
+	public void setUserUuid(String userUuid) {
+		_userUuid = userUuid;
+	}
+
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		_modifiedDate = modifiedDate;
 	}
 
 	public String getEmail() {
@@ -165,7 +236,7 @@ public class NewsletterContactModelImpl extends BaseModelImpl<NewsletterContact>
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		if (_expandoBridge == null) {
-			_expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+			_expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 					NewsletterContact.class.getName(), getPrimaryKey());
 		}
 
@@ -182,6 +253,12 @@ public class NewsletterContactModelImpl extends BaseModelImpl<NewsletterContact>
 		NewsletterContactImpl newsletterContactImpl = new NewsletterContactImpl();
 
 		newsletterContactImpl.setContactId(getContactId());
+		newsletterContactImpl.setGroupId(getGroupId());
+		newsletterContactImpl.setCompanyId(getCompanyId());
+		newsletterContactImpl.setUserId(getUserId());
+		newsletterContactImpl.setUserName(getUserName());
+		newsletterContactImpl.setCreateDate(getCreateDate());
+		newsletterContactImpl.setModifiedDate(getModifiedDate());
 		newsletterContactImpl.setEmail(getEmail());
 		newsletterContactImpl.setName(getName());
 
@@ -245,6 +322,38 @@ public class NewsletterContactModelImpl extends BaseModelImpl<NewsletterContact>
 
 		newsletterContactCacheModel.contactId = getContactId();
 
+		newsletterContactCacheModel.groupId = getGroupId();
+
+		newsletterContactCacheModel.companyId = getCompanyId();
+
+		newsletterContactCacheModel.userId = getUserId();
+
+		newsletterContactCacheModel.userName = getUserName();
+
+		String userName = newsletterContactCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			newsletterContactCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			newsletterContactCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			newsletterContactCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			newsletterContactCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			newsletterContactCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
 		newsletterContactCacheModel.email = getEmail();
 
 		String email = newsletterContactCacheModel.email;
@@ -266,10 +375,22 @@ public class NewsletterContactModelImpl extends BaseModelImpl<NewsletterContact>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{contactId=");
 		sb.append(getContactId());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", userId=");
+		sb.append(getUserId());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
+		sb.append(", modifiedDate=");
+		sb.append(getModifiedDate());
 		sb.append(", email=");
 		sb.append(getEmail());
 		sb.append(", name=");
@@ -280,7 +401,7 @@ public class NewsletterContactModelImpl extends BaseModelImpl<NewsletterContact>
 	}
 
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.newsletter.model.NewsletterContact");
@@ -289,6 +410,30 @@ public class NewsletterContactModelImpl extends BaseModelImpl<NewsletterContact>
 		sb.append(
 			"<column><column-name>contactId</column-name><column-value><![CDATA[");
 		sb.append(getContactId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userId</column-name><column-value><![CDATA[");
+		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>email</column-name><column-value><![CDATA[");
@@ -309,6 +454,13 @@ public class NewsletterContactModelImpl extends BaseModelImpl<NewsletterContact>
 			NewsletterContact.class
 		};
 	private long _contactId;
+	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userUuid;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
 	private String _email;
 	private String _originalEmail;
 	private String _name;

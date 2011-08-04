@@ -14,20 +14,18 @@
  */
 --%>
 
-<%@ page import="com.liferay.newsletter.exception.ContactsException" %>
-<%@ page import="com.liferay.newsletter.exception.SenderEmailException" %>
 <%@ include file="/html/init.jsp" %>
 
 <%
-Campaign campaign = null;
+NewsletterCampaign campaign = null;
 
 long campaignId = ParamUtil.getLong(request, "campaignId");
 
 if (campaignId > 0) {
-	campaign = CampaignLocalServiceUtil.getCampaign(campaignId);
+	campaign = NewsletterCampaignLocalServiceUtil.getNewsletterCampaign(campaignId);
 }
 
-List<CampaignContent> campaignContents = CampaignContentLocalServiceUtil.getCampaignContents(0,CampaignContentLocalServiceUtil.getCampaignContentsCount());
+List<NewsletterContent> campaignContents = NewsletterContentLocalServiceUtil.getNewsletterContents(0,NewsletterContentLocalServiceUtil.getNewsletterContentsCount());
 
 String redirect = ParamUtil.getString(request, "redirect");
 %>
@@ -45,24 +43,24 @@ String redirect = ParamUtil.getString(request, "redirect");
 	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_CONTACT %>" />
 </portlet:resourceURL>
 
-<aui:model-context bean="<%= campaign %>" model="<%= Campaign.class %>" />
+<aui:model-context bean="<%= campaign %>" model="<%= NewsletterCampaign.class %>" />
 
 <portlet:actionURL var="editCampaignURL" />
 
 <aui:form action="<%= editCampaignURL %>" method="POST" name="fm">
 	<aui:fieldset>
-		<aui:input type="hidden" name="cmd" value="campaign" />
+		<aui:input type="hidden" name="cmd" value="<%= NewsletterConstants.ADD_CAMPAIGN %>" />
 
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
 		<aui:input type="hidden" name="campaignId" />
 
-		<aui:input type="hidden" name="campaignContentId" id="campaignContentId" />
+		<aui:input type="hidden" name="contentId" id="contentId" />
 
 		<aui:input type="hidden" name="contacts" id="contacts" />
 
 		<aui:input name="emailSubject" label="Email Subject" />
-		<liferay-ui:error exception="<%= EmailSubjectException.class %>">
+		<liferay-ui:error exception="<%= SubjectException.class %>">
 
 			<%
 			String argument = "Email Subject";
@@ -72,7 +70,7 @@ String redirect = ParamUtil.getString(request, "redirect");
 		</liferay-ui:error>
 
 		<aui:input name="senderName" label="Sender Name" value='<%= prefs.getValue(NewsletterConstants.SENDER_NAME,"") %>'/>
-		<liferay-ui:error exception="<%= SenderNameException.class %>">
+		<liferay-ui:error exception="<%= NameException.class %>">
 
 			<%
 			String argument = "Sender Name";
@@ -82,10 +80,10 @@ String redirect = ParamUtil.getString(request, "redirect");
 		</liferay-ui:error>
 
 		<aui:input name="senderEmail" label="Sender Email" value='<%= prefs.getValue(NewsletterConstants.SENDER_EMAIL,"") %>'/>
-		<liferay-ui:error exception="<%= SenderEmailException.class %>">
+		<liferay-ui:error exception="<%= EmailException.class %>">
 
 			<%
-			SenderEmailException see = (SenderEmailException)errorException;
+			EmailException see = (EmailException)errorException;
 			String key = see.getMessage();
 			String argument = "Sender email";
 			%>
@@ -105,7 +103,7 @@ String redirect = ParamUtil.getString(request, "redirect");
 			<div class="autocomplete" id="<portlet:namespace/>autocompleteContact"></div>
 		</span>
 
-		<liferay-ui:error exception="<%= ContactsException.class %>">
+		<liferay-ui:error exception="<%= ContactException.class %>">
 
 			<%
 			String argument = "Contacts";
@@ -139,7 +137,7 @@ var dataSourceCampaignContent = new A.DataSource.IO(
 	{
 		schema: {
 			resultListLocator: 'results',
-			resultFields: ['campaignContentId', 'title']
+			resultFields: ['contentId', 'title']
 		}
 	}
 );
@@ -151,7 +149,7 @@ var autocompleteCampaignContent = new A.AutoComplete(
 		matchKey: 'title',
 		on: {
 			itemSelect: function(event) {
-				document.getElementById('<portlet:namespace/>campaignContentId').value = event._resultData.campaignContentId;
+				document.getElementById('<portlet:namespace/>contentId').value = event._resultData.contentId;
 			}
 		},
 		delimChar: null,

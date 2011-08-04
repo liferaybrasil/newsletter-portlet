@@ -21,6 +21,16 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  * @author Brian Wing Shun Chan
  */
 public class NewsletterContentFinderUtil {
+	public static java.util.List<com.liferay.newsletter.model.NewsletterContent> findByTitle(
+		long companyId, long groupId, java.lang.String title, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .findByTitle(companyId, groupId, title, start, end,
+			orderByComparator);
+	}
+
 	public static java.util.List<com.liferay.newsletter.model.NewsletterContent> findByKeywords(
 		long companyId, long groupId, java.lang.String keywords, int start,
 		int end,

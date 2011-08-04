@@ -14,93 +14,95 @@
  */
 --%>
 
+<%@ page import="com.liferay.portal.kernel.util.StringBundler" %>
 <%@ include file="/html/init.jsp" %>
 
 <%
 String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 boolean importWebContent = ParamUtil.getString(request, "import").equals("true") ? true : false;
+String keywords = ParamUtil.getString(request, "keywords");
+
 %>
 
 <liferay-portlet:renderURL varImpl="portletURL">
-	<portlet:param name="tabs1" value="Popup" />
+	<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_POPUP %>" />
 </liferay-portlet:renderURL>
 
-<aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
-	<liferay-ui:search-form
-		page="/html/newsletterportlet/article_search.jsp"
-		servletContext="<%= application %>"
-	/>
-</aui:form>
+<liferay-ui:search-container
+			emptyResultsMessage="no-entries-were-found"
+			iteratorURL="<%= portletURL %>"
+		>
+			<div>
+				<aui:input id="keywords" inlineField="<%= true %>" label="" name="keywords" size="30" title="search-lists" type="text" />
 
-<div class="separator article-separator"><!-- --></div>
+				<aui:button type="submit" value="search" />
+			</div>
 
-	<liferay-ui:search-container
-	searchContainer="<%= new ArticleSearch(renderRequest, portletURL) %>"
->
-	<%@ include file="article_search_results.jspf" %>
+			<br />
+			<liferay-ui:search-container-results
+				results="<%= JournalArticleLocalServiceUtil.search(
+				company.getCompanyId(), scopeGroupId, 0l, keywords,	0.0, 
+				StringPool.BLANK, StringPool.BLANK, StringPool.BLANK, null, null, 0, null,
+				searchContainer.getStart(), searchContainer.getEnd(),
+				searchContainer.getOrderByComparator()) %>"
 
-	<liferay-ui:search-container-results
-		results="<%= resultList %>"
-		total="<%= totalCount %>"
-	/>
+				total="<%= JournalArticleLocalServiceUtil.searchCount(
+				company.getCompanyId(), scopeGroupId, 0, keywords,
+				0.0, StringPool.BLANK, StringPool.BLANK, StringPool.BLANK, null, null, 0, null) %>"
+			/>
 
-	<liferay-ui:search-container-row
-		className="com.liferay.portlet.journal.model.JournalArticle"
-		keyProperty="articleId"
-		modelVar="article"
-	>
+			<liferay-ui:search-container-row
+				className="com.liferay.portlet.journal.model.JournalArticle"
+				escapedModel="<%= true %>"
+				keyProperty="articleId"
+				modelVar="article"
+			>
+				<%
+				StringBundler sb = new StringBundler(7);
 
-	<%
-	String parentFunctionURL = "javascript:" + resourceNamespace + "setParentWindowsHiddenFieldValue("+ article.getArticleId() + ",'" + article.getTitle(locale) + "'," + importWebContent + ");";
-	%>
+				sb.append("javascript:");
+				sb.append(renderResponse.getNamespace());
+				sb.append("setParentWindowsHiddenFieldValue(");
+				sb.append(article.getArticleId());
+				sb.append(",'");
+				sb.append(article.getTitle(locale));
+				sb.append("',");
+				sb.append(importWebContent);
+				sb.append("');");
 
-		<liferay-ui:search-container-column-text
-			name="Title"
-			value="<%= article.getTitle(locale) %>"
-			href="<%= parentFunctionURL %>"
-		/>
+				String rowURL = sb.toString();
+				%>
 
-		<liferay-ui:search-container-column-text
-			name="Description"
-			value="<%= article.getDescription() %>"
-			href="<%= parentFunctionURL %>"
-		/>
+				<liferay-ui:search-container-column-text
+					name="Title"
+					value="<%= article.getTitle(locale) %>"
+					href="<%= rowURL %>"
+				/>
 
-		<liferay-ui:search-container-column-text
-			name="Version"
-			value="<%= String.valueOf(article.getVersion()) %>"
-			href="<%= parentFunctionURL %>"
-		/>
+				<liferay-ui:search-container-column-text
+					name="Description"
+					value="<%= article.getDescription() %>"
+					href="<%= rowURL %>"
+				/>
 
-		<%
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		%>
+				<liferay-ui:search-container-column-text
+					name="Version"
+					value="<%= String.valueOf(article.getVersion()) %>"
+					href="<%= rowURL %>"
+				/>
 
-		<liferay-ui:search-container-column-text
-			name="Modified Date"
-			value="<%= dateFormat.format(article.getModifiedDate()) %>"
-			href="<%=parentFunctionURL %>"
-		/>
+			</liferay-ui:search-container-row>
 
-		<liferay-ui:search-container-column-text
-			name="Display Date"
-			value="<%= dateFormat.format(article.getDisplayDate()) %>"
-			href="<%=parentFunctionURL %>"
-		/>
-
-
-	</liferay-ui:search-container-row>
-
-	<liferay-ui:search-iterator />
-</liferay-ui:search-container>
+			<liferay-ui:search-iterator />
+		</liferay-ui:search-container>
 
 <aui:script>
-    function <portlet:namespace/>setParentWindowsHiddenFieldValue(articleId, articleTitle, import) {
-    	var parentWindow = window.parent;
-    	//var AUI = parentWindow.AUI;
+	function <portlet:namespace/>setParentWindowsHiddenFieldValue(articleId, articleTitle, import) {
+		var parentWindow = window.parent;
+		//var AUI = parentWindow.AUI;
 
-        parentWindow.<%= resourceNamespace %>setCampaignContentValue(articleId, articleTitle, import);
+		parentWindow.<%= resourceNamespace %>setCampaignContentValue(articleId, articleTitle, import);
 
-        //AUI().DialogManager.closeByChild();
+		//AUI().DialogManager.closeByChild();
     }
 </aui:script>

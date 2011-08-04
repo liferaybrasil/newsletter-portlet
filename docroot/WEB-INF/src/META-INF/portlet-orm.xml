@@ -39,10 +39,21 @@
 	<mapped-superclass class="com.liferay.newsletter.model.impl.NewsletterContactModelImpl">
 		<attributes>
 			<id name="contactId" />
+			<basic name="groupId" />
+			<basic name="companyId" />
+			<basic name="userId" />
+			<basic name="userName" />
+			<basic name="createDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="modifiedDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
 			<basic name="email" />
 			<basic name="name" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
 	<mapped-superclass class="com.liferay.newsletter.model.impl.NewsletterContentModelImpl">
