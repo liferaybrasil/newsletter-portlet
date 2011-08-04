@@ -270,9 +270,22 @@ public interface NewsletterContactLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
-		long companyId, long groupId, java.lang.String contactName,
-		java.lang.String contactEmail, int start, int end,
-		boolean isAndOperator,
+		long companyId, long groupId, long campaignId,
+		java.lang.String keywords, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
+		long companyId, long groupId, long campaignId,
+		java.lang.String contactName, java.lang.String contactEmail,
+		boolean sent, int start, int end, boolean isAndOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int searchCount(long companyId, long groupId, long campaignId,
+		java.lang.String keywords, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -283,9 +296,9 @@ public interface NewsletterContactLocalService
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int searchCount(long companyId, long groupId,
-		java.lang.String contactName, java.lang.String contactEmail, int start,
-		int end, boolean isAndOperator,
+	public int searchCount(long companyId, long groupId, long campaignId,
+		java.lang.String contactName, java.lang.String contactEmail,
+		boolean sent, int start, int end, boolean isAndOperator,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

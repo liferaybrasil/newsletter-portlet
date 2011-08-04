@@ -57,6 +57,26 @@
 				 )
 		]]>
 	</sql>
+	<sql id="com.liferay.newsletter.service.persistence.NewsletterContactFinder.countBy_C_G_C_E_N">
+		<![CDATA[
+			SELECT
+				COUNT(*) AS COUNT_VALUE
+			FROM
+				Newsletter_NewsletterContact 
+			INNER JOIN
+				Newsletter_NewsletterLog
+			ON
+				Newsletter_NewsletterContact.contactId = Newsletter_NewsletterLog.contactId
+			WHERE
+				(Newsletter_NewsletterContact.companyId = ?) AND
+				(Newsletter_NewsletterContact.groupId = ?) AND
+				(Newsletter_NewsletterLog.campaignId = ?) AND
+				(
+					(Newsletter_NewsletterContact.email LIKE ? [$AND_OR_NULL_CHECK$]) [$AND_OR_CONNECTOR$]
+				 	(Newsletter_NewsletterContact.name LIKE ? [$AND_OR_NULL_CHECK$]) 
+				 ) 
+		]]>
+	</sql>
 	<sql id="com.liferay.newsletter.service.persistence.NewsletterContactFinder.countBy_C_G_C_E_N_S">
 		<![CDATA[
 			SELECT
@@ -121,6 +141,26 @@
 					(Newsletter_NewsletterContact.email LIKE ?) [$AND_OR_CONNECTOR$]
 				 	(Newsletter_NewsletterContact.name LIKE ?) [$AND_OR_CONNECTOR$]
 				 	(Newsletter_NewsletterLog.sent = ?)
+				 ) 
+		]]>
+	</sql>
+	<sql id="com.liferay.newsletter.service.persistence.NewsletterContactFinder.findBy_C_G_C_E_N">
+		<![CDATA[
+			SELECT
+				Newsletter_NewsletterContact.*
+			FROM
+				Newsletter_NewsletterContact 
+			INNER JOIN
+				Newsletter_NewsletterLog
+			ON
+				Newsletter_NewsletterContact.contactId = Newsletter_NewsletterLog.contactId
+			WHERE
+				(Newsletter_NewsletterContact.companyId = ?) AND
+				(Newsletter_NewsletterContact.groupId = ?) AND
+				(Newsletter_NewsletterLog.campaignId = ?) AND
+				(
+					(Newsletter_NewsletterContact.email LIKE ? [$AND_OR_NULL_CHECK$]) [$AND_OR_CONNECTOR$]
+				 	(Newsletter_NewsletterContact.name LIKE ? [$AND_OR_NULL_CHECK$]) 				 	
 				 ) 
 		]]>
 	</sql>

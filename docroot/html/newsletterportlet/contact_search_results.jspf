@@ -21,11 +21,11 @@ int totalCount = 0;
 List<NewsletterContact> resultList = new ArrayList<NewsletterContact>();
 
 if (searchTerms.isAdvancedSearch()) {
-	resultList = NewsletterContactLocalServiceUtil.search(campaign.getCompanyId(), searchTerms.getGroupId(), searchTerms.getName(),searchTerms.getEmail(), searchContainer.getStart(), searchContainer.getEnd(), searchTerms.isAndOperator(), searchContainer.getOrderByComparator());
-	totalCount = NewsletterContactLocalServiceUtil.searchCount(campaign.getCompanyId(), searchTerms.getGroupId(), searchTerms.getName(),searchTerms.getEmail(), searchContainer.getStart(), searchContainer.getEnd(), searchTerms.isAndOperator(), searchContainer.getOrderByComparator());
+	resultList = NewsletterContactLocalServiceUtil.search(campaign.getCompanyId(), searchTerms.getGroupId(), campaignId, searchTerms.getName(),searchTerms.getEmail(), true, searchContainer.getStart(), searchContainer.getEnd(), searchTerms.isAndOperator(), searchContainer.getOrderByComparator());
+	totalCount = NewsletterContactLocalServiceUtil.searchCount(campaign.getCompanyId(), searchTerms.getGroupId(), campaignId, searchTerms.getName(),searchTerms.getEmail(), true, searchContainer.getStart(), searchContainer.getEnd(), searchTerms.isAndOperator(), searchContainer.getOrderByComparator());
 }
 else {
-	resultList = NewsletterContactLocalServiceUtil.search(campaign.getCompanyId(), searchTerms.getGroupId(), searchTerms.getKeywords(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
-	totalCount = NewsletterContactLocalServiceUtil.searchCount(campaign.getCompanyId(), searchTerms.getGroupId(), searchTerms.getKeywords(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+	resultList = NewsletterContactLocalServiceUtil.search(campaign.getCompanyId(), searchTerms.getGroupId(), campaignId, searchTerms.getKeywords(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+	totalCount = NewsletterContactLocalServiceUtil.searchCount(campaign.getCompanyId(), searchTerms.getGroupId(), campaignId, searchTerms.getKeywords(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
 }
 %>

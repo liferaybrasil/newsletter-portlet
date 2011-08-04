@@ -295,14 +295,31 @@ public class NewsletterContactLocalServiceWrapper
 	}
 
 	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
-		long companyId, long groupId, java.lang.String contactName,
-		java.lang.String contactEmail, int start, int end,
-		boolean isAndOperator,
+		long companyId, long groupId, long campaignId,
+		java.lang.String keywords, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _newsletterContactLocalService.search(companyId, groupId,
-			contactName, contactEmail, start, end, isAndOperator,
-			orderByComparator);
+			campaignId, keywords, start, end, orderByComparator);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
+		long companyId, long groupId, long campaignId,
+		java.lang.String contactName, java.lang.String contactEmail,
+		boolean sent, int start, int end, boolean isAndOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterContactLocalService.search(companyId, groupId,
+			campaignId, contactName, contactEmail, sent, start, end,
+			isAndOperator, orderByComparator);
+	}
+
+	public int searchCount(long companyId, long groupId, long campaignId,
+		java.lang.String keywords, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterContactLocalService.searchCount(companyId, groupId,
+			campaignId, keywords, start, end, orderByComparator);
 	}
 
 	public int searchCount(long companyId, long groupId,
@@ -313,14 +330,14 @@ public class NewsletterContactLocalServiceWrapper
 			keywords, start, end, orderByComparator);
 	}
 
-	public int searchCount(long companyId, long groupId,
-		java.lang.String contactName, java.lang.String contactEmail, int start,
-		int end, boolean isAndOperator,
+	public int searchCount(long companyId, long groupId, long campaignId,
+		java.lang.String contactName, java.lang.String contactEmail,
+		boolean sent, int start, int end, boolean isAndOperator,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _newsletterContactLocalService.searchCount(companyId, groupId,
-			contactName, contactEmail, start, end, isAndOperator,
-			orderByComparator);
+			campaignId, contactName, contactEmail, sent, start, end,
+			isAndOperator, orderByComparator);
 	}
 
 	public NewsletterContactLocalService getWrappedNewsletterContactLocalService() {

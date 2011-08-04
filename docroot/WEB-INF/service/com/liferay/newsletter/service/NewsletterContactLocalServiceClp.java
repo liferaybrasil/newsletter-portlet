@@ -109,18 +109,30 @@ public class NewsletterContactLocalServiceClp
 				com.liferay.portal.kernel.util.OrderByComparator.class);
 
 		_searchMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
-				"search", long.class, long.class, java.lang.String.class,
-				java.lang.String.class, int.class, int.class, boolean.class,
+				"search", long.class, long.class, long.class,
+				java.lang.String.class, int.class, int.class,
 				com.liferay.portal.kernel.util.OrderByComparator.class);
 
-		_searchCountMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
+		_searchMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
+				"search", long.class, long.class, long.class,
+				java.lang.String.class, java.lang.String.class, boolean.class,
+				int.class, int.class, boolean.class,
+				com.liferay.portal.kernel.util.OrderByComparator.class);
+
+		_searchCountMethodKey24 = new MethodKey(_classLoaderProxy.getClassName(),
+				"searchCount", long.class, long.class, long.class,
+				java.lang.String.class, int.class, int.class,
+				com.liferay.portal.kernel.util.OrderByComparator.class);
+
+		_searchCountMethodKey25 = new MethodKey(_classLoaderProxy.getClassName(),
 				"searchCount", long.class, long.class, java.lang.String.class,
 				int.class, int.class,
 				com.liferay.portal.kernel.util.OrderByComparator.class);
 
-		_searchCountMethodKey24 = new MethodKey(_classLoaderProxy.getClassName(),
-				"searchCount", long.class, long.class, java.lang.String.class,
-				java.lang.String.class, int.class, int.class, boolean.class,
+		_searchCountMethodKey26 = new MethodKey(_classLoaderProxy.getClassName(),
+				"searchCount", long.class, long.class, long.class,
+				java.lang.String.class, java.lang.String.class, boolean.class,
+				int.class, int.class, boolean.class,
 				com.liferay.portal.kernel.util.OrderByComparator.class);
 	}
 
@@ -760,16 +772,49 @@ public class NewsletterContactLocalServiceClp
 	}
 
 	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
-		long companyId, long groupId, java.lang.String contactName,
-		java.lang.String contactEmail, int start, int end,
-		boolean isAndOperator,
+		long companyId, long groupId, long campaignId,
+		java.lang.String keywords, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_searchMethodKey22,
-				companyId, groupId, ClpSerializer.translateInput(contactName),
-				ClpSerializer.translateInput(contactEmail), start, end,
+				companyId, groupId, campaignId,
+				ClpSerializer.translateInput(keywords), start, end,
+				ClpSerializer.translateInput(orderByComparator));
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.newsletter.model.NewsletterContact>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
+		long companyId, long groupId, long campaignId,
+		java.lang.String contactName, java.lang.String contactEmail,
+		boolean sent, int start, int end, boolean isAndOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_searchMethodKey23,
+				companyId, groupId, campaignId,
+				ClpSerializer.translateInput(contactName),
+				ClpSerializer.translateInput(contactEmail), sent, start, end,
 				isAndOperator, ClpSerializer.translateInput(orderByComparator));
 
 		try {
@@ -792,13 +837,44 @@ public class NewsletterContactLocalServiceClp
 		return (java.util.List<com.liferay.newsletter.model.NewsletterContact>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public int searchCount(long companyId, long groupId, long campaignId,
+		java.lang.String keywords, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_searchCountMethodKey24,
+				companyId, groupId, campaignId,
+				ClpSerializer.translateInput(keywords), start, end,
+				ClpSerializer.translateInput(orderByComparator));
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
 	public int searchCount(long companyId, long groupId,
 		java.lang.String keywords, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_searchCountMethodKey23,
+		MethodHandler methodHandler = new MethodHandler(_searchCountMethodKey25,
 				companyId, groupId, ClpSerializer.translateInput(keywords),
 				start, end, ClpSerializer.translateInput(orderByComparator));
 
@@ -822,16 +898,17 @@ public class NewsletterContactLocalServiceClp
 		return ((Integer)returnObj).intValue();
 	}
 
-	public int searchCount(long companyId, long groupId,
-		java.lang.String contactName, java.lang.String contactEmail, int start,
-		int end, boolean isAndOperator,
+	public int searchCount(long companyId, long groupId, long campaignId,
+		java.lang.String contactName, java.lang.String contactEmail,
+		boolean sent, int start, int end, boolean isAndOperator,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_searchCountMethodKey24,
-				companyId, groupId, ClpSerializer.translateInput(contactName),
-				ClpSerializer.translateInput(contactEmail), start, end,
+		MethodHandler methodHandler = new MethodHandler(_searchCountMethodKey26,
+				companyId, groupId, campaignId,
+				ClpSerializer.translateInput(contactName),
+				ClpSerializer.translateInput(contactEmail), sent, start, end,
 				isAndOperator, ClpSerializer.translateInput(orderByComparator));
 
 		try {
@@ -882,6 +959,8 @@ public class NewsletterContactLocalServiceClp
 	private MethodKey _getContactMethodKey20;
 	private MethodKey _searchMethodKey21;
 	private MethodKey _searchMethodKey22;
-	private MethodKey _searchCountMethodKey23;
+	private MethodKey _searchMethodKey23;
 	private MethodKey _searchCountMethodKey24;
+	private MethodKey _searchCountMethodKey25;
+	private MethodKey _searchCountMethodKey26;
 }

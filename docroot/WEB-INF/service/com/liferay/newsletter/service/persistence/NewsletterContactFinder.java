@@ -30,7 +30,19 @@ public interface NewsletterContactFinder {
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	public int countByC_G_C_E_N_S(long companyId, long groupId,
+		long campaignId, java.lang.String contactEmails,
+		java.lang.String contactNames, boolean sent, int start, int end,
+		boolean andOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	public int countByKeywords(long companyId, long groupId,
+		java.lang.String keywords, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countByKeywords(long companyId, long groupId, long campaignId,
 		java.lang.String keywords, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -51,6 +63,19 @@ public interface NewsletterContactFinder {
 		long companyId, long groupId, java.lang.String contactNames,
 		java.lang.String contactEmails, int start, int end,
 		boolean andOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<com.liferay.newsletter.model.NewsletterContact> findByC_G_C_E_N_S(
+		long companyId, long groupId, long campaignId,
+		java.lang.String contactEmails, java.lang.String contactNames,
+		boolean sent, int start, int end, boolean andOperator,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<com.liferay.newsletter.model.NewsletterContact> findByKeywords(
+		long companyId, long groupId, long campaignId,
+		java.lang.String keywords, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 

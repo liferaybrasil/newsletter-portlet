@@ -87,43 +87,63 @@ public class NewsletterContactLocalServiceImpl
 	}
 
 	public List<NewsletterContact> search(
-			long companyId, long groupId, String keywords, int start, int end,
-			OrderByComparator orderByComparator)
+			long companyId, long groupId, String keywords, 
+			int start, int end,	OrderByComparator orderByComparator)
 		throws SystemException {
 
 		return newsletterContactFinder.findByKeywords(
-				companyId, groupId, keywords, start, end, orderByComparator);
+			companyId, groupId, keywords, start, end, orderByComparator);
 	}
 
 	public List<NewsletterContact> search(
-			long companyId, long groupId, String contactName, 
-			String contactEmail, int start, int end, boolean isAndOperator,
-			OrderByComparator orderByComparator)
+			long companyId, long groupId, long campaignId, String keywords, 
+			int start, int end,	OrderByComparator orderByComparator)
 		throws SystemException {
 
-		return newsletterContactFinder.findByC_G_N_E(
-				companyId, groupId, contactName, contactEmail, start, end, 
-				isAndOperator, orderByComparator);
+		return newsletterContactFinder.findByKeywords(
+			companyId, groupId, campaignId, keywords, start, end, 
+			orderByComparator);
 	}
 
+	public List<NewsletterContact> search(
+			long companyId, long groupId, long campaignId, String contactName, 
+			String contactEmail, boolean sent, int start, int end, 
+			boolean isAndOperator, OrderByComparator orderByComparator)
+		throws SystemException {
+
+		return newsletterContactFinder.findByC_G_C_E_N_S(
+			companyId, groupId, campaignId, contactEmail, contactName, sent,
+			start, end, isAndOperator, orderByComparator);
+	}
+
+	public int searchCount(
+			long companyId, long groupId, long campaignId, String keywords, 
+			int start, int end,	OrderByComparator orderByComparator)
+		throws SystemException {
+
+		return newsletterContactFinder.countByKeywords(
+			companyId, groupId, campaignId, keywords, start, end,
+			orderByComparator);
+	}
+	
 	public int searchCount(
 			long companyId, long groupId, String keywords, int start, int end,
 			OrderByComparator orderByComparator)
 		throws SystemException {
 
 		return newsletterContactFinder.countByKeywords(
-				companyId, groupId, keywords, start, end, orderByComparator);
+			companyId, groupId, keywords, start, end, orderByComparator);
 	}
 
 	public int searchCount(
-			long companyId, long groupId, String contactName, 
-			String contactEmail, int start, int end, boolean isAndOperator,
-			OrderByComparator orderByComparator)
+			long companyId, long groupId, long campaignId, String contactName, 
+			String contactEmail, boolean sent, int start, int end, 
+			boolean isAndOperator, OrderByComparator orderByComparator)
 		throws SystemException {
 
-		return newsletterContactFinder.countByC_G_N_E(
-				companyId, groupId, contactName, contactEmail, start, end, 
-				isAndOperator, orderByComparator);
+		return newsletterContactFinder.countByC_G_C_E_N_S(
+			companyId, groupId, campaignId, contactEmail, contactName, sent,
+			start, end, isAndOperator, orderByComparator);
 	}
 
 	protected void validate(String email) throws PortalException {
