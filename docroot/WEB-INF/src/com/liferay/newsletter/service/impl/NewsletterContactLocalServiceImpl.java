@@ -87,7 +87,7 @@ public class NewsletterContactLocalServiceImpl
 	}
 
 	public List<NewsletterContact> search(
-			long companyId, long groupId, String keywords, 
+			long companyId, long groupId, String keywords,
 			int start, int end,	OrderByComparator orderByComparator)
 		throws SystemException {
 
@@ -96,18 +96,18 @@ public class NewsletterContactLocalServiceImpl
 	}
 
 	public List<NewsletterContact> search(
-			long companyId, long groupId, long campaignId, String keywords, 
+			long companyId, long groupId, long campaignId, String keywords,
 			int start, int end,	OrderByComparator orderByComparator)
 		throws SystemException {
 
 		return newsletterContactFinder.findByKeywords(
-			companyId, groupId, campaignId, keywords, start, end, 
+			companyId, groupId, campaignId, keywords, start, end,
 			orderByComparator);
 	}
 
 	public List<NewsletterContact> search(
-			long companyId, long groupId, long campaignId, String contactName, 
-			String contactEmail, boolean sent, int start, int end, 
+			long companyId, long groupId, long campaignId, String contactName,
+			String contactEmail, boolean sent, int start, int end,
 			boolean isAndOperator, OrderByComparator orderByComparator)
 		throws SystemException {
 
@@ -117,7 +117,7 @@ public class NewsletterContactLocalServiceImpl
 	}
 
 	public int searchCount(
-			long companyId, long groupId, long campaignId, String keywords, 
+			long companyId, long groupId, long campaignId, String keywords,
 			int start, int end,	OrderByComparator orderByComparator)
 		throws SystemException {
 
@@ -125,7 +125,7 @@ public class NewsletterContactLocalServiceImpl
 			companyId, groupId, campaignId, keywords, start, end,
 			orderByComparator);
 	}
-	
+
 	public int searchCount(
 			long companyId, long groupId, String keywords, int start, int end,
 			OrderByComparator orderByComparator)
@@ -136,8 +136,8 @@ public class NewsletterContactLocalServiceImpl
 	}
 
 	public int searchCount(
-			long companyId, long groupId, long campaignId, String contactName, 
-			String contactEmail, boolean sent, int start, int end, 
+			long companyId, long groupId, long campaignId, String contactName,
+			String contactEmail, boolean sent, int start, int end,
 			boolean isAndOperator, OrderByComparator orderByComparator)
 		throws SystemException {
 

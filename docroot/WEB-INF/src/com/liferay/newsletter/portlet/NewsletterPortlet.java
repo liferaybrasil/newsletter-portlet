@@ -22,7 +22,6 @@ import com.liferay.newsletter.TitleException;
 import com.liferay.newsletter.model.NewsletterCampaign;
 import com.liferay.newsletter.model.NewsletterContact;
 import com.liferay.newsletter.model.NewsletterContent;
-import com.liferay.newsletter.model.NewsletterLog;
 import com.liferay.newsletter.service.NewsletterCampaignLocalServiceUtil;
 import com.liferay.newsletter.service.NewsletterContactLocalServiceUtil;
 import com.liferay.newsletter.service.NewsletterContentLocalServiceUtil;

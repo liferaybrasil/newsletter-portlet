@@ -14,12 +14,12 @@
 
 package com.liferay.newsletter.search;
 
-import javax.portlet.PortletRequest;
-
 import com.liferay.portal.kernel.dao.search.DisplayTerms;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
+
+import javax.portlet.PortletRequest;
 
 /**
  * @author Bruno Pinheiro

@@ -14,7 +14,7 @@
  */
 --%>
 
-<%@page import="com.liferay.newsletter.search.NewsletterContactSearch"%>
+<%@ page import="com.liferay.newsletter.search.NewsletterContactSearch" %>
 <%@include file="/html/init.jsp" %>
 
 <%

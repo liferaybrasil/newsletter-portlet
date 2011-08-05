@@ -20,17 +20,14 @@
 <%
 String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 boolean importWebContent = ParamUtil.getString(request, "import").equals("true") ? true : false;
-String keywords = ParamUtil.getString(request, "keywords");
+String keywords = ParamUtil.getString(request, "keywords", StringPool.BLANK);
 
 %>
 
-<liferay-portlet:renderURL varImpl="portletURL">
-	<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_POPUP %>" />
-</liferay-portlet:renderURL>
 
+<aui:form method="post" name="fm1">
 <liferay-ui:search-container
-			emptyResultsMessage="no-entries-were-found"
-			iteratorURL="<%= portletURL %>"
+			emptyResultsMessage="newsletter-empty-results-message"
 		>
 			<div>
 				<aui:input id="keywords" inlineField="<%= true %>" label="" name="keywords" size="30" title="search-lists" type="text" />
@@ -41,14 +38,14 @@ String keywords = ParamUtil.getString(request, "keywords");
 			<br />
 			<liferay-ui:search-container-results
 				results="<%= JournalArticleLocalServiceUtil.search(
-				company.getCompanyId(), scopeGroupId, 0l, keywords,	0.0, 
-				StringPool.BLANK, StringPool.BLANK, StringPool.BLANK, null, null, 0, null,
+				company.getCompanyId(), scopeGroupId, 0, keywords,	null,
+				StringPool.BLANK, StringPool.BLANK, StringPool.BLANK, null, null, WorkflowConstants.STATUS_ANY, null,
 				searchContainer.getStart(), searchContainer.getEnd(),
 				searchContainer.getOrderByComparator()) %>"
 
 				total="<%= JournalArticleLocalServiceUtil.searchCount(
 				company.getCompanyId(), scopeGroupId, 0, keywords,
-				0.0, StringPool.BLANK, StringPool.BLANK, StringPool.BLANK, null, null, 0, null) %>"
+				null, StringPool.BLANK, StringPool.BLANK, StringPool.BLANK, null, null, WorkflowConstants.STATUS_ANY, null) %>"
 			/>
 
 			<liferay-ui:search-container-row
@@ -61,14 +58,14 @@ String keywords = ParamUtil.getString(request, "keywords");
 				StringBundler sb = new StringBundler(7);
 
 				sb.append("javascript:");
-				sb.append(renderResponse.getNamespace());
+				sb.append(resourceNamespace);
 				sb.append("setParentWindowsHiddenFieldValue(");
 				sb.append(article.getArticleId());
 				sb.append(",'");
 				sb.append(article.getTitle(locale));
 				sb.append("',");
 				sb.append(importWebContent);
-				sb.append("');");
+				sb.append(");");
 
 				String rowURL = sb.toString();
 				%>
@@ -95,7 +92,7 @@ String keywords = ParamUtil.getString(request, "keywords");
 
 			<liferay-ui:search-iterator />
 		</liferay-ui:search-container>
-
+</aui:form>
 <aui:script>
 	function <portlet:namespace/>setParentWindowsHiddenFieldValue(articleId, articleTitle, import) {
 		var parentWindow = window.parent;

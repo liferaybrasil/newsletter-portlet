@@ -14,9 +14,6 @@
 
 package com.liferay.newsletter.service.persistence;
 
-import java.util.Iterator;
-import java.util.List;
-
 import com.liferay.newsletter.model.NewsletterContact;
 import com.liferay.newsletter.model.impl.NewsletterContactImpl;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
@@ -32,6 +29,9 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * @author Bruno Pinheiro
  */
@@ -41,13 +41,13 @@ public class NewsletterContactFinderImpl
 
 	public static String COUNT_BY_C_G_N_E =
 		NewsletterContactFinder.class.getName() + ".countBy_C_G_N_E";
-	
+
 	public static String COUNT_BY_C_G_C_E_N =
 		NewsletterContactFinder.class.getName() + ".countBy_C_G_C_E_N";
 
 	public static String COUNT_BY_C_G_C_E_N_S =
 		NewsletterContactFinder.class.getName() + ".countBy_C_G_C_E_N_S";
-	
+
 	public static String COUNT_BY_CAMPAIGN =
 		NewsletterContactFinder.class.getName() + ".countByCampaign";
 
@@ -56,10 +56,10 @@ public class NewsletterContactFinderImpl
 
 	public static String FIND_BY_C_G_N_E =
 		NewsletterContactFinder.class.getName() + ".findBy_C_G_N_E";
-	
+
 	public static String FIND_BY_C_G_C_E_N =
 		NewsletterContactFinder.class.getName() + ".findBy_C_G_C_E_N";
-	
+
 	public static String FIND_BY_C_G_C_E_N_S =
 		NewsletterContactFinder.class.getName() + ".findBy_C_G_C_E_N_S";
 
@@ -145,7 +145,7 @@ public class NewsletterContactFinderImpl
 			closeSession(session);
 		}
 	}
-	
+
 	public int countByC_G_N_E(
 			long companyId, long groupId, String contactNames,
 			String contactEmails, int start, int end, boolean andOperator,
@@ -165,7 +165,7 @@ public class NewsletterContactFinderImpl
 
 	public int countByC_G_C_E_N_S(
 			long companyId, long groupId, long campaignId, String contactEmails,
-			String contactNames, boolean sent, int start, int end, 
+			String contactNames, boolean sent, int start, int end,
 			boolean andOperator, OrderByComparator orderByComparator)
 		throws SystemException {
 
@@ -181,7 +181,7 @@ public class NewsletterContactFinderImpl
 	}
 
 	public int countByKeywords(
-			long companyId, long groupId, String keywords, 
+			long companyId, long groupId, String keywords,
 			int start, int end, OrderByComparator orderByComparator)
 		throws SystemException {
 
@@ -198,12 +198,12 @@ public class NewsletterContactFinderImpl
 		}
 
 		return doCountByC_G_N_E(
-			companyId, groupId, contactsNames, contactsEmails, andOperator, 
+			companyId, groupId, contactsNames, contactsEmails, andOperator,
 			start, end, orderByComparator);
 	}
-	
+
 	public int countByKeywords(
-			long companyId, long groupId, long campaignId, String keywords, 
+			long companyId, long groupId, long campaignId, String keywords,
 			int start, int end, OrderByComparator orderByComparator)
 		throws SystemException {
 
@@ -220,7 +220,7 @@ public class NewsletterContactFinderImpl
 		}
 
 		return doCountByC_G_C_E_N(
-			companyId, groupId, campaignId, contactsEmails, contactsNames, 
+			companyId, groupId, campaignId, contactsEmails, contactsNames,
 			andOperator, start, end, orderByComparator);
 	}
 
@@ -276,7 +276,7 @@ public class NewsletterContactFinderImpl
 
 	public List<NewsletterContact> findByC_G_C_E_N_S(
 			long companyId, long groupId, long campaignId, String contactEmails,
-			String contactNames, boolean sent, int start, int end, 
+			String contactNames, boolean sent, int start, int end,
 			boolean andOperator, OrderByComparator orderByComparator)
 		throws SystemException {
 
@@ -331,7 +331,7 @@ public class NewsletterContactFinderImpl
 		}
 
 		return doFindByC_G_N_E(
-			companyId, groupId, contactsNames, contactsEmails, andOperator, 
+			companyId, groupId, contactsNames, contactsEmails, andOperator,
 			start, end, orderByComparator);
 	}
 
@@ -388,7 +388,7 @@ public class NewsletterContactFinderImpl
 			}
 
 			return 0;
-			
+
 		}
 		catch (Exception e) {
 			throw new SystemException(e);
@@ -399,8 +399,8 @@ public class NewsletterContactFinderImpl
 	}
 
 	protected int doCountByC_G_C_E_N(
-			long companyId, long groupId, long campaignId, 
-			String[] contactsEmails, String[] contactsNames, 
+			long companyId, long groupId, long campaignId,
+			String[] contactsEmails, String[] contactsNames,
 			boolean andOperator, int start, int end,
 			OrderByComparator orderByComparator)
 		throws SystemException {
@@ -460,10 +460,10 @@ public class NewsletterContactFinderImpl
 		finally {
 			closeSession(session);
 		}
-	}	
+	}
 	protected int doCountByC_G_C_E_N_S(
-			long companyId, long groupId, long campaignId, 
-			String[] contactsEmails, String[] contactsNames, boolean sent, 
+			long companyId, long groupId, long campaignId,
+			String[] contactsEmails, String[] contactsNames, boolean sent,
 			boolean andOperator, int start, int end,
 			OrderByComparator orderByComparator)
 		throws SystemException {
@@ -581,8 +581,8 @@ public class NewsletterContactFinderImpl
 	}
 
 	protected List<NewsletterContact> doFindByC_G_C_E_N(
-			long companyId, long groupId, long campaignId, 
-			String[] contactsEmails, String[] contactsNames, 
+			long companyId, long groupId, long campaignId,
+			String[] contactsEmails, String[] contactsNames,
 			boolean andOperator, int start, int end,
 			OrderByComparator orderByComparator)
 		throws SystemException {
@@ -635,10 +635,10 @@ public class NewsletterContactFinderImpl
 			closeSession(session);
 		}
 	}
-	
+
 	protected List<NewsletterContact> doFindByC_G_C_E_N_S(
-			long companyId, long groupId, long campaignId, 
-			String[] contactsEmails, String[] contactsNames, boolean sent, 
+			long companyId, long groupId, long campaignId,
+			String[] contactsEmails, String[] contactsNames, boolean sent,
 			boolean andOperator, int start, int end,
 			OrderByComparator orderByComparator)
 		throws SystemException {
@@ -692,7 +692,7 @@ public class NewsletterContactFinderImpl
 			closeSession(session);
 		}
 	}
-	
+
 	protected List<NewsletterContact> dofindByEmail(
 			long companyId, long groupId, String[] emails, int start, int end,
 			OrderByComparator orderByComparator)

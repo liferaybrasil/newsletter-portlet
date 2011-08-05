@@ -77,8 +77,8 @@
 <%@ page import="com.liferay.newsletter.SubjectException" %>
 <%@ page import="com.liferay.newsletter.ContactException" %>
 
-<%@ page import="com.liferay.newsletter.search.NewsletterContactSearchTerms"%>
-<%@ page import="com.liferay.newsletter.search.NewsletterContactDisplayTerms"%>
+<%@ page import="com.liferay.newsletter.search.NewsletterContactSearchTerms" %>
+<%@ page import="com.liferay.newsletter.search.NewsletterContactDisplayTerms" %>
 
 
 <liferay-theme:defineObjects />
