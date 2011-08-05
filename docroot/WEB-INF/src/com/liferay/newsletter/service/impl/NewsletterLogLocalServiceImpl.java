@@ -48,21 +48,20 @@ public class NewsletterLogLocalServiceImpl
 		newsletterLogPersistence.remove(log);
 	}
 
-	public NewsletterLog getLog(
-			long campaignId, long contactId)
-		throws SystemException, PortalException{
+	public NewsletterLog getLog(long campaignId, long contactId)
+		throws PortalException, SystemException {
 
 		return newsletterLogPersistence.findByC_C(campaignId, contactId);
 	}
 
 	public List<NewsletterLog> getLogsByCampaignId(long campaignId)
-		throws SystemException{
+		throws SystemException {
 
 		return newsletterLogPersistence.findByCampaignId(campaignId);
 	}
 
 	public List<NewsletterLog> getLogsByContactId(long contactId)
-		throws SystemException{
+		throws SystemException {
 
 		return newsletterLogPersistence.findByContactId(contactId);
 	}

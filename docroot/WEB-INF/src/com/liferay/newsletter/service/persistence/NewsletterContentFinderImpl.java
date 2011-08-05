@@ -41,6 +41,7 @@ public class NewsletterContentFinderImpl
 	public static String FIND_BY_TITLE =
 		NewsletterContentFinder.class.getName() + ".findByTitle";
 
+	// TODO CHECAR ORDEM
 	public static String FIND_BY_T_C =
 		NewsletterContentFinder.class.getName() + ".findBy_T_C";
 
@@ -158,7 +159,7 @@ public class NewsletterContentFinderImpl
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "lower(title)", StringPool.LIKE, false, titles);
 			sql = CustomSQLUtil.replaceKeywords(
-					sql, "lower(content)", StringPool.LIKE, false, contents);
+				sql, "lower(content)", StringPool.LIKE, false, contents);
 
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
 			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);

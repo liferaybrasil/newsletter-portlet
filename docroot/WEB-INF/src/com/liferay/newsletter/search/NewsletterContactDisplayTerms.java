@@ -63,7 +63,6 @@ public class NewsletterContactDisplayTerms extends DisplayTerms {
 		groupId = ParamUtil.getLong(portletRequest, GROUP_ID);
 
 		if (groupId == 0) {
-
 			ThemeDisplay themeDisplay =
 				(ThemeDisplay)portletRequest.getAttribute(
 					WebKeys.THEME_DISPLAY);

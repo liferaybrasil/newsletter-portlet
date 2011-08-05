@@ -100,6 +100,7 @@ public class NewsletterPortlet extends MVCPortlet {
 			}
 		}
 		catch (Exception e) {
+			// TODO: checar se precisa disso
 			PortalUtil.copyRequestParameters(actionRequest, actionResponse);
 
 			String page = "/html/newsletterportlet/view_content.jsp";
@@ -126,7 +127,7 @@ public class NewsletterPortlet extends MVCPortlet {
 		throws IOException, PortletException {
 
 		String cmd = ParamUtil.getString(resourceRequest, Constants.CMD);
-
+		// TODO: GET_CONTACTS GET_CAMPAIGN_CONTENT
 		try {
 			if (cmd.equals(NewsletterConstants.GET_ARTICLE_CONTENT)) {
 				getArticleContent(resourceRequest, resourceResponse);
@@ -139,6 +140,7 @@ public class NewsletterPortlet extends MVCPortlet {
 			}
 		}
 		catch (Exception e) {
+			// TODO: usar sempre _log.error
 			e.printStackTrace();
 		}
 	}
@@ -170,41 +172,39 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		NewsletterCampaign campaign =
 			NewsletterCampaignLocalServiceUtil.addCampaign(
-				userId,scopeGroupId, contentId, emailSubject, senderEmail,
+				userId, scopeGroupId, contentId, emailSubject, senderEmail,
 				senderName, sendDateDay, sendDateMonth, sendDateYear,
 				serviceContext);
-
-		String contacts = ParamUtil.getString(actionRequest, "contacts");
-
-		String[] emails = StringUtil.split(contacts);
+		
+		// TODO: testar
+		String[] emails = ParamUtil.getParameterValues(
+			actionRequest, "contacts");
 
 		for (String email : emails) {
-			String emailFormated = email.trim();
 			long campaignId = campaign.getCampaignId();
 
 			NewsletterContact contact = null;
 
 			try {
-				contact = NewsletterContactLocalServiceUtil.getContact(
-					emailFormated);
+				contact = NewsletterContactLocalServiceUtil.getContact(email);
 			}
+			// TODO: colocar o add dentro do getContact
 			catch (NoSuchContactException e) {
 				contact = NewsletterContactLocalServiceUtil.addContact(
-					userId,scopeGroupId, emailFormated, StringPool.BLANK,
+					userId,scopeGroupId, email, StringPool.BLANK,
 					serviceContext);
 			}
 
 			long contactId = contact.getContactId();
 
+			// checar email duplicados antes
 			try{
-				NewsletterLogLocalServiceUtil.getLog(
-					campaignId, contactId);
+				NewsletterLogLocalServiceUtil.getLog(campaignId, contactId);
 			}
 			catch (NoSuchLogException e) {
 				NewsletterLogLocalServiceUtil.addLog(
-						campaignId, contactId, false, serviceContext);
+					campaignId, contactId, false, serviceContext);
 			}
-
 		}
 
 		SessionMessages.add(actionRequest, "request_processed");
@@ -233,6 +233,7 @@ public class NewsletterPortlet extends MVCPortlet {
 		NewsletterContentLocalServiceUtil.addContent(
 			userId, scopeGroupId, articleId, title, content, serviceContext);
 
+		// TODO: geralmente submeter form j‡ d‡ a msg verdinha
 		SessionMessages.add(actionRequest, "request_processed");
 
 		sendRedirect(actionRequest, actionResponse);
@@ -240,7 +241,7 @@ public class NewsletterPortlet extends MVCPortlet {
 
 	protected void configure(
 			ActionRequest actionRequest, ActionResponse actionResponse)
-		throws ReadOnlyException, ValidatorException, IOException {
+		throws IOException, ReadOnlyException, ValidatorException {
 
 		PortletPreferences preferences = actionRequest.getPreferences();
 
@@ -254,20 +255,21 @@ public class NewsletterPortlet extends MVCPortlet {
 			NewsletterConstants.SENDER_NAME, ParamUtil.getString(
 				actionRequest, "senderName"));
 		preferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST, ParamUtil.getString(
-					actionRequest, "smtpHost"));
+			PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST, ParamUtil.getString(
+				actionRequest, "smtpHost"));
 		preferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_SMTP_PORT, ParamUtil.getString(
-					actionRequest, "smtpPort"));
+			PropsKeys.MAIL_SESSION_MAIL_SMTP_PORT, ParamUtil.getString(
+				actionRequest, "smtpPort"));
 		preferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_SMTP_USER, ParamUtil.getString(
-					actionRequest, "smtpUser"));
+			PropsKeys.MAIL_SESSION_MAIL_SMTP_USER, ParamUtil.getString(
+				actionRequest, "smtpUser"));
 		preferences.setValue(
-				PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD, ParamUtil.getString(
-					actionRequest, "smtpPassword"));
+			PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD, ParamUtil.getString(
+				actionRequest, "smtpPassword"));
 
 		preferences.store();
 
+		// TODO: tirar esse bloco ou o de cima
 		PortletProps.set(NewsletterConstants.ROWS_PER_PAGE, ParamUtil.getString(
 			actionRequest, "rowsPerPage"));
 		PortletProps.set(NewsletterConstants.SENDER_EMAIL, ParamUtil.getString(

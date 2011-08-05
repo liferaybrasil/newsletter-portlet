@@ -64,7 +64,7 @@ public class NewsletterCampaignLocalServiceImpl
 		validate(senderEmail, senderName);
 
 		Date sendDate = PortalUtil.getDate(
-			sendDateMonth, sendDateDay,sendDateYear);
+			sendDateMonth, sendDateDay, sendDateYear);
 
 		long campaignId = counterLocalService.increment();
 
@@ -131,15 +131,16 @@ public class NewsletterCampaignLocalServiceImpl
 		return newsletterCampaignPersistence.findByContentId(contentId);
 	}
 
-	public int getCampaignsCount(long contentId) throws SystemException {
-		return newsletterCampaignPersistence.countByContentId(contentId);
-	}
-
+	// TODO: MUDAR DE senT pra senD
 	public List<NewsletterCampaign> getCampaignsBySentDate(
 			Date sentDateLT, boolean sent)
 		throws SystemException{
 
 		return newsletterCampaignPersistence.findBySD_S(sentDateLT, sent);
+	}
+	
+	public int getCampaignsCount(long contentId) throws SystemException {
+		return newsletterCampaignPersistence.countByContentId(contentId);
 	}
 
 	public void sendCampaign(long campaignId)
@@ -222,7 +223,10 @@ public class NewsletterCampaignLocalServiceImpl
 		NewsletterContent content = campaign.getContent();
 
 		String senderName = campaign.getSenderName();
-		String from = "\""+senderName+"\" <"+senderEmail+">";
+		// TODO: ver padrao pra concatenar, 
+		// StringBundler sb
+		// usar StringPool
+		String from = "\"" + senderName + "\" <" + senderEmail + ">";
 
 		NewsletterContact contact = newsletterContactLocalService.getContact(
 			contactId);
@@ -245,8 +249,7 @@ public class NewsletterCampaignLocalServiceImpl
 		}
 	}
 
-	protected void validate(
-			String senderEmail, String senderName)
+	protected void validate(String senderEmail, String senderName)
 		throws PortalException {
 
 		if (!Validator.isEmailAddress(senderEmail)) {

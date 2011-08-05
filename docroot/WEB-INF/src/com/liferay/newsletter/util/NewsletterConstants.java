@@ -42,6 +42,7 @@ public interface NewsletterConstants {
 
 	public static final String MAIL_SMTP_PORT = "mail.smtp.port";
 
+	// TODO: NAO PRECISA JA ESTA NO PORTAL
 	public static final String MAIL_SMTP_SOCKET_FACTORY_PORT =
 		"mail.smtp.socketFactory.port";
 

@@ -42,6 +42,7 @@ public class NewsletterContactFinderImpl
 	public static String COUNT_BY_C_G_N_E =
 		NewsletterContactFinder.class.getName() + ".countBy_C_G_N_E";
 
+	// TODO: MUDAR ORDEM, DO METODO TB
 	public static String COUNT_BY_C_G_C_E_N =
 		NewsletterContactFinder.class.getName() + ".countBy_C_G_C_E_N";
 
@@ -355,10 +356,11 @@ public class NewsletterContactFinderImpl
 				sql = StringUtil.replace(sql, "(groupId = ?) AND", "");
 			}
 
+			// TODO RENOMEAR PARA EMAILS E NAMES
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "lower(email)", StringPool.LIKE, false, contactsEmails);
 			sql = CustomSQLUtil.replaceKeywords(
-					sql, "lower(name)", StringPool.LIKE, false, contactsNames);
+				sql, "lower(name)", StringPool.LIKE, false, contactsNames);
 
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
 
@@ -388,7 +390,6 @@ public class NewsletterContactFinderImpl
 			}
 
 			return 0;
-
 		}
 		catch (Exception e) {
 			throw new SystemException(e);
@@ -419,10 +420,11 @@ public class NewsletterContactFinderImpl
 				sql = StringUtil.replace(sql, "(groupId = ?) AND", "");
 			}
 
+			// TODO RENOMEAR PARA EMAILS E NAMES
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "lower(email)", StringPool.LIKE, false, contactsEmails);
 			sql = CustomSQLUtil.replaceKeywords(
-					sql, "lower(name)", StringPool.LIKE, false, contactsNames);
+				sql, "lower(name)", StringPool.LIKE, false, contactsNames);
 
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
 
@@ -461,6 +463,7 @@ public class NewsletterContactFinderImpl
 			closeSession(session);
 		}
 	}
+
 	protected int doCountByC_G_C_E_N_S(
 			long companyId, long groupId, long campaignId,
 			String[] contactsEmails, String[] contactsNames, boolean sent,
@@ -485,7 +488,7 @@ public class NewsletterContactFinderImpl
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "lower(email)", StringPool.LIKE, false, contactsEmails);
 			sql = CustomSQLUtil.replaceKeywords(
-					sql, "lower(name)", StringPool.LIKE, false, contactsNames);
+				sql, "lower(name)", StringPool.LIKE, false, contactsNames);
 
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
 
@@ -549,7 +552,7 @@ public class NewsletterContactFinderImpl
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "lower(email)", StringPool.LIKE, false, contactsEmails);
 			sql = CustomSQLUtil.replaceKeywords(
-					sql, "lower(name)", StringPool.LIKE, false, contactsNames);
+				sql, "lower(name)", StringPool.LIKE, false, contactsNames);
 
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
 			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);
@@ -604,7 +607,7 @@ public class NewsletterContactFinderImpl
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "lower(email)", StringPool.LIKE, false, contactsEmails);
 			sql = CustomSQLUtil.replaceKeywords(
-					sql, "lower(name)", StringPool.LIKE, false, contactsNames);
+				sql, "lower(name)", StringPool.LIKE, false, contactsNames);
 
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
 			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);
@@ -660,7 +663,7 @@ public class NewsletterContactFinderImpl
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "lower(email)", StringPool.LIKE, false, contactsEmails);
 			sql = CustomSQLUtil.replaceKeywords(
-					sql, "lower(name)", StringPool.LIKE, false, contactsNames);
+				sql, "lower(name)", StringPool.LIKE, false, contactsNames);
 
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
 			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);
@@ -761,7 +764,7 @@ public class NewsletterContactFinderImpl
 			}
 
 			sql = CustomSQLUtil.replaceKeywords(
-					sql, "lower(name)", StringPool.LIKE, false, contactsNames);
+				sql, "lower(name)", StringPool.LIKE, false, contactsNames);
 
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
 			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);
@@ -782,7 +785,7 @@ public class NewsletterContactFinderImpl
 			qPos.add(campaignId);
 
 			return (List<NewsletterContact>)QueryUtil.list(
-					q, getDialect(), start, end);
+				q, getDialect(), start, end);
 		}
 		catch (Exception e) {
 			throw new SystemException(e);

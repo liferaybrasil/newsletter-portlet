@@ -37,7 +37,7 @@ public class NewsletterContactLocalServiceImpl
 	public NewsletterContact addContact(
 			long userId, long groupId, String email, String name,
 			ServiceContext serviceContext)
-		throws SystemException, PortalException{
+		throws PortalException, SystemException {
 
 		User user = userPersistence.findByPrimaryKey(userId);
 
@@ -105,6 +105,7 @@ public class NewsletterContactLocalServiceImpl
 			orderByComparator);
 	}
 
+	// TODO: renomear pra email, name
 	public List<NewsletterContact> search(
 			long companyId, long groupId, long campaignId, String contactName,
 			String contactEmail, boolean sent, int start, int end,
@@ -135,6 +136,7 @@ public class NewsletterContactLocalServiceImpl
 			companyId, groupId, keywords, start, end, orderByComparator);
 	}
 
+	// TODO: renomear pra email, name
 	public int searchCount(
 			long companyId, long groupId, long campaignId, String contactName,
 			String contactEmail, boolean sent, int start, int end,

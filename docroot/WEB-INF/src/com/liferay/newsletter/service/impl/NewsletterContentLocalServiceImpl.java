@@ -64,6 +64,7 @@ public class NewsletterContentLocalServiceImpl
 		return newsletterContentPersistence.update(newsletterContent, false);
 	}
 
+	// TODO: MUDAR ORDEM, DELETA TODO FILHOS PRIMEIRO
 	public void deleteContent(NewsletterContent content)
 		throws PortalException, SystemException {
 
@@ -114,6 +115,7 @@ public class NewsletterContentLocalServiceImpl
 		NewsletterContent newsletterContent =
 			newsletterContentPersistence.findByPrimaryKey(contentId);
 
+		// TODO CHECAR ESSE NULL
 		newsletterContent.setModifiedDate(serviceContext.getModifiedDate(null));
 		newsletterContent.setArticleId(articleId);
 		newsletterContent.setTitle(title);
