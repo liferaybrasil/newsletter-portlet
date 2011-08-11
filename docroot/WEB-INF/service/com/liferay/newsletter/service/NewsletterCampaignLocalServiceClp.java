@@ -112,11 +112,11 @@ public class NewsletterCampaignLocalServiceClp
 		_getCampaignsMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getCampaigns", long.class);
 
-		_getCampaignsCountMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getCampaignsCount", long.class);
+		_getCampaignsBySendDateMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getCampaignsBySendDate", java.util.Date.class, boolean.class);
 
-		_getCampaignsBySentDateMethodKey24 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getCampaignsBySentDate", java.util.Date.class, boolean.class);
+		_getCampaignsCountMethodKey24 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getCampaignsCount", long.class);
 
 		_sendCampaignMethodKey25 = new MethodKey(_classLoaderProxy.getClassName(),
 				"sendCampaign", long.class);
@@ -783,39 +783,12 @@ public class NewsletterCampaignLocalServiceClp
 		return (java.util.List<com.liferay.newsletter.model.NewsletterCampaign>)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public int getCampaignsCount(long contentId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsCountMethodKey23,
-				contentId);
-
-		try {
-			returnObj = _classLoaderProxy.invoke(methodHandler);
-		}
-		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return ((Integer)returnObj).intValue();
-	}
-
-	public java.util.List<com.liferay.newsletter.model.NewsletterCampaign> getCampaignsBySentDate(
+	public java.util.List<com.liferay.newsletter.model.NewsletterCampaign> getCampaignsBySendDate(
 		java.util.Date sentDateLT, boolean sent)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getCampaignsBySentDateMethodKey24,
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsBySendDateMethodKey23,
 				ClpSerializer.translateInput(sentDateLT), sent);
 
 		try {
@@ -836,6 +809,33 @@ public class NewsletterCampaignLocalServiceClp
 		}
 
 		return (java.util.List<com.liferay.newsletter.model.NewsletterCampaign>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public int getCampaignsCount(long contentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getCampaignsCountMethodKey24,
+				contentId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
 	}
 
 	public void sendCampaign(long campaignId)
@@ -923,8 +923,8 @@ public class NewsletterCampaignLocalServiceClp
 	private MethodKey _deleteCampaignMethodKey20;
 	private MethodKey _getCampaignMethodKey21;
 	private MethodKey _getCampaignsMethodKey22;
-	private MethodKey _getCampaignsCountMethodKey23;
-	private MethodKey _getCampaignsBySentDateMethodKey24;
+	private MethodKey _getCampaignsBySendDateMethodKey23;
+	private MethodKey _getCampaignsCountMethodKey24;
 	private MethodKey _sendCampaignMethodKey25;
 	private MethodKey _sendCampaignMethodKey26;
 }

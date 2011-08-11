@@ -25,7 +25,7 @@
 
 	String redirect = ParamUtil.getString(request, "redirect");
 
-	String campaignContentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(campaign.getContentId()).getTitle();
+	String contentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(campaign.getContentId()).getTitle();
 %>
 
 <aui:model-context bean="<%= campaign %>" model="<%= NewsletterCampaign.class %>" />
@@ -62,7 +62,7 @@
 </span>
 <span class="aui-field-content">
 		<label class="aui-field-label"> Campaign Content </label>
-		<b>Title:</b> <%= campaignContentTitle %>
+		<b>Title:</b> <%= contentTitle %>
 	<span class="aui-field-element ">
 		<%= campaign.getContent().getContent() %>
 	</span>

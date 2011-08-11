@@ -16,7 +16,6 @@ package com.liferay.newsletter.portlet;
 
 import com.liferay.newsletter.ContentException;
 import com.liferay.newsletter.NameException;
-import com.liferay.newsletter.NoSuchContactException;
 import com.liferay.newsletter.NoSuchLogException;
 import com.liferay.newsletter.TitleException;
 import com.liferay.newsletter.model.NewsletterCampaign;
@@ -32,14 +31,14 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
@@ -58,7 +57,6 @@ import java.util.List;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -127,21 +125,20 @@ public class NewsletterPortlet extends MVCPortlet {
 		throws IOException, PortletException {
 
 		String cmd = ParamUtil.getString(resourceRequest, Constants.CMD);
-		// TODO: GET_CONTACTS GET_CAMPAIGN_CONTENT
+
 		try {
 			if (cmd.equals(NewsletterConstants.GET_ARTICLE_CONTENT)) {
 				getArticleContent(resourceRequest, resourceResponse);
 			}
-			else if (cmd.equals(NewsletterConstants.GET_CAMPAIGN_CONTENT)) {
-				getCampaignContents(resourceRequest, resourceResponse);
+			else if (cmd.equals(NewsletterConstants.GET_CONTENTS)) {
+				getContents(resourceRequest, resourceResponse);
 			}
-			else if (cmd.equals(NewsletterConstants.GET_CONTACT)) {
+			else if (cmd.equals(NewsletterConstants.GET_CONTACTS)) {
 				getContacts(resourceRequest, resourceResponse);
 			}
 		}
 		catch (Exception e) {
-			// TODO: usar sempre _log.error
-			e.printStackTrace();
+			_log.error(e);
 		}
 	}
 
@@ -175,29 +172,20 @@ public class NewsletterPortlet extends MVCPortlet {
 				userId, scopeGroupId, contentId, emailSubject, senderEmail,
 				senderName, sendDateDay, sendDateMonth, sendDateYear,
 				serviceContext);
-		
-		// TODO: testar
+
 		String[] emails = ParamUtil.getParameterValues(
 			actionRequest, "contacts");
 
 		for (String email : emails) {
+			email = email.trim();
 			long campaignId = campaign.getCampaignId();
 
-			NewsletterContact contact = null;
-
-			try {
-				contact = NewsletterContactLocalServiceUtil.getContact(email);
-			}
-			// TODO: colocar o add dentro do getContact
-			catch (NoSuchContactException e) {
-				contact = NewsletterContactLocalServiceUtil.addContact(
-					userId,scopeGroupId, email, StringPool.BLANK,
-					serviceContext);
-			}
+			NewsletterContact contact =
+				NewsletterContactLocalServiceUtil.getContact(
+					userId, scopeGroupId, email, serviceContext);
 
 			long contactId = contact.getContactId();
 
-			// checar email duplicados antes
 			try{
 				NewsletterLogLocalServiceUtil.getLog(campaignId, contactId);
 			}
@@ -233,7 +221,6 @@ public class NewsletterPortlet extends MVCPortlet {
 		NewsletterContentLocalServiceUtil.addContent(
 			userId, scopeGroupId, articleId, title, content, serviceContext);
 
-		// TODO: geralmente submeter form j‡ d‡ a msg verdinha
 		SessionMessages.add(actionRequest, "request_processed");
 
 		sendRedirect(actionRequest, actionResponse);
@@ -243,33 +230,6 @@ public class NewsletterPortlet extends MVCPortlet {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws IOException, ReadOnlyException, ValidatorException {
 
-		PortletPreferences preferences = actionRequest.getPreferences();
-
-		preferences.setValue(
-			NewsletterConstants.ROWS_PER_PAGE, ParamUtil.getString(
-				actionRequest, "rowsPerPage"));
-		preferences.setValue(
-			NewsletterConstants.SENDER_EMAIL, ParamUtil.getString(
-				actionRequest, "senderEmail"));
-		preferences.setValue(
-			NewsletterConstants.SENDER_NAME, ParamUtil.getString(
-				actionRequest, "senderName"));
-		preferences.setValue(
-			PropsKeys.MAIL_SESSION_MAIL_SMTP_HOST, ParamUtil.getString(
-				actionRequest, "smtpHost"));
-		preferences.setValue(
-			PropsKeys.MAIL_SESSION_MAIL_SMTP_PORT, ParamUtil.getString(
-				actionRequest, "smtpPort"));
-		preferences.setValue(
-			PropsKeys.MAIL_SESSION_MAIL_SMTP_USER, ParamUtil.getString(
-				actionRequest, "smtpUser"));
-		preferences.setValue(
-			PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD, ParamUtil.getString(
-				actionRequest, "smtpPassword"));
-
-		preferences.store();
-
-		// TODO: tirar esse bloco ou o de cima
 		PortletProps.set(NewsletterConstants.ROWS_PER_PAGE, ParamUtil.getString(
 			actionRequest, "rowsPerPage"));
 		PortletProps.set(NewsletterConstants.SENDER_EMAIL, ParamUtil.getString(
@@ -348,7 +308,7 @@ public class NewsletterPortlet extends MVCPortlet {
 		}
 	}
 
-	protected void getCampaignContents(
+	protected void getContents(
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 		throws Exception {
 
@@ -442,5 +402,7 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		sendRedirect(actionRequest, actionResponse);
 	}
+
+	private static Log _log = LogFactoryUtil.getLog(NewsletterPortlet.class);
 
 }

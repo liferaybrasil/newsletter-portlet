@@ -257,7 +257,8 @@ public interface NewsletterContactLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.liferay.newsletter.model.NewsletterContact getContact(
-		java.lang.String email)
+		long userId, long scopeGroupId, java.lang.String email,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -277,9 +278,9 @@ public interface NewsletterContactLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
-		long companyId, long groupId, long campaignId,
-		java.lang.String contactName, java.lang.String contactEmail,
-		boolean sent, int start, int end, boolean isAndOperator,
+		long companyId, long groupId, long campaignId, java.lang.String name,
+		java.lang.String email, boolean sent, int start, int end,
+		boolean isAndOperator,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -297,8 +298,8 @@ public interface NewsletterContactLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchCount(long companyId, long groupId, long campaignId,
-		java.lang.String contactName, java.lang.String contactEmail,
-		boolean sent, int start, int end, boolean isAndOperator,
+		java.lang.String name, java.lang.String email, boolean sent, int start,
+		int end, boolean isAndOperator,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

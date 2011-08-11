@@ -30,11 +30,11 @@ public interface NewsletterConstants {
 
 	public static final String DELETE_CONTENT = "delete_content";
 
-	public static final String GET_CAMPAIGN_CONTENT = "get_campaign_content";
+	public static final String GET_CONTENTS = "get_contents";
 
 	public static final String GET_ARTICLE_CONTENT = "get_article_content";
 
-	public static final String GET_CONTACT = "get_contact";
+	public static final String GET_CONTACTS = "get_contacts";
 
 	public static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
 
@@ -42,7 +42,6 @@ public interface NewsletterConstants {
 
 	public static final String MAIL_SMTP_PORT = "mail.smtp.port";
 
-	// TODO: NAO PRECISA JA ESTA NO PORTAL
 	public static final String MAIL_SMTP_SOCKET_FACTORY_PORT =
 		"mail.smtp.socketFactory.port";
 

@@ -311,16 +311,16 @@ public class NewsletterCampaignLocalServiceWrapper
 		return _newsletterCampaignLocalService.getCampaigns(contentId);
 	}
 
+	public java.util.List<com.liferay.newsletter.model.NewsletterCampaign> getCampaignsBySendDate(
+		java.util.Date sentDateLT, boolean sent)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterCampaignLocalService.getCampaignsBySendDate(sentDateLT,
+			sent);
+	}
+
 	public int getCampaignsCount(long contentId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _newsletterCampaignLocalService.getCampaignsCount(contentId);
-	}
-
-	public java.util.List<com.liferay.newsletter.model.NewsletterCampaign> getCampaignsBySentDate(
-		java.util.Date sentDateLT, boolean sent)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _newsletterCampaignLocalService.getCampaignsBySentDate(sentDateLT,
-			sent);
 	}
 
 	public void sendCampaign(long campaignId)

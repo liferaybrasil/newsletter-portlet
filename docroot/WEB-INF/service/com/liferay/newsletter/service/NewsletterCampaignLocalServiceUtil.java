@@ -318,15 +318,15 @@ public class NewsletterCampaignLocalServiceUtil {
 		return getService().getCampaigns(contentId);
 	}
 
+	public static java.util.List<com.liferay.newsletter.model.NewsletterCampaign> getCampaignsBySendDate(
+		java.util.Date sentDateLT, boolean sent)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getCampaignsBySendDate(sentDateLT, sent);
+	}
+
 	public static int getCampaignsCount(long contentId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getCampaignsCount(contentId);
-	}
-
-	public static java.util.List<com.liferay.newsletter.model.NewsletterCampaign> getCampaignsBySentDate(
-		java.util.Date sentDateLT, boolean sent)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getCampaignsBySentDate(sentDateLT, sent);
 	}
 
 	public static void sendCampaign(long campaignId)

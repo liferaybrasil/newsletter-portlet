@@ -29,6 +29,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
@@ -91,7 +93,7 @@ public class NewsletterCampaignLocalServiceImpl
 	public void checkCampaigns() throws PortalException, SystemException {
 		Date date = new Date();
 
-		List<NewsletterCampaign> campaigns = getCampaignsBySentDate(
+		List<NewsletterCampaign> campaigns = getCampaignsBySendDate(
 			date, false);
 
 		for (NewsletterCampaign campaign : campaigns) {
@@ -102,10 +104,10 @@ public class NewsletterCampaignLocalServiceImpl
 	public void deleteCampaign(NewsletterCampaign campaign)
 		throws PortalException, SystemException {
 
-		List<NewsletterLog> logs = campaign.getLogs();
+		List<NewsletterLog> newsletterLogs = campaign.getLogs();
 
-		for (NewsletterLog log : logs) {
-			newsletterLogLocalService.deleteLog(log);
+		for (NewsletterLog newsletterLog : newsletterLogs) {
+			newsletterLogLocalService.deleteLog(newsletterLog);
 		}
 
 		newsletterCampaignPersistence.remove(campaign);
@@ -131,14 +133,13 @@ public class NewsletterCampaignLocalServiceImpl
 		return newsletterCampaignPersistence.findByContentId(contentId);
 	}
 
-	// TODO: MUDAR DE senT pra senD
-	public List<NewsletterCampaign> getCampaignsBySentDate(
+	public List<NewsletterCampaign> getCampaignsBySendDate(
 			Date sentDateLT, boolean sent)
 		throws SystemException{
 
 		return newsletterCampaignPersistence.findBySD_S(sentDateLT, sent);
 	}
-	
+
 	public int getCampaignsCount(long contentId) throws SystemException {
 		return newsletterCampaignPersistence.countByContentId(contentId);
 	}
@@ -154,16 +155,16 @@ public class NewsletterCampaignLocalServiceImpl
 	public void sendCampaign(NewsletterCampaign campaign)
 		throws PortalException, SystemException {
 
-		List<NewsletterLog> logs =
+		List<NewsletterLog> newsletterLogs =
 			newsletterLogLocalService.getLogsByCampaignId(
 				campaign.getCampaignId());
 
-		for (NewsletterLog log : logs) {
-			sendEmail(log.getContactId(), campaign);
+		for (NewsletterLog newsletterLog : newsletterLogs) {
+			sendEmail(newsletterLog.getContactId(), campaign);
 
-			log.setSent(true);
+			newsletterLog.setSent(true);
 
-			newsletterLogLocalService.updateNewsletterLog(log);
+			newsletterLogLocalService.updateNewsletterLog(newsletterLog);
 		}
 
 		campaign.setSent(true);
@@ -223,10 +224,18 @@ public class NewsletterCampaignLocalServiceImpl
 		NewsletterContent content = campaign.getContent();
 
 		String senderName = campaign.getSenderName();
-		// TODO: ver padrao pra concatenar, 
-		// StringBundler sb
-		// usar StringPool
-		String from = "\"" + senderName + "\" <" + senderEmail + ">";
+
+		StringBundler sb = new StringBundler(10);
+
+		sb.append(StringPool.QUOTE);
+		sb.append(senderName);
+		sb.append(StringPool.QUOTE);
+		sb.append(StringPool.SPACE);
+		sb.append(StringPool.LESS_THAN);
+		sb.append(senderEmail);
+		sb.append(StringPool.GREATER_THAN);
+
+		String from = sb.toString();
 
 		NewsletterContact contact = newsletterContactLocalService.getContact(
 			contactId);

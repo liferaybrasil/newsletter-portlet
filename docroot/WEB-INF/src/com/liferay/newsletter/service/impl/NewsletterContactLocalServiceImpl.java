@@ -14,12 +14,14 @@
 
 package com.liferay.newsletter.service.impl;
 
+import com.liferay.newsletter.NoSuchContactException;
 import com.liferay.newsletter.model.NewsletterContact;
 import com.liferay.newsletter.service.base.NewsletterContactLocalServiceBaseImpl;
 import com.liferay.portal.EmailAddressException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
@@ -80,15 +82,28 @@ public class NewsletterContactLocalServiceImpl
 		return newsletterContactFinder.countByCampaign(campaignId);
 	}
 
-	public NewsletterContact getContact(String email)
+	public NewsletterContact getContact(
+			long userId, long scopeGroupId, String email,
+			ServiceContext serviceContext)
 		throws PortalException, SystemException {
 
-		return newsletterContactPersistence.findByEmail(email);
+		NewsletterContact contact = null;
+		try {
+			contact = newsletterContactPersistence.findByEmail(email);
+		}
+		catch (NoSuchContactException e) {
+			contact = addContact(
+				userId,scopeGroupId, email, StringPool.BLANK,
+				serviceContext);
+		}
+
+		return contact;
+
 	}
 
 	public List<NewsletterContact> search(
-			long companyId, long groupId, String keywords,
-			int start, int end,	OrderByComparator orderByComparator)
+			long companyId, long groupId, String keywords, int start, int end,
+			OrderByComparator orderByComparator)
 		throws SystemException {
 
 		return newsletterContactFinder.findByKeywords(
@@ -105,16 +120,15 @@ public class NewsletterContactLocalServiceImpl
 			orderByComparator);
 	}
 
-	// TODO: renomear pra email, name
 	public List<NewsletterContact> search(
-			long companyId, long groupId, long campaignId, String contactName,
-			String contactEmail, boolean sent, int start, int end,
+			long companyId, long groupId, long campaignId, String name,
+			String email, boolean sent, int start, int end,
 			boolean isAndOperator, OrderByComparator orderByComparator)
 		throws SystemException {
 
 		return newsletterContactFinder.findByC_G_C_E_N_S(
-			companyId, groupId, campaignId, contactEmail, contactName, sent,
-			start, end, isAndOperator, orderByComparator);
+			companyId, groupId, campaignId, email, name, sent, start, end,
+			isAndOperator, orderByComparator);
 	}
 
 	public int searchCount(
@@ -136,16 +150,15 @@ public class NewsletterContactLocalServiceImpl
 			companyId, groupId, keywords, start, end, orderByComparator);
 	}
 
-	// TODO: renomear pra email, name
 	public int searchCount(
-			long companyId, long groupId, long campaignId, String contactName,
-			String contactEmail, boolean sent, int start, int end,
+			long companyId, long groupId, long campaignId, String name,
+			String email, boolean sent, int start, int end,
 			boolean isAndOperator, OrderByComparator orderByComparator)
 		throws SystemException {
 
 		return newsletterContactFinder.countByC_G_C_E_N_S(
-			companyId, groupId, campaignId, contactEmail, contactName, sent,
-			start, end, isAndOperator, orderByComparator);
+			companyId, groupId, campaignId, email, name, sent, start, end,
+			isAndOperator, orderByComparator);
 	}
 
 	protected void validate(String email) throws PortalException {

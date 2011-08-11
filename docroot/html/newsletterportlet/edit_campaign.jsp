@@ -25,8 +25,6 @@ if (campaignId > 0) {
 	campaign = NewsletterCampaignLocalServiceUtil.getNewsletterCampaign(campaignId);
 }
 
-List<NewsletterContent> campaignContents = NewsletterContentLocalServiceUtil.getNewsletterContents(0,NewsletterContentLocalServiceUtil.getNewsletterContentsCount());
-
 String redirect = ParamUtil.getString(request, "redirect");
 %>
 
@@ -36,11 +34,11 @@ String redirect = ParamUtil.getString(request, "redirect");
 />
 
 <portlet:resourceURL var="campaignContentResourceURL">
-	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_CAMPAIGN_CONTENT %>" />
+	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_CONTENTS %>" />
 </portlet:resourceURL>
 
 <portlet:resourceURL var="contactResourceURL">
-	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_CONTACT %>" />
+	<portlet:param name="cmd" value="<%= NewsletterConstants.GET_CONTACTS %>" />
 </portlet:resourceURL>
 
 <aui:model-context bean="<%= campaign %>" model="<%= NewsletterCampaign.class %>" />
@@ -69,7 +67,7 @@ String redirect = ParamUtil.getString(request, "redirect");
 			<liferay-ui:message arguments="<%= argument %>" key="x-is-required" />
 		</liferay-ui:error>
 
-		<aui:input name="senderName" label="Sender Name" value='<%= prefs.getValue(NewsletterConstants.SENDER_NAME,"") %>'/>
+		<aui:input name="senderName" label="Sender Name" value='<%= PortletProps.get(NewsletterConstants.SENDER_NAME) %>'/>
 		<liferay-ui:error exception="<%= NameException.class %>">
 
 			<%
@@ -79,7 +77,7 @@ String redirect = ParamUtil.getString(request, "redirect");
 			<liferay-ui:message arguments="<%= argument %>" key="x-is-required" />
 		</liferay-ui:error>
 
-		<aui:input name="senderEmail" label="Sender Email" value='<%= prefs.getValue(NewsletterConstants.SENDER_EMAIL,"") %>'/>
+		<aui:input name="senderEmail" label="Sender Email" value='<%= PortletProps.get(NewsletterConstants.SENDER_EMAIL) %>'/>
 		<liferay-ui:error exception="<%= EmailException.class %>">
 
 			<%

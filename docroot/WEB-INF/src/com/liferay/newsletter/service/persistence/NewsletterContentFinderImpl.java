@@ -38,32 +38,11 @@ public class NewsletterContentFinderImpl
 	extends BasePersistenceImpl<NewsletterContent>
 	implements NewsletterContentFinder {
 
-	public static String FIND_BY_TITLE =
-		NewsletterContentFinder.class.getName() + ".findByTitle";
-
-	// TODO CHECAR ORDEM
 	public static String FIND_BY_T_C =
 		NewsletterContentFinder.class.getName() + ".findBy_T_C";
 
-	public List<NewsletterContent> findByTitle(
-			long companyId, long groupId, String title, int start, int end,
-			OrderByComparator orderByComparator)
-		throws SystemException {
-
-		String[] titles = null;
-		boolean andOperator = false;
-
-		if (Validator.isNotNull(title)) {
-			titles = CustomSQLUtil.keywords(title);
-		}
-		else {
-			andOperator = true;
-		}
-
-		return doFindByTitle(
-			companyId, groupId, titles, andOperator, start, end,
-			orderByComparator);
-	}
+	public static String FIND_BY_TITLE =
+		NewsletterContentFinder.class.getName() + ".findByTitle";
 
 	public List<NewsletterContent> findByKeywords(
 			long companyId, long groupId, String keywords, int start, int end,
@@ -87,53 +66,24 @@ public class NewsletterContentFinderImpl
 			orderByComparator);
 	}
 
-	private List<NewsletterContent> doFindByTitle(long companyId, long groupId,
-			String[] titles, boolean andOperator, int start, int end,
+	public List<NewsletterContent> findByTitle(
+			long companyId, long groupId, String title, int start, int end,
 			OrderByComparator orderByComparator)
 		throws SystemException {
 
-		titles = CustomSQLUtil.keywords(titles);
+		String[] titles = null;
+		boolean andOperator = false;
 
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			String sql = CustomSQLUtil.get(FIND_BY_TITLE);
-
-			if (groupId <= 0) {
-				sql = StringUtil.replace(sql, "(groupId = ?) AND", "");
-			}
-
-			sql = CustomSQLUtil.replaceKeywords(
-				sql, "lower(title)", StringPool.LIKE, false, titles);
-
-			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
-			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);
-
-			SQLQuery q = session.createSQLQuery(sql);
-
-			q.addEntity("NewsletterContent", NewsletterContentImpl.class);
-
-			QueryPos qPos = QueryPos.getInstance(q);
-
-			qPos.add(companyId);
-
-			if (groupId > 0) {
-				qPos.add(groupId);
-			}
-
-			qPos.add(titles, 2);
-
-			return (List<NewsletterContent>)QueryUtil.list(
-				q, getDialect(), start, end);
+		if (Validator.isNotNull(title)) {
+			titles = CustomSQLUtil.keywords(title);
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		else {
+			andOperator = true;
 		}
-		finally {
-			closeSession(session);
-		}
+
+		return doFindByTitle(
+			companyId, groupId, titles, andOperator, start, end,
+			orderByComparator);
 	}
 
 	protected List<NewsletterContent> doFindByT_C(
@@ -178,6 +128,55 @@ public class NewsletterContentFinderImpl
 
 			qPos.add(titles);
 			qPos.add(contents);
+
+			return (List<NewsletterContent>)QueryUtil.list(
+				q, getDialect(), start, end);
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected List<NewsletterContent> doFindByTitle(
+			long companyId, long groupId, String[] titles, boolean andOperator,
+			int start, int end,	OrderByComparator orderByComparator)
+		throws SystemException {
+
+		titles = CustomSQLUtil.keywords(titles);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			String sql = CustomSQLUtil.get(FIND_BY_TITLE);
+
+			if (groupId <= 0) {
+				sql = StringUtil.replace(sql, "(groupId = ?) AND", "");
+			}
+
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(title)", StringPool.LIKE, false, titles);
+
+			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
+			sql = CustomSQLUtil.replaceOrderBy(sql, orderByComparator);
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			q.addEntity("NewsletterContent", NewsletterContentImpl.class);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(companyId);
+
+			if (groupId > 0) {
+				qPos.add(groupId);
+			}
+
+			qPos.add(titles, 2);
 
 			return (List<NewsletterContent>)QueryUtil.list(
 				q, getDialect(), start, end);

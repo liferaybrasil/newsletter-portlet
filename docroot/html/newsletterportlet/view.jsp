@@ -35,7 +35,7 @@ String tabNames = "Campaign Content,Campaign";
 />
 
 <c:if test='<%= tabs1.equals("Campaign Content") %>'>
-  <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_campaignContent.jsp" />
+  <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_content.jsp" />
 </c:if>
 <c:if test='<%= tabs1.equals(tabsCampaign) %>'>
   <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_campaign.jsp" />

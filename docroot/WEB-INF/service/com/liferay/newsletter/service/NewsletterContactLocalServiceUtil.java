@@ -286,10 +286,12 @@ public class NewsletterContactLocalServiceUtil {
 	}
 
 	public static com.liferay.newsletter.model.NewsletterContact getContact(
-		java.lang.String email)
+		long userId, long scopeGroupId, java.lang.String email,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getContact(email);
+		return getService()
+				   .getContact(userId, scopeGroupId, email, serviceContext);
 	}
 
 	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
@@ -313,14 +315,14 @@ public class NewsletterContactLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.newsletter.model.NewsletterContact> search(
-		long companyId, long groupId, long campaignId,
-		java.lang.String contactName, java.lang.String contactEmail,
-		boolean sent, int start, int end, boolean isAndOperator,
+		long companyId, long groupId, long campaignId, java.lang.String name,
+		java.lang.String email, boolean sent, int start, int end,
+		boolean isAndOperator,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .search(companyId, groupId, campaignId, contactName,
-			contactEmail, sent, start, end, isAndOperator, orderByComparator);
+				   .search(companyId, groupId, campaignId, name, email, sent,
+			start, end, isAndOperator, orderByComparator);
 	}
 
 	public static int searchCount(long companyId, long groupId,
@@ -342,14 +344,13 @@ public class NewsletterContactLocalServiceUtil {
 	}
 
 	public static int searchCount(long companyId, long groupId,
-		long campaignId, java.lang.String contactName,
-		java.lang.String contactEmail, boolean sent, int start, int end,
-		boolean isAndOperator,
+		long campaignId, java.lang.String name, java.lang.String email,
+		boolean sent, int start, int end, boolean isAndOperator,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .searchCount(companyId, groupId, campaignId, contactName,
-			contactEmail, sent, start, end, isAndOperator, orderByComparator);
+				   .searchCount(companyId, groupId, campaignId, name, email,
+			sent, start, end, isAndOperator, orderByComparator);
 	}
 
 	public static void clearService() {

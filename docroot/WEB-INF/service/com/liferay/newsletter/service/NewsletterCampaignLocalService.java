@@ -281,12 +281,12 @@ public interface NewsletterCampaignLocalService
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCampaignsCount(long contentId)
+	public java.util.List<com.liferay.newsletter.model.NewsletterCampaign> getCampaignsBySendDate(
+		java.util.Date sentDateLT, boolean sent)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.newsletter.model.NewsletterCampaign> getCampaignsBySentDate(
-		java.util.Date sentDateLT, boolean sent)
+	public int getCampaignsCount(long contentId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public void sendCampaign(long campaignId)

@@ -64,13 +64,8 @@ public class NewsletterContentLocalServiceImpl
 		return newsletterContentPersistence.update(newsletterContent, false);
 	}
 
-	// TODO: MUDAR ORDEM, DELETA TODO FILHOS PRIMEIRO
 	public void deleteContent(NewsletterContent content)
 		throws PortalException, SystemException {
-
-		// Content
-
-		newsletterContentPersistence.remove(content);
 
 		// Campaigns
 
@@ -79,6 +74,11 @@ public class NewsletterContentLocalServiceImpl
 		for (NewsletterCampaign campaign : campaigns) {
 			newsletterCampaignLocalService.deleteCampaign(campaign);
 		}
+
+		// Content
+
+		newsletterContentPersistence.remove(content);
+
 	}
 
 	public void deleteContent(long contentId)
@@ -115,8 +115,9 @@ public class NewsletterContentLocalServiceImpl
 		NewsletterContent newsletterContent =
 			newsletterContentPersistence.findByPrimaryKey(contentId);
 
-		// TODO CHECAR ESSE NULL
-		newsletterContent.setModifiedDate(serviceContext.getModifiedDate(null));
+		Date modifiedDate = serviceContext.getModifiedDate(null);
+
+		newsletterContent.setModifiedDate(modifiedDate);
 		newsletterContent.setArticleId(articleId);
 		newsletterContent.setTitle(title);
 		newsletterContent.setContent(content);
