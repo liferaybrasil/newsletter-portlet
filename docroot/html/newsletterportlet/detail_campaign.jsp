@@ -15,17 +15,18 @@
 --%>
 
 <%@ page import="com.liferay.newsletter.search.NewsletterContactSearch" %>
-<%@include file="/html/init.jsp" %>
+<%@ include file="/html/init.jsp" %>
 
 <%
-	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
-	long campaignId = ParamUtil.getLong(request, "campaignId");
+SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
 
-	NewsletterCampaign campaign = NewsletterCampaignLocalServiceUtil.getNewsletterCampaign(campaignId);
+long campaignId = ParamUtil.getLong(request, "campaignId");
 
-	String redirect = ParamUtil.getString(request, "redirect");
+NewsletterCampaign campaign = NewsletterCampaignLocalServiceUtil.getNewsletterCampaign(campaignId);
 
-	String contentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(campaign.getContentId()).getTitle();
+String redirect = ParamUtil.getString(request, "redirect");
+
+String contentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(campaign.getContentId()).getTitle();
 %>
 
 <aui:model-context bean="<%= campaign %>" model="<%= NewsletterCampaign.class %>" />
@@ -42,24 +43,28 @@
 		<%= campaign.getEmailSubject() %>
 	</span>
 </span>
+
 <span class="aui-field-content">
 		<label class="aui-field-label"> Sender Name </label>
 	<span class="aui-field-element ">
 		<%= campaign.getSenderName() %>
 	</span>
 </span>
+
 <span class="aui-field-content">
 		<label class="aui-field-label"> Sender Email </label>
 	<span class="aui-field-element ">
 		<%= campaign.getSenderEmail() %>
 	</span>
 </span>
+
 <span class="aui-field-content">
 		<label class="aui-field-label"> Send Date </label>
 	<span class="aui-field-element ">
 		<%= dateFormat.format(campaign.getSendDate()) %>
 	</span>
 </span>
+
 <span class="aui-field-content">
 		<label class="aui-field-label"> Campaign Content </label>
 		<b>Title:</b> <%= contentTitle %>
@@ -68,16 +73,18 @@
 	</span>
 </span>
 </aui:fieldset>
+
 <br />
+
 <span class="aui-field-content">
 		<label class="aui-field-label"> Contacts </label>
 </span>
 
 <liferay-portlet:renderURL varImpl="portletURL">
 	<portlet:param name="jspPage" value="/html/newsletterportlet/detail_campaign.jsp" />
-			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
-			<portlet:param name="redirect" value="<%= redirect %>" />
-			<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
+	<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
+	<portlet:param name="redirect" value="<%= redirect %>" />
+	<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
 </liferay-portlet:renderURL>
 
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
@@ -118,22 +125,21 @@
 			value='<%= NewsletterLogLocalServiceUtil.getLog(campaignId, contactNewsletter.getContactId()).isSent() ? "Sent" : "Failed" %>'
 		/>
 	</liferay-ui:search-container-row>
-
 	<liferay-ui:search-iterator />
 </liferay-ui:search-container>
 
 <portlet:actionURL name="resendCampaign" var="resendURL">
-			<portlet:param name="cmd" value="resendCampaign" />
-			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
-			<portlet:param name="redirect" value="<%= redirect %>" />
-			<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
+	<portlet:param name="cmd" value="resendCampaign" />
+	<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
+	<portlet:param name="redirect" value="<%= redirect %>" />
+	<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
 </portlet:actionURL>
 
 <portlet:actionURL name="resendFailed" var="resendFailedURL">
-			<portlet:param name="cmd" value="resendFailed" />
-			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
-			<portlet:param name="redirect" value="<%= redirect %>" />
-			<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
+	<portlet:param name="cmd" value="resendFailed" />
+	<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
+	<portlet:param name="redirect" value="<%= redirect %>" />
+	<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
 </portlet:actionURL>
 
 <aui:button-row>

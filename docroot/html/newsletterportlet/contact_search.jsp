@@ -27,8 +27,10 @@ NewsletterContactDisplayTerms displayTerms = new NewsletterContactDisplayTerms(r
 >
 	<aui:fieldset>
 		<aui:column>
-			<aui:input label="Name" name="<%= displayTerms.NAME %>" size="20" type="text" value="<%= displayTerms.getName() %>" />
-			<aui:input label="Email" name="<%= displayTerms.EMAIL %>" size="20" type="text" value="<%= displayTerms.getEmail() %>" />
+			<aui:input label="name" name="<%= displayTerms.NAME %>" size="20" type="text" value="<%= displayTerms.getName() %>" />
+			
+			<aui:input label="email" name="<%= displayTerms.EMAIL %>" size="20" type="text" value="<%= displayTerms.getEmail() %>" />
+			
 			<aui:select name="<%= displayTerms.STATUS %>">
 				<aui:option value=""></aui:option>
 				<aui:option label="sent" selected='<%= displayTerms.getStatus().equals("sent") %>' />
