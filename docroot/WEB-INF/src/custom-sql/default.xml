@@ -138,8 +138,8 @@
 				(Newsletter_NewsletterContact.groupId = ?) AND
 				(Newsletter_NewsletterLog.campaignId = ?) AND
 				(
-					(Newsletter_NewsletterContact.email LIKE ?) [$AND_OR_CONNECTOR$]
-				 	(Newsletter_NewsletterContact.name LIKE ?) [$AND_OR_CONNECTOR$]
+					(Newsletter_NewsletterContact.email LIKE ? [$AND_OR_NULL_CHECK$]) [$AND_OR_CONNECTOR$]
+				 	(Newsletter_NewsletterContact.name LIKE ? [$AND_OR_NULL_CHECK$]) [$AND_OR_CONNECTOR$]
 				 	(Newsletter_NewsletterLog.sent = ?)
 				 ) 
 		]]>

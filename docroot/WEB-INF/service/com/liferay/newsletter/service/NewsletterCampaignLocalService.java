@@ -297,4 +297,13 @@ public interface NewsletterCampaignLocalService
 		com.liferay.newsletter.model.NewsletterCampaign campaign)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
+
+	public void resendCampaignToFailedContacts(long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	public void resendCampaignToFailedContacts(
+		com.liferay.newsletter.model.NewsletterCampaign campaign)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 }

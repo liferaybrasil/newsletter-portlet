@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
 
@@ -61,11 +62,46 @@ public class NewsletterContentLocalServiceImpl
 		newsletterContent.setTitle(title);
 		newsletterContent.setContent(content);
 
-		return newsletterContentPersistence.update(newsletterContent, false);
+		newsletterContentPersistence.update(newsletterContent, false);
+
+		// Resources
+
+		resourceLocalService.addResources(
+			newsletterContent.getCompanyId(), newsletterContent.getGroupId(),
+			newsletterContent.getUserId(), NewsletterContent.class.getName(),
+			newsletterContent.getPrimaryKey(), false, true, true);
+
+		return newsletterContent;
+	}
+
+	public void addContentResources(
+			NewsletterContent content, boolean addGroupPermissions,
+			boolean addGuestPermissions)
+		throws PortalException, SystemException {
+
+		resourceLocalService.addResources(
+			content.getCompanyId(), content.getGroupId(), content.getUserId(),
+			NewsletterContent.class.getName(), content.getPrimaryKey(), false,
+			addGroupPermissions, addGuestPermissions);
+	}
+
+	public void addContentResources(
+			NewsletterContent content, String[] groupPermissions,
+			String[] guestPermissions)
+		throws PortalException, SystemException {
+
+		resourceLocalService.addModelResources(
+			content.getCompanyId(), content.getGroupId(), content.getUserId(),
+			NewsletterContent.class.getName(), content.getPrimaryKey(),
+			groupPermissions, guestPermissions);
 	}
 
 	public void deleteContent(NewsletterContent content)
 		throws PortalException, SystemException {
+
+		resourceLocalService.deleteResource(
+			content.getCompanyId(),	NewsletterContent.class.getName(),
+			ResourceConstants.SCOPE_INDIVIDUAL,	content.getPrimaryKey());
 
 		// Campaigns
 

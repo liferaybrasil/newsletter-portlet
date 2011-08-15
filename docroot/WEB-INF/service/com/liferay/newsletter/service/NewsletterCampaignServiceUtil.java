@@ -38,6 +38,37 @@ public class NewsletterCampaignServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.liferay.newsletter.service.impl.NewsletterCampaignServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.newsletter.model.NewsletterCampaign addCampaign(
+		long groupId, long contentId, java.lang.String emailSubject,
+		java.lang.String senderEmail, java.lang.String senderName,
+		int sendDateDay, int sendDateMonth, int sendDateYear,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addCampaign(groupId, contentId, emailSubject, senderEmail,
+			senderName, sendDateDay, sendDateMonth, sendDateYear, serviceContext);
+	}
+
+	public static void deleteCampaign(long groupId, long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().deleteCampaign(groupId, campaignId);
+	}
+
+	public static void sendCampaign(long groupId, long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().sendCampaign(groupId, campaignId);
+	}
+
+	public static void resendCampaignToFailedContacts(long groupId,
+		long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().resendCampaignToFailedContacts(groupId, campaignId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

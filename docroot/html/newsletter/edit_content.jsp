@@ -52,7 +52,7 @@ String redirect = ParamUtil.getString(request, "redirect");
 	<portlet:param name="tabs1" value="CampaignContent" />
 	<portlet:param name="redirect" value="<%= redirect %>" />
 	<portlet:param name="import" value="false" />
-	<portlet:param name="jspPage" value="/html/newsletterportlet/popup.jsp" />
+	<portlet:param name="jspPage" value="/html/newsletter/popup.jsp" />
 	<portlet:param name="resourceNamespace" value="<%= renderResponse.getNamespace() %>" />
 </liferay-portlet:renderURL>
 
@@ -60,7 +60,7 @@ String redirect = ParamUtil.getString(request, "redirect");
 	<portlet:param name="tabs1" value="CampaignContent" />
 	<portlet:param name="redirect" value="<%= redirect %>" />
 	<portlet:param name="import" value="true" />
-	<portlet:param name="jspPage" value="/html/newsletterportlet/popup.jsp" />
+	<portlet:param name="jspPage" value="/html/newsletter/popup.jsp" />
 	<portlet:param name="resourceNamespace" value="<%= renderResponse.getNamespace() %>" />
 </liferay-portlet:renderURL>
 

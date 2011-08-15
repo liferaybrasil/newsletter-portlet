@@ -30,6 +30,37 @@ public class NewsletterCampaignServiceWrapper
 		_newsletterCampaignService = newsletterCampaignService;
 	}
 
+	public com.liferay.newsletter.model.NewsletterCampaign addCampaign(
+		long groupId, long contentId, java.lang.String emailSubject,
+		java.lang.String senderEmail, java.lang.String senderName,
+		int sendDateDay, int sendDateMonth, int sendDateYear,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterCampaignService.addCampaign(groupId, contentId,
+			emailSubject, senderEmail, senderName, sendDateDay, sendDateMonth,
+			sendDateYear, serviceContext);
+	}
+
+	public void deleteCampaign(long groupId, long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_newsletterCampaignService.deleteCampaign(groupId, campaignId);
+	}
+
+	public void sendCampaign(long groupId, long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_newsletterCampaignService.sendCampaign(groupId, campaignId);
+	}
+
+	public void resendCampaignToFailedContacts(long groupId, long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_newsletterCampaignService.resendCampaignToFailedContacts(groupId,
+			campaignId);
+	}
+
 	public NewsletterCampaignService getWrappedNewsletterCampaignService() {
 		return _newsletterCampaignService;
 	}

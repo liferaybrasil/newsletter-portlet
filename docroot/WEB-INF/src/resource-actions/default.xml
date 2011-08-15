@@ -21,13 +21,13 @@
 			<portlet-name>1</portlet-name>
 		</portlet-ref>
 		<supports>
-			<action-key>ADD_CAMPAIGNCONTENT</action-key>
+			<action-key>ADD_CONTENT</action-key>
 			<action-key>ADD_CAMPAIGN</action-key>
 		</supports>
 		<community-defaults/>
 		<guest-defaults/>
 		<guest-unsupported>
-			<action-key>ADD_CAMPAIGNCONTENT</action-key>
+			<action-key>ADD_CONTENT</action-key>
 			<action-key>ADD_CAMPAIGN</action-key>
 		</guest-unsupported>
 	</model-resource>
@@ -50,6 +50,7 @@
 		</guest-defaults>
 		<guest-unsupported>
 			<action-key>UPDATE</action-key>
+			<action-key>PERMISSIONS</action-key>
 		</guest-unsupported>
 	</model-resource>
 	<model-resource>

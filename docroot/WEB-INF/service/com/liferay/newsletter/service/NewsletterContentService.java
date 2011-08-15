@@ -42,4 +42,20 @@ public interface NewsletterContentService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link NewsletterContentServiceUtil} to access the newsletter content remote service. Add custom service methods to {@link com.liferay.newsletter.service.impl.NewsletterContentServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public com.liferay.newsletter.model.NewsletterContent addContent(
+		long groupId, long articleId, java.lang.String title,
+		java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	public void deleteContent(long groupId, long contentId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	public void updateContent(long groupId, long contentId, long articleId,
+		java.lang.String title, java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 }

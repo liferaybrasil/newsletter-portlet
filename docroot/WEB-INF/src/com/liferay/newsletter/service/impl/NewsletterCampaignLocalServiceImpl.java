@@ -15,6 +15,7 @@
 package com.liferay.newsletter.service.impl;
 
 import com.liferay.newsletter.NameException;
+import com.liferay.newsletter.SendEmailException;
 import com.liferay.newsletter.model.NewsletterCampaign;
 import com.liferay.newsletter.model.NewsletterContact;
 import com.liferay.newsletter.model.NewsletterContent;
@@ -32,6 +33,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.util.PortalUtil;
@@ -87,7 +89,16 @@ public class NewsletterCampaignLocalServiceImpl
 		campaign.setSent(false);
 		campaign.setSendDate(sendDate);
 
-		return newsletterCampaignPersistence.update(campaign, false);
+		newsletterCampaignPersistence.update(campaign, false);
+
+		// Resources
+
+		resourceLocalService.addResources(
+			campaign.getCompanyId(), campaign.getGroupId(),
+			campaign.getUserId(), NewsletterCampaign.class.getName(),
+			campaign.getPrimaryKey(), false, true, true);
+
+		return campaign;
 	}
 
 	public void checkCampaigns() throws PortalException, SystemException {
@@ -103,6 +114,10 @@ public class NewsletterCampaignLocalServiceImpl
 
 	public void deleteCampaign(NewsletterCampaign campaign)
 		throws PortalException, SystemException {
+
+		resourceLocalService.deleteResource(
+			campaign.getCompanyId(),	NewsletterCampaign.class.getName(),
+			ResourceConstants.SCOPE_INDIVIDUAL,	campaign.getPrimaryKey());
 
 		List<NewsletterLog> newsletterLogs = campaign.getLogs();
 
@@ -160,11 +175,16 @@ public class NewsletterCampaignLocalServiceImpl
 				campaign.getCampaignId());
 
 		for (NewsletterLog newsletterLog : newsletterLogs) {
-			sendEmail(newsletterLog.getContactId(), campaign);
+			try {
+				sendEmail(newsletterLog.getContactId(), campaign);
 
-			newsletterLog.setSent(true);
+				newsletterLog.setSent(true);
 
-			newsletterLogLocalService.updateNewsletterLog(newsletterLog);
+				newsletterLogLocalService.updateNewsletterLog(newsletterLog);
+			}
+			catch (SendEmailException e) {
+				_log.error(e);
+			}
 		}
 
 		campaign.setSent(true);
@@ -241,21 +261,54 @@ public class NewsletterCampaignLocalServiceImpl
 			contactId);
 
 		try {
-			MimeMessage message = new MimeMessage(session);
+		MimeMessage message = new MimeMessage(session);
 
-			message.setFrom(new InternetAddress(from));
-			message.setRecipient(
-				Message.RecipientType.TO,
-				new InternetAddress(contact.getEmail()));
-			message.setSentDate(new Date());
-			message.setSubject(emailSubject);
-			message.setContent(content.getContent(), "text/html");
+		message.setFrom(new InternetAddress(from));
+		message.setRecipient(
+			Message.RecipientType.TO,
+			new InternetAddress(contact.getEmail()));
+		message.setSentDate(new Date());
+		message.setSubject(emailSubject);
+		message.setContent(content.getContent(), "text/html");
 
-			Transport.send(message);
+		Transport.send(message);
 		}
 		catch (Exception e) {
-			_log.error(e);
+			throw new SendEmailException(e.getMessage());
 		}
+	}
+
+	public void resendCampaignToFailedContacts(long campaignId)
+		throws PortalException, SystemException {
+
+		NewsletterCampaign campaign = getCampaign(campaignId);
+
+		resendCampaignToFailedContacts(campaign);
+	}
+
+	public void resendCampaignToFailedContacts(NewsletterCampaign campaign)
+		throws PortalException, SystemException {
+
+		List<NewsletterLog> newsletterLogs =
+			newsletterLogLocalService.getLogsByC_S(
+				campaign.getCampaignId(), false);
+
+		for (NewsletterLog newsletterLog : newsletterLogs) {
+			try {
+				sendEmail(newsletterLog.getContactId(), campaign);
+
+				newsletterLog.setSent(true);
+
+				newsletterLogLocalService.updateNewsletterLog(newsletterLog);
+			}
+			catch (SendEmailException e) {
+				_log.error(e);
+			}
+		}
+
+		campaign.setSent(true);
+
+		newsletterCampaignLocalService.updateNewsletterCampaign(campaign);
 	}
 
 	protected void validate(String senderEmail, String senderName)

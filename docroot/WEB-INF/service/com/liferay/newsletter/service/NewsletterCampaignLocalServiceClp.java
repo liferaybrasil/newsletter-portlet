@@ -124,6 +124,13 @@ public class NewsletterCampaignLocalServiceClp
 		_sendCampaignMethodKey26 = new MethodKey(_classLoaderProxy.getClassName(),
 				"sendCampaign",
 				com.liferay.newsletter.model.NewsletterCampaign.class);
+
+		_resendCampaignToFailedContactsMethodKey27 = new MethodKey(_classLoaderProxy.getClassName(),
+				"resendCampaignToFailedContacts", long.class);
+
+		_resendCampaignToFailedContactsMethodKey28 = new MethodKey(_classLoaderProxy.getClassName(),
+				"resendCampaignToFailedContacts",
+				com.liferay.newsletter.model.NewsletterCampaign.class);
 	}
 
 	public com.liferay.newsletter.model.NewsletterCampaign addNewsletterCampaign(
@@ -895,6 +902,63 @@ public class NewsletterCampaignLocalServiceClp
 		}
 	}
 
+	public void resendCampaignToFailedContacts(long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		MethodHandler methodHandler = new MethodHandler(_resendCampaignToFailedContactsMethodKey27,
+				campaignId);
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
+	public void resendCampaignToFailedContacts(
+		com.liferay.newsletter.model.NewsletterCampaign campaign)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		MethodHandler methodHandler = new MethodHandler(_resendCampaignToFailedContactsMethodKey28,
+				ClpSerializer.translateInput(campaign));
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	public ClassLoaderProxy getClassLoaderProxy() {
 		return _classLoaderProxy;
 	}
@@ -927,4 +991,6 @@ public class NewsletterCampaignLocalServiceClp
 	private MethodKey _getCampaignsCountMethodKey24;
 	private MethodKey _sendCampaignMethodKey25;
 	private MethodKey _sendCampaignMethodKey26;
+	private MethodKey _resendCampaignToFailedContactsMethodKey27;
+	private MethodKey _resendCampaignToFailedContactsMethodKey28;
 }

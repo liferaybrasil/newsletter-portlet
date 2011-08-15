@@ -10,4 +10,5 @@ create unique index IX_378B1E36 on Newsletter_NewsletterContent (uuid_, groupId)
 
 create index IX_4DCAD2CA on Newsletter_NewsletterLog (campaignId);
 create index IX_DA01CD41 on Newsletter_NewsletterLog (campaignId, contactId);
+create index IX_55EBA8D6 on Newsletter_NewsletterLog (campaignId, sent);
 create index IX_E3901C20 on Newsletter_NewsletterLog (contactId);

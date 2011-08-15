@@ -283,6 +283,25 @@ public class NewsletterContentLocalServiceUtil {
 			serviceContext);
 	}
 
+	public static void addContentResources(
+		com.liferay.newsletter.model.NewsletterContent content,
+		boolean addGroupPermissions, boolean addGuestPermissions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService()
+			.addContentResources(content, addGroupPermissions,
+			addGuestPermissions);
+	}
+
+	public static void addContentResources(
+		com.liferay.newsletter.model.NewsletterContent content,
+		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService()
+			.addContentResources(content, groupPermissions, guestPermissions);
+	}
+
 	public static void deleteContent(
 		com.liferay.newsletter.model.NewsletterContent content)
 		throws com.liferay.portal.kernel.exception.PortalException,

@@ -38,6 +38,33 @@ public class NewsletterContentServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.liferay.newsletter.service.impl.NewsletterContentServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.newsletter.model.NewsletterContent addContent(
+		long groupId, long articleId, java.lang.String title,
+		java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addContent(groupId, articleId, title, content,
+			serviceContext);
+	}
+
+	public static void deleteContent(long groupId, long contentId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().deleteContent(groupId, contentId);
+	}
+
+	public static void updateContent(long groupId, long contentId,
+		long articleId, java.lang.String title, java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService()
+			.updateContent(groupId, contentId, articleId, title, content,
+			serviceContext);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

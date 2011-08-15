@@ -618,8 +618,8 @@ public class NewsletterContactFinderImpl
 			}
 
 			qPos.add(campaignId);
-			qPos.add(emails);
-			qPos.add(names);
+			qPos.add(emails, 2);
+			qPos.add(names, 2);
 			qPos.add(sent);
 
 			return (List<NewsletterContact>)QueryUtil.list(

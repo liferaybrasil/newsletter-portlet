@@ -56,6 +56,10 @@ public interface NewsletterConstants {
 
 	public static final String RESEND = "resend";
 
+	public static final String RESEND_ALL = "resend_all";
+
+	public static final String RESEND_FAILED = "resend_failed";
+
 	public static final String ROWS_PER_PAGE = "rows_per_page";
 
 	public static final String SENDER_EMAIL = "sender_email";

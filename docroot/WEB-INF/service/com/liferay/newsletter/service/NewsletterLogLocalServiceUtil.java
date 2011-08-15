@@ -287,6 +287,12 @@ public class NewsletterLogLocalServiceUtil {
 		return getService().getLogsByContactId(contactId);
 	}
 
+	public static java.util.List<com.liferay.newsletter.model.NewsletterLog> getLogsByC_S(
+		long campaignId, boolean sent)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getLogsByC_S(campaignId, sent);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

@@ -21,9 +21,10 @@ import com.liferay.newsletter.TitleException;
 import com.liferay.newsletter.model.NewsletterCampaign;
 import com.liferay.newsletter.model.NewsletterContact;
 import com.liferay.newsletter.model.NewsletterContent;
-import com.liferay.newsletter.service.NewsletterCampaignLocalServiceUtil;
+import com.liferay.newsletter.service.NewsletterCampaignServiceUtil;
 import com.liferay.newsletter.service.NewsletterContactLocalServiceUtil;
 import com.liferay.newsletter.service.NewsletterContentLocalServiceUtil;
+import com.liferay.newsletter.service.NewsletterContentServiceUtil;
 import com.liferay.newsletter.service.NewsletterLogLocalServiceUtil;
 import com.liferay.newsletter.util.NewsletterConstants;
 import com.liferay.portal.EmailAddressException;
@@ -101,17 +102,17 @@ public class NewsletterPortlet extends MVCPortlet {
 			// TODO: checar se precisa disso
 			PortalUtil.copyRequestParameters(actionRequest, actionResponse);
 
-			String page = "/html/newsletterportlet/view_content.jsp";
+			String page = "/html/newsletter/view_content.jsp";
 
 			if (e instanceof EmailAddressException ||
 				e instanceof NameException) {
 
-				page = "/html/newsletterportlet/edit_campaign.jsp";
+				page = "/html/newsletter/edit_campaign.jsp";
 			}
 			else if (e instanceof ContentException ||
 					 e instanceof TitleException) {
 
-				page = "/html/newsletterportlet/edit_content.jsp";
+				page = "/html/newsletter/edit_content.jsp";
 			}
 
 			SessionErrors.add(actionRequest, e.getClass().getName(), e);
@@ -168,8 +169,8 @@ public class NewsletterPortlet extends MVCPortlet {
 			NewsletterCampaign.class.getName(), actionRequest);
 
 		NewsletterCampaign campaign =
-			NewsletterCampaignLocalServiceUtil.addCampaign(
-				userId, scopeGroupId, contentId, emailSubject, senderEmail,
+			NewsletterCampaignServiceUtil.addCampaign(
+				scopeGroupId, contentId, emailSubject, senderEmail,
 				senderName, sendDateDay, sendDateMonth, sendDateYear,
 				serviceContext);
 
@@ -207,7 +208,6 @@ public class NewsletterPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		long userId = themeDisplay.getUserId();
 		long scopeGroupId = themeDisplay.getScopeGroupId();
 
 		long articleId = ParamUtil.getLong(actionRequest, "articleId");
@@ -218,8 +218,8 @@ public class NewsletterPortlet extends MVCPortlet {
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 			NewsletterContent.class.getName(), actionRequest);
 
-		NewsletterContentLocalServiceUtil.addContent(
-			userId, scopeGroupId, articleId, title, content, serviceContext);
+		NewsletterContentServiceUtil.addContent(
+			scopeGroupId, articleId, title, content, serviceContext);
 
 		SessionMessages.add(actionRequest, "request_processed");
 
@@ -258,9 +258,10 @@ public class NewsletterPortlet extends MVCPortlet {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
+		long groupId = ParamUtil.getLong(actionRequest, "groupId");
 		long campaignId = ParamUtil.getLong(actionRequest, "campaignId");
 
-		NewsletterCampaignLocalServiceUtil.deleteCampaign(campaignId);
+		NewsletterCampaignServiceUtil.deleteCampaign(groupId, campaignId);
 
 		SessionMessages.add(actionRequest, "request_processed");
 
@@ -271,9 +272,10 @@ public class NewsletterPortlet extends MVCPortlet {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
+		long groupId = ParamUtil.getLong(actionRequest, "groupId");
 		long contentId = ParamUtil.getLong(actionRequest, "contentId");
 
-		NewsletterContentLocalServiceUtil.deleteContent(contentId);
+		NewsletterContentServiceUtil.deleteContent(groupId, contentId);
 
 		SessionMessages.add(actionRequest, "request_processed");
 
@@ -350,9 +352,17 @@ public class NewsletterPortlet extends MVCPortlet {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
+		long groupId = ParamUtil.getLong(actionRequest, "groupId");
 		long campaignId = ParamUtil.getLong(actionRequest, "campaignId");
+		String resendType = ParamUtil.getString(actionRequest, "resendType");
 
-		NewsletterCampaignLocalServiceUtil.sendCampaign(campaignId);
+		if (resendType.equals(NewsletterConstants.RESEND_FAILED)) {
+			NewsletterCampaignServiceUtil.resendCampaignToFailedContacts(
+					groupId, campaignId);
+		}
+		else {
+			NewsletterCampaignServiceUtil.sendCampaign(groupId, campaignId);
+		}
 
 		SessionMessages.add(actionRequest, "request_processed");
 
@@ -385,9 +395,9 @@ public class NewsletterPortlet extends MVCPortlet {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		long contentId = ParamUtil.getLong(actionRequest, "contentId");
-
 		long articleId = ParamUtil.getLong(actionRequest, "articleId");
+		long contentId = ParamUtil.getLong(actionRequest, "contentId");
+		long groupId = ParamUtil.getLong(actionRequest, "groupId");
 
 		String title = ParamUtil.getString(actionRequest, "title");
 		String content = ParamUtil.getString(actionRequest, "content");
@@ -395,8 +405,8 @@ public class NewsletterPortlet extends MVCPortlet {
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 			NewsletterContent.class.getName(), actionRequest);
 
-		NewsletterContentLocalServiceUtil.updateContent(
-			contentId, articleId, title, content, serviceContext);
+		NewsletterContentServiceUtil.updateContent(
+			groupId, contentId, articleId, title, content, serviceContext);
 
 		SessionMessages.add(actionRequest, "request_processed");
 

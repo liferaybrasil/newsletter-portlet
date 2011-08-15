@@ -29,6 +29,31 @@ public class NewsletterContentServiceWrapper implements NewsletterContentService
 		_newsletterContentService = newsletterContentService;
 	}
 
+	public com.liferay.newsletter.model.NewsletterContent addContent(
+		long groupId, long articleId, java.lang.String title,
+		java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterContentService.addContent(groupId, articleId, title,
+			content, serviceContext);
+	}
+
+	public void deleteContent(long groupId, long contentId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_newsletterContentService.deleteContent(groupId, contentId);
+	}
+
+	public void updateContent(long groupId, long contentId, long articleId,
+		java.lang.String title, java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_newsletterContentService.updateContent(groupId, contentId, articleId,
+			title, content, serviceContext);
+	}
+
 	public NewsletterContentService getWrappedNewsletterContentService() {
 		return _newsletterContentService;
 	}

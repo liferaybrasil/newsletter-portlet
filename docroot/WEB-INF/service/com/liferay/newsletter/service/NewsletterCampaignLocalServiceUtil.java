@@ -342,6 +342,19 @@ public class NewsletterCampaignLocalServiceUtil {
 		getService().sendCampaign(campaign);
 	}
 
+	public static void resendCampaignToFailedContacts(long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().resendCampaignToFailedContacts(campaignId);
+	}
+
+	public static void resendCampaignToFailedContacts(
+		com.liferay.newsletter.model.NewsletterCampaign campaign)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().resendCampaignToFailedContacts(campaign);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

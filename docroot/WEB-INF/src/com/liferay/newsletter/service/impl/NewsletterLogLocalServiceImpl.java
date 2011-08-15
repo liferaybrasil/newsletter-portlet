@@ -66,4 +66,10 @@ public class NewsletterLogLocalServiceImpl
 		return newsletterLogPersistence.findByContactId(contactId);
 	}
 
+	public List<NewsletterLog> getLogsByC_S(long campaignId, boolean sent)
+		throws SystemException {
+
+		return newsletterLogPersistence.findByC_S(campaignId, sent);
+	}
+
 }

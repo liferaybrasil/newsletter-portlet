@@ -254,6 +254,18 @@ public interface NewsletterContentLocalService
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
+	public void addContentResources(
+		com.liferay.newsletter.model.NewsletterContent content,
+		boolean addGroupPermissions, boolean addGuestPermissions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	public void addContentResources(
+		com.liferay.newsletter.model.NewsletterContent content,
+		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
 	public void deleteContent(
 		com.liferay.newsletter.model.NewsletterContent content)
 		throws com.liferay.portal.kernel.exception.PortalException,

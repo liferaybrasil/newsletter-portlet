@@ -14,6 +14,13 @@
 
 package com.liferay.newsletter.service.http;
 
+import com.liferay.newsletter.service.NewsletterContentServiceUtil;
+
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * <p>
  * This class provides a SOAP utility for the
@@ -58,4 +65,50 @@ package com.liferay.newsletter.service.http;
  * @generated
  */
 public class NewsletterContentServiceSoap {
+	public static com.liferay.newsletter.model.NewsletterContentSoap addContent(
+		long groupId, long articleId, java.lang.String title,
+		java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws RemoteException {
+		try {
+			com.liferay.newsletter.model.NewsletterContent returnValue = NewsletterContentServiceUtil.addContent(groupId,
+					articleId, title, content, serviceContext);
+
+			return com.liferay.newsletter.model.NewsletterContentSoap.toSoapModel(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void deleteContent(long groupId, long contentId)
+		throws RemoteException {
+		try {
+			NewsletterContentServiceUtil.deleteContent(groupId, contentId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void updateContent(long groupId, long contentId,
+		long articleId, java.lang.String title, java.lang.String content,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws RemoteException {
+		try {
+			NewsletterContentServiceUtil.updateContent(groupId, contentId,
+				articleId, title, content, serviceContext);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(NewsletterContentServiceSoap.class);
 }

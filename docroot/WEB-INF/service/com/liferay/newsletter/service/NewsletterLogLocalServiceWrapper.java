@@ -280,6 +280,12 @@ public class NewsletterLogLocalServiceWrapper
 		return _newsletterLogLocalService.getLogsByContactId(contactId);
 	}
 
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getLogsByC_S(
+		long campaignId, boolean sent)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _newsletterLogLocalService.getLogsByC_S(campaignId, sent);
+	}
+
 	public NewsletterLogLocalService getWrappedNewsletterLogLocalService() {
 		return _newsletterLogLocalService;
 	}

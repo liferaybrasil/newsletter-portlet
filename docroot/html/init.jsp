@@ -22,64 +22,60 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
-
-<%@ page import="java.util.List" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-
-<%@ page import="com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil" %>
-<%@ page import="javax.portlet.PortletPreferences" %>
-<%@ page import="com.liferay.newsletter.util.NewsletterConstants" %>
-<%@ page import="com.liferay.portal.kernel.dao.search.ResultRow" %>
-<%@ page import="com.liferay.portal.kernel.util.GetterUtil" %>
-<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
-<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
-<%@ page import="com.liferay.portal.model.Group" %>
-<%@ page import="com.liferay.portal.security.permission.ActionKeys" %>
-<%@ page import="com.liferay.portal.util.PortalUtil" %>
+<%@ page import="com.liferay.newsletter.ContactException" %>
+<%@ page import="com.liferay.newsletter.ContentException" %>
+<%@ page import="com.liferay.newsletter.EmailException" %>
+<%@ page import="com.liferay.newsletter.NameException" %>
+<%@ page import="com.liferay.newsletter.SubjectException" %>
+<%@ page import="com.liferay.newsletter.SubjectException" %>
+<%@ page import="com.liferay.newsletter.TitleException" %>
 <%@ page import="com.liferay.newsletter.model.NewsletterCampaign" %>
 <%@ page import="com.liferay.newsletter.model.NewsletterContact" %>
 <%@ page import="com.liferay.newsletter.model.NewsletterContent" %>
-<%@ page import="com.liferay.newsletter.service.NewsletterContentLocalServiceUtil" %>
-<%@ page import="com.liferay.newsletter.service.NewsletterCampaignLocalServiceUtil" %>
-<%@ page import="com.liferay.newsletter.service.NewsletterContactLocalServiceUtil" %>
-<%@ page import="com.liferay.newsletter.service.NewsletterLogLocalServiceUtil" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="com.liferay.portlet.journal.model.JournalArticleDisplay" %>
-
-<%@ page import="com.liferay.portlet.journal.model.JournalArticle" %>
-<%@ page import="com.liferay.portlet.journal.model.JournalArticleConstants" %>
-<%@ page import="com.liferay.portal.service.permission.GroupPermissionUtil" %>
-<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
-<%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %>
-<%@ page import="com.liferay.portal.util.PortletKeys" %>
-<%@ page import="com.liferay.portal.service.LayoutLocalServiceUtil" %>
-<%@ page import="com.liferay.portal.model.Layout" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="javax.portlet.PortletURL" %>
-<%@ page import="com.liferay.portlet.PortletURLUtil" %>
-
-<%@ page import="com.liferay.portal.kernel.util.PropsKeys" %>
-<%@ page import="com.liferay.util.portlet.PortletProps" %>
-
-<%@ page import="com.liferay.portal.kernel.util.StringPool" %>
-<%@ page import="com.liferay.portal.kernel.dao.search.RowChecker" %>
-<%@ page import="com.liferay.portal.kernel.dao.search.SearchEntry" %>
-<%@ page import="com.liferay.portal.kernel.util.FastDateFormatFactoryUtil" %>
-<%@ page import="java.text.Format" %>
-<%@ page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %>
-<%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
-
-<%@ page import="com.liferay.newsletter.TitleException" %>
-<%@ page import="com.liferay.newsletter.ContentException" %>
-<%@ page import="com.liferay.newsletter.NameException" %>
-<%@ page import="com.liferay.newsletter.SubjectException" %>
-<%@ page import="com.liferay.newsletter.EmailException" %>
-<%@ page import="com.liferay.newsletter.SubjectException" %>
-<%@ page import="com.liferay.newsletter.ContactException" %>
-
 <%@ page import="com.liferay.newsletter.search.NewsletterContactSearchTerms" %>
 <%@ page import="com.liferay.newsletter.search.NewsletterContactDisplayTerms" %>
-
+<%@ page import="com.liferay.newsletter.service.NewsletterCampaignLocalServiceUtil" %>
+<%@ page import="com.liferay.newsletter.service.NewsletterContactLocalServiceUtil" %>
+<%@ page import="com.liferay.newsletter.service.NewsletterContentLocalServiceUtil" %>
+<%@ page import="com.liferay.newsletter.service.NewsletterLogLocalServiceUtil" %>
+<%@ page import="com.liferay.newsletter.service.permission.CampaignPermission" %>
+<%@ page import="com.liferay.newsletter.service.permission.ContentPermission" %>
+<%@ page import="com.liferay.newsletter.service.permission.NewsletterPermission" %>
+<%@ page import="com.liferay.newsletter.util.NewsletterConstants" %>
+<%@ page import="com.liferay.newsletter.util.NewsletterKeys" %>
+<%@ page import="com.liferay.portal.kernel.dao.search.ResultRow" %>
+<%@ page import="com.liferay.portal.kernel.dao.search.RowChecker" %>
+<%@ page import="com.liferay.portal.kernel.dao.search.SearchEntry" %>
+<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
+<%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
+<%@ page import="com.liferay.portal.kernel.util.FastDateFormatFactoryUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.GetterUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.PropsKeys" %>
+<%@ page import="com.liferay.portal.kernel.util.StringPool" %>
+<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
+<%@ page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %>
+<%@ page import="com.liferay.portal.model.Group" %>
+<%@ page import="com.liferay.portal.model.Layout" %>
+<%@ page import="com.liferay.portal.security.permission.ActionKeys" %>
+<%@ page import="com.liferay.portal.service.permission.GroupPermissionUtil" %>
+<%@ page import="com.liferay.portal.service.LayoutLocalServiceUtil" %>
+<%@ page import="com.liferay.portal.util.PortalUtil" %>
+<%@ page import="com.liferay.portal.util.PortletKeys" %>
+<%@ page import="com.liferay.portlet.PortletURLUtil" %>
+<%@ page import="com.liferay.portlet.journal.model.JournalArticle" %>
+<%@ page import="com.liferay.portlet.journal.model.JournalArticleConstants" %>
+<%@ page import="com.liferay.portlet.journal.model.JournalArticleDisplay" %>
+<%@ page import="com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil" %>
+<%@ page import="com.liferay.util.portlet.PortletProps" %>
+<%@ page import="java.text.Format" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.List" %>
+<%@ page import="javax.portlet.PortletPreferences" %>
+<%@ page import="javax.portlet.PortletURL" %>
 
 <liferay-theme:defineObjects />
 

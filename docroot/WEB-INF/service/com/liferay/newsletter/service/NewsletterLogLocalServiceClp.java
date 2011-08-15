@@ -99,6 +99,9 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 
 		_getLogsByContactIdMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getLogsByContactId", long.class);
+
+		_getLogsByC_SMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getLogsByC_S", long.class, boolean.class);
 	}
 
 	public com.liferay.newsletter.model.NewsletterLog addNewsletterLog(
@@ -684,6 +687,34 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 		return (java.util.List<com.liferay.newsletter.model.NewsletterLog>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getLogsByC_S(
+		long campaignId, boolean sent)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getLogsByC_SMethodKey21,
+				campaignId, sent);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.newsletter.model.NewsletterLog>)ClpSerializer.translateOutput(returnObj);
+	}
+
 	public ClassLoaderProxy getClassLoaderProxy() {
 		return _classLoaderProxy;
 	}
@@ -710,4 +741,5 @@ public class NewsletterLogLocalServiceClp implements NewsletterLogLocalService {
 	private MethodKey _getLogMethodKey18;
 	private MethodKey _getLogsByCampaignIdMethodKey19;
 	private MethodKey _getLogsByContactIdMethodKey20;
+	private MethodKey _getLogsByC_SMethodKey21;
 }

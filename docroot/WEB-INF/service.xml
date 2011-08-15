@@ -129,6 +129,10 @@
 			<finder-column name="campaignId" />
 			<finder-column name="contactId" />
 		</finder>
+		<finder name="C_S" return-type="Collection">
+			<finder-column name="campaignId" />
+			<finder-column name="sent" />
+		</finder>
 	</entity>
 	<exceptions>
 		<exception>Contact</exception>
@@ -136,6 +140,7 @@
 		<exception>Email</exception>
 		<exception>Name</exception>
 		<exception>Subject</exception>
+		<exception>SendEmail</exception>
 		<exception>Title</exception>
 	</exceptions>
 </service-builder>

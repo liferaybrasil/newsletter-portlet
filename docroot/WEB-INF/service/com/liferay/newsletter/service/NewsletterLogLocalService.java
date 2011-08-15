@@ -254,4 +254,9 @@ public interface NewsletterLogLocalService extends PersistedModelLocalService {
 	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getLogsByContactId(
 		long contactId)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.newsletter.model.NewsletterLog> getLogsByC_S(
+		long campaignId, boolean sent)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

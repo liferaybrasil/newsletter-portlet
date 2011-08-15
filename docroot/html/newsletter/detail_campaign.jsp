@@ -81,7 +81,7 @@ String contentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(cam
 </span>
 
 <liferay-portlet:renderURL varImpl="portletURL">
-	<portlet:param name="jspPage" value="/html/newsletterportlet/detail_campaign.jsp" />
+	<portlet:param name="jspPage" value="/html/newsletter/detail_campaign.jsp" />
 	<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
 	<portlet:param name="redirect" value="<%= redirect %>" />
 	<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
@@ -89,7 +89,7 @@ String contentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(cam
 
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
 	<liferay-ui:search-form
-		page="/html/newsletterportlet/contact_search.jsp"
+		page="/html/newsletter/contact_search.jsp"
 		servletContext="<%= application %>"
 	/>
 </aui:form>
@@ -129,21 +129,25 @@ String contentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(cam
 </liferay-ui:search-container>
 
 <portlet:actionURL name="resendCampaign" var="resendURL">
-	<portlet:param name="cmd" value="resendCampaign" />
+	<portlet:param name="cmd" value="<%= NewsletterConstants.RESEND %>" />
+	<portlet:param name="resendType" value="<%= NewsletterConstants.RESEND_ALL %>" />
 	<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
 	<portlet:param name="redirect" value="<%= redirect %>" />
 	<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
 </portlet:actionURL>
 
 <portlet:actionURL name="resendFailed" var="resendFailedURL">
-	<portlet:param name="cmd" value="resendFailed" />
+	<portlet:param name="cmd" value="<%= NewsletterConstants.RESEND %>" />
+	<portlet:param name="resendType" value="<%= NewsletterConstants.RESEND_FAILED %>" />
 	<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
 	<portlet:param name="redirect" value="<%= redirect %>" />
 	<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
 </portlet:actionURL>
 
 <aui:button-row>
+<c:if test='<%= CampaignPermission.contains(permissionChecker, scopeGroupId, campaignId, NewsletterKeys.RESEND) %>'>
 		<aui:button value="Resend All" onClick="<%= resendURL.toString() %>" />
 
 		<aui:button value="Resend Failed" onClick="<%= resendFailedURL.toString() %>" />
+</c:if>
 </aui:button-row>

@@ -21,37 +21,47 @@ ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_
 
 NewsletterContent content = (NewsletterContent)row.getObject();
 
-String name = NewsletterContent.class.getName();
-
 long contentId = content.getContentId();
 
 String redirect = PortalUtil.getCurrentURL(renderRequest);
 %>
 
 <liferay-ui:icon-menu>
-	<c:if test="<%= permissionChecker.hasPermission(scopeGroupId, name, contentId, ActionKeys.UPDATE) %>">
+	<c:if test="<%= ContentPermission.contains(permissionChecker, scopeGroupId, contentId, NewsletterKeys.UPDATE) %>">
 		<portlet:renderURL var="editURL">
-			<portlet:param name="jspPage" value="/html/newsletterportlet/edit_content.jsp" />
+			<portlet:param name="jspPage" value="/html/newsletter/edit_content.jsp" />
 			<portlet:param name="contentId" value="<%= String.valueOf(contentId) %>" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
 		</portlet:renderURL>
 
-		<liferay-ui:icon 
-			image="edit" 
+		<liferay-ui:icon
+			image="edit"
 			url="<%=editURL.toString() %>"
 		/>
 	</c:if>
 
-	<c:if test="<%= permissionChecker.hasPermission(scopeGroupId, name, contentId, ActionKeys.DELETE) %>">
+	<c:if test="<%= ContentPermission.contains(permissionChecker, scopeGroupId, contentId, NewsletterKeys.DELETE) %>">
 		<portlet:actionURL name="deleteCampaignContent" var="deleteURL">
 			<portlet:param name="cmd" value="<%= NewsletterConstants.DELETE_CONTENT %>" />
 			<portlet:param name="contentId" value="<%= String.valueOf(contentId) %>" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
 		</portlet:actionURL>
 
-		<liferay-ui:icon 
-			image="delete" 
+		<liferay-ui:icon
+			image="delete"
 			url="<%=deleteURL.toString() %>"
 		/>
 	</c:if>
+
+	<c:if test="<%= ContentPermission.contains(permissionChecker, scopeGroupId, contentId, NewsletterKeys.PERMISSIONS) %>">
+		<liferay-security:permissionsURL
+		modelResource="<%= NewsletterContent.class.getName() %>"
+		modelResourceDescription="<%= content.getTitle() %>"
+		resourcePrimKey="<%= String.valueOf(contentId) %>"
+		var="permissionsURL"
+		/>
+
+		<liferay-ui:icon image="permissions" url="<%= permissionsURL %>" />
+	</c:if>
+
 </liferay-ui:icon-menu>

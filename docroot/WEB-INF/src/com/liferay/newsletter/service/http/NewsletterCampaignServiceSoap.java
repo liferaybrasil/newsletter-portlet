@@ -14,6 +14,13 @@
 
 package com.liferay.newsletter.service.http;
 
+import com.liferay.newsletter.service.NewsletterCampaignServiceUtil;
+
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * <p>
  * This class provides a SOAP utility for the
@@ -58,4 +65,62 @@ package com.liferay.newsletter.service.http;
  * @generated
  */
 public class NewsletterCampaignServiceSoap {
+	public static com.liferay.newsletter.model.NewsletterCampaignSoap addCampaign(
+		long groupId, long contentId, java.lang.String emailSubject,
+		java.lang.String senderEmail, java.lang.String senderName,
+		int sendDateDay, int sendDateMonth, int sendDateYear,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws RemoteException {
+		try {
+			com.liferay.newsletter.model.NewsletterCampaign returnValue = NewsletterCampaignServiceUtil.addCampaign(groupId,
+					contentId, emailSubject, senderEmail, senderName,
+					sendDateDay, sendDateMonth, sendDateYear, serviceContext);
+
+			return com.liferay.newsletter.model.NewsletterCampaignSoap.toSoapModel(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void deleteCampaign(long groupId, long campaignId)
+		throws RemoteException {
+		try {
+			NewsletterCampaignServiceUtil.deleteCampaign(groupId, campaignId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void sendCampaign(long groupId, long campaignId)
+		throws RemoteException {
+		try {
+			NewsletterCampaignServiceUtil.sendCampaign(groupId, campaignId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void resendCampaignToFailedContacts(long groupId,
+		long campaignId) throws RemoteException {
+		try {
+			NewsletterCampaignServiceUtil.resendCampaignToFailedContacts(groupId,
+				campaignId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(NewsletterCampaignServiceSoap.class);
 }

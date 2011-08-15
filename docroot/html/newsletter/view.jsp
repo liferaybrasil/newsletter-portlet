@@ -28,6 +28,17 @@ String tabNames = "Campaign Content,Campaign";
 		<portlet:param name="tabs1" value="<%= tabs1 %>" />
 </portlet:renderURL>
 
+<aui:button-row>
+<c:if test='<%= NewsletterPermission.contains(permissionChecker, scopeGroupId, ActionKeys.PERMISSIONS) %>'>
+		<liferay-security:permissionsURL
+			modelResource="com.liferay.newsletter.model"
+			modelResourceDescription="Permission"
+			resourcePrimKey="<%= String.valueOf(scopeGroupId) %>"
+			var="permissionsURL" />
+
+		<aui:button value="permissions" onClick="<%= permissionsURL %>" />
+</c:if>
+</aui:button-row>
 <liferay-ui:tabs
    names="<%= tabNames %>"
    url="<%= renderURL %>"
@@ -35,8 +46,8 @@ String tabNames = "Campaign Content,Campaign";
 />
 
 <c:if test='<%= tabs1.equals("Campaign Content") %>'>
-  <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_content.jsp" />
+  <liferay-util:include servletContext="<%= application %>" page="/html/newsletter/view_content.jsp" />
 </c:if>
 <c:if test='<%= tabs1.equals(tabsCampaign) %>'>
-  <liferay-util:include servletContext="<%= application %>" page="/html/newsletterportlet/view_campaign.jsp" />
+  <liferay-util:include servletContext="<%= application %>" page="/html/newsletter/view_campaign.jsp" />
 </c:if>

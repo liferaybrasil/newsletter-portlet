@@ -42,4 +42,23 @@ public interface NewsletterCampaignService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link NewsletterCampaignServiceUtil} to access the newsletter campaign remote service. Add custom service methods to {@link com.liferay.newsletter.service.impl.NewsletterCampaignServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public com.liferay.newsletter.model.NewsletterCampaign addCampaign(
+		long groupId, long contentId, java.lang.String emailSubject,
+		java.lang.String senderEmail, java.lang.String senderName,
+		int sendDateDay, int sendDateMonth, int sendDateYear,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	public void deleteCampaign(long groupId, long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	public void sendCampaign(long groupId, long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	public void resendCampaignToFailedContacts(long groupId, long campaignId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 }

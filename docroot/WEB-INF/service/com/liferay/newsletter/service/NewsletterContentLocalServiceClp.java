@@ -95,27 +95,37 @@ public class NewsletterContentLocalServiceClp
 				java.lang.String.class, java.lang.String.class,
 				com.liferay.portal.service.ServiceContext.class);
 
-		_deleteContentMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
+		_addContentResourcesMethodKey18 = new MethodKey(_classLoaderProxy.getClassName(),
+				"addContentResources",
+				com.liferay.newsletter.model.NewsletterContent.class,
+				boolean.class, boolean.class);
+
+		_addContentResourcesMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
+				"addContentResources",
+				com.liferay.newsletter.model.NewsletterContent.class,
+				java.lang.String[].class, java.lang.String[].class);
+
+		_deleteContentMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
 				"deleteContent",
 				com.liferay.newsletter.model.NewsletterContent.class);
 
-		_deleteContentMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
+		_deleteContentMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
 				"deleteContent", long.class);
 
-		_getContentMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getContentMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getContent", long.class);
 
-		_searchMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+		_searchMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
 				"search", long.class, long.class, java.lang.String.class,
 				int.class, int.class,
 				com.liferay.portal.kernel.util.OrderByComparator.class);
 
-		_updateContentMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
+		_updateContentMethodKey24 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateContent", long.class, long.class,
 				java.lang.String.class, java.lang.String.class,
 				com.liferay.portal.service.ServiceContext.class);
 
-		_validateMethodKey23 = new MethodKey(_classLoaderProxy.getClassName(),
+		_validateMethodKey25 = new MethodKey(_classLoaderProxy.getClassName(),
 				"validate", java.lang.String.class, java.lang.String.class);
 	}
 
@@ -627,11 +637,74 @@ public class NewsletterContentLocalServiceClp
 		return (com.liferay.newsletter.model.NewsletterContent)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public void addContentResources(
+		com.liferay.newsletter.model.NewsletterContent content,
+		boolean addGroupPermissions, boolean addGuestPermissions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		MethodHandler methodHandler = new MethodHandler(_addContentResourcesMethodKey18,
+				ClpSerializer.translateInput(content), addGroupPermissions,
+				addGuestPermissions);
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
+	public void addContentResources(
+		com.liferay.newsletter.model.NewsletterContent content,
+		java.lang.String[] groupPermissions, java.lang.String[] guestPermissions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		MethodHandler methodHandler = new MethodHandler(_addContentResourcesMethodKey19,
+				ClpSerializer.translateInput(content),
+				ClpSerializer.translateInput(groupPermissions),
+				ClpSerializer.translateInput(guestPermissions));
+
+		try {
+			_classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	public void deleteContent(
 		com.liferay.newsletter.model.NewsletterContent content)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		MethodHandler methodHandler = new MethodHandler(_deleteContentMethodKey18,
+		MethodHandler methodHandler = new MethodHandler(_deleteContentMethodKey20,
 				ClpSerializer.translateInput(content));
 
 		try {
@@ -659,7 +732,7 @@ public class NewsletterContentLocalServiceClp
 	public void deleteContent(long contentId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		MethodHandler methodHandler = new MethodHandler(_deleteContentMethodKey19,
+		MethodHandler methodHandler = new MethodHandler(_deleteContentMethodKey21,
 				contentId);
 
 		try {
@@ -690,7 +763,7 @@ public class NewsletterContentLocalServiceClp
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getContentMethodKey20,
+		MethodHandler methodHandler = new MethodHandler(_getContentMethodKey22,
 				contentId);
 
 		try {
@@ -724,7 +797,7 @@ public class NewsletterContentLocalServiceClp
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_searchMethodKey21,
+		MethodHandler methodHandler = new MethodHandler(_searchMethodKey23,
 				companyId, groupId, ClpSerializer.translateInput(keywords),
 				start, end, ClpSerializer.translateInput(orderByComparator));
 
@@ -756,7 +829,7 @@ public class NewsletterContentLocalServiceClp
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_updateContentMethodKey22,
+		MethodHandler methodHandler = new MethodHandler(_updateContentMethodKey24,
 				contentId, articleId, ClpSerializer.translateInput(title),
 				ClpSerializer.translateInput(content),
 				ClpSerializer.translateInput(serviceContext));
@@ -787,7 +860,7 @@ public class NewsletterContentLocalServiceClp
 
 	public void validate(java.lang.String title, java.lang.String content)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		MethodHandler methodHandler = new MethodHandler(_validateMethodKey23,
+		MethodHandler methodHandler = new MethodHandler(_validateMethodKey25,
 				ClpSerializer.translateInput(title),
 				ClpSerializer.translateInput(content));
 
@@ -832,10 +905,12 @@ public class NewsletterContentLocalServiceClp
 	private MethodKey _getBeanIdentifierMethodKey15;
 	private MethodKey _setBeanIdentifierMethodKey16;
 	private MethodKey _addContentMethodKey17;
-	private MethodKey _deleteContentMethodKey18;
-	private MethodKey _deleteContentMethodKey19;
-	private MethodKey _getContentMethodKey20;
-	private MethodKey _searchMethodKey21;
-	private MethodKey _updateContentMethodKey22;
-	private MethodKey _validateMethodKey23;
+	private MethodKey _addContentResourcesMethodKey18;
+	private MethodKey _addContentResourcesMethodKey19;
+	private MethodKey _deleteContentMethodKey20;
+	private MethodKey _deleteContentMethodKey21;
+	private MethodKey _getContentMethodKey22;
+	private MethodKey _searchMethodKey23;
+	private MethodKey _updateContentMethodKey24;
+	private MethodKey _validateMethodKey25;
 }

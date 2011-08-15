@@ -20,14 +20,12 @@
 
 <%
 String redirect = PortalUtil.getCurrentURL(renderRequest);
-
-boolean hasAddPermission = permissionChecker.hasPermission(scopeGroupId, "com.liferay.newsletter.model", scopeGroupId, "ADD_CAMPAIGN");
 %>
 
 <aui:button-row>
-	<c:if test='<%= hasAddPermission %>'>
+	<c:if test='<%= NewsletterPermission.contains(permissionChecker, scopeGroupId, NewsletterKeys.ADD_CAMPAIGN) %>'>
 		<portlet:renderURL var="addCampaignURL">
-			<portlet:param name="jspPage" value="/html/newsletterportlet/edit_campaign.jsp" />
+			<portlet:param name="jspPage" value="/html/newsletter/edit_campaign.jsp" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
 		</portlet:renderURL>
 
@@ -70,7 +68,7 @@ boolean hasAddPermission = permissionChecker.hasPermission(scopeGroupId, "com.li
 
 		<liferay-ui:search-container-column-jsp
 			align="right"
-			path="/html/newsletterportlet/campaign_actions.jsp"
+			path="/html/newsletter/campaign_actions.jsp"
 		/>
 	</liferay-ui:search-container-row>
 

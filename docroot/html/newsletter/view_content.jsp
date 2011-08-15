@@ -21,15 +21,13 @@
 <%
 String redirect = PortalUtil.getCurrentURL(renderRequest);
 
-boolean hasAddPermission = permissionChecker.hasPermission(scopeGroupId, "com.liferay.newsletter.model", scopeGroupId, "ADD_CAMPAIGNCONTENT");
-
 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 %>
 
 <aui:button-row>
-	<c:if test='<%= hasAddPermission %>'>
+	<c:if test='<%= NewsletterPermission.contains(permissionChecker, scopeGroupId, NewsletterKeys.ADD_CONTENT) %>'>
 		<portlet:renderURL var="addCampaignContentURL">
-			<portlet:param name="jspPage" value="/html/newsletterportlet/edit_content.jsp" />
+			<portlet:param name="jspPage" value="/html/newsletter/edit_content.jsp" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
 		</portlet:renderURL>
 
@@ -71,7 +69,7 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
 		<liferay-ui:search-container-column-jsp
 			align="right"
-			path="/html/newsletterportlet/content_actions.jsp"
+			path="/html/newsletter/content_actions.jsp"
 		/>
 	</liferay-ui:search-container-row>
 
