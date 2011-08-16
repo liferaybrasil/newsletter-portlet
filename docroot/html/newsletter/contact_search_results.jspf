@@ -20,9 +20,14 @@ NewsletterContactSearchTerms searchTerms = (NewsletterContactSearchTerms)searchC
 int totalCount = 0;
 List<NewsletterContact> resultList = new ArrayList<NewsletterContact>();
 
+boolean status = true;
+if (searchTerms.getStatus().equals("Failed")) {
+	status = false;
+}
+
 if (searchTerms.isAdvancedSearch()) {
-	resultList = NewsletterContactLocalServiceUtil.search(campaign.getCompanyId(), searchTerms.getGroupId(), campaignId, searchTerms.getName(),searchTerms.getEmail(), true, searchContainer.getStart(), searchContainer.getEnd(), searchTerms.isAndOperator(), searchContainer.getOrderByComparator());
-	totalCount = NewsletterContactLocalServiceUtil.searchCount(campaign.getCompanyId(), searchTerms.getGroupId(), campaignId, searchTerms.getName(),searchTerms.getEmail(), true, searchContainer.getStart(), searchContainer.getEnd(), searchTerms.isAndOperator(), searchContainer.getOrderByComparator());
+	resultList = NewsletterContactLocalServiceUtil.search(campaign.getCompanyId(), searchTerms.getGroupId(), campaignId, searchTerms.getName(),searchTerms.getEmail(), status, searchContainer.getStart(), searchContainer.getEnd(), searchTerms.isAndOperator(), searchContainer.getOrderByComparator());
+	totalCount = NewsletterContactLocalServiceUtil.searchCount(campaign.getCompanyId(), searchTerms.getGroupId(), campaignId, searchTerms.getName(),searchTerms.getEmail(), status, searchContainer.getStart(), searchContainer.getEnd(), searchTerms.isAndOperator(), searchContainer.getOrderByComparator());
 }
 else {
 	resultList = NewsletterContactLocalServiceUtil.search(campaign.getCompanyId(), searchTerms.getGroupId(), campaignId, searchTerms.getKeywords(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());

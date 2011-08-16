@@ -39,13 +39,13 @@ String keywords = ParamUtil.getString(request, "keywords", StringPool.BLANK);
 			<liferay-ui:search-container-results
 				results="<%= JournalArticleLocalServiceUtil.search(
 				company.getCompanyId(), scopeGroupId, 0, keywords,	null,
-				StringPool.BLANK, StringPool.BLANK, StringPool.BLANK, null, null, WorkflowConstants.STATUS_ANY, null,
+				null, null, null, null, null, WorkflowConstants.STATUS_ANY, null,
 				searchContainer.getStart(), searchContainer.getEnd(),
 				searchContainer.getOrderByComparator()) %>"
 
 				total="<%= JournalArticleLocalServiceUtil.searchCount(
 				company.getCompanyId(), scopeGroupId, 0, keywords,
-				null, StringPool.BLANK, StringPool.BLANK, StringPool.BLANK, null, null, WorkflowConstants.STATUS_ANY, null) %>"
+				null, null, null, null, null, null, WorkflowConstants.STATUS_ANY, null) %>"
 			/>
 
 			<liferay-ui:search-container-row
