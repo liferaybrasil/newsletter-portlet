@@ -14,12 +14,9 @@
  */
 --%>
 
-<%@ page import="com.liferay.newsletter.search.NewsletterContactSearch" %>
 <%@ include file="/html/init.jsp" %>
 
 <%
-SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
-
 long campaignId = ParamUtil.getLong(request, "campaignId");
 
 NewsletterCampaign campaign = NewsletterCampaignLocalServiceUtil.getNewsletterCampaign(campaignId);
@@ -33,52 +30,32 @@ String contentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(cam
 
 <liferay-ui:header
 	backURL="<%= redirect %>"
-	title='Scheduling Detail'
+	title='Campaign Detail'
 />
 
 <aui:fieldset>
-<span class="aui-field-content">
-		<label class="aui-field-label"> Email Subject </label>
-	<span class="aui-field-element ">
-		<%= campaign.getEmailSubject() %>
-	</span>
-</span>
+	<aui:field-wrapper name="emailSubject" label="email-subject">
+			<%= campaign.getEmailSubject() %>
+	</aui:field-wrapper>
 
-<span class="aui-field-content">
-		<label class="aui-field-label"> Sender Name </label>
-	<span class="aui-field-element ">
-		<%= campaign.getSenderName() %>
-	</span>
-</span>
+	<aui:field-wrapper name="senderName" label="sender-name">
+			<%= campaign.getSenderName() %>
+	</aui:field-wrapper>
 
-<span class="aui-field-content">
-		<label class="aui-field-label"> Sender Email </label>
-	<span class="aui-field-element ">
-		<%= campaign.getSenderEmail() %>
-	</span>
-</span>
+	<aui:field-wrapper name="senderEmail" label="sender-email">
+			<%= campaign.getSenderEmail() %>
+	</aui:field-wrapper>
 
-<span class="aui-field-content">
-		<label class="aui-field-label"> Send Date </label>
-	<span class="aui-field-element ">
-		<%= dateFormat.format(campaign.getSendDate()) %>
-	</span>
-</span>
+	<aui:field-wrapper name="sendDate" label="send-date">
+			<%= dateHourFormat.format(campaign.getSendDate()) %>
+	</aui:field-wrapper>
 
-<span class="aui-field-content">
-		<label class="aui-field-label"> Campaign Content </label>
-		<b>Title:</b> <%= contentTitle %>
-	<span class="aui-field-element ">
-		<%= campaign.getContent().getContent() %>
-	</span>
-</span>
+	<aui:field-wrapper name="campaignContent" label="campaign-content">
+			<%= campaign.getContent().getContent() %>
+	</aui:field-wrapper>
 </aui:fieldset>
 
-<br />
-
-<span class="aui-field-content">
-		<label class="aui-field-label"> Contacts </label>
-</span>
+<aui:field-wrapper name="contacts" label="contacts" />
 
 <liferay-portlet:renderURL varImpl="portletURL">
 	<portlet:param name="jspPage" value="/html/newsletter/detail_campaign.jsp" />
@@ -109,22 +86,22 @@ String contentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(cam
 		keyProperty="contactId"
 		modelVar="contactNewsletter"
 	>
-
 		<liferay-ui:search-container-column-text
-			name="Name"
+			name="name"
 			value="<%= contactNewsletter.getName() %>"
 		/>
 
 		<liferay-ui:search-container-column-text
-			name="Email"
+			name="email"
 			value="<%= contactNewsletter.getEmail() %>"
 		/>
 
 		<liferay-ui:search-container-column-text
-			name="Status"
+			name="status"
 			value='<%= NewsletterLogLocalServiceUtil.getLog(campaignId, contactNewsletter.getContactId()).isSent() ? "Sent" : "Failed" %>'
 		/>
 	</liferay-ui:search-container-row>
+
 	<liferay-ui:search-iterator />
 </liferay-ui:search-container>
 
@@ -145,9 +122,9 @@ String contentTitle = NewsletterContentLocalServiceUtil.getNewsletterContent(cam
 </portlet:actionURL>
 
 <aui:button-row>
-<c:if test='<%= CampaignPermission.contains(permissionChecker, scopeGroupId, campaignId, NewsletterKeys.RESEND) %>'>
-		<aui:button value="Resend All" onClick="<%= resendURL.toString() %>" />
+	<c:if test='<%= CampaignPermission.contains(permissionChecker, scopeGroupId, campaignId, NewsletterKeys.RESEND) %>'>
+			<aui:button value="resend-all" onClick="<%= resendURL.toString() %>" />
 
-		<aui:button value="Resend Failed" onClick="<%= resendFailedURL.toString() %>" />
-</c:if>
+			<aui:button value="resend-failed" onClick="<%= resendFailedURL.toString() %>" />
+	</c:if>
 </aui:button-row>

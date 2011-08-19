@@ -14,16 +14,13 @@
  */
 --%>
 
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
-
-<portlet:defineObjects />
-
 <%@ include file="/html/init.jsp" %>
 
-<portlet:actionURL name="setNewsletterPref" var="setNewsletterPrefUrl" />
+<portlet:actionURL name="configure" var="configureUrl" />
 
 <liferay-ui:error key="preferences-added" message="preferences-added" />
-<aui:form action="<%= setNewsletterPrefUrl %>" method="POST" name="fm">
+
+<aui:form action="<%= configureUrl %>" method="POST" name="fm">
 	<aui:fieldset>
 		<aui:input type="hidden" name="cmd" value="<%= NewsletterConstants.CONFIGURE %>" />
 		<aui:input name="senderName" label="Sender Name" value='<%= PortletProps.get(NewsletterConstants.SENDER_NAME) %>' size="45" type="text" />
@@ -33,6 +30,7 @@
 		<aui:input name="smtpUser" label="SMTP User" value='<%= PortletProps.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_USER) %>' size="45" type="text" />
 		<aui:input name="smtpPassword" label="SMTP Password" value='<%= PortletProps.get(PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD) %>' size="45" type="text" />
 	</aui:fieldset>
+
 	<aui:button-row>
 		<aui:button type="submit" />
 	</aui:button-row>

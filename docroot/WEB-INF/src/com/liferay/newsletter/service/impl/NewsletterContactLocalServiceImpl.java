@@ -88,6 +88,7 @@ public class NewsletterContactLocalServiceImpl
 		throws PortalException, SystemException {
 
 		NewsletterContact contact = null;
+
 		try {
 			contact = newsletterContactPersistence.findByEmail(email);
 		}
@@ -98,7 +99,6 @@ public class NewsletterContactLocalServiceImpl
 		}
 
 		return contact;
-
 	}
 
 	public List<NewsletterContact> search(

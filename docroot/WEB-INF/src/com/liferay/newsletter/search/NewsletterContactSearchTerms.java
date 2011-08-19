@@ -30,7 +30,7 @@ public class NewsletterContactSearchTerms
 
 		email = DAOParamUtil.getString(portletRequest, EMAIL);
 		name = DAOParamUtil.getString(portletRequest, NAME);
-		status = ParamUtil.getString(portletRequest, STATUS);
+		status = ParamUtil.getBoolean(portletRequest, STATUS);
 	}
 
 	public String getEmail(String email) {
@@ -41,20 +41,12 @@ public class NewsletterContactSearchTerms
 		return this.name;
 	}
 
-	public String getStatus(String status) {
-		return this.status;
-	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 }

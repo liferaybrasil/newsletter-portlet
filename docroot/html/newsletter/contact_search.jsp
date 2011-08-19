@@ -33,8 +33,8 @@ NewsletterContactDisplayTerms displayTerms = new NewsletterContactDisplayTerms(r
 
 			<aui:select name="<%= displayTerms.STATUS %>">
 				<aui:option value=""></aui:option>
-				<aui:option label="Sent" selected='<%= displayTerms.getStatus().equals("Sent") %>' />
-				<aui:option label="Failed" selected='<%= displayTerms.getStatus().equals("Failed") %>' />
+				<aui:option label="<%= displayTerms.SENT %>" selected='<%= displayTerms.isSent() %>' value="1" />
+				<aui:option label="<%= displayTerms.FAILED %>" selected='<%= !displayTerms.isSent() %>' value="0" />
 			</aui:select>
 		</aui:column>
 	</aui:fieldset>

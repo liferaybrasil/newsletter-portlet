@@ -14,28 +14,23 @@
  */
 --%>
 
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
-
 <%@ include file="/html/init.jsp" %>
 
 <%
 String redirect = PortalUtil.getCurrentURL(renderRequest);
-
-SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 %>
 
 <aui:button-row>
 	<c:if test='<%= NewsletterPermission.contains(permissionChecker, scopeGroupId, NewsletterKeys.ADD_CONTENT) %>'>
-		<portlet:renderURL var="addCampaignContentURL">
+		<portlet:renderURL var="addContentURL">
 			<portlet:param name="jspPage" value="/html/newsletter/edit_content.jsp" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
 		</portlet:renderURL>
 
-		<aui:button value="Add Campaign Content" onClick="<%= addCampaignContentURL.toString() %>" />
+		<aui:button value="add-content" onClick="<%= addContentURL.toString() %>" />
 	</c:if>
 </aui:button-row>
-<liferay-ui:error key="campaign-content-added" message="campaign-content-added" />
-<liferay-ui:error key="campaign-content-deleted" message="campaign-content-deleted" />
+
 <liferay-ui:search-container emptyResultsMessage="newsletter-empty-results-message">
 	<liferay-ui:search-container-results
 		results="<%= NewsletterContentLocalServiceUtil.getNewsletterContents(searchContainer.getStart(), searchContainer.getEnd()) %>"
@@ -48,23 +43,23 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		modelVar="content"
 	>
 		<liferay-ui:search-container-column-text
-			name="Title"
+			name="title"
 			value="<%= content.getTitle() %>"
 		/>
 
 		<liferay-ui:search-container-column-text
-			name="Creation Date"
+			name="creation-date"
 			value="<%= dateFormat.format(content.getCreateDate()) %>"
 		/>
 
 		<liferay-ui:search-container-column-text
-			name="# of campaigns"
-			value='<%= ""+NewsletterCampaignLocalServiceUtil.getCampaignsCount(content.getContentId()) %>'
+			name="num-of-campaigns"
+			value='<%= String.valueOf(NewsletterCampaignLocalServiceUtil.getCampaignsCount(content.getContentId())) %>'
 		/>
 
 		<liferay-ui:search-container-column-text
-			name="# of emails"
-			value='<%= ""+NewsletterContactLocalServiceUtil.getContactCountByContent(content.getContentId()) %>'
+			name="num-of-emails"
+			value='<%= String.valueOf(NewsletterContactLocalServiceUtil.getContactCountByContent(content.getContentId())) %>'
 		/>
 
 		<liferay-ui:search-container-column-jsp

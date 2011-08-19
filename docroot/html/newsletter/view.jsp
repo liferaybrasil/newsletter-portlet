@@ -14,40 +14,38 @@
  */
 --%>
 
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
-
+<%@page import="com.liferay.portal.kernel.language.LanguageUtil"%>
 <%@ include file="/html/init.jsp" %>
 
 <%
-String tabs1 = ParamUtil.getString(request, "tabs1", "Campaign Content");
-String tabsCampaign = NewsletterConstants.TABS_CAMPAIGN;
-String tabNames = "Campaign Content,Campaign";
+String tabs1 = ParamUtil.getString(request, "tabs1", NewsletterConstants.TABS_CONTENT);
+String tabNames = NewsletterConstants.TABS_CONTENT + StringPool.COMMA + NewsletterConstants.TABS_CAMPAIGN;
 %>
 
 <portlet:renderURL var="renderURL">
-		<portlet:param name="tabs1" value="<%= tabs1 %>" />
+	<portlet:param name="tabs1" value="<%= tabs1 %>" />
 </portlet:renderURL>
 
 <aui:button-row>
-<c:if test='<%= NewsletterPermission.contains(permissionChecker, scopeGroupId, ActionKeys.PERMISSIONS) %>'>
-		<liferay-security:permissionsURL
-			modelResource="com.liferay.newsletter.model"
-			modelResourceDescription="Permission"
-			resourcePrimKey="<%= String.valueOf(scopeGroupId) %>"
-			var="permissionsURL" />
+<c:if test='<%= NewsletterPermission.contains(permissionChecker, scopeGroupId, NewsletterKeys.PERMISSIONS) %>'>
+	<liferay-security:permissionsURL
+		modelResource="com.liferay.newsletter.model"
+		modelResourceDescription="Permission"
+		resourcePrimKey="<%= String.valueOf(scopeGroupId) %>"
+		var="permissionsURL" />
 
-		<aui:button value="permissions" onClick="<%= permissionsURL %>" />
+	<aui:button value="permissions" onClick="<%= permissionsURL %>" />
 </c:if>
 </aui:button-row>
+
 <liferay-ui:tabs
    names="<%= tabNames %>"
    url="<%= renderURL %>"
-
 />
 
-<c:if test='<%= tabs1.equals("Campaign Content") %>'>
+<c:if test='<%= tabs1.equals(NewsletterConstants.TABS_CONTENT) %>'>
   <liferay-util:include servletContext="<%= application %>" page="/html/newsletter/view_content.jsp" />
 </c:if>
-<c:if test='<%= tabs1.equals(tabsCampaign) %>'>
+<c:if test='<%= tabs1.equals(NewsletterConstants.TABS_CAMPAIGN) %>'>
   <liferay-util:include servletContext="<%= application %>" page="/html/newsletter/view_campaign.jsp" />
 </c:if>

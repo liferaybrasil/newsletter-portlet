@@ -38,7 +38,7 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 		<liferay-ui:icon message="resend" label="true" image="forward" url="<%=resendURL.toString() %>" />
 	</c:if>
 
-	<c:if test='<%= CampaignPermission.contains(permissionChecker, scopeGroupId, campaignId, NewsletterKeys.DETAILS) %>'>
+	<c:if test='<%= CampaignPermission.contains(permissionChecker, scopeGroupId, campaignId, NewsletterKeys.DETAIL) %>'>
 		<portlet:renderURL var="detailURL">
 			<portlet:param name="jspPage" value="/html/newsletter/detail_campaign.jsp" />
 			<portlet:param name="campaignId" value="<%= String.valueOf(campaignId) %>" />
@@ -46,7 +46,7 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 			<portlet:param name="tabs1" value="<%= NewsletterConstants.TABS_CAMPAIGN %>" />
 		</portlet:renderURL>
 
-	<liferay-ui:icon message="Detail" label="true" image="view" url="<%=detailURL.toString() %>" />
+		<liferay-ui:icon message="detail" label="true" image="view" url="<%=detailURL.toString() %>" />
 	</c:if>
 
 	<c:if test="<%= CampaignPermission.contains(permissionChecker, scopeGroupId, campaignId, NewsletterKeys.DELETE) %>">
@@ -62,10 +62,10 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 
 	<c:if test="<%= CampaignPermission.contains(permissionChecker, scopeGroupId, campaignId, NewsletterKeys.PERMISSIONS) %>">
 		<liferay-security:permissionsURL
-		modelResource="<%= NewsletterCampaign.class.getName() %>"
-		modelResourceDescription="<%= campaign.getEmailSubject() %>"
-		resourcePrimKey="<%= String.valueOf(campaignId) %>"
-		var="permissionsURL"
+			modelResource="<%= NewsletterCampaign.class.getName() %>"
+			modelResourceDescription="<%= campaign.getEmailSubject() %>"
+			resourcePrimKey="<%= String.valueOf(campaignId) %>"
+			var="permissionsURL"
 		/>
 
 		<liferay-ui:icon image="permissions" url="<%= permissionsURL %>" />

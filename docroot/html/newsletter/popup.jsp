@@ -14,92 +14,82 @@
  */
 --%>
 
-<%@ page import="com.liferay.portal.kernel.util.StringBundler" %>
 <%@ include file="/html/init.jsp" %>
 
 <%
 String resourceNamespace = ParamUtil.getString(request, "resourceNamespace");
 boolean importWebContent = ParamUtil.getString(request, "import").equals("true") ? true : false;
 String keywords = ParamUtil.getString(request, "keywords", StringPool.BLANK);
-
 %>
-
 
 <aui:form method="post" name="fm1">
 <liferay-ui:search-container
-			emptyResultsMessage="newsletter-empty-results-message"
-		>
-			<div>
-				<aui:input id="keywords" inlineField="<%= true %>" label="" name="keywords" size="30" title="search-lists" type="text" />
+	emptyResultsMessage="newsletter-empty-results-message"
+>
+	<div>
+		<aui:input id="keywords" inlineField="<%= true %>" label="" name="keywords" size="30" title="search-lists" type="text" />
 
-				<aui:button type="submit" value="search" />
-			</div>
+		<aui:button type="submit" value="search" />
+	</div>
 
-			<br />
-			<liferay-ui:search-container-results
-				results="<%= JournalArticleLocalServiceUtil.search(
-				company.getCompanyId(), scopeGroupId, 0, keywords,	null,
-				null, null, null, null, null, WorkflowConstants.STATUS_ANY, null,
-				searchContainer.getStart(), searchContainer.getEnd(),
-				searchContainer.getOrderByComparator()) %>"
+	<br />
 
-				total="<%= JournalArticleLocalServiceUtil.searchCount(
-				company.getCompanyId(), scopeGroupId, 0, keywords,
-				null, null, null, null, null, null, WorkflowConstants.STATUS_ANY, null) %>"
-			/>
+	<liferay-ui:search-container-results
+		results="<%= JournalArticleLocalServiceUtil.search(company.getCompanyId(), scopeGroupId, 0, keywords, null, null, null, null, null, null, WorkflowConstants.STATUS_ANY, null, searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator()) %>"
 
-			<liferay-ui:search-container-row
-				className="com.liferay.portlet.journal.model.JournalArticle"
-				escapedModel="<%= true %>"
-				keyProperty="articleId"
-				modelVar="article"
-			>
-				<%
-				StringBundler sb = new StringBundler(7);
+		total="<%= JournalArticleLocalServiceUtil.searchCount(company.getCompanyId(), scopeGroupId, 0, keywords, null, null, null, null, null, null, WorkflowConstants.STATUS_ANY, null) %>"
+	/>
 
-				sb.append("javascript:");
-				sb.append(resourceNamespace);
-				sb.append("setParentWindowsHiddenFieldValue(");
-				sb.append(article.getArticleId());
-				sb.append(",'");
-				sb.append(article.getTitle(locale));
-				sb.append("',");
-				sb.append(importWebContent);
-				sb.append(");");
+	<liferay-ui:search-container-row
+		className="com.liferay.portlet.journal.model.JournalArticle"
+		escapedModel="<%= true %>"
+		keyProperty="articleId"
+		modelVar="article">
 
-				String rowURL = sb.toString();
-				%>
+		<%
+		StringBundler sb = new StringBundler(9);
 
-				<liferay-ui:search-container-column-text
-					name="Title"
-					value="<%= article.getTitle(locale) %>"
-					href="<%= rowURL %>"
-				/>
+		sb.append("javascript:");
+		sb.append(resourceNamespace);
+		sb.append("setParentWindowsHiddenFieldValue(");
+		sb.append(article.getArticleId());
+		sb.append(",'");
+		sb.append(article.getTitle(locale));
+		sb.append("',");
+		sb.append(importWebContent);
+		sb.append(");");
 
-				<liferay-ui:search-container-column-text
-					name="Description"
-					value="<%= article.getDescription() %>"
-					href="<%= rowURL %>"
-				/>
+		String rowURL = sb.toString();
+		%>
 
-				<liferay-ui:search-container-column-text
-					name="Version"
-					value="<%= String.valueOf(article.getVersion()) %>"
-					href="<%= rowURL %>"
-				/>
+		<liferay-ui:search-container-column-text
+			name="title"
+			value="<%= article.getTitle(locale) %>"
+			href="<%= rowURL %>"
+		/>
 
-			</liferay-ui:search-container-row>
+		<liferay-ui:search-container-column-text
+			name="description"
+			value="<%= article.getDescription() %>"
+			href="<%= rowURL %>"
+		/>
 
-			<liferay-ui:search-iterator />
-		</liferay-ui:search-container>
+		<liferay-ui:search-container-column-text
+			name="version"
+			value="<%= String.valueOf(article.getVersion()) %>"
+			href="<%= rowURL %>"
+		/>
+
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator />
+</liferay-ui:search-container>
 </aui:form>
+
 <aui:script>
 	function <portlet:namespace/>setParentWindowsHiddenFieldValue(articleId, articleTitle, import) {
 		var parentWindow = window.parent;
-		//var AUI = parentWindow.AUI;
 
 		parentWindow.<%= resourceNamespace %>setCampaignContentValue(articleId, articleTitle, import);
-
-		//AUI().DialogManager.closeByChild();
     }
 </aui:script>

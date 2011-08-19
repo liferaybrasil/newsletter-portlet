@@ -17,6 +17,7 @@ package com.liferay.newsletter.portlet;
 import com.liferay.newsletter.ContentException;
 import com.liferay.newsletter.NameException;
 import com.liferay.newsletter.NoSuchLogException;
+import com.liferay.newsletter.SubjectException;
 import com.liferay.newsletter.TitleException;
 import com.liferay.newsletter.model.NewsletterCampaign;
 import com.liferay.newsletter.model.NewsletterContact;
@@ -99,13 +100,14 @@ public class NewsletterPortlet extends MVCPortlet {
 			}
 		}
 		catch (Exception e) {
-			// TODO: checar se precisa disso
+			// TODO: checar se precisa disso... usar o sendRedirect
 			PortalUtil.copyRequestParameters(actionRequest, actionResponse);
 
 			String page = "/html/newsletter/view_content.jsp";
 
 			if (e instanceof EmailAddressException ||
-				e instanceof NameException) {
+				e instanceof NameException ||
+				e instanceof SubjectException) {
 
 				page = "/html/newsletter/edit_campaign.jsp";
 			}

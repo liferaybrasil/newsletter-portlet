@@ -18,7 +18,7 @@
 
 <%
 NewsletterContent newsletterContent = null;
-String content = "";
+String content = StringPool.BLANK;
 String contentEditorClass = "contentEditor-div";
 String displayingArticleContentClass = "displaying-article-content";
 
@@ -28,10 +28,10 @@ if (contentId > 0) {
 	newsletterContent = NewsletterContentLocalServiceUtil.getNewsletterContent(contentId);
 	content = newsletterContent.getContent();
 
-	if(newsletterContent.getArticleId()>0){
+	if (newsletterContent.getArticleId() > 0) {
 		contentEditorClass = contentEditorClass + " aui-helper-hidden";
 	}
-	else{
+	else {
 		displayingArticleContentClass = displayingArticleContentClass + " aui-helper-hidden";
 	}
 }
@@ -46,7 +46,7 @@ String redirect = ParamUtil.getString(request, "redirect");
 
 <aui:model-context bean="<%= newsletterContent %>" model="<%= NewsletterContent.class %>" />
 
-<portlet:actionURL var="editCampaignContentURL" />
+<portlet:actionURL var="editContentURL" />
 
 <liferay-portlet:renderURL windowState="<%= LiferayWindowState.POP_UP.toString() %>" varImpl="selectContentPopupURL">
 	<portlet:param name="tabs1" value="CampaignContent" />
@@ -70,61 +70,62 @@ String redirect = ParamUtil.getString(request, "redirect");
 	<portlet:param name="portletResource" value="<portlet:namespace/>" />
 </liferay-portlet:resourceURL>
 
-<aui:form action="<%= editCampaignContentURL %>" method="POST" name="fm">
+<aui:form action="<%= editContentURL %>" method="POST" name="fm">
 	<aui:fieldset>
 		<aui:input type="hidden" name="cmd" value='<%= newsletterContent == null ? NewsletterConstants.ADD_CONTENT : NewsletterConstants.UPDATE_CONTENT %>' />
-
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
-
 		<aui:input type="hidden" name="contentId" value="<%= contentId %>" />
-
 		<aui:input type="hidden" name="articleId" />
-
 		<aui:input type="hidden" name="content" id="content" value="<%= content %>" />
 
 		<aui:input name="title" label="Title" />
 
 		<liferay-ui:error exception="<%= TitleException.class %>">
-
-			<%
-			String title = "Campaign Content Title";
-			%>
-
-			<liferay-ui:message arguments="<%= title %>" key="x-is-required" />
+			<liferay-ui:message arguments='<%= new Object[] {"title"} %>' key="x-is-required" />
 		</liferay-ui:error>
 
-		<div class="separator article-separator"><!-- --></div>
-		<% String classMsgInfo = "portlet-msg-info " + (newsletterContent == null ? "aui-helper-hidden" : "") ; %>
+		<div class="separator article-separator"></div>
+		<% String classMsgInfo = "portlet-msg-info " + (newsletterContent == null ? "aui-helper-hidden" : ""); %>
+
 		<div class="<%= classMsgInfo %>">
 			<span class="displaying-article-id-holder">
 				<liferay-ui:message key="displaying-content" />: <span class="displaying-article-id"> </span>
 			</span>
 		</div>
+
 		<div class="<%= contentEditorClass %>">
 			<liferay-ui:input-editor name="contentEditor" toolbarSet="liferay-article" width="100%" onChangeMethod='changeContent' />
 		</div>
-		<span class="<%=displayingArticleContentClass %>">  <%= content %> </span>
+
+		<span class="<%= displayingArticleContentClass %>">  <%= content %> </span>
 
 		<liferay-ui:error exception="<%= ContentException.class %>">
-
-			<%
-			String argument = "Content";
-			%>
-
-			<liferay-ui:message arguments="<%= argument %>" key="x-is-required" />
+			<liferay-ui:message arguments='<%= new Object[] {"content"} %>' key="x-is-required" />
 		</liferay-ui:error>
 
-		<div class="separator article-separator"><!-- --></div>
+		<div class="separator article-separator"></div>
 
 		<%
-		String importWebContentPopUpURL = "javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '" + importContentPopupURL +"'});";
+		StringBundler sb = new StringBundler(3);
+
+		sb.append("javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '");
+		sb.append(importContentPopupURL);
+		sb.append("'});");
+
+		String importWebContentPopUpURL = sb.toString();
 		%>
-		<aui:button value="Import WebContent" onClick="<%= importWebContentPopUpURL %>" />
+		<aui:button value="import-webcontent" onClick="<%= importWebContentPopUpURL %>" />
 
 		<%
-		String webContentPopUpURL = "javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '" + selectContentPopupURL +"'});";
+		sb = new StringBundler(3);
+
+		sb.append("javascript:Liferay.Util.openWindow({id: '',title: 'Web Content',uri: '");
+		sb.append(selectContentPopupURL);
+		sb.append("'});");
+
+		String webContentPopUpURL = sb.toString();
 		%>
-		<aui:button value="Select WebContent" onClick="<%= webContentPopUpURL %>" />
+		<aui:button value="select-webcontent" onClick="<%= webContentPopUpURL %>" />
 
 	</aui:fieldset>
 
@@ -162,7 +163,8 @@ Liferay.provide(
 						var data = instance.get('responseData');
 						var displayArticleContent = A.one('.displaying-article-content');
 						var fckeditor = A.one('.contentEditor-div');
-						if(import){
+
+						if (import) {
 							fckeditor.hide();
 							displayArticleContent.set('innerHTML', data);
 							document.getElementById('<portlet:namespace/>content').value = data;

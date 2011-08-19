@@ -25,7 +25,7 @@ public class NewsletterKeys extends ActionKeys{
 
 	public static final String ADD_CONTENT = "ADD_CONTENT";
 
-	public static final String DETAILS = "DETAILS";
+	public static final String DETAIL = "DETAIL";
 
 	public static final String RESEND = "RESEND";
 

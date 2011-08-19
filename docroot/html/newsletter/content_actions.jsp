@@ -41,7 +41,7 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 	</c:if>
 
 	<c:if test="<%= ContentPermission.contains(permissionChecker, scopeGroupId, contentId, NewsletterKeys.DELETE) %>">
-		<portlet:actionURL name="deleteCampaignContent" var="deleteURL">
+		<portlet:actionURL name="deleteContent" var="deleteURL">
 			<portlet:param name="cmd" value="<%= NewsletterConstants.DELETE_CONTENT %>" />
 			<portlet:param name="contentId" value="<%= String.valueOf(contentId) %>" />
 			<portlet:param name="redirect" value="<%= redirect %>" />
@@ -55,10 +55,10 @@ String redirect = PortalUtil.getCurrentURL(renderRequest);
 
 	<c:if test="<%= ContentPermission.contains(permissionChecker, scopeGroupId, contentId, NewsletterKeys.PERMISSIONS) %>">
 		<liferay-security:permissionsURL
-		modelResource="<%= NewsletterContent.class.getName() %>"
-		modelResourceDescription="<%= content.getTitle() %>"
-		resourcePrimKey="<%= String.valueOf(contentId) %>"
-		var="permissionsURL"
+			modelResource="<%= NewsletterContent.class.getName() %>"
+			modelResourceDescription="<%= content.getTitle() %>"
+			resourcePrimKey="<%= String.valueOf(contentId) %>"
+			var="permissionsURL"
 		/>
 
 		<liferay-ui:icon image="permissions" url="<%= permissionsURL %>" />

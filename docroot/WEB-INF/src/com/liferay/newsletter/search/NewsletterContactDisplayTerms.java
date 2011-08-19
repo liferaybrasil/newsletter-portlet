@@ -28,9 +28,13 @@ public class NewsletterContactDisplayTerms extends DisplayTerms {
 
 	public static final String EMAIL = "email";
 
+	public static final String FAILED = "failed";
+
 	public static final String GROUP_ID = "groupId";
 
 	public static final String NAME = "name";
+
+	public static final String SENT = "sent";
 
 	public static final String STATUS = "status";
 
@@ -39,7 +43,7 @@ public class NewsletterContactDisplayTerms extends DisplayTerms {
 
 		email = ParamUtil.getString(portletRequest, EMAIL);
 		name = ParamUtil.getString(portletRequest, NAME);
-		status = ParamUtil.getString(portletRequest, STATUS);
+		status = ParamUtil.getBoolean(portletRequest, STATUS);
 		groupId = setGroupId(portletRequest);
 	}
 
@@ -55,7 +59,7 @@ public class NewsletterContactDisplayTerms extends DisplayTerms {
 		return name;
 	}
 
-	public String getStatus() {
+	public boolean isSent() {
 		return status;
 	}
 
@@ -76,6 +80,6 @@ public class NewsletterContactDisplayTerms extends DisplayTerms {
 	protected String email;
 	protected long groupId;
 	protected String name;
-	protected String status;
+	protected boolean status;
 
 }

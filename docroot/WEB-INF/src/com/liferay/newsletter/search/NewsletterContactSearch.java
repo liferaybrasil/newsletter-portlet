@@ -63,7 +63,8 @@ public class NewsletterContactSearch
 		iteratorURL.setParameter(
 			NewsletterContactDisplayTerms.NAME, displayTerms.getName());
 		iteratorURL.setParameter(
-			NewsletterContactDisplayTerms.STATUS, displayTerms.getStatus());
+			NewsletterContactDisplayTerms.STATUS, String.valueOf(
+				displayTerms.isSent()));
 
 		setOrderableHeaders(orderableHeaders);
 	}

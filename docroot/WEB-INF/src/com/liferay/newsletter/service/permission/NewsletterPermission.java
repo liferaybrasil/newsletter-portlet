@@ -24,8 +24,7 @@ import com.liferay.portal.security.permission.PermissionChecker;
 public class NewsletterPermission {
 
 	public static void check(
-			PermissionChecker permissionChecker, long groupId,
-			String actionId)
+			PermissionChecker permissionChecker, long groupId, String actionId)
 		throws PortalException {
 
 		if (!contains(permissionChecker, groupId, actionId)) {
@@ -34,8 +33,7 @@ public class NewsletterPermission {
 	}
 
 	public static boolean contains(
-		PermissionChecker permissionChecker, long groupId,
-		String actionId) {
+		PermissionChecker permissionChecker, long groupId, String actionId) {
 
 		return permissionChecker.hasPermission(
 			groupId, _CLASS_NAME, groupId, actionId);

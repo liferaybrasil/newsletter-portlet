@@ -15,10 +15,6 @@
 			<value>/html/newsletter/edit.jsp</value>
 		</init-param>
 		<init-param>
-			<name>help-jsp</name>
-			<value>/html/newsletter/help.jsp</value>
-		</init-param>
-		<init-param>
 			<name>view-jsp</name>
 			<value>/html/newsletter/view.jsp</value>
 		</init-param>
@@ -27,7 +23,6 @@
 			<mime-type>text/html</mime-type>
 			<portlet-mode>VIEW</portlet-mode>
 			<portlet-mode>EDIT</portlet-mode>
-			<portlet-mode>HELP</portlet-mode>
 		</supports>
 		<resource-bundle>content.Language</resource-bundle>
 		<portlet-info>

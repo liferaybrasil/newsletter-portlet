@@ -48,45 +48,24 @@ String redirect = ParamUtil.getString(request, "redirect");
 <aui:form action="<%= editCampaignURL %>" method="POST" name="fm">
 	<aui:fieldset>
 		<aui:input type="hidden" name="cmd" value="<%= NewsletterConstants.ADD_CAMPAIGN %>" />
-
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
-
 		<aui:input type="hidden" name="campaignId" />
-
 		<aui:input type="hidden" name="contentId" id="contentId" />
-
 		<aui:input type="hidden" name="contacts" id="contacts" />
-
 		<aui:input name="emailSubject" label="Email Subject" />
+
 		<liferay-ui:error exception="<%= SubjectException.class %>">
-
-			<%
-			String argument = "Email Subject";
-			%>
-
-			<liferay-ui:message arguments="<%= argument %>" key="x-is-required" />
+			<liferay-ui:message arguments='<%= new Object[] {"email-subject"} %>' key="x-is-required" />
 		</liferay-ui:error>
 
 		<aui:input name="senderName" label="Sender Name" value='<%= PortletProps.get(NewsletterConstants.SENDER_NAME) %>'/>
 		<liferay-ui:error exception="<%= NameException.class %>">
-
-			<%
-			String argument = "Sender Name";
-			%>
-
-			<liferay-ui:message arguments="<%= argument %>" key="x-is-required" />
+			<liferay-ui:message arguments='<%= new Object[] {"sender-name"} %>' key="x-is-required" />
 		</liferay-ui:error>
 
 		<aui:input name="senderEmail" label="Sender Email" value='<%= PortletProps.get(NewsletterConstants.SENDER_EMAIL) %>'/>
 		<liferay-ui:error exception="<%= EmailException.class %>">
-
-			<%
-			EmailException see = (EmailException)errorException;
-			String key = see.getMessage();
-			String argument = "Sender email";
-			%>
-
-			<liferay-ui:message arguments="<%= argument %>" key="<%= key %>" />
+			<liferay-ui:message arguments='<%= new Object[] {"sender-email"} %>' key="email-wrong-format" />
 		</liferay-ui:error>
 
 		<aui:input name="sendDate" label="Send Date" />
@@ -102,22 +81,13 @@ String redirect = ParamUtil.getString(request, "redirect");
 		</span>
 
 		<liferay-ui:error exception="<%= ContactException.class %>">
-
-			<%
-			String argument = "Contacts";
-			%>
-
-			<liferay-ui:message arguments="<%= argument %>" key="x-is-required" />
+			<liferay-ui:message arguments='<%= new Object[] {"contacts"} %>' key="x-is-required" />
 		</liferay-ui:error>
-
-	<div class="lfr-dynamic-uploader">
-		<div class="lfr-upload-container" id="<portlet:namespace />fileUpload"></div>
-	</div>
 
 	</aui:fieldset>
 
 	<aui:button-row>
-		<aui:button onClick='<%= renderResponse.getNamespace() + "saveCampaign();" %>' value='Save' />
+		<aui:button onClick='<%= renderResponse.getNamespace() + "saveCampaign();" %>' value='save' />
 
 		<aui:button type="cancel"  onClick="<%= redirect %>" />
 	</aui:button-row>

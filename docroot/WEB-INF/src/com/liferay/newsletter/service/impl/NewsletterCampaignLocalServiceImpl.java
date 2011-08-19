@@ -16,6 +16,7 @@ package com.liferay.newsletter.service.impl;
 
 import com.liferay.newsletter.NameException;
 import com.liferay.newsletter.SendEmailException;
+import com.liferay.newsletter.SubjectException;
 import com.liferay.newsletter.model.NewsletterCampaign;
 import com.liferay.newsletter.model.NewsletterContact;
 import com.liferay.newsletter.model.NewsletterContent;
@@ -65,7 +66,7 @@ public class NewsletterCampaignLocalServiceImpl
 
 		Date now = new Date();
 
-		validate(senderEmail, senderName);
+		validate(senderEmail, senderName, emailSubject);
 
 		Date sendDate = PortalUtil.getDate(
 			sendDateMonth, sendDateDay, sendDateYear);
@@ -114,6 +115,8 @@ public class NewsletterCampaignLocalServiceImpl
 
 	public void deleteCampaign(NewsletterCampaign campaign)
 		throws PortalException, SystemException {
+
+		// Resources
 
 		resourceLocalService.deleteResource(
 			campaign.getCompanyId(),	NewsletterCampaign.class.getName(),
@@ -192,8 +195,7 @@ public class NewsletterCampaignLocalServiceImpl
 		newsletterCampaignLocalService.updateNewsletterCampaign(campaign);
 	}
 
-	protected void sendEmail(
-			long contactId, NewsletterCampaign campaign)
+	protected void sendEmail(long contactId, NewsletterCampaign campaign)
 		throws PortalException, SystemException {
 
 		String passwordString = PortletProps.get(
@@ -311,7 +313,8 @@ public class NewsletterCampaignLocalServiceImpl
 		newsletterCampaignLocalService.updateNewsletterCampaign(campaign);
 	}
 
-	protected void validate(String senderEmail, String senderName)
+	protected void validate(
+			String senderEmail, String senderName, String emailSubject)
 		throws PortalException {
 
 		if (!Validator.isEmailAddress(senderEmail)) {
@@ -319,6 +322,9 @@ public class NewsletterCampaignLocalServiceImpl
 		}
 		else if (Validator.isNull(senderName)) {
 			throw new NameException();
+		}
+		else if (Validator.isNull(emailSubject)) {
+			throw new SubjectException();
 		}
 	}
 

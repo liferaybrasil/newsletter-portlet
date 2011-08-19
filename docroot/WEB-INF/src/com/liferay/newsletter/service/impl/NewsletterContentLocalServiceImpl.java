@@ -64,7 +64,7 @@ public class NewsletterContentLocalServiceImpl
 
 		newsletterContentPersistence.update(newsletterContent, false);
 
-		// Resources
+		//Resources
 
 		resourceLocalService.addResources(
 			newsletterContent.getCompanyId(), newsletterContent.getGroupId(),
@@ -98,6 +98,8 @@ public class NewsletterContentLocalServiceImpl
 
 	public void deleteContent(NewsletterContent content)
 		throws PortalException, SystemException {
+
+		//Resources
 
 		resourceLocalService.deleteResource(
 			content.getCompanyId(),	NewsletterContent.class.getName(),
@@ -157,6 +159,14 @@ public class NewsletterContentLocalServiceImpl
 		newsletterContent.setArticleId(articleId);
 		newsletterContent.setTitle(title);
 		newsletterContent.setContent(content);
+
+		//Resources
+
+		resourceLocalService.updateResources(
+			newsletterContent.getCompanyId(), newsletterContent.getGroupId(),
+			NewsletterContent.class.getName(), newsletterContent.getContentId(),
+			serviceContext.getGroupPermissions(),
+			serviceContext.getGuestPermissions());
 
 		return newsletterContentPersistence.update(newsletterContent, false);
 	}
