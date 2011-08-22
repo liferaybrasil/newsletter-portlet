@@ -14,6 +14,7 @@
 
 package com.liferay.newsletter.service.impl;
 
+import com.liferay.newsletter.ContentException;
 import com.liferay.newsletter.NameException;
 import com.liferay.newsletter.SendEmailException;
 import com.liferay.newsletter.SubjectException;
@@ -66,7 +67,7 @@ public class NewsletterCampaignLocalServiceImpl
 
 		Date now = new Date();
 
-		validate(senderEmail, senderName, emailSubject);
+		validate(senderEmail, senderName, emailSubject, contentId);
 
 		Date sendDate = PortalUtil.getDate(
 			sendDateMonth, sendDateDay, sendDateYear);
@@ -314,7 +315,8 @@ public class NewsletterCampaignLocalServiceImpl
 	}
 
 	protected void validate(
-			String senderEmail, String senderName, String emailSubject)
+			String senderEmail, String senderName, String emailSubject,
+			long contentId)
 		throws PortalException {
 
 		if (!Validator.isEmailAddress(senderEmail)) {
@@ -325,6 +327,9 @@ public class NewsletterCampaignLocalServiceImpl
 		}
 		else if (Validator.isNull(emailSubject)) {
 			throw new SubjectException();
+		}
+		else if (Validator.isNull(contentId)) {
+			throw new ContentException();
 		}
 	}
 
