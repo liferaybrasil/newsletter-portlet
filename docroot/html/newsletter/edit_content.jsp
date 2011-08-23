@@ -74,11 +74,14 @@ String redirect = ParamUtil.getString(request, "redirect");
 	<aui:fieldset>
 		<aui:input type="hidden" name="cmd" value='<%= newsletterContent == null ? NewsletterConstants.ADD_CONTENT : NewsletterConstants.UPDATE_CONTENT %>' />
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
+		<aui:input type="hidden" name="currentUrl" value="<%= currentUrl %>" />
 		<aui:input type="hidden" name="contentId" value="<%= contentId %>" />
 		<aui:input type="hidden" name="articleId" />
 		<aui:input type="hidden" name="content" id="content" value="<%= content %>" />
 
-		<aui:input name="title" label="Title" />
+		<aui:input name="title" label="Title">
+			<aui:validator name="required" />
+		 </aui:input>
 
 		<liferay-ui:error exception="<%= TitleException.class %>">
 			<liferay-ui:message arguments='<%= new Object[] {"title"} %>' key="x-is-required" />

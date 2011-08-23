@@ -49,21 +49,28 @@ String redirect = ParamUtil.getString(request, "redirect");
 	<aui:fieldset>
 		<aui:input type="hidden" name="cmd" value="<%= NewsletterConstants.ADD_CAMPAIGN %>" />
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
+		<aui:input type="hidden" name="currentUrl" value="<%= currentUrl %>" />
 		<aui:input type="hidden" name="campaignId" />
 		<aui:input type="hidden" name="contentId" id="contentId" />
 		<aui:input type="hidden" name="contacts" id="contacts" />
-		<aui:input name="emailSubject" label="Email Subject" />
+		<aui:input name="emailSubject" label="Email Subject">
+			<aui:validator name="required" />
+		</aui:input>
 
 		<liferay-ui:error exception="<%= SubjectException.class %>">
 			<liferay-ui:message arguments='<%= new Object[] {"email-subject"} %>' key="x-is-required" />
 		</liferay-ui:error>
 
-		<aui:input name="senderName" label="Sender Name" value='<%= PortletProps.get(NewsletterConstants.SENDER_NAME) %>'/>
+		<aui:input name="senderName" label="Sender Name" value='<%= PortletProps.get(NewsletterConstants.SENDER_NAME) %>'>
+			<aui:validator name="required" />
+		</aui:input>
 		<liferay-ui:error exception="<%= NameException.class %>">
 			<liferay-ui:message arguments='<%= new Object[] {"sender-name"} %>' key="x-is-required" />
 		</liferay-ui:error>
 
-		<aui:input name="senderEmail" label="Sender Email" value='<%= PortletProps.get(NewsletterConstants.SENDER_EMAIL) %>'/>
+		<aui:input name="senderEmail" label="Sender Email" value='<%= PortletProps.get(NewsletterConstants.SENDER_EMAIL) %>'>
+			<aui:validator name="required" />
+		</aui:input>
 		<liferay-ui:error exception="<%= EmailException.class %>">
 			<liferay-ui:message arguments='<%= new Object[] {"sender-email"} %>' key="email-wrong-format" />
 		</liferay-ui:error>
@@ -74,6 +81,9 @@ String redirect = ParamUtil.getString(request, "redirect");
 			<label class="aui-field-label"> Campaign Content </label>
 			<div class="autocomplete" id="<portlet:namespace/>autocompleteCampaignContent"></div>
 		</span>
+		<liferay-ui:error exception="<%= ContentException.class %>">
+			<liferay-ui:message arguments='<%= new Object[] {"content"} %>' key="x-is-required" />
+		</liferay-ui:error>
 
 		<span class="aui-field-content">
 			<label class="aui-field-label"> Contacts </label>

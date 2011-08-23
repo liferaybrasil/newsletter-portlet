@@ -24,7 +24,6 @@
 			<portlet-mode>VIEW</portlet-mode>
 			<portlet-mode>EDIT</portlet-mode>
 		</supports>
-		<resource-bundle>content.Language</resource-bundle>
 		<portlet-info>
 			<title>Newsletter</title>
 			<short-title>Newsletter</short-title>

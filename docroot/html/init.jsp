@@ -75,6 +75,7 @@
 
 <%
 PortletPreferences prefs = renderRequest.getPreferences();
+String currentUrl = PortalUtil.getCurrentURL(request);
 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 SimpleDateFormat dateHourFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
 %>

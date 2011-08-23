@@ -14,6 +14,7 @@
 
 package com.liferay.newsletter.portlet;
 
+import com.liferay.newsletter.ContactException;
 import com.liferay.newsletter.ContentException;
 import com.liferay.newsletter.NameException;
 import com.liferay.newsletter.NoSuchLogException;
@@ -45,7 +46,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.journal.model.JournalArticleDisplay;
 import com.liferay.portlet.journalcontent.util.JournalContentUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -75,6 +75,7 @@ public class NewsletterPortlet extends MVCPortlet {
 		throws IOException, PortletException {
 
 		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
+		String currentUrl = ParamUtil.getString(actionRequest, "currentUrl");
 
 		try {
 			if (cmd.equals(NewsletterConstants.ADD_CAMPAIGN)) {
@@ -98,28 +99,22 @@ public class NewsletterPortlet extends MVCPortlet {
 			else if (cmd.equals(NewsletterConstants.UPDATE_CONTENT)) {
 				updateContent(actionRequest, actionResponse);
 			}
+			SessionMessages.add(actionRequest, "request_processed");
+
+			sendRedirect(actionRequest, actionResponse);
 		}
 		catch (Exception e) {
-			// TODO: checar se precisa disso... usar o sendRedirect
-			PortalUtil.copyRequestParameters(actionRequest, actionResponse);
 
-			String page = "/html/newsletter/view_content.jsp";
-
-			if (e instanceof EmailAddressException ||
+			if (e instanceof ContactException ||
+				e instanceof ContentException ||
+				e instanceof EmailAddressException ||
 				e instanceof NameException ||
-				e instanceof SubjectException) {
+				e instanceof SubjectException ||
+				e instanceof TitleException) {
 
-				page = "/html/newsletter/edit_campaign.jsp";
+				SessionErrors.add(actionRequest, e.getClass().getName(), e);
+				actionResponse.sendRedirect(currentUrl);
 			}
-			else if (e instanceof ContentException ||
-					 e instanceof TitleException) {
-
-				page = "/html/newsletter/edit_content.jsp";
-			}
-
-			SessionErrors.add(actionRequest, e.getClass().getName(), e);
-
-			actionResponse.setRenderParameter("jspPage", page);
 		}
 	}
 
@@ -179,28 +174,29 @@ public class NewsletterPortlet extends MVCPortlet {
 		String[] emails = ParamUtil.getParameterValues(
 			actionRequest, "contacts");
 
-		for (String email : emails) {
-			email = email.trim();
-			long campaignId = campaign.getCampaignId();
+		if (emails.length == 0) {
+			throw new ContactException();
+		}
+		else {
+			for (String email : emails) {
+				email = email.trim();
+				long campaignId = campaign.getCampaignId();
 
-			NewsletterContact contact =
-				NewsletterContactLocalServiceUtil.getContact(
-					userId, scopeGroupId, email, serviceContext);
+				NewsletterContact contact =
+					NewsletterContactLocalServiceUtil.getContact(
+							userId, scopeGroupId, email, serviceContext);
 
-			long contactId = contact.getContactId();
+				long contactId = contact.getContactId();
 
-			try{
-				NewsletterLogLocalServiceUtil.getLog(campaignId, contactId);
-			}
-			catch (NoSuchLogException e) {
-				NewsletterLogLocalServiceUtil.addLog(
-					campaignId, contactId, false, serviceContext);
+				try{
+					NewsletterLogLocalServiceUtil.getLog(campaignId, contactId);
+				}
+				catch (NoSuchLogException e) {
+					NewsletterLogLocalServiceUtil.addLog(
+							campaignId, contactId, false, serviceContext);
+				}
 			}
 		}
-
-		SessionMessages.add(actionRequest, "request_processed");
-
-		sendRedirect(actionRequest, actionResponse);
 	}
 
 	protected void addContent(
@@ -222,10 +218,6 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		NewsletterContentServiceUtil.addContent(
 			scopeGroupId, articleId, title, content, serviceContext);
-
-		SessionMessages.add(actionRequest, "request_processed");
-
-		sendRedirect(actionRequest, actionResponse);
 	}
 
 	protected void configure(
@@ -250,10 +242,6 @@ public class NewsletterPortlet extends MVCPortlet {
 		PortletProps.set(
 			PropsKeys.MAIL_SESSION_MAIL_SMTP_PASSWORD, ParamUtil.getString(
 			actionRequest, "smtpPassword"));
-
-		SessionMessages.add(actionRequest, "preferences-added");
-
-		sendRedirect(actionRequest, actionResponse);
 	}
 
 	protected void deleteCampaign(
@@ -264,10 +252,6 @@ public class NewsletterPortlet extends MVCPortlet {
 		long campaignId = ParamUtil.getLong(actionRequest, "campaignId");
 
 		NewsletterCampaignServiceUtil.deleteCampaign(groupId, campaignId);
-
-		SessionMessages.add(actionRequest, "request_processed");
-
-		sendRedirect(actionRequest, actionResponse);
 	}
 
 	protected void deleteContent(
@@ -278,10 +262,6 @@ public class NewsletterPortlet extends MVCPortlet {
 		long contentId = ParamUtil.getLong(actionRequest, "contentId");
 
 		NewsletterContentServiceUtil.deleteContent(groupId, contentId);
-
-		SessionMessages.add(actionRequest, "request_processed");
-
-		sendRedirect(actionRequest, actionResponse);
 	}
 
 	protected void getArticleContent(
@@ -365,10 +345,6 @@ public class NewsletterPortlet extends MVCPortlet {
 		else {
 			NewsletterCampaignServiceUtil.sendCampaign(groupId, campaignId);
 		}
-
-		SessionMessages.add(actionRequest, "request_processed");
-
-		sendRedirect(actionRequest, actionResponse);
 	}
 
 	protected void toJSON(ResourceResponse resourceResponse, Object object)
@@ -409,10 +385,6 @@ public class NewsletterPortlet extends MVCPortlet {
 
 		NewsletterContentServiceUtil.updateContent(
 			groupId, contentId, articleId, title, content, serviceContext);
-
-		SessionMessages.add(actionRequest, "request_processed");
-
-		sendRedirect(actionRequest, actionResponse);
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(NewsletterPortlet.class);
